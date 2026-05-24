@@ -1,0 +1,27 @@
+# Secrets and local overrides
+.env
+.env.*
+*.local
+settings.local
+secrets.json
+credentials.json
+*.pfx
+*.pem
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Build / logs
+bin/
+obj/
+node_modules/
+dist/
+*.log
+
+# Sync artifacts (optional local copies)
+.cursor-local/
