@@ -2,7 +2,7 @@
 
 Personal Cursor IDE agent toolkit: SDD workflow, .NET guidelines, Git-only developer flow, and optional hooks. Neutral branding — no work-item tracker or corporate pipeline integrations.
 
-**MVP status:** 14/14 PLAN steps complete. Deploy with `scripts/sync-cursor.ps1`.
+Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md](docs/INSTALL.md)).
 
 ## What this is
 
@@ -35,9 +35,8 @@ Re-run sync after pulling toolkit updates (idempotent).
 | [docs/README.md](docs/README.md) | Documentation index |
 | [docs/HOOKS.md](docs/HOOKS.md) | Optional hooks (behavior, limits) |
 | [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md) | Repository layout and maintainer checklist |
-| [docs/TOKEN_BUDGET.md](docs/TOKEN_BUDGET.md) | Token/cost guidance |
+| [docs/TOKEN_BUDGET.md](docs/TOKEN_BUDGET.md) | Token/cost guidance when extending content |
 | [AGENTS.md](AGENTS.md) | Agent router (synced to `~/.cursor/`) |
-| [PLAN/PLAN_001_cursor_dev_toolkit.md](PLAN/PLAN_001_cursor_dev_toolkit.md) | Build plan (completed) |
 
 ## Repository layout
 
@@ -45,14 +44,34 @@ Re-run sync after pulling toolkit updates (idempotent).
 cursor-dev-toolkit/
 ├── AGENTS.md
 ├── README.md
-├── PRD/
-├── PLAN/
+├── PRD/                   # Example SDD artifact (this repo)
+├── PLAN/                  # Example SDD artifact (this repo)
 ├── docs/                  # INSTALL, HOOKS, MAINTAINER_GUIDE, TOKEN_BUDGET
 ├── rules/                 # → ~/.cursor/rules/*.mdc
 ├── hooks/                 # → ~/.cursor/hooks/ + merge hooks.json
 ├── scripts/               # sync-cursor.ps1
 └── skills/                # → ~/.cursor/skills/
+    ├── spec/
+    ├── plan/
+    ├── implement/
+    ├── code-review/
+    ├── commit/
+    ├── dotnet-developer/
+    └── _shared/
 ```
+
+## Skills (after sync)
+
+| Skill | Invoke | Use for |
+|-------|--------|---------|
+| `spec` | `use skill spec` | PRD from a feature request |
+| `plan` | `use skill plan` | Baby-step PLAN from PRD |
+| `implement` | `use skill implement` | One PLAN step per session |
+| `code-review` | `use skill code-review` | Review diff or branch vs PRD/PLAN |
+| `commit` | `use skill commit` | Conventional commit and push |
+| `dotnet-developer` | `use skill dotnet-developer` | Small .NET work without full SDD |
+
+Details and shared assets: [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md).
 
 ## Conventions
 

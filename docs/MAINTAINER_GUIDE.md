@@ -114,4 +114,4 @@ Consumer projects may use their own CI and trackers; skills stay **Git-only** un
 | [HOOKS.md](HOOKS.md) | Optional hooks |
 | [TOKEN_BUDGET.md](TOKEN_BUDGET.md) | Token discipline when extending content |
 | [../AGENTS.md](../AGENTS.md) | Agent router |
-| [../PLAN/PLAN_001_cursor_dev_toolkit.md](../PLAN/PLAN_001_cursor_dev_toolkit.md) | MVP build plan (completed) |
+| [../PLAN/PLAN_001_cursor_dev_toolkit.md](../PLAN/PLAN_001_cursor_dev_toolkit.md) | Example SDD plan (toolkit bootstrap) |

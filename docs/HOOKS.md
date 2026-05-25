@@ -6,13 +6,13 @@ Context and PLAN checkpoint helpers. Installed under `~/.cursor/` by `scripts/sy
 
 | Hook | Script | Purpose |
 |------|--------|---------|
-| `beforeSubmitPrompt` | `hooks/context-before-prompt.ps1` | Detect `use skill spec|plan|implement|...` and record session state |
+| `beforeSubmitPrompt` | `hooks/context-before-prompt.ps1` | Detect `use skill spec|plan|implement|commit|code-review|dotnet-developer` and record session state |
 | `afterFileEdit` | `hooks/plan-after-edit.ps1` | Record edits to `PLAN/PLAN_*.md` (repo or `~/.cursor/sdd/<repo-id>/PLAN/`) |
 | `preCompact` | `hooks/context-pre-compact.ps1` | Show user message before context compaction (40%/80% thresholds) |
 
 ## What hooks do not do
 
-- **No model selection** — hooks never pick or switch LLM models (PRD FR6).
+- **No model selection** — hooks never pick or switch LLM models.
 - **No external session JSONL** — hooks do not read `~/.claude/projects/*.jsonl` or similar paths.
 - **No token metering on every prompt** — `beforeSubmitPrompt` cannot inject `additional_context` in current Cursor API; rely on `context-management.mdc` and visible usage when available.
 

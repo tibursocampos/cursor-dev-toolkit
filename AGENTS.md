@@ -104,4 +104,4 @@ Do not commit user-specific paths (`C:\Users\...`, `/home/<user>/...`), tokens, 
 
 ---
 
-Build plan: `PLAN/PLAN_001_cursor_dev_toolkit.md` · Maintainer guide: `docs/MAINTAINER_GUIDE.md`
+Maintainer guide: `docs/MAINTAINER_GUIDE.md` · Install: `docs/INSTALL.md`

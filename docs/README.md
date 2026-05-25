@@ -13,5 +13,10 @@
 |------|---------|
 | [../README.md](../README.md) | Project overview and quick links |
 | [../AGENTS.md](../AGENTS.md) | Agent router (installed to `~/.cursor/AGENTS.md`) |
-| [../PLAN/PLAN_001_cursor_dev_toolkit.md](../PLAN/PLAN_001_cursor_dev_toolkit.md) | MVP build plan (14 steps, completed) |
-| [../PRD/001_cursor_dev_toolkit.md](../PRD/001_cursor_dev_toolkit.md) | Product requirements |
+
+**SDD examples in this repo** (for reference when maintaining the toolkit; consumer projects use the same layout under `PRD/` and `PLAN/`):
+
+| Path | Purpose |
+|------|---------|
+| [../PRD/001_cursor_dev_toolkit.md](../PRD/001_cursor_dev_toolkit.md) | Product requirements (toolkit bootstrap) |
+| [../PLAN/PLAN_001_cursor_dev_toolkit.md](../PLAN/PLAN_001_cursor_dev_toolkit.md) | Execution plan (toolkit bootstrap) |
