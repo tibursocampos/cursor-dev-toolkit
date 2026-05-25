@@ -86,7 +86,7 @@ Ask about business rules, edge cases, integrations, compatibility, and validatio
 
 ### 5. Technical analysis
 
-Document briefly for the PRD (impacto, complexidade, riscos, dependências; migrações e eventos se aplicável).
+Document briefly for the PRD (impact, complexity, risks, dependencies; migrations and events if applicable).
 
 ### 6. Context checkpoint
 
@@ -99,7 +99,7 @@ Load `STORAGE.md`. Read manifest if valid; else ask storage (pt-BR prompt in `ST
 ### 7. Write PRD
 
 1. Apply `sdd-artifact-language-pt-br.mdc` (pt-BR body unless override in invocation).
-2. Output folder from manifest / user choice; **repository mode:** `.gitignore` per `STORAGE.md`.
+2. Output folder from manifest / user choice; **repository mode:** `.gitignore` per `STORAGE.md` (`/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` — all four before first write).
 3. Filename: `NNN_short_feature_slug.md` — ASCII slug (Portuguese words allowed).
 4. Body: template in `reference.md` (pt-BR default). Status **Pronto para planejamento** (or **Ready for planning** if EN override).
 5. If scope includes **product** docs in `docs/` or README: **ask** pt-BR vs English before writing that documentation.

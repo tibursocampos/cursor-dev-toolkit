@@ -1,0 +1,100 @@
+---
+name: breakdown-tasks
+description: Break refined backlog steps into a grouped implementation task checklist saved locally (backend, frontend, tests). No tracker API or fixed corporate workflow tasks. Use when the user says "use skill breakdown-tasks", "break down tasks", or "/breakdown-tasks".
+---
+
+# Skill: breakdown-tasks
+
+## Trigger
+
+Invoke when the user asks for: `use skill breakdown-tasks`, `break down tasks`, `/breakdown-tasks`, or after `refine-backlog-item`.
+
+**Input (one of):**
+
+| Source | Example |
+|--------|---------|
+| Path | `docs/backlog/my-feature.md` |
+| Chat | User confirms refined markdown from current session |
+| Pasted | User pastes the `### 🧩 Steps` section |
+
+Prerequisite: content includes structured **Steps** (or Bug **Suggested fix**). If missing, hand off to `use skill refine-backlog-item`.
+
+## Outcome
+
+In the **target workspace**: `docs/implementation-tasks/<slug>.md` — grouped checklists for implementation and tests. **No** creation of external work items; **no** mandatory DeskCheck, Datadog, or SDD-tag workflow tasks.
+
+## Lazy-load
+
+| When | Path |
+|------|------|
+| Grouping rules, output template, optional QA/PR hints | `skills/breakdown-tasks/reference.md` |
+| Resolve existing SDD PLAN path (handoff) | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` + `reference.md` § SDD PLAN resolution |
+| Context pressure | `~/.cursor/rules/context-management.mdc` |
+
+## Process
+
+### 0. Workspace and source
+
+1. Confirm target repository.
+2. Load refined content from path, chat, or paste.
+3. Extract steps from `### 🧩 Steps` or Bug `### 🧩 Suggested fix` (see `reference.md` § Parsing).
+
+If no steps found, stop and suggest `use skill refine-backlog-item`.
+
+### 1. Documentation language (blocker before Write)
+
+Ask once:
+
+> Language for `docs/implementation-tasks/` — **pt-BR** or **English**?
+
+Record in the output file header. Paths stay English.
+
+### 2. Group steps
+
+Apply heuristics in `reference.md` § Grouping:
+
+- Prefer `####` sub-headings when present
+- Else by repository / service name in step text
+- Else by layer (backend vs frontend vs tests)
+- Max **5** implementation groups — merge adjacent groups if needed
+- **Test steps** (layer Tests / integration / i18n tests) go to dedicated test groups, not mixed into feature implementation groups
+
+### 3. Build checklist file
+
+Write `docs/implementation-tasks/<slug>.md` using `reference.md` § Output template:
+
+- Implementation groups with `- [ ]` per original step (preserve titles and dependencies)
+- Separate **Tests** section when test steps exist
+- Optional **Before PR** section from neutral checklist in reference (user may omit)
+
+Do **not** inject fixed corporate tasks (AI tags, manual test evidence templates tied to org tools, DeskCheck, Sonar boilerplate as mandatory rows).
+
+### 4. Summarize in chat
+
+Show group names, step ranges, output path, and suggested next skills.
+
+### 5. Handoff
+
+| Situation | Next |
+|-----------|------|
+| Full SDD for the feature | `use skill spec` → `use skill plan` → `use skill implement` |
+| PLAN already exists | Resolve SDD PLAN per `STORAGE.md` (repo + `~/.cursor/sdd/<repo-id>/`); then `use skill implement — <full-plan-path> — Step 1` |
+| Code-only small change | `use skill dotnet-developer` |
+| Commit checklist file | `use skill commit` |
+
+## Must not
+
+- Create or update external tracker cards via API
+- Add fixed "workflow" tasks (DeskCheck, Datadog log links, SDD/DevAI tags) unless the user explicitly requests a custom section
+- Assume `docs/implementation-tasks/` in cursor-dev-toolkit during porting
+- Write the file before the language question
+
+## Handoff examples
+
+```
+use skill spec
+```
+
+```
+use skill plan
+```

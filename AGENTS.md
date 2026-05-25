@@ -39,6 +39,18 @@ dotnet-developer
 
 Invoke with "use skill dotnet-developer". Loads `dotnet-guidelines` on demand; skip full SDD when unnecessary.
 
+### Optional flows (Git-only, no work-item tracker)
+
+| Flow | Steps |
+|------|--------|
+| Repo documentation (RAG) | `plan-repo-docs` → `document-repo` (one plan step per session) |
+| Backlog intake → SDD | `refine-backlog-item` → optional `breakdown-tasks` → `spec` → `plan` → `implement` |
+| Build / test failure | `fix-build` → optional `commit` |
+| EF migration (repo alvo) | `add-migrations` (also handoff from `implement/reference.md`) |
+| Message consumer (scaffold) | `create-message-consumer` — detect bus via Grep; no corporate templates |
+
+Product `docs/` in the **working repository**: skills that write there ask **pt-BR** or **English** before saving.
+
 ## Rules (load on demand)
 
 After `scripts/sync-cursor.ps1`, rules live as `.mdc` under `~/.cursor/rules/`:
@@ -74,22 +86,31 @@ After sync, `~/.cursor/hooks.json` may register context/PLAN helpers. See `docs/
 
 - **Never preload** `~/.cursor/skills/_shared/code-guidelines/languages/**` or glob the entire `code-guidelines/` tree.
 - **Never preload** `dotnet-guidelines/` until you are about to write or review .NET code.
-- **Not in this toolkit:** corporate pipeline layouts, work-item trackers, static-analysis fix workflows.
+- **Not in this toolkit:** corporate pipeline layouts, Azure DevOps / work-item tracker APIs (PAT, PATCH, MCP), `setup` / `fix-pr-comments` / `fix-sonar-issues` from ai-prompts, static-analysis fix workflows.
 
 Project-specific docs: prefer `docs/` in the **working repository** (the repo you are building), not files in `cursor-dev-toolkit`.
 
 ## Skills catalog
 
-Installed under `~/.cursor/skills/` after sync:
+Installed under `~/.cursor/skills/` after sync. Triggers: `use skill <name>` (English kebab-case).
 
-| Skill | Use for |
-|-------|---------|
-| spec | PRD from a feature request |
-| plan | Baby-step PLAN from PRD |
-| implement | Execute one PLAN step |
-| code-review | Review diff or branch; resolves PRD/PLAN like spec (`STORAGE.md`, repo + global) |
-| commit | Conventional commit and push |
-| dotnet-developer | Small .NET task without full SDD |
+| Skill | Invoke | Use for |
+|-------|--------|---------|
+| spec | `use skill spec` | PRD from a feature request |
+| plan | `use skill plan` | Baby-step PLAN from PRD |
+| implement | `use skill implement` | Execute one PLAN step |
+| code-review | `use skill code-review` | Review diff or branch vs PRD/PLAN |
+| commit | `use skill commit` | Conventional commit and push |
+| dotnet-developer | `use skill dotnet-developer` | Small .NET task without full SDD |
+| add-migrations | `use skill add-migrations` | EF Core migration in open .NET repo |
+| fix-build | `use skill fix-build` | Diagnose/fix `dotnet build` or test failures |
+| plan-repo-docs | `use skill plan-repo-docs` | Documentation plan for target repo |
+| document-repo | `use skill document-repo` | One step of `docs/documentation-plan/plan.md` |
+| refine-backlog-item | `use skill refine-backlog-item` | Bug / story markdown + scorecard (local) |
+| breakdown-tasks | `use skill breakdown-tasks` | Group steps → `docs/implementation-tasks/` |
+| create-message-consumer | `use skill create-message-consumer` | Scaffold message consumer (bus-agnostic) |
+
+Shared templates: `~/.cursor/skills/_shared/backlog-item-types/` (loaded by `refine-backlog-item` only).
 
 ## Loading principles
 

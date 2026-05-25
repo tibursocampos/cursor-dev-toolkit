@@ -1,0 +1,120 @@
+---
+name: create-message-consumer
+description: Scaffold a new message consumer in the open .NET workspace. Detects MassTransit, RabbitMQ, or other messaging stacks via Grep — does not assume Azure Service Bus. Collects requirements before code. Use when the user says "use skill create-message-consumer", "create message consumer", or "/create-message-consumer".
+---
+
+# Skill: create-message-consumer
+
+## Status
+
+**Scaffold** — guides discovery, requirements, and implementation in the **target repository**. This toolkit ships **no** embedded corporate consumer templates or org-specific wiring.
+
+## Trigger
+
+Invoke when the user asks for: `use skill create-message-consumer`, `create message consumer`, `/create-message-consumer`, or when a PLAN step adds a new queue/topic handler.
+
+Optional arguments: message or event name, queue/topic name, or path to an existing consumer to mirror.
+
+## Outcome
+
+In the **target workspace** (not `cursor-dev-toolkit` unless it is the .NET repo under work):
+
+1. Detected messaging stack and reference consumer(s)
+2. Confirmed requirements (payload, errors, idempotency, retry, DLQ)
+3. Proposed file layout aligned with the repo
+4. Scaffold code and tests **only after** user confirmation — following **existing** project patterns, not copied templates from this repo
+
+## Lazy-load
+
+| When | Path |
+|------|------|
+| Detection, checklist, scaffold notes | `skills/create-message-consumer/reference.md` or `~/.cursor/skills/create-message-consumer/reference.md` after sync |
+| Generating or reviewing .NET code | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
+| C# / test naming | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
+| Small follow-up without SDD | `use skill dotnet-developer` |
+
+## Process
+
+### 0. Workspace
+
+Confirm **target .NET repository** (`.sln` or worker/API with messaging). If the workspace is the toolkit only, stop and ask which repo to open.
+
+### 1. Detect messaging stack
+
+Grep/Glob per `reference.md` § Stack detection. Report:
+
+| Signal | Likely stack |
+|--------|----------------|
+| `MassTransit`, `IConsumer<T>` | MassTransit (transport varies) |
+| `RabbitMQ.Client`, `ConnectionFactory` | RabbitMQ direct |
+| `Azure.Messaging.ServiceBus` | Azure Service Bus SDK |
+| Other | Describe generically; read one existing consumer |
+
+Do **not** assume Azure Service Bus or a specific cloud vendor. Do **not** require corporate `docs/consumidores/` paths.
+
+### 2. Find conventions
+
+Glob existing consumers/handlers in the repo. Note: namespace layout, registration (`AddMassTransit`, hosted service, etc.), message contract location, test project pattern.
+
+If **no** consumer exists, say so and propose a layout consistent with Clean Architecture after reading `clean-architecture.md`.
+
+### 3. Collect requirements (blocker before code)
+
+Ask using `reference.md` § Requirements checklist. Minimum:
+
+- Queue or topic name (and subscription if applicable)
+- Message contract (type name, key fields, schema source)
+- Processing responsibility (what changes in the system)
+- Error handling: retry count/backoff, DLQ or error queue
+- Idempotency strategy (natural key, outbox, dedup store)
+- Test expectations (unit vs integration)
+
+Wait for answers. Do not invent queue names or payloads.
+
+### 4. Propose scaffold plan
+
+Present:
+
+- Files to add or extend (paths from repo conventions)
+- Registration point (DI / MassTransit config)
+- Test files and how to run them
+
+Ask explicit confirmation before writing code.
+
+### 5. Implement (target repo only)
+
+After confirmation:
+
+1. Load `clean-architecture.md` and `csharp-patterns.md`
+2. Mirror naming and folder structure from step 2
+3. Add consumer/handler, contract if missing, registration, and tests
+4. Run `dotnet build` and targeted `dotnet test` for affected projects
+
+### 6. Summarize handoff
+
+Report: stack detected, paths touched, how to run locally, open risks (idempotency, poison messages).
+
+| Situation | Next |
+|-----------|------|
+| Commit | `use skill commit` |
+| Part of SDD PLAN step | Mark PLAN step; continue in new session if another step remains |
+| Build failure | `use skill fix-build` |
+
+## Must not
+
+- Ship or copy hardcoded consumer templates from ai-prompts or internal org repos into the toolkit
+- Assume Azure Service Bus, a specific organization, or proprietary observability tools
+- Generate code before requirements are collected and the user confirms the plan
+- Preload entire `dotnet-guidelines/` tree beyond clean-architecture and csharp-patterns when coding
+
+## Handoff examples
+
+```
+use skill fix-build
+```
+
+```
+use skill implement — <full-plan-path> — Step N
+```
+
+SDD `PLAN` paths: resolve per `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (workspace `PLAN/PLAN_*.md` or global `~/.cursor/sdd/<repo-id>/PLAN/`). Not `docs/documentation-plan/plan.md`.

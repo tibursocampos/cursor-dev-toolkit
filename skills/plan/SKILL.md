@@ -62,7 +62,7 @@ Load `STORAGE.md`. If PRD path is under `~/.cursor/sdd/`, use global PLAN. Else 
 ### 6. Write PLAN
 
 1. Apply `sdd-artifact-language-pt-br.mdc` (pt-BR unless override in invocation).
-2. Folder from manifest; **repository mode:** `.gitignore` per `STORAGE.md`.
+2. Folder from manifest; **repository mode:** `.gitignore` per `STORAGE.md` (`/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` — all four before first write).
 3. `PLAN_NNN_short_feature_slug.md`; **PRD** header = full PRD path.
 4. Body: `reference.md` template (pt-BR). Status **Pendente** on steps; progress `0/N`.
 5. Overwrite warning if PLAN exists with completed steps.

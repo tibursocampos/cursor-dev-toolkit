@@ -19,7 +19,7 @@ Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`.
 
 ## Storage and `.gitignore` (plan skill)
 
-If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md`. Update manifest (`artifact_language`, folders).
+If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode — `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (same four-line block as `spec`; run even if only `PLAN/` will receive files). Update manifest (`artifact_language`, folders).
 
 ## Product documentation language
 
@@ -165,17 +165,6 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
   - `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md`
   - `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md`
 
-## Protocolo de atualização do PLAN (skill implement)
-
-Após cada passo concluído, a skill **implement** atualiza este arquivo:
-
-1. Status do passo → **Concluído** com data
-2. Barra de progresso e campo **Progresso**
-3. Checkboxes de objetivos quando atendidos
-4. Linha **Próximo passo** aponta para o PASSO seguinte
-
-Não editar progresso manualmente durante implementação, exceto recuperação de sessão falha.
-
 ## Checklist final
 
 - [ ] Todos os critérios de aceite do PRD mapeados em passos
@@ -188,16 +177,22 @@ Não editar progresso manualmente durante implementação, exceto recuperação 
 
 ---
 
+## PLAN update protocol (implement skill)
+
+Do **not** embed implement update rules inside the PLAN artifact. After each completed step, **`implement`** updates the same PLAN file per `skills/implement/reference.md` § PLAN update protocol (status **Concluído** / **Completed**, progress bar, **Próximo passo** / **Next step**, deliverable checkboxes). Do not edit progress manually during implementation except session recovery.
+
+---
+
 ## Status legend
 
-| Marcador | Significado |
-|----------|-------------|
-| ⏳ PASSO N | Pendente |
-| 🔄 PASSO N | Em progresso (sessão implement ativa) |
-| ✅ PASSO N | Concluído |
-| ❌ PASSO N | Bloqueado |
+| Marker | Meaning |
+|--------|---------|
+| ⏳ PASSO N | Pending |
+| 🔄 PASSO N | In progress (active implement session) |
+| ✅ PASSO N | Completed |
+| ❌ PASSO N | Blocked |
 
-Use **Pendente** / **Concluído** / **Bloqueado** na linha `**Status:**`; emoji no título é opcional.
+Use **Pendente** / **Concluído** / **Bloqueado** (or English equivalents) on the `**Status:**` line in pt-BR PLANs; emoji in the heading is optional.
 
 **Implement skill:** step headings may use `STEP` or `PASSO`; match the PLAN file when updating.
 
@@ -205,20 +200,20 @@ Use **Pendente** / **Concluído** / **Bloqueado** na linha `**Status:**`; emoji 
 
 ## Baby-step sizing checklist
 
-- [ ] Nenhum passo com 4+ arquivos novos sem dividir
-- [ ] Migração e mapeamento EF separados quando ambos aplicam
-- [ ] Handler, consumer e testes não no mesmo passo salvo trivial
-- [ ] Passos densos com aviso de contexto para implement
-- [ ] Passo opcional de docs só se contrato ou comportamento visível mudar — **perguntar idioma da doc do sistema**
+- [ ] No step with 4+ new files without splitting
+- [ ] EF migration and mapping separated when both apply
+- [ ] Handler, consumer, and tests not in the same step unless trivial
+- [ ] Dense steps include a context warning for implement
+- [ ] Optional docs step only when contract or visible behavior changes — **ask system doc language** (pt-BR vs English)
 
 ---
 
 ## Quality checklist (before handoff)
 
-- [ ] Caminho do PRD e sequência batem com o nome do PLAN
-- [ ] Todo critério de aceite do PRD aparece em algum passo
-- [ ] Passos em pt-BR (salvo override inglês)
-- [ ] Sem blocos de implementação completa
-- [ ] Caminho de saída: `PLAN/PLAN_NNN_*.md` ou global (não `PLANO_*` na raiz do repo)
-- [ ] Handoff com `use skill implement`
-- [ ] Progresso inicial `0/N`
+- [ ] PRD path and `NNN` match the PLAN filename
+- [ ] Every PRD acceptance criterion appears in some step
+- [ ] Step prose in pt-BR (unless English override)
+- [ ] No full implementation code blocks in the PLAN
+- [ ] Output path: `PLAN/PLAN_NNN_*.md` or global (not `PLANO_*` at repo root)
+- [ ] Handoff: `use skill implement — <full-plan-path> — Step 1`
+- [ ] Initial progress `0/N`

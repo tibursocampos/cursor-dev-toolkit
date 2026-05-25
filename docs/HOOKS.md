@@ -54,10 +54,10 @@ Written under `~/.cursor/hooks-state/`:
 ```powershell
 cd path\to\cursor-dev-toolkit
 
-'{"prompt":"use skill implement - PLAN/PLAN_001.md - Step 1","attachments":[]}' |
+'{"prompt":"use skill implement - PLAN/PLAN_003_feature.md - Step 1","attachments":[]}' |
   powershell -NoProfile -File hooks\context-before-prompt.ps1
 
-'{"file_path":"D:/proj/PLAN/PLAN_001_feature.md","edits":[]}' |
+'{"file_path":"D:/proj/PLAN/PLAN_003_feature.md","edits":[]}' |
   powershell -NoProfile -File hooks\plan-after-edit.ps1
 
 '{"trigger":"auto","context_usage_percent":85,"context_tokens":120000,"context_window_size":200000,"message_count":10,"messages_to_compact":5,"is_first_compaction":false}' |

@@ -26,8 +26,8 @@ dist/
 # Sync artifacts (optional local copies)
 .cursor-local/
 
-# SDD artifacts (local agent workflow — cursor-dev-toolkit)
-PRD/
-PLAN/
-docs/PRD/
-docs/PLAN/
+# SDD artifacts (local agent workflow — not committed; root only)
+/PRD/
+/PLAN/
+/docs/PRD/
+/docs/PLAN/

@@ -14,9 +14,4 @@
 | [../README.md](../README.md) | Project overview and quick links |
 | [../AGENTS.md](../AGENTS.md) | Agent router (installed to `~/.cursor/AGENTS.md`) |
 
-**SDD examples in this repo** (for reference when maintaining the toolkit; consumer projects use the same layout under `PRD/` and `PLAN/`):
-
-| Path | Purpose |
-|------|---------|
-| [../PRD/001_cursor_dev_toolkit.md](../PRD/001_cursor_dev_toolkit.md) | Product requirements (toolkit bootstrap) |
-| [../PLAN/PLAN_001_cursor_dev_toolkit.md](../PLAN/PLAN_001_cursor_dev_toolkit.md) | Execution plan (toolkit bootstrap) |
+SDD PRD/PLAN artifacts are **local only** — `.gitignore` must include `/PRD/`, `/PLAN/`, `/docs/PRD/`, and `/docs/PLAN/` at repo root (applied by `spec` / `plan` per `STORAGE.md`). Rules after sync: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`.
