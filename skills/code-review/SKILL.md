@@ -15,21 +15,19 @@ A structured **review report** with severity tiers (critical / important / nice-
 
 ## Required input
 
-Ask once if missing:
+| Input | Rule |
+|-------|------|
+| Base branch | `main`, `develop` — ask once if missing |
+| Feature branch | Current branch or named branch |
+| PRD / PLAN (SDD) | Optional in invocation; **resolve in step 0.5** if omitted (see `reference.md` § SDD artifact resolution) |
 
-| Input | Example |
-|-------|---------|
-| Base branch | `main`, `develop` |
-| Feature branch | current branch or named branch |
-| PRD path (SDD) | `PRD/002_feature.md` or `~/.cursor/sdd/<repo-id>/PRD/002_feature.md` |
-| PLAN path (SDD) | `PLAN/PLAN_002_feature.md` or `~/.cursor/sdd/<repo-id>/PLAN/PLAN_002_feature.md` |
-
-For a quick local review (single commit or file list), base branch + changed paths may suffice.
+Ask the user **only after** step 0.5 if zero or multiple PRD/PLAN pairs remain ambiguous. For a quick review without SDD artifacts, base branch + changed paths suffice after 0.5 reports no artifacts.
 
 ## Lazy-load (only when needed)
 
 | When | Path (after sync) |
 |------|-------------------|
+| SDD artifact discovery (step 0.5) | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
 | Repo context | `~/.cursor/skills/_shared/developer-common/step-0-context.md` |
 | Before code analysis (.NET) | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md`, `csharp-patterns.md` |
 | Pre-PR gate (.NET) | `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md` |
@@ -45,7 +43,11 @@ Do **not** preload `code-guidelines/languages/**` or corporate static-analysis w
 
 ### 0. Workspace
 
-Confirm target repo. Detect stack (`*.sln` → .NET; `angular.json` → Angular). Read `AGENTS.md` / `README.md`. Load dotnet-guidelines only for .NET reviews.
+Confirm target repo (not `cursor-dev-toolkit` unless that is the subject). Detect stack (`*.sln` → .NET; `angular.json` → Angular). Read `AGENTS.md` / `README.md`. Load dotnet-guidelines only for .NET reviews.
+
+### 0.5 Resolve SDD artifacts
+
+Load `STORAGE.md`. Follow **`reference.md` § SDD artifact resolution** (manifest, globs repo + `~/.cursor/sdd/<repo-id>/`, pair by `NNN`). Use full paths in the report. If one PRD/PLAN pair → read both before the diff review. If none after a full search → note **SDD limitation** in the report (technical review only). If ambiguous → ask once in pt-BR with numbered options.
 
 ### 1. Scope the diff
 
@@ -58,10 +60,12 @@ git log <base>..<head> --oneline
 
 Default `<head>` to current branch. List files; confirm with user before deep review if the set is large.
 
-### 2. SDD traceability (when PRD/PLAN provided)
+### 2. SDD traceability (when artifacts found or user provided)
+
+Skip this section only when step 0.5 found no PRD/PLAN (document limitation — do not claim artifacts do not exist).
 
 - PLAN progress bar and step statuses match completed work
-- Each **Completed** step has deliverables checked; no **Pending** steps with code already merged
+- Each **Completed** / **Concluído** step has deliverables checked; no **Pending** steps with code already merged
 - PRD acceptance criteria mapped to implementation and tests
 
 Flag PLAN/PRD drift as **important** (not necessarily blocking if scope is otherwise correct).
@@ -127,6 +131,7 @@ No MCP work-item linking or mandatory corporate PR templates.
 - Work-item tracker APIs, external PR platform APIs, or obsolete guideline paths
 - Block on optional coverage targets unless the user or PRD sets them
 - Paste entire guideline files into the review output
+- Claim no PRD/PLAN or skip step 0.5 / SDD traceability without searching all locations in `STORAGE.md`
 
 ## Handoff
 

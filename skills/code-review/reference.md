@@ -1,150 +1,196 @@
 # Code review — report template and checklists
 
-Use when writing the final report for the `code-review` skill. Keep the report in **English**. Replace bracketed placeholders.
+Use when writing the final report for the `code-review` skill. Keep the report in **Brazilian Portuguese (pt-BR)** (technical terms may stay in English). Replace bracketed placeholders.
+
+---
+
+## SDD artifact resolution
+
+Run in **step 0.5** before scoping the diff. Load `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`. On Windows, `~/.cursor/sdd/` is `%USERPROFILE%\.cursor\sdd\`.
+
+### Checklist
+
+1. **Target repo** — open workspace is the project under review (not `cursor-dev-toolkit` unless that is the subject).
+2. **`<repo-id>`** — per `STORAGE.md`: `git remote get-url origin` → slug; else workspace root basename; reuse `repo_id` from manifest when present.
+3. **Manifest** — read `~/.cursor/sdd/<repo-id>/manifest.json` when it exists and `workspace_root` (normalized separators, case-insensitive on Windows) matches the open workspace → use `prd_folder` and `plan_folder` (may be absolute paths, e.g. `C:/Users/.../PRD`).
+4. **Glob** (parallel):
+
+   | Location | Patterns |
+   |----------|----------|
+   | Workspace | `PRD/*.md`, `docs/PRD/*.md`, `PLAN/PLAN_*.md` |
+   | Global | `~/.cursor/sdd/<repo-id>/PRD/*.md`, `~/.cursor/sdd/<repo-id>/PLAN/PLAN_*.md` |
+
+5. **Extract `NNN`** — first three digits from PRD filename (`001_...md`) and from PLAN (`PLAN_001_...md`).
+6. **Pair** — match PRD and PLAN with the same `NNN`.
+7. **Select one pair** (first match wins):
+
+   | Priority | Signal |
+   |----------|--------|
+   | 1 | User passed explicit PRD or PLAN path in invocation |
+   | 2 | PLAN header field **PRD** points to a discovered PRD path |
+   | 3 | `NNN` or feature slug aligns with current branch name |
+   | 4 | Single pair after pairing |
+   | 5 | Ask once in pt-BR — numbered list of PRD + PLAN paths |
+
+8. **Read** selected PRD and PLAN before SDD traceability (step 2).
+9. **Report** — always record full paths used (workspace-relative or absolute global).
+
+### Outcomes
+
+| Result | Action |
+|--------|--------|
+| One pair found | Proceed with SDD traceability |
+| No artifacts after full search | Report **Limitação SDD** (technical/guidelines review only); do not state PRD/PLAN "do not exist" |
+| Multiple ambiguous pairs | Ask user once; then proceed |
 
 ---
 
 ## Report template
 
 ```markdown
-# Code review — [Feature name]
+# Code review — [Nome da feature]
 
-## Executive summary
+## Resumo executivo
 
-**Decision:** Approved | Approved with reservations | Changes required
+**Decisão:** Aprovado | Aprovado com ressalvas | Alterações necessárias
 
-| Metric | Value |
-|--------|-------|
-| PRD adherence | [e.g. 4/4 criteria] |
-| PLAN status | [e.g. 6/6 steps completed] |
-| Files reviewed | [N] |
-| Build / tests | [Pass / Fail / Not run] |
-| Critical issues | [0] |
-| Important issues | [N] |
+| Métrica | Valor |
+|---------|-------|
+| Aderência ao PRD | [ex.: 4/4 critérios] |
+| Status do PLAN | [ex.: 6/6 passos concluídos] |
+| SDD | [PRD/PLAN encontrados — caminhos] ou **Limitação SDD** (busca completa sem artefatos) |
+| Arquivos revisados | [N] |
+| Build / testes | [Passou / Falhou / Não executado] |
+| Críticos | [0] |
+| Importantes | [N] |
 | Nice-to-have | [N] |
 
-[One short paragraph: scope, main findings, recommendation.]
+[Um parágrafo: escopo, principais achados, recomendação.]
 
 ---
 
-## PLAN verification (SDD)
+## Verificação do PLAN (SDD)
 
-**PLAN:** [path]
+_Omitir esta seção somente se step 0.5 registrou **Limitação SDD**._
 
-- Progress: [X/N] — [consistent | inconsistencies listed]
-- Completed steps: [list]
-- Pending / drift: [list or None]
+**PLAN:** [caminho completo]
 
----
-
-## PRD adherence (SDD)
-
-**PRD:** [path]
-
-### Acceptance criteria
-
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| [AC1] | Met / Partial / Missing | [file, test] |
-
-### Business rules
-
-| Rule | Status | Location |
-|------|--------|----------|
-| [RN01] | Met / Missing | [type.method] |
+- Progresso: [X/N] — [consistente | inconsistências listadas]
+- Passos concluídos: [lista]
+- Pendente / desvio: [lista ou Nenhum]
 
 ---
 
-## Files reviewed
+## Aderência ao PRD (SDD)
 
-- [path] — [brief note]
+_Omitir esta seção somente se step 0.5 registrou **Limitação SDD**._
 
----
+**PRD:** [caminho completo]
 
-## Positives
+### Critérios de aceite
 
-- [Specific good practices observed]
+| Critério | Status | Evidência |
+|----------|--------|-----------|
+| [CA1] | Atendido / Parcial / Ausente | [arquivo, teste] |
 
----
+### Regras de negócio
 
-## Critical issues (blocking)
-
-### [Issue title]
-
-- **File:** `path:line`
-- **Category:** Security | Bug | Breaking change
-- **Problem:** [what is wrong]
-- **Impact:** [why it blocks merge]
-- **Suggested fix:** [concrete steps]
+| Regra | Status | Local |
+|-------|--------|-------|
+| [RN01] | Atendida / Ausente | [tipo.método] |
 
 ---
 
-## Important issues (non-blocking)
+## Arquivos revisados
 
-### [Issue title]
+- [caminho] — [nota breve]
 
-- **File:** `path:line`
-- **Problem:** [what to improve]
-- **Suggestion:** [how]
+---
+
+## Pontos positivos
+
+- [Boas práticas observadas]
+
+---
+
+## Problemas críticos (bloqueantes)
+
+### [Título]
+
+- **Arquivo:** `caminho:linha`
+- **Categoria:** Segurança | Bug | Breaking change
+- **Problema:** [o que está errado]
+- **Impacto:** [por que bloqueia merge]
+- **Correção sugerida:** [passos concretos]
+
+---
+
+## Problemas importantes (não bloqueantes)
+
+### [Título]
+
+- **Arquivo:** `caminho:linha`
+- **Problema:** [o que melhorar]
+- **Sugestão:** [como]
 
 ---
 
 ## Nice-to-have
 
-- [Optional improvements]
+- [Melhorias opcionais]
 
 ---
 
-## Tests
+## Testes
 
-- **Unit:** [pass/fail, scope]
-- **Integration:** [pass/fail, scope]
-- **Gaps:** [untested scenarios worth adding]
+- **Unitários:** [passou/falhou, escopo]
+- **Integração:** [passou/falhou, escopo]
+- **Lacunas:** [cenários não cobertos]
 
 ---
 
-## Security
+## Segurança
 
-- [ ] No hardcoded secrets
-- [ ] Input validation on external data
-- [ ] No sensitive data in logs
-- [ ] Parameterized data access (no SQL string concat)
+- [ ] Sem secrets hardcoded
+- [ ] Validação de entrada em dados externos
+- [ ] Sem dados sensíveis em logs
+- [ ] Acesso a dados parametrizado (sem concatenação SQL)
 
-Issues: [None | listed]
+Problemas: [Nenhum | listados]
 
 ---
 
 ## Performance
 
-- [ ] No obvious N+1 in touched code
-- [ ] Async used for I/O-bound work
-- [ ] No unbounded loops or allocations in hot paths
+- [ ] Sem N+1 óbvio no código alterado
+- [ ] Async em trabalho I/O-bound
+- [ ] Sem loops/alocações ilimitados em hot paths
 
-Issues: [None | listed]
-
----
-
-## Refactoring opportunities (optional)
-
-| Priority | Area | Benefit |
-|----------|------|---------|
-| Medium | [method/class] | [readability / testability] |
+Problemas: [Nenhum | listados]
 
 ---
 
-## Final recommendation
+## Oportunidades de refatoração (opcional)
 
-**Decision:** [Approved | Approved with reservations | Changes required]
+| Prioridade | Área | Benefício |
+|------------|------|-----------|
+| Média | [método/classe] | [legibilidade / testabilidade] |
 
-**Required before merge:**
+---
 
-1. [Action or None]
+## Recomendação final
 
-**Recommended after merge:**
+**Decisão:** [Aprovado | Aprovado com ressalvas | Alterações necessárias]
 
-1. [Action or None]
+**Obrigatório antes do merge:**
 
-**Next steps for author:**
+1. [Ação ou Nenhuma]
+
+**Recomendado após o merge:**
+
+1. [Ação ou Nenhuma]
+
+**Próximos passos do autor:**
 
 - [ ]
 ```

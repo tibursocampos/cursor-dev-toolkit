@@ -23,7 +23,7 @@ Do not preload entire `~/.cursor/skills/_shared/` trees.
 
 1. You are in the **target repository** (not `cursor-dev-toolkit` unless that is the subject).
 2. Note default branch (`main`, `develop`, etc.) — ask if unclear.
-3. For SDD work: confirm PRD/PLAN paths if applicable.
+3. For SDD work: confirm PRD/PLAN paths when the user provides them. For **`code-review`**, resolve artifacts via `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (repo + `~/.cursor/sdd/<repo-id>/`) — do not assume absence from an empty workspace `PRD/` folder alone.
 
 ---
 

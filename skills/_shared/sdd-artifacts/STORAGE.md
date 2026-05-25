@@ -128,9 +128,11 @@ use skill implement — ~/.cursor/sdd/acme-payments-api/PLAN/PLAN_003_feature.md
 | spec | Yes (or manifest) | Repository mode only | PRD + manifest |
 | plan | Yes if manifest missing; infer if PRD is global | Repository mode only | PLAN + manifest |
 | implement | No — use PLAN path from input | No | Updates same PLAN file |
+| code-review | No | No | Read-only: manifest + glob repo/global; no writes |
 
 ## Integration
 
 - Templates: `skills/spec/reference.md`, `skills/plan/reference.md`
+- SDD discovery (read-only): `skills/code-review/reference.md` § SDD artifact resolution
 - Context rule: `rules/context-management.md`
 - Hooks: `hooks/_hook-common.ps1` (`Test-PlanFilePath` includes global PLAN paths)

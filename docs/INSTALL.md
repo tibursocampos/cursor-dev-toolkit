@@ -117,7 +117,7 @@ Describe the fix/refactor; agent loads `dotnet-guidelines` on demand.
 | Task | Invoke |
 |------|--------|
 | Conventional commit + push | `use skill commit` |
-| Review diff vs PRD/PLAN | `use skill code-review` |
+| Review diff vs PRD/PLAN | `use skill code-review` (auto-discovers PRD/PLAN in repo or `~/.cursor/sdd/<repo-id>/` via manifest) |
 
 Branch rules: `feature/<slug>` or `feat/<id>` only — not `main` / `master` / `develop`.
 

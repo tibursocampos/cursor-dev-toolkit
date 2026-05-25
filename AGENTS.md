@@ -87,7 +87,7 @@ Installed under `~/.cursor/skills/` after sync:
 | spec | PRD from a feature request |
 | plan | Baby-step PLAN from PRD |
 | implement | Execute one PLAN step |
-| code-review | Review diff or branch |
+| code-review | Review diff or branch; resolves PRD/PLAN like spec (`STORAGE.md`, repo + global) |
 | commit | Conventional commit and push |
 | dotnet-developer | Small .NET task without full SDD |
 
