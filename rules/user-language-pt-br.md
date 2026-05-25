@@ -19,7 +19,7 @@ Always write **user-facing** replies in **Brazilian Portuguese (pt-BR)**, includ
 |---------|----------|
 | Source code, identifiers, comments, XML docs | English |
 | Commit messages, PR titles/bodies (unless user asks otherwise) | English |
-| PRD/PLAN artifact bodies in repos that use EN templates | English |
+| SDD agent artifacts (PRD, PLAN `.md`) | pt-BR — see `sdd-artifact-language-pt-br.mdc` |
 | Skill names, paths, and command examples (`use skill implement`) | English |
 
 ## Tone

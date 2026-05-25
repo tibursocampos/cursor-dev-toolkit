@@ -8,7 +8,7 @@ Personal Cursor IDE agent toolkit: SDD workflow, .NET guidelines, Git-only devel
 
 | Capability | Description |
 |------------|-------------|
-| **SDD workflow** | `spec` → `plan` → `implement` with PRD/PLAN in your working repo |
+| **SDD workflow** | `spec` → `plan` → `implement` with PRD/PLAN in the repo or `~/.cursor/sdd/<repo-id>/` |
 | **.NET guidelines** | `dotnet-guidelines` (Clean Architecture, xUnit, Moq, FluentAssertions) |
 | **Git-only flow** | Branching, commits, checklist — no Azure DevOps |
 | **Cursor-native** | Sync to `~/.cursor/` (skills, rules, hooks, router) |
@@ -23,7 +23,7 @@ Personal Cursor IDE agent toolkit: SDD workflow, .NET guidelines, Git-only devel
    powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
    ```
 
-4. In any project chat: `use skill spec` → `use skill plan` → `use skill implement — PLAN/... — Step N`.
+4. In any project chat: `use skill spec` → `use skill plan` → `use skill implement — <plan-path> — Step N` (repo or global storage).
 
 Re-run sync after pulling toolkit updates (idempotent).
 
@@ -59,8 +59,9 @@ cursor-dev-toolkit/
 | Area | Rule |
 |------|------|
 | Skill names | English, kebab-case (`spec`, `plan`, `implement`) |
-| Guidelines & artifacts | English |
+| SDD agent artifacts (PRD, PLAN `.md`) | Brazilian Portuguese (pt-BR) — `rules/sdd-artifact-language-pt-br.md` |
 | Production code & tests | English; tests `Should_<Result>_When_<Condition>` |
+| Project docs (`docs/`, README deliverables) | Ask pt-BR or English in skill |
 | Test stack | xUnit + Moq + FluentAssertions |
 | User chat replies | Brazilian Portuguese (pt-BR) — `rules/user-language-pt-br.md` |
 
@@ -72,6 +73,7 @@ cursor-dev-toolkit/
 | `rules/branch-validation.md` | `~/.cursor/rules/branch-validation.mdc` | Before commit/push |
 | `rules/context-management.md` | `~/.cursor/rules/context-management.mdc` | Multi-step SDD |
 | `rules/user-language-pt-br.md` | `~/.cursor/rules/user-language-pt-br.mdc` | Always pt-BR in chat |
+| `rules/sdd-artifact-language-pt-br.md` | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` | PRD/PLAN `.md` in pt-BR; code always English |
 
 Branches: `feature/<slug>` or `feat/<id>` only — not `main`, `master`, or `develop`.
 

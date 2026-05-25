@@ -58,7 +58,14 @@ function Test-PlanFilePath([string] $FilePath) {
         return $false
     }
     $name = [System.IO.Path]::GetFileName($FilePath)
-    return ($name -like 'PLAN_*.md') -or ($FilePath -match '[\\/]PLAN[\\/]')
+    if (-not ($name -like 'PLAN_*.md')) {
+        return $false
+    }
+    if ($FilePath -match '[\\/]PLAN[\\/]') {
+        return $true
+    }
+    # Global SDD: ~/.cursor/sdd/<repo-id>/PLAN/PLAN_*.md
+    return $FilePath -match '[\\/]\.cursor[\\/]sdd[\\/][^\\/]+[\\/]PLAN[\\/]'
 }
 
 function Test-SddSkillPrompt([string] $Prompt) {

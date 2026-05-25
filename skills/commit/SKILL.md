@@ -119,6 +119,6 @@ Never `git push --force` to `main`, `master`, or `develop`.
 
 | Situation | Next |
 |-----------|------|
-| Continue SDD step | New session → `use skill implement — PLAN/... — Step N` |
+| Continue SDD step | New session → `use skill implement — <full-plan-path> — Step N` |
 | Review before PR | `use skill code-review` |
 | Create PR (user asks) | `gh pr create` per `step-4-commits-pr.md` |

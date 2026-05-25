@@ -11,7 +11,7 @@ Invoke when the user asks for: `use skill code-review`, `review this PR`, `code 
 
 ## Outcome
 
-A structured **review report** in English with severity tiers (critical / important / nice-to-have) and a clear decision: **Approved**, **Approved with reservations**, or **Changes required**. Does not modify code unless the user asks for fixes in a follow-up.
+A structured **review report** with severity tiers (critical / important / nice-to-have) and a clear decision: **Approved**, **Approved with reservations**, or **Changes required**. Write the report in **pt-BR** in chat-aligned reviews (technical terms may stay in English). Does not modify code unless the user asks for fixes in a follow-up.
 
 ## Required input
 
@@ -21,8 +21,8 @@ Ask once if missing:
 |-------|---------|
 | Base branch | `main`, `develop` |
 | Feature branch | current branch or named branch |
-| PRD path (SDD) | `PRD/002_feature.md` |
-| PLAN path (SDD) | `PLAN/PLAN_002_feature.md` |
+| PRD path (SDD) | `PRD/002_feature.md` or `~/.cursor/sdd/<repo-id>/PRD/002_feature.md` |
+| PLAN path (SDD) | `PLAN/PLAN_002_feature.md` or `~/.cursor/sdd/<repo-id>/PLAN/PLAN_002_feature.md` |
 
 For a quick local review (single commit or file list), base branch + changed paths may suffice.
 

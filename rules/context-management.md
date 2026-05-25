@@ -27,9 +27,9 @@ For skills that run sequential steps against an external control file:
 
 | Skill | Control artifact |
 |-------|------------------|
-| `spec` | `PRD/*.md` or `docs/PRD/*.md` |
-| `plan` | `PLAN/PLAN_*.md` |
-| `implement` | `PLAN/PLAN_*.md` (one step per session) |
+| `spec` | `PRD/*.md`, `docs/PRD/*.md`, or `~/.cursor/sdd/<repo-id>/PRD/*.md` |
+| `plan` | `PLAN/PLAN_*.md` or `~/.cursor/sdd/<repo-id>/PLAN/PLAN_*.md` |
+| `implement` | Same PLAN path as handoff (repo or global; one step per session) |
 
 ### Required flow after each completed step
 
@@ -61,7 +61,7 @@ To continue in this session, the user must reply: force continue
 Context-only hooks under `~/.cursor/hooks/` (see `docs/HOOKS.md`):
 
 - `beforeSubmitPrompt` — track `use skill spec|plan|implement|...` (always allows submit)
-- `afterFileEdit` — record `PLAN/PLAN_*.md` edits
+- `afterFileEdit` — record `PLAN/PLAN_*.md` edits (repo or `~/.cursor/sdd/.../PLAN/`)
 - `preCompact` — user message at 40%/80% usage before compaction
 
 Hooks do **not** select models and do **not** read Claude Code session JSONL files.

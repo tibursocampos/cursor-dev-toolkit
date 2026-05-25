@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Create a baby-step execution PLAN from an existing PRD. Reads the PRD, explores the open workspace, breaks work into one-session steps, and writes PLAN/PLAN_XXX.md. Use when the user says "use skill plan", "create plan", "execution plan", or "/plan". Requires a PRD; output feeds the implement skill.
+description: Create a baby-step PLAN from an existing PRD. Writes agent PLAN .md in pt-BR by default (repo or ~/.cursor/sdd/<repo-id>/). Use when the user says "use skill plan", "create plan", "/plan". Requires a PRD; output feeds implement.
 ---
 
 # Skill: plan
@@ -11,89 +11,79 @@ Invoke when the user asks for: `use skill plan`, `create plan`, `execution plan`
 
 ## Outcome
 
-A complete **PLAN** in English at `PLAN/PLAN_XXX_feature_slug.md` (same sequence as the PRD). Each step is sized for **one** `implement` session. Hand off with `use skill implement`.
+A complete **PLAN** (agent `.md` artifact) in **Brazilian Portuguese (pt-BR)** at the resolved path (`PLAN/PLAN_NNN_*.md` or global). Same `NNN` as the PRD. English only if the user overrides in this invocation. Each step fits **one** `implement` session.
 
-The PLAN is **how** (ordered baby steps); the PRD is **what**. Include steps, dependencies, files, acceptance, progress for `implement`. Exclude code, clones, trackers, commits, or CI runs. PRD path is mandatory.
+The PLAN is **how** (ordered baby steps); the PRD is **what**. File paths and test names in **English**; no implementation code blocks.
 
 ## Lazy-load (only when needed)
 
-| When | Path (after `scripts/sync-cursor.ps1`) |
-|------|----------------------------------------|
-| .NET structure / layering for steps | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
-| Test naming and stack (xUnit, Moq, `Should_<Result>_When_<Condition>`) | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
-| Context pressure while writing PLAN | `~/.cursor/rules/context-management.mdc` |
-
-Do **not** preload entire `code-guidelines/` or `dotnet-guidelines/` trees.
+| When | Path (after sync) |
+|------|-------------------|
+| SDD artifact language | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
+| Storage, manifest, `.gitignore` | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
+| .NET layering | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
+| Tests naming | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
+| Context pressure | `~/.cursor/rules/context-management.mdc` |
 
 ## Process
 
 ### 0. Workspace context
 
-1. Confirm you are in the **target repository** (the project in the PRD), not `cursor-dev-toolkit` unless that is the subject.
-2. Read `AGENTS.md` or `README.md` at the repo root if present.
-3. If the user did not pass a PRD path, ask for it and stop until provided.
+1. Confirm target repository (per PRD).
+2. Read `AGENTS.md` or `README.md` if present.
+3. If no PRD path, ask and stop.
 
 ### 1. Load and validate PRD
 
-1. Read the PRD file (e.g. `PRD/NNN_feature.md` or `docs/PRD/...`).
-2. **Status** must be **Ready for planning** (or equivalent approved state). If **Draft**, warn and wait for explicit confirmation.
-3. Extract: objectives, acceptance criteria, functional/non-functional requirements, impacts, complexity, repository name, stack.
-4. Present a short summary and ask to proceed.
+Read PRD (repo or global). Status **Pronto para planejamento** / **Ready for planning**. Summarize and ask to proceed.
 
 ### 2. Branch and exploration
 
-Ask baseline branch (`main`, `develop`, etc.). Explore with **Glob**, **Grep**, **Read** in the **open workspace** only — no clone-from-spec paths or external code APIs. Map modules, types, APIs, migrations, tests; load dotnet-guidelines only for .NET (see table). Summarize files and patterns.
+Explore open workspace with Glob/Grep/Read. Summarize files and patterns.
 
 ### 3. Technical questions (max 10)
 
-Clarify only gaps: naming, migrations, contracts, validation, tests. Do not assume missing details.
+Clarify gaps only.
 
 ### 4. Baby steps
 
-Break work into steps that each fit **one** `implement` session (~20–45 minutes of focused work).
+Size each step for one `implement` session (~20–45 min). Split if 4+ new files, migration+mapping together, etc.
 
-| Signal | Action |
-|--------|--------|
-| 4+ new files in one step | Split into two steps |
-| Handler + consumer + tests together | Separate by responsibility |
-| Migration + EF mapping in one step | Split migration and mapping |
-| Step reads many large files | Split by file or layer |
-
-Prefer more small steps over fewer large ones. Each step must list: objective, files, tasks, tests, acceptance checkboxes, dependencies, estimate.
-
-Optional final step: update project `docs/` when behavior or contracts change (skip for pure refactors with no contract change).
+Optional final step: update project `docs/` — if included, note that **implement** must **ask** doc language (pt-BR vs English) before writing.
 
 ### 5. Context checkpoint
 
-Follow `~/.cursor/rules/context-management.mdc`. If usage is at or above 40% after drafting steps, save PLAN to disk and warn before validation dialogue.
+Follow `context-management.mdc`. Save PLAN draft if ≥ 40% before validation dialogue.
+
+### 5.5 Choose PLAN storage
+
+Load `STORAGE.md`. If PRD path is under `~/.cursor/sdd/`, use global PLAN. Else read manifest or ask storage. Update manifest (`artifact_language`, folders).
 
 ### 6. Write PLAN
 
-1. Folder: `PLAN/` at repo root (create if missing).
-2. Filename: `PLAN_NNN_short_feature_slug.md` — `NNN` matches PRD sequence; slug = kebab-case English.
-3. If a PLAN for the same PRD exists, warn about overwrite; wait for confirmation before replacing completed steps.
-4. Body: full template in `reference.md` (repo: `skills/plan/reference.md`; installed: `~/.cursor/skills/plan/reference.md`).
-5. Set overall status **Not started**; progress `0/N`.
-6. Link PRD path in the PLAN header.
+1. Apply `sdd-artifact-language-pt-br.mdc` (pt-BR unless override in invocation).
+2. Folder from manifest; **repository mode:** `.gitignore` per `STORAGE.md`.
+3. `PLAN_NNN_short_feature_slug.md`; **PRD** header = full PRD path.
+4. Body: `reference.md` template (pt-BR). Status **Pendente** on steps; progress `0/N`.
+5. Overwrite warning if PLAN exists with completed steps.
 
-Report: full path, step count, total estimate, risks, dense steps flagged for context.
+Report: full path, storage, artifact language, step count, estimates, risks.
 
 ### 7. Validate with user
 
-Present step list, dependencies, and risks. Adjust if the user requests changes. Confirm understanding of the first step.
+Present steps, dependencies, risks. Confirm first step.
 
 ## Must not
 
-- Clone repositories “because spec did” — use the open workspace only
-- ADO, MCP work items, `repo-mappings.json`, or corporate pipeline docs
-- Implement code, create branches, commit, or run full test suites (those belong to **implement**)
-- Use deprecated skill aliases in handoff text (use `plan` and `implement` only)
-- Paste full guideline bodies into the PLAN
+- Write PLAN body in English by default
+- Embed implementation code in the PLAN
+- Write product `docs/` without language question in the step/handoff
+- Implement code, commit, or run full test suites here
 
 ## Handoff
 
 ```
-use skill implement — PLAN/PLAN_NNN_feature_slug.md — Step 1
+use skill implement — <full-plan-path> — Step 1
 ```
 
-One chat session = one PLAN step; start a new session for the next step.
+One chat session = one PLAN step.

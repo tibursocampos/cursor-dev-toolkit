@@ -6,8 +6,10 @@ Lean router for agents when this toolkit is installed under `~/.cursor/`. Pointe
 
 | Context | Rule |
 |---------|------|
-| Source code, tests, commits, PRD/PLAN bodies | English identifiers and prose |
-| User-facing chat replies | Brazilian Portuguese (pt-BR) — see `user-language-pt-br.mdc` |
+| SDD agent artifacts (`PRD/*.md`, `PLAN/PLAN_*.md`, global `~/.cursor/sdd/...`) | Brazilian Portuguese (pt-BR) — `sdd-artifact-language-pt-br.mdc`; English only if user requests in skill invocation |
+| Source code, tests, commits, identifiers in artifacts | English always |
+| Project docs (`docs/`, README deliverables) | Ask pt-BR or English in skill before writing |
+| User-facing chat replies | Brazilian Portuguese (pt-BR) — `user-language-pt-br.mdc` |
 
 ## Workflows
 
@@ -21,9 +23,9 @@ spec → plan → implement (one PLAN step per session)
 
 | Skill | Invoke | Typical output |
 |-------|--------|----------------|
-| spec | "use skill spec" | `PRD/` or `docs/PRD/` |
-| plan | "use skill plan" | `PLAN/PLAN_XXX.md` |
-| implement | "use skill implement" | Code + PLAN step checkbox |
+| spec | "use skill spec" | `PRD/` or `docs/PRD/` **or** `~/.cursor/sdd/<repo-id>/PRD/` |
+| plan | "use skill plan" | `PLAN/PLAN_XXX.md` **or** `~/.cursor/sdd/<repo-id>/PLAN/` |
+| implement | "use skill implement" | Code + PLAN step checkbox (same path as handoff) |
 
 **Checkpoint:** one `implement` session = one PLAN step. Start a new session for the next step.
 
@@ -46,6 +48,7 @@ After `scripts/sync-cursor.ps1`, rules live as `.mdc` under `~/.cursor/rules/`:
 | Every git commit | `~/.cursor/rules/conventional-commits.mdc` |
 | Before commit/push (branch name) | `~/.cursor/rules/branch-validation.mdc` |
 | Multi-step skills / context pressure | `~/.cursor/rules/context-management.mdc` |
+| SDD agent PRD/PLAN `.md` language | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
 | User-facing reply language | `~/.cursor/rules/user-language-pt-br.mdc` |
 
 Rules override conflicting inline text in skills.

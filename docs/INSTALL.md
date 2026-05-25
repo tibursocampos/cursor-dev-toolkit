@@ -86,10 +86,17 @@ Open **any codebase** in Cursor (not necessarily this toolkit repo). In chat:
 
 | Step | You say | Agent produces |
 |------|---------|----------------|
-| 1 | `use skill spec` + describe the feature | `PRD/NNN_feature_slug.md` (or `docs/PRD/`) |
-| 2 | `use skill plan` + point to the PRD | `PLAN/PLAN_NNN_feature_slug.md` |
-| 3 | `use skill implement — PLAN/PLAN_NNN_feature_slug.md — Step 1` | Code + tests for **one** PLAN step only |
-| 4 | New chat for each next step | `use skill implement — PLAN/... — Step 2`, etc. |
+| 1 | `use skill spec` + describe the feature | PRD in repo (`PRD/` or `docs/PRD/`) **or** global (`~/.cursor/sdd/<repo-id>/PRD/`) |
+| 2 | `use skill plan` + point to the PRD (full path) | PLAN in repo (`PLAN/`) **or** global (`~/.cursor/sdd/<repo-id>/PLAN/`) |
+| 3 | `use skill implement — <full-plan-path> — Step 1` | Code + tests for **one** PLAN step only |
+| 4 | New chat for each next step | `use skill implement — <full-plan-path> — Step 2`, etc. |
+
+Before the first write, the agent asks where to store PRD/PLAN:
+
+1. **Repository** — `PRD/` and `PLAN/` at project root; missing entries are appended to `.gitignore`.
+2. **Global** — outside the project git tree under `~/.cursor/sdd/<repo-id>/` (use when the repo cannot contain or ignore SDD folders).
+
+Details: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (synced with the toolkit).
 
 **Rules:**
 
@@ -121,6 +128,7 @@ Branch rules: `feature/<slug>` or `feat/<id>` only — not `main` / `master` / `
 | Rule file | Effect |
 |-----------|--------|
 | `user-language-pt-br.mdc` | Agent replies in **Brazilian Portuguese** in chat |
+| `sdd-artifact-language-pt-br.mdc` | PRD/PLAN agent `.md` in **pt-BR** by default; **code always English**; ask language for project `docs/` |
 | `conventional-commits.mdc` | Commit message format |
 | `branch-validation.mdc` | Branch name before commit/push |
 | `context-management.mdc` | Multi-step session / compaction checkpoints |
@@ -146,7 +154,8 @@ Hooks track SDD skill usage and remind you before context compaction. They do **
 | Rules ignored | Confirm `~/.cursor/rules/*.mdc` exist; restart Cursor |
 | `ExecutionPolicy` blocks script | Use `-ExecutionPolicy Bypass` as in examples above |
 | Hooks not firing | Check `~/.cursor/hooks.json` has **array** entries per event; restart Cursor |
-| Agent replies in English | Ensure `user-language-pt-br.mdc` is installed; rule overrides conditional AGENTS wording |
+| Agent replies in English | Ensure `user-language-pt-br.mdc` is installed |
+| PRD/PLAN saved in English unexpectedly | Ensure `sdd-artifact-language-pt-br.mdc` is installed; new chat after sync; override only with `em inglês` in invocation |
 | Sync always says "up to date" but files old | Run without `-DryRun`; delete target file and sync again if needed |
 
 ---

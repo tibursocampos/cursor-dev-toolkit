@@ -2,11 +2,13 @@
 
 Detailed protocols for `skills/implement/SKILL.md`. Keep `SKILL.md` under 150 lines; use this file for templates and checklists.
 
+PLAN may live in the workspace or globally (`~/.cursor/sdd/<repo-id>/PLAN/`). Update the same file path passed in the handoff. **Code** in the repo stays **English**. **PLAN prose** stays in the file's language (pt-BR default). See `sdd-artifact-language-pt-br.mdc` and `STORAGE.md`.
+
 ---
 
 ## PLAN update protocol
 
-After the step’s code and targeted tests pass, edit the PLAN file in place.
+After the step’s code and targeted tests pass, edit the PLAN file in place (repo or global path).
 
 ### 1. Step block
 
@@ -149,7 +151,7 @@ Use after PLAN is saved:
 ```markdown
 ## Step N complete
 
-**PLAN:** PLAN/PLAN_NNN_feature_slug.md
+**PLAN:** <full-plan-path>
 **Step:** N — [title]
 **Branch:** feature/... or feat/...
 **Files:** [list]
@@ -157,7 +159,7 @@ Use after PLAN is saved:
 **Progress:** N/M (X%)
 
 **Next (new chat):**
-use skill implement — PLAN/PLAN_NNN_feature_slug.md — Step N+1
+use skill implement — <full-plan-path> — Step N+1
 ```
 
 ---

@@ -16,7 +16,7 @@ format-validators
 ## spec
 
 **Validator:** `feature-validator.md`  
-**When:** After PRD draft, before `Write` to `PRD/` or `docs/PRD/`
+**When:** After PRD draft, before `Write` to resolved PRD folder (repo or `~/.cursor/sdd/<repo-id>/PRD/`). Storage: `sdd-artifacts/STORAGE.md`. Language: pt-BR default (`sdd-artifact-language-pt-br.mdc`); validate EN variant if user overrides.
 
 | Context | Level | Behavior |
 |---------|-------|----------|

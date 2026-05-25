@@ -28,7 +28,8 @@ cursor-dev-toolkit/
 │   ├── conventional-commits.md
 │   ├── branch-validation.md
 │   ├── context-management.md
-│   └── user-language-pt-br.md
+│   ├── user-language-pt-br.md
+│   └── sdd-artifact-language-pt-br.md
 ├── hooks/                             # → ~/.cursor/hooks/ + merge hooks.json
 │   ├── hooks.json
 │   ├── context-before-prompt.ps1
@@ -45,6 +46,8 @@ cursor-dev-toolkit/
     ├── commit/
     ├── dotnet-developer/
     └── _shared/
+        ├── sdd-artifacts/
+        │   └── STORAGE.md              # PRD/PLAN repo vs ~/.cursor/sdd/
         ├── dotnet-guidelines/
         ├── developer-common/
         ├── code-guidelines/
@@ -57,9 +60,9 @@ cursor-dev-toolkit/
 
 | Skill | Installed path | Typical output |
 |-------|----------------|----------------|
-| `spec` | `~/.cursor/skills/spec/` | `PRD/` or `docs/PRD/` |
-| `plan` | `~/.cursor/skills/plan/` | `PLAN/PLAN_XXX.md` |
-| `implement` | `~/.cursor/skills/implement/` | Code + PLAN step checkbox |
+| `spec` | `~/.cursor/skills/spec/` | `PRD/` or `docs/PRD/` or `~/.cursor/sdd/<repo-id>/PRD/` |
+| `plan` | `~/.cursor/skills/plan/` | `PLAN/PLAN_XXX.md` or global PLAN under `~/.cursor/sdd/` |
+| `implement` | `~/.cursor/skills/implement/` | Code + PLAN step checkbox (handoff path) |
 | `code-review` | `~/.cursor/skills/code-review/` | Structured review report |
 | `commit` | `~/.cursor/skills/commit/` | Conventional commit + optional push |
 | `dotnet-developer` | `~/.cursor/skills/dotnet-developer/` | Small .NET changes without full SDD |
@@ -78,7 +81,7 @@ Preview: add `-DryRun`. Re-run after pulling toolkit updates (idempotent).
 
 ## Checklist: new skill or rule
 
-1. **English** — skill names kebab-case; guidelines and SKILL bodies in English.
+1. **English** — skill names kebab-case; SKILL.md and shared guidelines in English. **SDD agent PRD/PLAN `.md`** default pt-BR (`sdd-artifact-language-pt-br.md`). **Code** always English.
 2. **Split large skills** — `SKILL.md` ≤ **150 lines**; overflow in `reference.md`.
 3. **Lazy-load** — router (`AGENTS.md`) lists paths only; do not paste full guideline bodies.
 4. **Line count** — from repo root:

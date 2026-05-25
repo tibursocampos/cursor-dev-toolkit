@@ -1,210 +1,224 @@
 # PLAN template (plan skill)
 
-Use this template when writing `PLAN/PLAN_NNN_feature_slug.md`. All section titles and body text must be **English**. Replace bracketed placeholders.
+Use this template when writing the PLAN at the resolved path (repository or global). **Default:** section titles and body in **Brazilian Portuguese (pt-BR)**. English only on explicit skill invocation override — see `sdd-artifact-language-pt-br.mdc`.
+
+**File paths** and **test names** in English. No implementation code blocks in the PLAN.
+
+Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`.
 
 ## Filename and numbering
 
 | Part | Rule |
 |------|------|
-| Folder | `PLAN/` at repository root |
+| Folder | From manifest: `PLAN/` at repo root or `~/.cursor/sdd/<repo-id>/PLAN/` |
 | Sequence | Same `NNN` (3 digits) as the source PRD |
-| Slug | Short kebab-case English summary |
-| Example | `PLAN/002_user_profile_export.md` |
-| PRD link | `PRD/002_user_profile_export.md` or `docs/PRD/...` |
+| Slug | Short ASCII summary (kebab-case or snake_case; Portuguese allowed) |
+| Example (repo) | `PLAN/PLAN_002_exportacao_perfil_usuario.md` |
+| Example (global) | `~/.cursor/sdd/acme-payments-api/PLAN/PLAN_002_exportacao_perfil_usuario.md` |
+| PRD link | Full path to PRD on disk (repo or global) |
+
+## Storage and `.gitignore` (plan skill)
+
+If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md`. Update manifest (`artifact_language`, folders).
+
+## Product documentation language
+
+If a step updates **project** `docs/` or README, the **plan** or **implement** skill must **ask** pt-BR vs English before writing that deliverable.
 
 ---
 
-## Document template
+## Document template (pt-BR — default)
 
-Copy from the heading below through **Final checklist**, then remove instructional comments in brackets.
+Copy from the heading below through **Checklist final**, then remove bracketed instructions.
 
 ```markdown
-# PLAN: [Feature name]
+# PLAN: [Nome da feature]
 
-| Field | Value |
+| Campo | Valor |
 |-------|--------|
-| **PRD** | PRD/NNN_feature_slug.md |
-| **Repository** | [name from PRD / git root] |
-| **Stack** | [.NET / Angular / other] |
-| **Complexity** | Low / Medium / High |
-| **Total steps** | N (MVP) + M optional |
-| **Progress** | 0/N |
+| **PRD** | [caminho completo do PRD] |
+| **Repositório** | [nome do PRD / raiz git] |
+| **Stack** | [.NET / Angular / outro] |
+| **Complexidade** | Baixa / Média / Alta |
+| **Total de passos** | N (MVP) + M opcionais |
+| **Progresso** | 0/N |
 
 ```
 [⚪⚪⚪⚪⚪⚪⚪⚪] 0% (0/N)
 ```
 
-## Objectives
+## Objetivos
 
-- [ ] O1: [Measurable outcome tied to PRD]
-- [ ] O2: [Measurable outcome]
-- [ ] O3: [Optional]
+- [ ] O1: [Resultado mensurável ligado ao PRD]
+- [ ] O2: [Resultado mensurável]
+- [ ] O3: [Opcional]
 
-## Target tree (deliverables)
+## Árvore alvo (entregáveis)
 
-[List main files or modules to create or change — paths only, no code.]
+[Listar arquivos ou módulos principais — só caminhos, sem código.]
 
 ```
 [repo-root]/
-├── [paths from exploration]
+├── [caminhos da exploração]
 └── [tests]
 ```
 
-## Validation strategy
+## Estratégia de validação
 
-- [ ] [How this feature will be verified — unit, integration, manual]
+- [ ] [Como a feature será verificada — unitário, integração, manual]
 - [ ] .NET: xUnit, Moq, FluentAssertions; `Should_<Result>_When_<Condition>`
-- [ ] Build passes locally / CI
+- [ ] Build passa local / CI
 
 ---
 
-## Implementation steps
+## Passos de implementação
 
-### ⏳ STEP 1: [Short title]
+### ⏳ PASSO 1: [Título curto]
 
-**Status:** Pending | **Completed:** - | **Deps:** none | **Token budget:** ~[k] | **Time:** [min]
+**Status:** Pendente | **Concluído:** - | **Deps:** nenhuma | **Orçamento de tokens:** ~[k] | **Tempo:** [min]
 
-**Deliverables:**
+**Entregáveis:**
 
-- [ ] [Concrete artifact 1]
-- [ ] [Concrete artifact 2]
+- [ ] [Artefato concreto 1]
+- [ ] [Artefato concreto 2]
 
-**Files:**
+**Arquivos:**
 
-- `path/to/file.cs` (new or modify)
+- `path/to/File.cs` (novo ou alterar)
 
-**Tasks:**
+**Tarefas:**
 
-1. [Action]
-2. [Action]
+1. [Ação]
+2. [Ação]
 
-**Tests:**
+**Testes:**
 
 - [ ] `Should_<Result>_When_<Condition>`
-- [ ] [Additional scenario]
+- [ ] [Cenário adicional]
 
-**Acceptance:**
+**Aceite:**
 
-- [ ] [Criterion from PRD AC]
-- [ ] Build and targeted tests pass
+- [ ] [Critério do CA do PRD]
+- [ ] Build e testes direcionados passam
 
-**Notes:** [Risks, dense-step warning if 4+ files]
-
----
-
-### ⏳ STEP 2: [Short title]
-
-**Status:** Pending | **Completed:** - | **Deps:** 1 | **Token budget:** ~[k] | **Time:** [min]
-
-[Repeat STEP block structure for each baby step.]
+**Notas:** [Riscos; aviso se passo denso com 4+ arquivos]
 
 ---
 
-## Execution order
+### ⏳ PASSO 2: [Título curto]
 
-**Critical path:** 1 → 2 → … → N
+**Status:** Pendente | **Concluído:** - | **Deps:** 1 | **Orçamento de tokens:** ~[k] | **Tempo:** [min]
 
-**Next step:** STEP 1 — [title]
+[Repetir estrutura do bloco PASSO para cada baby step.]
 
 ---
 
-## Component map
+## Ordem de execução
 
-| Layer / area | Paths |
-|--------------|-------|
+**Caminho crítico:** 1 → 2 → … → N
+
+**Próximo passo:** PASSO 1 — [título]
+
+---
+
+## Mapa de componentes
+
+| Camada / área | Caminhos |
+|---------------|----------|
 | Domain | [paths] |
 | Application | [paths] |
 | Infrastructure | [paths] |
 | API / UI | [paths] |
 | Tests | [paths] |
 
-## Test strategy
+## Estratégia de testes
 
-### Unit
+### Unitários
 
-- [ ] [Scenario]
+- [ ] [Cenário]
 
-### Integration
+### Integração
 
-- [ ] [Scenario]
+- [ ] [Cenário]
 
-### Manual (if needed)
+### Manual (se necessário)
 
-- [ ] [Scenario]
+- [ ] [Cenário]
 
-## Technical decisions
+## Decisões técnicas
 
-| Topic | Decision | Rationale |
-|-------|----------|-----------|
-| [e.g. property name] | [choice] | [why] |
+| Tópico | Decisão | Justificativa |
+|--------|---------|---------------|
+| [ex.: nome da propriedade] | [escolha] | [por quê] |
 
-## Risks and mitigations
+## Riscos e mitigações
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| [Risk 1] | Low/Med/High | [Action] |
+| Risco | Impacto | Mitigação |
+|-------|---------|-----------|
+| [Risco 1] | Baixo/Médio/Alto | [Ação] |
 
-## References
+## Referências
 
-- PRD: `PRD/NNN_feature_slug.md`
-- Project docs: `docs/...`
-- Guidelines (lazy-load after sync; do not paste bodies):
+- PRD: [caminho completo]
+- Docs do projeto: `docs/...`
+- Diretrizes (lazy-load; não colar corpos):
   - `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md`
   - `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md`
 
-## PLAN update protocol (for implement skill)
+## Protocolo de atualização do PLAN (skill implement)
 
-After each completed step, the **implement** skill updates this file:
+Após cada passo concluído, a skill **implement** atualiza este arquivo:
 
-1. Step status → **Completed** with date
-2. Progress bar and `Progress` field
-3. Objective checkboxes when satisfied
-4. **Next step** line points to the following STEP
+1. Status do passo → **Concluído** com data
+2. Barra de progresso e campo **Progresso**
+3. Checkboxes de objetivos quando atendidos
+4. Linha **Próximo passo** aponta para o PASSO seguinte
 
-Do not edit PLAN progress manually during implementation unless recovering from a failed session.
+Não editar progresso manualmente durante implementação, exceto recuperação de sessão falha.
 
-## Final checklist
+## Checklist final
 
-- [ ] All PRD acceptance criteria mapped to steps
-- [ ] Each step fits one implement session
-- [ ] Dependencies explicit; no circular deps
-- [ ] Test scenarios cover AC and edge cases
-- [ ] No implementation code embedded in PLAN
-- [ ] Handoff: `use skill implement — PLAN/PLAN_NNN_feature_slug.md — Step 1`
+- [ ] Todos os critérios de aceite do PRD mapeados em passos
+- [ ] Cada passo cabe em uma sessão implement
+- [ ] Dependências explícitas; sem ciclos
+- [ ] Cenários de teste cobrem CA e bordas
+- [ ] Sem código de implementação embutido no PLAN
+- [ ] Handoff: `use skill implement — <caminho-completo-do-plan> — Step 1`
 ```
 
 ---
 
 ## Status legend
 
-| Marker | Meaning |
-|--------|---------|
-| ⏳ STEP N | Pending |
-| 🔄 STEP N | In progress (implement session active) |
-| ✅ STEP N | Completed |
-| ❌ STEP N | Blocked |
+| Marcador | Significado |
+|----------|-------------|
+| ⏳ PASSO N | Pendente |
+| 🔄 PASSO N | Em progresso (sessão implement ativa) |
+| ✅ PASSO N | Concluído |
+| ❌ PASSO N | Bloqueado |
 
-Use **Pending** / **Completed** / **Blocked** in the `**Status:**` line; emoji in the step heading is optional for scanability.
+Use **Pendente** / **Concluído** / **Bloqueado** na linha `**Status:**`; emoji no título é opcional.
+
+**Implement skill:** step headings may use `STEP` or `PASSO`; match the PLAN file when updating.
 
 ---
 
 ## Baby-step sizing checklist
 
-Before finalizing the PLAN:
-
-- [ ] No step targets 4+ new files without a split
-- [ ] Migration and EF mapping are separate when both apply
-- [ ] Handler, consumer, and tests are not all in one step unless trivial
-- [ ] Dense steps include a context warning for implement
-- [ ] Optional docs-update step only if contracts or user-visible behavior change
+- [ ] Nenhum passo com 4+ arquivos novos sem dividir
+- [ ] Migração e mapeamento EF separados quando ambos aplicam
+- [ ] Handler, consumer e testes não no mesmo passo salvo trivial
+- [ ] Passos densos com aviso de contexto para implement
+- [ ] Passo opcional de docs só se contrato ou comportamento visível mudar — **perguntar idioma da doc do sistema**
 
 ---
 
 ## Quality checklist (before handoff)
 
-- [ ] PRD path and sequence match PLAN filename
-- [ ] Every PRD acceptance criterion appears in at least one step
-- [ ] Steps are English; no code blocks with full implementations
-- [ ] Output path is `PLAN/PLAN_NNN_*.md` (not `PLANO_*` or repo root)
-- [ ] Handoff uses `use skill implement`, not deprecated aliases
-- [ ] Progress block shows `0/N` initially
+- [ ] Caminho do PRD e sequência batem com o nome do PLAN
+- [ ] Todo critério de aceite do PRD aparece em algum passo
+- [ ] Passos em pt-BR (salvo override inglês)
+- [ ] Sem blocos de implementação completa
+- [ ] Caminho de saída: `PLAN/PLAN_NNN_*.md` ou global (não `PLANO_*` na raiz do repo)
+- [ ] Handoff com `use skill implement`
+- [ ] Progresso inicial `0/N`

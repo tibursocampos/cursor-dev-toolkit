@@ -1,227 +1,248 @@
 # PRD template (spec skill)
 
-Use this template when writing `PRD/NNN_feature_slug.md` or `docs/PRD/NNN_feature_slug.md`. All section titles and body text must be **English**. Replace bracketed placeholders.
+Use this template when writing the PRD at the resolved path (repository or global). **Default:** all section titles and body text in **Brazilian Portuguese (pt-BR)**. English only if the user overrides in the skill invocation — see `sdd-artifact-language-pt-br.mdc`.
+
+**Identifiers** (types, methods, APIs, paths, test names) stay in **English**. No implementation code in the PRD.
+
+Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (repo: `skills/_shared/sdd-artifacts/STORAGE.md`).
 
 ## Filename and numbering
 
 | Part | Rule |
 |------|------|
-| Folder | `PRD/` preferred; `docs/PRD/` if the repo uses that layout |
-| Sequence | Next `NNN` (3 digits) after listing existing `PRD/*.md` and `docs/PRD/*.md` |
-| Slug | Short kebab-case English summary |
-| Example | `PRD/002_user_profile_export.md` |
+| Folder | From manifest: `PRD/`, `docs/PRD/`, or `~/.cursor/sdd/<repo-id>/PRD/` |
+| Sequence | Next `NNN` (3 digits) after listing PRDs in workspace **and** global folder for `<repo-id>` |
+| Slug | Short ASCII summary (kebab-case or snake_case; Portuguese words allowed) |
+| Example (repo) | `PRD/002_exportacao_perfil_usuario.md` |
+| Example (global) | `~/.cursor/sdd/acme-payments-api/PRD/002_exportacao_perfil_usuario.md` |
+
+## Storage and `.gitignore` (spec skill)
+
+Before `Write` in **repository** mode, follow `STORAGE.md`. **Global** mode: no `.gitignore` changes.
+
+After choosing storage, write `~/.cursor/sdd/<repo-id>/manifest.json` with `artifact_language`: `pt-BR` (default) or `en` (override).
+
+## Product documentation language
+
+If the PRD scope includes creating or updating **project** docs under `docs/` or README, **ask** the user pt-BR vs English before writing that documentation (separate from PRD artifact language).
 
 ---
 
-## Document template
+## Document template (pt-BR — default)
 
-Copy from the heading below through **Change history**, then remove instructional comments in brackets.
+Copy from the heading below through **Histórico de alterações**, then remove instructional comments in brackets.
 
 ```markdown
-# PRD: [Feature name]
+# PRD: [Nome da feature]
 
-| Field | Value |
+| Campo | Valor |
 |-------|--------|
-| **Sequence** | NNN |
-| **Tracking** | [GitHub issue / slug / TBD] |
-| **Version** | 1 |
-| **Date** | YYYY-MM-DD |
-| **Status** | Ready for planning |
-| **Priority** | High / Medium / Low |
-| **Complexity** | Low / Medium / High |
-| **Repository** | [name from git root] |
-| **Stack** | [.NET / Angular / other] |
+| **Sequência** | NNN |
+| **Rastreamento** | [issue GitHub / slug / TBD] |
+| **Versão** | 1 |
+| **Data** | AAAA-MM-DD |
+| **Status** | Pronto para planejamento |
+| **Prioridade** | Alta / Média / Baixa |
+| **Complexidade** | Baixa / Média / Alta |
+| **Repositório** | [nome na raiz do git] |
+| **Stack** | [.NET / Angular / outro] |
 
-## 1. Overview
+## 1. Visão geral
 
-### 1.1 Context
+### 1.1 Contexto
 
-[Why is this needed? Current situation and problem.]
+[Por que é necessário? Situação atual e problema.]
 
-### 1.2 Objective
+### 1.2 Objetivo
 
-[Desired outcome after implementation.]
+[Resultado desejado após a implementação.]
 
-## 2. Acceptance criteria
+## 2. Critérios de aceite
 
-Use BDD: **Given** / **When** / **Then** / **And**.
+Use BDD: **Dado** / **Quando** / **Então** / **E**.
 
-### AC1 — [Descriptive name]
+### CA1 — [Nome descritivo]
 
-**Given** [initial context]
-**When** [action]
-**Then** [expected result]
-**And** [optional extra condition]
+**Dado** [contexto inicial]
+**Quando** [ação]
+**Então** [resultado esperado]
+**E** [condição extra opcional]
 
-### AC2 — [Descriptive name]
+### CA2 — [Nome descritivo]
 
-**Given** [initial context]
-**When** [action]
-**Then** [expected result]
+**Dado** [contexto inicial]
+**Quando** [ação]
+**Então** [resultado esperado]
 
-## 3. Technical scope (high level)
+## 3. Escopo técnico (alto nível)
 
-### 3.1 Components to modify
+### 3.1 Componentes a modificar
 
-[List modules, services, or areas — no code.]
+[Listar módulos, serviços ou áreas — sem código.]
 
-### 3.2 New components
+### 3.2 Novos componentes
 
-[List new modules, endpoints, or artifacts — no code.]
+[Listar módulos, endpoints ou artefatos — sem código.]
 
-### 3.3 Reuse without change
+### 3.3 Reuso sem alteração
 
-[Existing pieces reused as-is.]
+[Peças existentes reutilizadas como estão.]
 
-### 3.4 Data flow
+### 3.4 Fluxo de dados
 
-[Textual flow or diagram description between components.]
+[Fluxo textual ou descrição de diagrama entre componentes.]
 
-## 4. Technical specifications
+## 4. Especificações técnicas
 
-Describe responsibilities and contracts **without** code samples.
+Descrever responsabilidades e contratos **sem** exemplos de código.
 
-### 4.1 Domain / entities
+### 4.1 Domínio / entidades
 
-[Fields, types, constraints at business level.]
+[Campos, tipos, restrições no nível de negócio.]
 
 ### 4.2 DTOs / commands / queries
 
-[Inputs and outputs — names optional, shapes required.]
+[Entradas e saídas — nomes opcionais, formatos obrigatórios.]
 
-### 4.3 Handlers / services
+### 4.3 Handlers / serviços
 
-[Business responsibilities.]
+[Responsabilidades de negócio.]
 
-### 4.4 Data access
+### 4.4 Acesso a dados
 
-[Operations needed — read/write patterns.]
+[Operações necessárias — padrões leitura/escrita.]
 
-### 4.5 Events / messaging
+### 4.5 Eventos / mensageria
 
-[Published or consumed payloads, if any.]
+[Payloads publicados ou consumidos, se houver.]
 
-### 4.6 Validations
+### 4.6 Validações
 
-[Rules and error expectations.]
+[Regras e expectativas de erro.]
 
-## 5. Business rules
+## 5. Regras de negócio
 
-- **BR01**: [Rule]
-- **BR02**: [Rule]
+- **RN01**: [Regra]
+- **RN02**: [Regra]
 
-## 6. Functional requirements
+## 6. Requisitos funcionais
 
-- **FR01**: [Requirement]
-- **FR02**: [Requirement]
+- **RF01**: [Requisito]
+- **RF02**: [Requisito]
 
-## 7. Non-functional requirements
+## 7. Requisitos não funcionais
 
-- **NFR01**: [Performance, security, observability, etc.]
-- **NFR02**: [Requirement]
+- **RNF01**: [Performance, segurança, observabilidade, etc.]
+- **RNF02**: [Requisito]
 
-## 8. Database migrations (if applicable)
+## 8. Migrações de banco (se aplicável)
 
-**Migration required?** Yes / No
+**Migração necessária?** Sim / Não
 
-If yes: tables/columns affected, impact on existing data, reversibility.
+Se sim: tabelas/colunas afetadas, impacto em dados existentes, reversibilidade.
 
-## 9. Integrations (if applicable)
+## 9. Integrações (se aplicável)
 
-### 9.1 External systems
+### 9.1 Sistemas externos
 
-[List APIs, queues, third parties.]
+[Listar APIs, filas, terceiros.]
 
-### 9.2 Contract changes
+### 9.2 Mudanças de contrato
 
-[Payload or API changes; breaking change Yes/No with justification.]
+[Alterações de payload ou API; breaking change Sim/Não com justificativa.]
 
-## 10. Error handling
+## 10. Tratamento de erros
 
-### EH01 — [Scenario name]
+### TE01 — [Nome do cenário]
 
-- **Situation**: [When it occurs]
-- **Handling**: [Expected behavior]
-- **User/log message**: [Message intent]
+- **Situação**: [Quando ocorre]
+- **Tratamento**: [Comportamento esperado]
+- **Mensagem usuário/log**: [Intenção da mensagem]
 
-## 11. Use cases
+## 11. Casos de uso
 
-### UC01 — [Primary use case]
+### CU01 — [Caso de uso principal]
 
-**Actor:** [User / system / service]
+**Ator:** [Usuário / sistema / serviço]
 
-**Preconditions:**
+**Pré-condições:**
 
-- [Condition]
+- [Condição]
 
-**Main flow:**
+**Fluxo principal:**
 
-1. [Step]
-2. [Step]
-3. [Expected result]
+1. [Passo]
+2. [Passo]
+3. [Resultado esperado]
 
-**Alternate flows:**
+**Fluxos alternativos:**
 
-- **AF01**: [Exception or branch]
+- **FA01**: [Exceção ou ramo]
 
-## 12. Test scenarios
+## 12. Cenários de teste
 
-Mirror acceptance criteria; add edge and failure paths.
+Espelhar critérios de aceite; incluir borda e falha.
 
-### TS1 — [Happy path]
+### CT1 — [Caminho feliz]
 
-**Given** … **When** … **Then** …
+**Dado** … **Quando** … **Então** …
 
-### TS2 — [Validation / edge]
+### CT2 — [Validação / borda]
 
-**Given** … **When** … **Then** …
+**Dado** … **Quando** … **Então** …
 
-## 13. Definition of done
+## 13. Definição de pronto
 
-- [ ] Implementation matches this PRD
-- [ ] Unit/integration tests for new behavior
-- [ ] For .NET: tests use xUnit, Moq, FluentAssertions; names `Should_<Result>_When_<Condition>`
-- [ ] Migrations applied and verified (if applicable)
-- [ ] Code review completed
-- [ ] Build passes in CI/local
+- [ ] Implementação alinhada a este PRD
+- [ ] Testes unitários/integração para o novo comportamento
+- [ ] .NET: xUnit, Moq, FluentAssertions; nomes `Should_<Result>_When_<Condition>`
+- [ ] Migrações aplicadas e verificadas (se aplicável)
+- [ ] Code review concluído
+- [ ] Build passa local/CI
 
-**Angular (if applicable):** build, typecheck, and frontend tests pass.
+**Angular (se aplicável):** build, typecheck e testes de frontend passam.
 
-## 14. Next steps
+## 14. Próximos passos
 
-This PRD is ready for the **plan** skill:
+Este PRD está pronto para a skill **plan**:
 
 ```
-use skill plan — PRD/NNN_feature_slug.md
+use skill plan — <caminho-completo-do-prd>
 ```
 
-## 15. References
+## 15. Referências
 
-- [Project docs under `docs/`]
-- [Related PRDs]
-- [External links]
+- [Docs do projeto em `docs/`]
+- [PRDs relacionados]
+- [Links externos]
 
-Guidelines (lazy-load paths after sync, do not paste bodies here):
+Diretrizes (lazy-load após sync; não colar corpos aqui):
 
 - `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md`
 - `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md`
 
-## 16. Notes
+## 16. Notas
 
-**Risks:**
+**Riscos:**
 
-- [Risk]
+- [Risco]
 
-**Dependencies:**
+**Dependências:**
 
-- [Dependency]
+- [Dependência]
 
-## 17. Change history
+## 17. Histórico de alterações
 
-| Date | Version | Author | Description |
+| Data | Versão | Autor | Descrição |
 |------|---------|--------|-------------|
-| YYYY-MM-DD | 1 | [Name] | Initial version |
+| AAAA-MM-DD | 1 | [Nome] | Versão inicial |
 ```
+
+---
+
+## English override template
+
+Use only when the user requests English in the skill invocation. Same structure; section titles in English (`## 1. Overview`, **Given**/**When**/**Then**, status **Ready for planning**). Set manifest `artifact_language` to `en`.
 
 ---
 
@@ -230,6 +251,8 @@ Guidelines (lazy-load paths after sync, do not paste bodies here):
 - [ ] No implementation code in the PRD
 - [ ] Every acceptance criterion is testable
 - [ ] Complexity and risks documented
-- [ ] Output path is `PRD/` or `docs/PRD/` (not repo root)
-- [ ] Status is **Ready for planning**
-- [ ] Next step points to `use skill plan`
+- [ ] Body in pt-BR unless English override
+- [ ] Type/method/API names in English where cited
+- [ ] Output path correct (repo or global)
+- [ ] Status **Pronto para planejamento** (or **Ready for planning** if EN override)
+- [ ] Handoff: `use skill plan — <full-prd-path>`
