@@ -126,7 +126,7 @@ dotnet test --filter "FullyQualifiedName~MyFeatureTests"
 dotnet test path/to/TestProject.csproj
 ```
 
-**Migrations:** create with project’s usual EF workflow; do not assume an external `/add-migrations` skill unless the repo documents one.
+**Migrations:** when a PLAN step requires a new EF Core migration, hand off to `use skill add-migrations` (optional migration name in PascalCase). Resume the same PLAN step after migration files exist. Details: `~/.cursor/skills/add-migrations/reference.md` or `skills/add-migrations/reference.md` in this toolkit repo.
 
 ---
 

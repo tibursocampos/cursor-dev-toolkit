@@ -16,8 +16,6 @@ Deployed to `~/.cursor/` by `scripts/sync-cursor.ps1`. See [INSTALL.md](INSTALL.
 cursor-dev-toolkit/
 ├── AGENTS.md                          # Router (→ ~/.cursor/AGENTS.md)
 ├── README.md
-├── PRD/                               # Example SDD artifact (consumer repos use same layout)
-├── PLAN/
 ├── docs/
 │   ├── README.md
 │   ├── INSTALL.md
@@ -45,7 +43,15 @@ cursor-dev-toolkit/
     ├── code-review/                   # + reference.md
     ├── commit/
     ├── dotnet-developer/
+    ├── add-migrations/
+    ├── fix-build/
+    ├── plan-repo-docs/
+    ├── document-repo/
+    ├── refine-backlog-item/
+    ├── breakdown-tasks/
+    ├── create-message-consumer/
     └── _shared/
+        ├── backlog-item-types/         # bug, user-story, technical-story templates
         ├── sdd-artifacts/
         │   └── STORAGE.md              # PRD/PLAN repo vs ~/.cursor/sdd/
         ├── dotnet-guidelines/
@@ -66,8 +72,15 @@ cursor-dev-toolkit/
 | `code-review` | `~/.cursor/skills/code-review/` | Structured review report |
 | `commit` | `~/.cursor/skills/commit/` | Conventional commit + optional push |
 | `dotnet-developer` | `~/.cursor/skills/dotnet-developer/` | Small .NET changes without full SDD |
+| `add-migrations` | `~/.cursor/skills/add-migrations/` | EF Core migration in consumer .NET repo |
+| `fix-build` | `~/.cursor/skills/fix-build/` | Build/test diagnosis (Git-only; optional `gh`) |
+| `plan-repo-docs` | `~/.cursor/skills/plan-repo-docs/` | Documentation plan for consumer repo |
+| `document-repo` | `~/.cursor/skills/document-repo/` | One step of consumer doc plan |
+| `refine-backlog-item` | `~/.cursor/skills/refine-backlog-item/` | Local backlog markdown + scorecard |
+| `breakdown-tasks` | `~/.cursor/skills/breakdown-tasks/` | `docs/implementation-tasks/` checklist |
+| `create-message-consumer` | `~/.cursor/skills/create-message-consumer/` | Message consumer scaffold (bus-agnostic) |
 
-Shared assets live under `~/.cursor/skills/_shared/` (`dotnet-guidelines`, `developer-common`, `code-guidelines`, `format-validators`).
+Shared assets: `dotnet-guidelines`, `developer-common`, `code-guidelines`, `format-validators`, `backlog-item-types/` (for `refine-backlog-item` only).
 
 ## Deploy
 
@@ -99,12 +112,16 @@ Preview: add `-DryRun`. Re-run after pulling toolkit updates (idempotent).
 
 Do not add or document as built-in:
 
-- Work-item tracker APIs or MCP linking
-- Fixed corporate pipeline layouts
+- **Azure DevOps** (or similar) work-item REST/PATCH, PAT scripts, MCP `wit_*`, custom field names (`Custom.Standard_*`), mandatory `TechAI` tags
+- Skills from ai-prompts not ported: `setup`, `fix-pr-comments` (ADO-coupled), `fix-sonar-issues`, `cypress-developer`, `angular-upgrade`
+- Fixed corporate pipeline layouts or agent pool documentation
 - Mandatory third-party static-analysis fix workflows
 - Automatic model selection via hooks
+- Embedded consumer code templates copied from internal monorepos (skills discover patterns in the **target** repo)
 
-Consumer projects may use their own CI and trackers; skills stay **Git-only** unless the working repo documents otherwise.
+When porting from ai-prompts: grep gate — no `dev.azure.com`, internal org/product names, or ADO-specific guardrails in new skill bodies.
+
+Consumer projects may use their own CI and trackers; toolkit skills stay **Git-only** unless the working repo documents otherwise.
 
 ## Related docs
 
@@ -114,4 +131,4 @@ Consumer projects may use their own CI and trackers; skills stay **Git-only** un
 | [HOOKS.md](HOOKS.md) | Optional hooks |
 | [TOKEN_BUDGET.md](TOKEN_BUDGET.md) | Token discipline when extending content |
 | [../AGENTS.md](../AGENTS.md) | Agent router |
-| [../PLAN/PLAN_001_cursor_dev_toolkit.md](../PLAN/PLAN_001_cursor_dev_toolkit.md) | Example SDD plan (toolkit bootstrap) |
+| [../skills/_shared/sdd-artifacts/STORAGE.md](../skills/_shared/sdd-artifacts/STORAGE.md) | SDD PRD/PLAN storage (consumer repos; local/gitignored) |

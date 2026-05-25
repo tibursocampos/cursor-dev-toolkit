@@ -18,7 +18,9 @@ Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (repo: `skill
 
 ## Storage and `.gitignore` (spec skill)
 
-Before `Write` in **repository** mode, follow `STORAGE.md`. **Global** mode: no `.gitignore` changes.
+Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode — `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (append the full four-line SDD block if any is missing). Run this on first SDD write in a repo even when creating only `PRD/` or `docs/PRD/`.
+
+**Global** mode: no `.gitignore` changes.
 
 After choosing storage, write `~/.cursor/sdd/<repo-id>/manifest.json` with `artifact_language`: `pt-BR` (default) or `en` (override).
 

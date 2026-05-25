@@ -93,7 +93,7 @@ Open **any codebase** in Cursor (not necessarily this toolkit repo). In chat:
 
 Before the first write, the agent asks where to store PRD/PLAN:
 
-1. **Repository** — `PRD/` and `PLAN/` at project root; missing entries are appended to `.gitignore`.
+1. **Repository** — `PRD/` and `PLAN/` at project root (or `docs/PRD/` for PRD); `.gitignore` gets `/PRD/`, `/PLAN/`, `/docs/PRD/`, and `/docs/PLAN/` on first SDD write (`spec` / `plan` per `STORAGE.md`).
 2. **Global** — outside the project git tree under `~/.cursor/sdd/<repo-id>/` (use when the repo cannot contain or ignore SDD folders).
 
 Details: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (synced with the toolkit).
@@ -117,9 +117,44 @@ Describe the fix/refactor; agent loads `dotnet-guidelines` on demand.
 | Task | Invoke |
 |------|--------|
 | Conventional commit + push | `use skill commit` |
-| Review diff vs PRD/PLAN | `use skill code-review` (auto-discovers PRD/PLAN in repo or `~/.cursor/sdd/<repo-id>/` via manifest) |
+| Review diff vs PRD/PLAN | `use skill code-review` (discovers artifacts per `STORAGE.md` in repo or `~/.cursor/sdd/<repo-id>/`) |
 
 Branch rules: `feature/<slug>` or `feat/<id>` only — not `main` / `master` / `develop`.
+
+### 4.4 Operational skills (no work-item tracker)
+
+All run in the **open workspace** (the project you are building). None require Azure DevOps, Jira APIs, or PAT scripts.
+
+| Skill | Invoke | Use for |
+|-------|--------|---------|
+| `add-migrations` | `use skill add-migrations` | Add EF Core migration (Glob/Grep discovery) |
+| `fix-build` | `use skill fix-build` | Diagnose/fix `dotnet build` or test failures; optional `gh` for CI logs |
+| `plan-repo-docs` | `use skill plan-repo-docs` | Create `docs/documentation-plan/plan.md` + overview |
+| `document-repo` | `use skill document-repo` | Execute next pending step in the doc plan |
+| `refine-backlog-item` | `use skill refine-backlog-item` | Bug / User Story / Technical Story markdown + scorecard |
+| `breakdown-tasks` | `use skill breakdown-tasks` | Group steps → `docs/implementation-tasks/<slug>.md` |
+| `create-message-consumer` | `use skill create-message-consumer` | Scaffold consumer (MassTransit/RabbitMQ/etc. via Grep) |
+
+**Language:** skills that write product `docs/` in the target repo ask **pt-BR** or **English** before saving.
+
+**Suggested flows:**
+
+```
+use skill plan-repo-docs
+use skill document-repo
+```
+
+```
+use skill refine-backlog-item
+use skill breakdown-tasks
+use skill spec
+use skill plan
+```
+
+```
+use skill fix-build
+use skill commit
+```
 
 ---
 

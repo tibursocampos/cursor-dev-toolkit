@@ -12,6 +12,7 @@ Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md
 | **.NET guidelines** | `dotnet-guidelines` (Clean Architecture, xUnit, Moq, FluentAssertions) |
 | **Git-only flow** | Branching, commits, checklist — no Azure DevOps |
 | **Cursor-native** | Sync to `~/.cursor/` (skills, rules, hooks, router) |
+| **Operational skills** | EF migrations, fix-build, repo docs, backlog refine/breakdown, message-consumer scaffold (Git-only) |
 
 ## Quick start
 
@@ -44,8 +45,6 @@ Re-run sync after pulling toolkit updates (idempotent).
 cursor-dev-toolkit/
 ├── AGENTS.md
 ├── README.md
-├── PRD/                   # Example SDD artifact (this repo)
-├── PLAN/                  # Example SDD artifact (this repo)
 ├── docs/                  # INSTALL, HOOKS, MAINTAINER_GUIDE, TOKEN_BUDGET
 ├── rules/                 # → ~/.cursor/rules/*.mdc
 ├── hooks/                 # → ~/.cursor/hooks/ + merge hooks.json
@@ -57,7 +56,17 @@ cursor-dev-toolkit/
     ├── code-review/
     ├── commit/
     ├── dotnet-developer/
+    ├── add-migrations/
+    ├── fix-build/
+    ├── plan-repo-docs/
+    ├── document-repo/
+    ├── refine-backlog-item/
+    ├── breakdown-tasks/
+    ├── create-message-consumer/
     └── _shared/
+        ├── backlog-item-types/
+        ├── dotnet-guidelines/
+        └── …
 ```
 
 ## Skills (after sync)
@@ -70,6 +79,15 @@ cursor-dev-toolkit/
 | `code-review` | `use skill code-review` | Review diff or branch vs PRD/PLAN |
 | `commit` | `use skill commit` | Conventional commit and push |
 | `dotnet-developer` | `use skill dotnet-developer` | Small .NET work without full SDD |
+| `add-migrations` | `use skill add-migrations` | EF Core migration in the open repo |
+| `fix-build` | `use skill fix-build` | Fix build/test failures (local; optional `gh`) |
+| `plan-repo-docs` | `use skill plan-repo-docs` | Plan repo documentation (RAG-oriented) |
+| `document-repo` | `use skill document-repo` | Execute one doc plan step |
+| `refine-backlog-item` | `use skill refine-backlog-item` | Refine bug/story + quality scorecard |
+| `breakdown-tasks` | `use skill breakdown-tasks` | Implementation task checklist (local markdown) |
+| `create-message-consumer` | `use skill create-message-consumer` | Scaffold message consumer (scaffold) |
+
+Optional flows: repo docs (`plan-repo-docs` → `document-repo`); backlog (`refine-backlog-item` → `breakdown-tasks` → SDD). See [AGENTS.md](AGENTS.md).
 
 Details and shared assets: [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md).
 
