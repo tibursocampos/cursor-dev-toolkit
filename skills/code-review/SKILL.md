@@ -31,6 +31,7 @@ Ask the user **only after** step 0.5 if zero or multiple PRD/PLAN pairs remain a
 | Repo context | `~/.cursor/skills/_shared/developer-common/step-0-context.md` |
 | Before code analysis (.NET) | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md`, `csharp-patterns.md` |
 | Pre-PR gate (.NET) | `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md` |
+| .NET coverage report | `~/.cursor/skills/test-coverage/reference.md` (when PRD/user/PLAN requires coverage) |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/principles-cheatsheet.md` |
 | Final Git hygiene | `~/.cursor/skills/_shared/developer-common/step-7-checklist.md` |
 | Report template | `reference.md` (this skill) |
@@ -96,7 +97,10 @@ Use the checklists in `reference.md` — do not paste full guideline bodies into
 | Stack | Commands |
 |-------|----------|
 | .NET | `dotnet build`, `dotnet test` (scoped if large) |
+| .NET coverage | `use skill test-coverage` when PRD, PLAN, or user sets a coverage target (default threshold **80%** on changed production files) |
 | Node | `npm run build`, `npm test` per project scripts |
+
+For .NET with a coverage target: run `test-coverage` before final decision; paste the summary into the report § Testes (see `reference.md`). If `test-coverage` reports **Fail** (&lt; threshold), treat as **Changes required** unless the user documents an accepted exception.
 
 Record pass/fail in the report. Missing local run → note as limitation.
 
@@ -104,9 +108,9 @@ Record pass/fail in the report. Missing local run → note as limitation.
 
 | Decision | When |
 |----------|------|
-| **Approved** | PRD/PLAN met; no critical issues; tests/build green |
-| **Approved with reservations** | Minor gaps; no security/correctness blockers |
-| **Changes required** | Critical bugs/security; PRD gaps; build/test failures |
+| **Approved** | PRD/PLAN met; no critical issues; tests/build green; coverage ≥ threshold when target applies |
+| **Approved with reservations** | Minor gaps; no security/correctness blockers; coverage at or above threshold with documented gaps below 100% target |
+| **Changes required** | Critical bugs/security; PRD gaps; build/test failures; coverage &lt; threshold on changed files when target applies |
 
 ### 7. Write report
 
@@ -129,7 +133,7 @@ No MCP work-item linking or mandatory corporate PR templates.
 
 - Auto-merge, auto-approve, or rewrite code without user request
 - Work-item tracker APIs, external PR platform APIs, or obsolete guideline paths
-- Block on optional coverage targets unless the user or PRD sets them
+- Block on coverage only when no target applies — when PRD, PLAN, user, or a `test-coverage` report defines a threshold (default **80%** on changed production files), treat below threshold as **Changes required**
 - Paste entire guideline files into the review output
 - Claim no PRD/PLAN or skip step 0.5 / SDD traceability without searching all locations in `STORAGE.md`
 
@@ -137,6 +141,7 @@ No MCP work-item linking or mandatory corporate PR templates.
 
 | Situation | Next |
 |-----------|------|
+| Coverage below threshold | `use skill test-coverage` → then `use skill dotnet-developer` or `use skill implement` |
 | Fixes needed | User or `use skill implement` / `use skill dotnet-developer` |
 | Commit fixes | `use skill commit` |
 | All SDD steps done + approved | User runs `gh pr create` or merges per repo policy |

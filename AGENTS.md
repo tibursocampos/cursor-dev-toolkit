@@ -104,6 +104,7 @@ Installed under `~/.cursor/skills/` after sync. Triggers: `use skill <name>` (En
 | dotnet-developer | `use skill dotnet-developer` | Small .NET task without full SDD |
 | add-migrations | `use skill add-migrations` | EF Core migration in open .NET repo |
 | fix-build | `use skill fix-build` | Diagnose/fix `dotnet build` or test failures |
+| test-coverage | `use skill test-coverage` | .NET coverage report (Coverlet; SonarQube-aligned metrics) |
 | plan-repo-docs | `use skill plan-repo-docs` | Documentation plan for target repo |
 | document-repo | `use skill document-repo` | One step of `docs/documentation-plan/plan.md` |
 | refine-backlog-item | `use skill refine-backlog-item` | Bug / story markdown + scorecard (local) |
