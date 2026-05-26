@@ -131,6 +131,7 @@ No MCP work-item linking or mandatory corporate PR templates.
 
 ## Must not
 
+- Write or update PRD/PLAN files (hand off to `use skill spec` / `use skill plan`)
 - Auto-merge, auto-approve, or rewrite code without user request
 - Work-item tracker APIs, external PR platform APIs, or obsolete guideline paths
 - Block on coverage only when no target applies — when PRD, PLAN, user, or a `test-coverage` report defines a threshold (default **80%** on changed production files), treat below threshold as **Changes required**
@@ -141,6 +142,7 @@ No MCP work-item linking or mandatory corporate PR templates.
 
 | Situation | Next |
 |-----------|------|
+| New feature / PRD from review findings | `use skill spec` — paste or summarize review items; do **not** write PRD in this skill |
 | Coverage below threshold | `use skill test-coverage` → then `use skill dotnet-developer` or `use skill implement` |
 | Fixes needed | User or `use skill implement` / `use skill dotnet-developer` |
 | Commit fixes | `use skill commit` |

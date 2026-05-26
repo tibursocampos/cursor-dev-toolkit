@@ -29,6 +29,8 @@ spec → plan → implement (one PLAN step per session)
 
 **Checkpoint:** one `implement` session = one PLAN step. Start a new session for the next step.
 
+**Pipeline guards:** canonical paths, confirm-before-write, missing PRD/PLAN dialogs, Plan vs Agent phases — `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` and `~/.cursor/rules/sdd-pipeline-guards.mdc`.
+
 ### Shortcut — small .NET work
 
 For isolated fixes, small refactors, or low complexity (single area, no PRD needed):
@@ -60,6 +62,7 @@ After `scripts/sync-cursor.ps1`, rules live as `.mdc` under `~/.cursor/rules/`:
 | Every git commit | `~/.cursor/rules/conventional-commits.mdc` |
 | Before commit/push (branch name) | `~/.cursor/rules/branch-validation.mdc` |
 | Multi-step skills / context pressure | `~/.cursor/rules/context-management.mdc` |
+| SDD pipeline (order, paths, confirm, modes) | `~/.cursor/rules/sdd-pipeline-guards.mdc` |
 | SDD agent PRD/PLAN `.md` language | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
 | User-facing reply language | `~/.cursor/rules/user-language-pt-br.mdc` |
 

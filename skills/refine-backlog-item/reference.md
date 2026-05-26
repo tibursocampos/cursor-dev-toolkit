@@ -10,7 +10,7 @@ Scorecard, guardrails, and boundaries for `skills/refine-backlog-item/SKILL.md`.
 |--------|----------------------|--------|
 | Purpose | Fast intake — clarify a single backlog item | Full PRD for medium/high complexity features |
 | Output | Structured markdown + scorecard in chat | PRD with manifest, storage rules, traceability |
-| Persistence | Optional `docs/backlog/<slug>.md` | `PRD/` or `docs/PRD/` or `~/.cursor/sdd/<repo-id>/PRD/` (see `STORAGE.md`) |
+| Persistence | Optional `docs/backlog/<slug>.md` — **not** a substitute for SDD PRD | `PRD/` or `docs/PRD/` or `~/.cursor/sdd/<repo-id>/PRD/` (see `STORAGE.md`, `PIPELINE.md`) |
 | Acceptance | BDD in item template; scorecard rubric | PRD acceptance criteria + SDD PLAN linkage |
 | When to escalate | User confirms feature spans multiple areas, migrations, or unclear scope | Invoke `use skill spec` — do not expand refine into a PRD inline |
 
@@ -24,7 +24,7 @@ This item is large enough for SDD. Next: use skill spec — then use skill plan.
 
 Before suggesting `spec`, optionally Glob existing PRDs in **both** workspace (`PRD/*.md`, `docs/PRD/*.md`) and global (`~/.cursor/sdd/<repo-id>/PRD/*.md`) per `STORAGE.md` — mention if a related PRD already exists so the user can extend it instead of duplicating scope.
 
-`spec` owns storage choice (repository vs global), manifest, and `.gitignore`; refine does **not** write PRD/PLAN files.
+`spec` owns storage choice (repository vs global), manifest, `.gitignore`, and confirm-before-write (`PIPELINE.md`); refine does **not** write PRD/PLAN files. `docs/backlog/` items must be promoted via `use skill spec`, not treated as PRD.
 
 ---
 

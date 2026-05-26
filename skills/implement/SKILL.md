@@ -11,92 +11,85 @@ Invoke when the user asks for: `use skill implement`, `implement step`, `execute
 
 ## Outcome
 
-One **PLAN step** completed: **code and tests in English** in the open workspace; PLAN updated in place (same path as input). Do not start the next step in the same session.
+One **PLAN step** done: **code and tests in English**; PLAN updated in place. Do not start the next step in the same session.
 
 ## Language
 
 | Deliverable | Language |
 |-------------|----------|
-| Source code, tests, comments, XML docs | **English always** |
-| PLAN `.md` progress, notes, checkboxes | **Same as existing PLAN file** (pt-BR default for new plans) |
-| Product `docs/` or README (if step requires) | **Ask** pt-BR vs English before writing |
+| Code, tests, comments, XML docs | **English** |
+| PLAN progress / notes | **Same as PLAN file** |
+| Product `docs/` / README | Ask pt-BR vs English first |
 
-Do **not** re-ask SDD storage location. Do **not** change artifact language mid-PLAN unless the user requests.
+Do not re-ask SDD storage or change artifact language mid-PLAN unless requested.
 
 ## Required input
 
 | Input | Rule |
 |-------|------|
-| PLAN path | e.g. `PLAN/PLAN_002_feature.md` or `~/.cursor/sdd/<repo-id>/PLAN/PLAN_002_*.md` |
-| Step | `Step 1`, `PASSO 1`, etc. (match PLAN headings) |
-
-If missing, ask once:
-
-```
-use skill implement — <full-plan-path> — Step 1
-```
+| PLAN path | Canonical: `PLAN/PLAN_NNN_*.md` or `~/.cursor/sdd/<repo-id>/PLAN/PLAN_NNN_*.md` |
+| Step | `Step 1`, `PASSO 1`, etc. |
 
 ## Lazy-load (only when needed)
 
 | When | Path |
 |------|------|
-| SDD paths / manifest | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
-| Artifact language scope | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
-| .NET guidelines | `~/.cursor/skills/_shared/dotnet-guidelines/*.md` |
-| Git / branch / commits | `branch-validation.mdc`, `conventional-commits.mdc`, `developer-common/GUIDE.md` |
-| Context | `context-management.mdc` |
+| Pipeline, missing PLAN dialog | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
+| Storage | `STORAGE.md` |
+| .NET, Git, context | `dotnet-guidelines/*.md`, `branch-validation.mdc`, `conventional-commits.mdc`, `developer-common/GUIDE.md`, `context-management.mdc` |
 
 ## Process
 
+### -1. Pipeline and mode
+
+Load `PIPELINE.md`. **Agent** required for code changes and PLAN updates. If user asks for PRD/`spec` or PLAN/`plan` → guide per § Missing artifacts; do not create PRD/PLAN here.
+
 ### 0. Workspace
 
-Confirm target repo, read PLAN at **exact handoff path**, read step block, detect stack.
+Target repo. Resolve PLAN:
+
+| Situation | Action |
+|-----------|--------|
+| Canonical PLAN path given | `Read` at exact path |
+| No canonical PLAN | `PIPELINE.md` § `implement` without PLAN (options 1–3) |
+| User asks “criar PRD/plan” | Redirect to `spec` / `plan`; stop |
+
+Detect stack from PLAN step.
 
 ### 1. Validate step
 
-Step exists; deps **Concluídos** / **Completed**; summarize objective, files, tests, acceptance; ask to proceed.
+Step exists; deps **Concluídos** / **Completed**; summarize objective, files, tests; ask to proceed.
 
 ### 2. Git
 
-Feature branch per `branch-validation.mdc`; never `main` / `master` / `develop`.
+Feature branch per `branch-validation.mdc`.
 
-### 3. Analyze
+### 3–4. Analyze and implement
 
-Glob/Grep/Read step scope. Load dotnet-guidelines only when writing .NET code.
-
-### 4. Implement
-
-Code and tests in **English** → targeted build/test → fix within scope.
-
-If step updates **product** `docs/` or README: ask doc language before writing.
+Glob/Grep/Read scope. Code/tests in English; targeted build/test.
 
 ### 5. Commit (optional)
 
-Offer `use skill commit`; do not commit automatically.
+Offer `use skill commit`; do not auto-commit.
 
 ### 6. Update PLAN + checkpoint
 
-Apply `reference.md`: mark step **Concluído** / **Completed**, progress, **Próximo passo** / **Next step** in the PLAN file's language. Save **before** context checkpoint (≥ 40% → pause).
+`reference.md`: mark step done, progress, next step. Save before context pause (≥40%).
 
 ### 7. Report
 
-Files, tests, `N/M` progress (pt-BR chat). Handoff:
-
-```
-New chat: use skill implement — <full-plan-path> — Step 2
-```
+Files, tests, `N/M` (pt-BR). Handoff: new chat → `use skill implement — <full-plan-path> — Step N+1`.
 
 ## Must not
 
-- Generate application code in Portuguese
-- Re-ask PRD/PLAN storage or default PLAN to English on update
-- Multiple PLAN steps per session; skip PLAN save
-- Modify project `.gitignore` from implement
+- Portuguese application code; multiple steps per session
+- Create PRD/PLAN; skip PLAN save; modify `.gitignore`
+- Implement in Plan/Ask without Agent
 
 ## Handoff
 
 | Situation | Next |
 |-----------|------|
 | Commit | `use skill commit` |
-| Next step | New session → `use skill implement — <full-plan-path> — Step N+1` |
+| Next step | New session → `implement — <plan> — Step N+1` |
 | All steps done | `use skill code-review` (optional) |

@@ -54,7 +54,8 @@ cursor-dev-toolkit/
     └── _shared/
         ├── backlog-item-types/         # bug, user-story, technical-story templates
         ├── sdd-artifacts/
-        │   └── STORAGE.md              # PRD/PLAN repo vs ~/.cursor/sdd/
+        │   ├── STORAGE.md              # PRD/PLAN repo vs ~/.cursor/sdd/
+        │   └── PIPELINE.md             # Order, modes, confirm-before-write, dialogs
         ├── dotnet-guidelines/
         ├── developer-common/
         ├── code-guidelines/
@@ -134,3 +135,5 @@ Consumer projects may use their own CI and trackers; toolkit skills stay **Git-o
 | [TOKEN_BUDGET.md](TOKEN_BUDGET.md) | Token discipline when extending content |
 | [../AGENTS.md](../AGENTS.md) | Agent router |
 | [../skills/_shared/sdd-artifacts/STORAGE.md](../skills/_shared/sdd-artifacts/STORAGE.md) | SDD PRD/PLAN storage (consumer repos; local/gitignored) |
+| [../skills/_shared/sdd-artifacts/PIPELINE.md](../skills/_shared/sdd-artifacts/PIPELINE.md) | SDD pipeline guards (spec/plan/implement) |
+| [../rules/sdd-pipeline-guards.md](../rules/sdd-pipeline-guards.md) | Always-on SDD pipeline rule (synced as `.mdc`) |

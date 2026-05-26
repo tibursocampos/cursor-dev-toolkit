@@ -46,8 +46,10 @@ Write on the **first** SDD write in a workflow (`spec` or `plan`) after the user
 |-------|--------|
 | `storage` | `repository` \| `global` |
 | `artifact_language` | `pt-BR` (default) \| `en` (only when user overrides in skill invocation) |
-| `prd_folder` | `PRD`, `docs/PRD`, or absolute global PRD directory |
-| `plan_folder` | `PLAN` or absolute global PLAN directory |
+| `prd_folder` | `PRD`, `docs/PRD`, or absolute path under `~/.cursor/sdd/<repo-id>/PRD/` only |
+| `plan_folder` | `PLAN` or absolute path under `~/.cursor/sdd/<repo-id>/PLAN/` only |
+
+Manifest folders must match **canonical** layouts in `PIPELINE.md` § Canonical paths — not arbitrary directories.
 
 **Read manifest before asking storage** when:
 
@@ -129,6 +131,14 @@ use skill implement — PLAN/PLAN_003_feature.md — Step 1
 use skill implement — ~/.cursor/sdd/acme-payments-api/PLAN/PLAN_003_feature.md — Step 1
 ```
 
+## Invalid paths and promotion
+
+**Forbidden** as final SDD destinations: `~/.cursor/` outside `sdd/<repo-id>/`, `docs/backlog/`, generic `docs/*.md`, repo-root markdown without `NNN_` / `PLAN_NNN_` patterns.
+
+When the user cites a non-canonical `.md`: read it, build the artifact per skill templates, confirm path (`PIPELINE.md` § Confirm before write), then `Write` only under `PRD/`, `docs/PRD/`, `PLAN/`, or global `~/.cursor/sdd/<repo-id>/PRD|PLAN/`.
+
+Full rules: `PIPELINE.md` (order, mode phases, missing-artifact dialogs).
+
 ## Skill responsibilities
 
 | Skill | Storage question | `.gitignore` | Writes |
@@ -156,7 +166,9 @@ Use the same resolution as `code-review` (`skills/code-review/reference.md` § S
 
 ## Integration
 
+- Pipeline guards: `skills/_shared/sdd-artifacts/PIPELINE.md`
 - Templates: `skills/spec/reference.md`, `skills/plan/reference.md`
 - SDD discovery (read-only): `skills/code-review/reference.md` § SDD artifact resolution
 - Context rule: `rules/context-management.md`
+- Always-on rule: `rules/sdd-pipeline-guards.md`
 - Hooks: `hooks/_hook-common.ps1` (`Test-PlanFilePath` includes global PLAN paths)

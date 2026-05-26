@@ -4,7 +4,7 @@ Use this template when writing the PRD at the resolved path (repository or globa
 
 **Identifiers** (types, methods, APIs, paths, test names) stay in **English**. No implementation code in the PRD.
 
-Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (repo: `skills/_shared/sdd-artifacts/STORAGE.md`).
+Storage: `STORAGE.md`. Pipeline (confirm-before-write, canonical paths, modes): `PIPELINE.md`.
 
 ## Filename and numbering
 
@@ -250,11 +250,12 @@ Use only when the user requests English in the skill invocation. Same structure;
 
 ## Quality checklist (before handoff)
 
-- [ ] No implementation code in the PRD
+- [ ] User confirmed **sim** on canonical path (`PIPELINE.md` § Confirm before write)
+- [ ] Path matches `PRD/NNN_*.md`, `docs/PRD/NNN_*.md`, or global `.../PRD/NNN_*.md`
+- [ ] No implementation code in the PRD; no production/test code edited in `spec` session
 - [ ] Every acceptance criterion is testable
 - [ ] Complexity and risks documented
 - [ ] Body in pt-BR unless English override
 - [ ] Type/method/API names in English where cited
-- [ ] Output path correct (repo or global)
 - [ ] Status **Pronto para planejamento** (or **Ready for planning** if EN override)
 - [ ] Handoff: `use skill plan — <full-prd-path>`

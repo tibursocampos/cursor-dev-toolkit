@@ -4,7 +4,7 @@ Use this template when writing the PLAN at the resolved path (repository or glob
 
 **File paths** and **test names** in English. No implementation code blocks in the PLAN.
 
-Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`.
+Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`. Pipeline guards: `PIPELINE.md`.
 
 ## Filename and numbering
 
@@ -244,10 +244,11 @@ Use **Pendente** / **Concluído** / **Bloqueado** (or English equivalents) on th
 
 ## Quality checklist (before handoff)
 
-- [ ] PRD path and `NNN` match the PLAN filename
+- [ ] User confirmed **sim** on canonical PLAN path (`PIPELINE.md` § Confirm before write)
+- [ ] Canonical PRD on disk; PRD path and `NNN` match the PLAN filename
 - [ ] Every PRD acceptance criterion appears in some step
 - [ ] Step prose in pt-BR (unless English override)
 - [ ] No full implementation code blocks in the PLAN
-- [ ] Output path: `PLAN/PLAN_NNN_*.md` or global (not `PLANO_*` at repo root)
+- [ ] Output path: `PLAN/PLAN_NNN_*.md` or global (not ad-hoc `docs/` or `~/.cursor/` outside `sdd/`)
 - [ ] Handoff: `use skill implement — <full-plan-path> — Step 1`
 - [ ] Initial progress `0/N`

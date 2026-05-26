@@ -17,9 +17,11 @@ When the environment shows context usage (status line, system reminder, or user-
 | **≥ 40%** | Warning | Stop multi-step skills immediately; warn on other long tasks |
 | **≥ 80%** | Critical | Stop immediately; do not continue in this session |
 
-If usage is unknown, still **save artifacts to disk** at step boundaries (PLAN/PRD checkboxes, files written).
+If usage is unknown, still **save artifacts to disk** at step boundaries (PLAN/PRD checkboxes, files written) when in **Agent** mode and the user has confirmed the write (`sdd-pipeline-guards.mdc` / `PIPELINE.md` § Confirm before write).
 
-Do not end a skill abruptly without persisting the control artifact.
+In **Plan/Ask**, persist progress in chat drafts until the user switches to Agent and confirms — do not claim PRD/PLAN were saved without `Write`.
+
+Do not end a skill abruptly without persisting the control artifact (or an explicit paused draft with path pending).
 
 ## Multi-step skills — end of each step
 

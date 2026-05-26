@@ -11,74 +11,73 @@ Invoke when the user asks for: `use skill plan`, `create plan`, `execution plan`
 
 ## Outcome
 
-A complete **PLAN** (agent `.md` artifact) in **Brazilian Portuguese (pt-BR)** at the resolved path (`PLAN/PLAN_NNN_*.md` or global). Same `NNN` as the PRD. English only if the user overrides in this invocation. Each step fits **one** `implement` session.
-
-The PLAN is **how** (ordered baby steps); the PRD is **what**. File paths and test names in **English**; no implementation code blocks.
+A **PLAN** in **pt-BR** at a **canonical** path (`PLAN/PLAN_NNN_*.md` or global). Same `NNN` as PRD. Each step = one `implement` session. Paths and test names in **English**; no code blocks.
 
 ## Lazy-load (only when needed)
 
-| When | Path (after sync) |
-|------|-------------------|
-| SDD artifact language | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
+| When | Path |
+|------|------|
+| Pipeline guards, missing PRD dialog | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
 | Storage, manifest, `.gitignore` | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
-| .NET layering | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
-| Tests naming | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
-| Context pressure | `~/.cursor/rules/context-management.mdc` |
+| SDD language, context, .NET | `sdd-artifact-language-pt-br.mdc`, `context-management.mdc`, `dotnet-guidelines/*.md` |
 
 ## Process
 
-### 0. Workspace context
+### -1. Pipeline and mode
 
-1. Confirm target repository (per PRD).
-2. Read `AGENTS.md` or `README.md` if present.
-3. If no PRD path, ask and stop.
+Load `PIPELINE.md`. Phase A/B as for `spec`. No PRD authoring; no production/test code.
 
-### 1. Load and validate PRD
+### 0. Workspace
 
-Read PRD (repo or global). Status **Pronto para planejamento** / **Ready for planning**. Summarize and ask to proceed.
+Target repo. Read `AGENTS.md` / `README.md` if present.
 
-### 2. Branch and exploration
+### 1. Resolve PRD
 
-Explore open workspace with Glob/Grep/Read. Summarize files and patterns.
+Glob canonical PRDs (workspace + `~/.cursor/sdd/<repo-id>/PRD/`).
 
-### 3. Technical questions (max 10)
+| Situation | Action |
+|-----------|--------|
+| User gave canonical PRD path | `Read`; validate status **Pronto para planejamento** / **Ready for planning** |
+| No canonical PRD | `PIPELINE.md` § `plan` without PRD — options 1 or 2; then collect text or file path |
+| “Criar PRD” | Choice **1** → hand off to `spec` inputs; do not write PLAN until PRD exists (unless user chose **2**) |
+| Non-canonical `.md` | Promote per `PIPELINE.md` or ask for file |
 
-Clarify gaps only.
+Summarize PRD; ask to proceed.
 
-### 4. Baby steps
+### 2–4. Explore, technical questions (≤10), baby steps
 
-Size each step for one `implement` session (~20–45 min). Split if 4+ new files, migration+mapping together, etc.
-
-Optional final step: update project `docs/` — if included, note that **implement** must **ask** doc language (pt-BR vs English) before writing.
+Glob/Grep/Read. Steps ~20–45 min each. Doc-update steps: **implement** asks doc language.
 
 ### 5. Context checkpoint
 
-Follow `context-management.mdc`. Save PLAN draft if ≥ 40% before validation dialogue.
+`context-management.mdc`; PLAN draft in chat if ≥40%.
 
-### 5.5 Choose PLAN storage
+### 5.5 PLAN storage
 
-Load `STORAGE.md`. If PRD path is under `~/.cursor/sdd/`, use global PLAN. Else read manifest or ask storage. Update manifest (`artifact_language`, folders).
+`STORAGE.md`; global PLAN if PRD is global; else manifest or prompt.
 
-### 6. Write PLAN
+### 5.75 Confirm before write
 
-1. Apply `sdd-artifact-language-pt-br.mdc` (pt-BR unless override in invocation).
-2. Folder from manifest; **repository mode:** `.gitignore` per `STORAGE.md` (`/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` — all four before first write).
-3. `PLAN_NNN_short_feature_slug.md`; **PRD** header = full PRD path.
-4. Body: `reference.md` template (pt-BR). Status **Pendente** on steps; progress `0/N`.
-5. Overwrite warning if PLAN exists with completed steps.
+`PIPELINE.md` § Confirm before write — `PLAN_NNN_*`, full path, PRD link, step count. **sim** required before `Write` in Agent.
 
-Report: full path, storage, artifact language, step count, estimates, risks.
+### 6. Write PLAN (Agent + sim only)
+
+1. Validate canonical PLAN path; `NNN` **equals** PRD `NNN`.
+2. Repository mode: `.gitignore` per `STORAGE.md`.
+3. Template `reference.md`; PRD header = full PRD path; steps **Pendente**; `0/N`.
+4. Warn if overwriting PLAN with completed steps.
 
 ### 7. Validate with user
 
-Present steps, dependencies, risks. Confirm first step.
+Present steps, deps, risks. Confirm first implement step.
 
 ## Must not
 
-- Write PLAN body in English by default
-- Embed implementation code in the PLAN
-- Write product `docs/` without language question in the step/handoff
-- Implement code, commit, or run full test suites here
+- Write PLAN in English by default; embed implementation code
+- Create or overwrite PRD; implement or commit here
+- Write PLAN without canonical PRD (except explicit user choice **2** with specs)
+- Skip confirm-before-write; claim PLAN saved without `Write`
+- `NNN` mismatch vs PRD
 
 ## Handoff
 
@@ -86,4 +85,4 @@ Present steps, dependencies, risks. Confirm first step.
 use skill implement — <full-plan-path> — Step 1
 ```
 
-One chat session = one PLAN step.
+One session = one PLAN step.

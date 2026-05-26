@@ -33,11 +33,16 @@ Does not modify code unless the user asks for test additions in a follow-up.
 
 | When | Path |
 |------|------|
-| Commands, parsing, exclusions | `skills/test-coverage/reference.md` or `~/.cursor/skills/test-coverage/reference.md` after sync |
+| Commands, parsing, exclusions, on-disk report paths | `test-coverage/reference.md` after sync |
+| Cursor mode (Agent for shell) | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` § Cursor mode |
 | Add tests for gaps | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
 | Commit | `use skill commit` |
 
 ## Process
+
+### -1. Mode
+
+`PIPELINE.md`: **Agent** required for `dotnet test` and ReportGenerator. In Plan/Ask, explain limitation and list expected paths under `TestResults/` after the user switches to Agent.
 
 ### 0. Workspace
 
@@ -67,9 +72,10 @@ Before running tests, verify per `reference.md` § Prerequisites:
 
 If `coverlet.collector` is missing, stop with install instructions — do not fail silently.
 
-### 3. Collect coverage
+### 3. Collect coverage (mandatory ReportGenerator)
 
-Run `dotnet test` with Coverlet collector and generate reports per `reference.md` § Commands.
+1. Run `dotnet test` with Coverlet → `TestResults/**/coverage.cobertura.xml` per `reference.md` § Commands.
+2. **Always** run ReportGenerator → `TestResults/CoverageReport/` (`Summary.txt`, `index.html`, Cobertura). Do not finish with XML only.
 
 Use scoped test project when the repo is large or user provided a path.
 
@@ -94,13 +100,15 @@ Exclude migrations, generated code, and test projects from **new code** denomina
 
 Always note distance to **target 100%** for files below 100% even when Pass.
 
-### 6. Write report
+### 6. Report (chat + on-disk artifacts)
 
-Use the template in `reference.md`. Include:
+Use the template in `reference.md`. **Required in chat:**
 
-- Commands run and any limitations (partial test run, missing coverlet)
-- Approval block for `code-review` when Pass
-- Gap list (file + % + uncovered line hints when available) when Fail
+- Workspace-relative paths to `TestResults/CoverageReport/Summary.txt`, `index.html` (if generated), and at least one `coverage.cobertura.xml`
+- Key table from `Summary.txt` (paste **Resumo** section)
+- Commands run, limitations, approval block (Pass) or gaps (Fail)
+
+Do not claim Pass if ReportGenerator output or Cobertura files are missing.
 
 ### 7. Handoff
 
@@ -115,7 +123,8 @@ Use the template in `reference.md`. Include:
 
 - Require SonarLint, Visual Studio, SonarQube login, or corporate pipeline APIs
 - Auto-commit, auto-push, or add tests without user request
-- Claim Pass when tests did not run or coverlet output is missing
+- Claim Pass when tests did not run, coverlet output is missing, or ReportGenerator was skipped
+- Deliver coverage **only** in chat without citing on-disk paths under `TestResults/`
 - Count EF migrations, `*.g.cs`, or `*.Designer.cs` in new-code denominator
 - Block merge by itself — gate is informational unless PRD/PLAN/`code-review` applies threshold
 

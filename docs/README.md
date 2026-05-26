@@ -15,4 +15,4 @@
 | [../README.md](../README.md) | Project overview and quick links |
 | [../AGENTS.md](../AGENTS.md) | Agent router (installed to `~/.cursor/AGENTS.md`) |
 
-SDD PRD/PLAN artifacts are **local only** — `.gitignore` must include `/PRD/`, `/PLAN/`, `/docs/PRD/`, and `/docs/PLAN/` at repo root (applied by `spec` / `plan` per `STORAGE.md`). Rules after sync: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`.
+SDD PRD/PLAN artifacts are **local only** — `.gitignore` must include `/PRD/`, `/PLAN/`, `/docs/PRD/`, and `/docs/PLAN/` at repo root (applied by `spec` / `plan` per `STORAGE.md`). Pipeline guards: `PIPELINE.md` and `~/.cursor/rules/sdd-pipeline-guards.mdc`.

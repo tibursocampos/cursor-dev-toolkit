@@ -11,109 +11,81 @@ Invoke when the user asks for: `use skill spec`, `create spec`, `new feature`, o
 
 ## Outcome
 
-A complete **PRD** (agent `.md` artifact) in **Brazilian Portuguese (pt-BR)** at the resolved folder: repository (`PRD/` or `docs/PRD/`) or global (`~/.cursor/sdd/<repo-id>/PRD/`). English only if the user overrides in this invocation. Mandatory input for **plan** (`use skill plan`).
+A complete **PRD** (agent `.md` artifact) in **Brazilian Portuguese (pt-BR)** at a **canonical** path (`PRD/`, `docs/PRD/`, or `~/.cursor/sdd/<repo-id>/PRD/`). English only if the user overrides in this invocation. Mandatory input for **plan**.
 
 ## PRD boundaries
 
-The PRD answers **what** must be done, not **how** to implement it.
-
-| Include | Exclude |
-|---------|---------|
-| Business rules, acceptance criteria (Dado/Quando/Então/E) | Implementation code or syntax |
-| Validation rules, data flows | Full class-level design |
-| High-level components, entities, integrations | — |
-
-**Identifiers** in the PRD (types, methods, APIs, paths) stay in **English**.
-
-## SDD principles
-
-1. Specification before code
-2. Measurable, testable acceptance criteria
-3. Traceable to implementation and PLAN steps
-4. PRD remains the source of truth until superseded
+The PRD answers **what**, not **how**. No implementation code. Identifiers (types, APIs, paths) in **English**.
 
 ## Lazy-load (only when needed)
 
-| When | Path (after `scripts/sync-cursor.ps1`) |
-|------|----------------------------------------|
-| SDD artifact language (default pt-BR) | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
-| PRD/PLAN storage, manifest, `.gitignore` | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
-| .NET architecture context for scope | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
-| C# / test naming context | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
-| Context pressure before writing PRD | `~/.cursor/rules/context-management.mdc` |
-
-Do **not** preload entire `code-guidelines/` or `dotnet-guidelines/` trees.
+| When | Path (after sync) |
+|------|-------------------|
+| Pipeline guards, modes, confirm, paths | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
+| Storage, manifest, `.gitignore` | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
+| SDD artifact language | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
+| .NET / C# context | `dotnet-guidelines/clean-architecture.md`, `csharp-patterns.md` |
+| Context pressure | `~/.cursor/rules/context-management.mdc` |
 
 ## Process
 
-### 0. Load workspace context
+### -1. Pipeline and mode
 
-Before questioning the user:
+Load `PIPELINE.md`. Apply Phase A/B: in Plan/Ask, draft in chat only until Agent + user **sim** on § Confirm below. Pipeline lock: no PLAN, no `Edit`/`Write` on `*.cs`, `*.csproj`, migrations.
 
-1. Confirm you are in the **target repository** (the project being specified), not `cursor-dev-toolkit` unless that is the subject.
-2. Read `AGENTS.md` or `README.md` at the repo root if present.
-3. Detect stack: `*.sln` / `*.csproj` → .NET; `package.json` + `angular.json` → Angular; else infer from structure.
-4. Resolve `<repo-id>` per `STORAGE.md`; list existing PRDs in workspace and global for `NNN`.
-5. If `docs/` exists, skim files relevant to the feature keywords.
+### 0. Workspace
 
-### 1. Collect requirements (manual)
+Target repo (not `cursor-dev-toolkit` unless subject). Read `AGENTS.md` / `README.md`. Detect stack. Resolve `<repo-id>`; glob PRDs (workspace + global) for `NNN`.
 
-Ask (pt-BR in chat):
+### 1. Requirements
+
+**Prior context** (chat, code-review, backlog): structured summary + max **3** gap questions — skip full questionnaire (`PIPELINE.md` § Prior context).
+
+**Otherwise** ask (pt-BR):
 
 ```
 Vou criar o PRD. Informe:
-
-1) Descrição da feature — o que deve ser construído ou alterado?
-2) Comportamento atual — como funciona hoje?
-3) Comportamento esperado — como deve funcionar após a mudança?
-4) Contexto adicional (opcional) — motivação, restrições, links
-5) ID de rastreamento (opcional) — issue GitHub, slug, ou TBD
+1) Feature — o que construir ou alterar?
+2) Comportamento atual
+3) Comportamento esperado
+4) Contexto adicional (opcional)
+5) ID de rastreamento (opcional)
 ```
 
-Wait for answers before continuing.
+Wait for answers.
 
-### 2. Repository confirmation
+### 2–5. Confirm repo, explore code, clarify (≤5), technical analysis
 
-From the current workspace (`git remote`, repo root path). Present repo name, path, stack, and default branch (ask if unclear: `main`, `develop`, etc.).
-
-### 3. Code exploration (local only)
-
-On the branch the user confirms: **Glob**, **Grep**, **Read** in the workspace only. Summarize files and patterns.
-
-### 4. Clarification (max 5 questions)
-
-Ask about business rules, edge cases, integrations, compatibility, and validations.
-
-### 5. Technical analysis
-
-Document briefly for the PRD (impact, complexity, risks, dependencies; migrations and events if applicable).
+Per existing skill intent: branch confirmation, Glob/Grep/Read, brief impact/risks for the PRD.
 
 ### 6. Context checkpoint
 
-Follow `~/.cursor/rules/context-management.mdc`. If usage is at or above 40%, persist a draft PRD and warn before continuing.
+`context-management.mdc`. At ≥40%, draft in chat or partial file; warn before continuing.
 
-### 6.5 Choose storage location
+### 6.5 Storage
 
-Load `STORAGE.md`. Read manifest if valid; else ask storage (pt-BR prompt in `STORAGE.md`). Record choice; write or update manifest (`artifact_language`: `pt-BR` unless English override in invocation).
+`STORAGE.md`: manifest or storage prompt; record `artifact_language` (default pt-BR).
 
-### 7. Write PRD
+### 6.75 Confirm before write
 
-1. Apply `sdd-artifact-language-pt-br.mdc` (pt-BR body unless override in invocation).
-2. Output folder from manifest / user choice; **repository mode:** `.gitignore` per `STORAGE.md` (`/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` — all four before first write).
-3. Filename: `NNN_short_feature_slug.md` — ASCII slug (Portuguese words allowed).
-4. Body: template in `reference.md` (pt-BR default). Status **Pronto para planejamento** (or **Ready for planning** if EN override).
-5. If scope includes **product** docs in `docs/` or README: **ask** pt-BR vs English before writing that documentation.
-6. Handoff: `use skill plan — <full-prd-path>`.
+`PIPELINE.md` § Confirm before write — title, `NNN`, **full canonical path**, storage, bullets, status **Pronto para planejamento**. Wait for **sim** / **ajustar** / **cancelar**. In Plan/Ask without **sim** in Agent: Phase A message only.
 
-Report: full path, storage mode, artifact language, `.gitignore` changes (if any), sequence, complexity.
+### 7. Write PRD (Agent + sim only)
+
+1. Validate path per `PIPELINE.md` § Path validation — abort if non-canonical.
+2. Repository mode: `.gitignore` per `STORAGE.md` (all four patterns).
+3. `NNN_short_feature_slug.md`; body from `reference.md`.
+4. Product `docs/` in scope: ask doc language first.
+
+Report path, storage, language, `.gitignore` changes. Handoff: `use skill plan — <full-prd-path>`.
 
 ## Must not
 
-- Write PRD body in English by default
-- Put implementation code in the PRD
-- Create product `docs/` without asking language first
-- External work-item APIs, MCP trackers, or `repo-mappings.json`
-- Paste full guideline bodies into the PRD
+- English PRD body by default; implementation code in PRD
+- `Write` outside canonical PRD folders; skip confirm-before-write
+- `Edit`/`Write` production or test code; create PLAN in this session
+- Claim “PRD saved” without successful `Write`
+- External trackers; paste full guideline bodies into PRD
 
 ## Handoff
 
