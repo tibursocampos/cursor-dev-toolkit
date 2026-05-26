@@ -12,7 +12,7 @@ Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md
 | **.NET guidelines** | `dotnet-guidelines` (Clean Architecture, xUnit, Moq, FluentAssertions) |
 | **Git-only flow** | Branching, commits, checklist — no Azure DevOps |
 | **Cursor-native** | Sync to `~/.cursor/` (skills, rules, hooks, router) |
-| **Operational skills** | EF migrations, fix-build, repo docs, backlog refine/breakdown, message-consumer scaffold (Git-only) |
+| **Operational skills** | EF migrations, fix-build, test-coverage, repo docs, backlog refine/breakdown, message-consumer scaffold (Git-only) |
 
 ## Quick start
 
@@ -58,6 +58,7 @@ cursor-dev-toolkit/
     ├── dotnet-developer/
     ├── add-migrations/
     ├── fix-build/
+    ├── test-coverage/
     ├── plan-repo-docs/
     ├── document-repo/
     ├── refine-backlog-item/
@@ -81,6 +82,7 @@ cursor-dev-toolkit/
 | `dotnet-developer` | `use skill dotnet-developer` | Small .NET work without full SDD |
 | `add-migrations` | `use skill add-migrations` | EF Core migration in the open repo |
 | `fix-build` | `use skill fix-build` | Fix build/test failures (local; optional `gh`) |
+| `test-coverage` | `use skill test-coverage` | .NET coverage report (Coverlet; SonarQube-aligned metrics) |
 | `plan-repo-docs` | `use skill plan-repo-docs` | Plan repo documentation (RAG-oriented) |
 | `document-repo` | `use skill document-repo` | Execute one doc plan step |
 | `refine-backlog-item` | `use skill refine-backlog-item` | Refine bug/story + quality scorecard |

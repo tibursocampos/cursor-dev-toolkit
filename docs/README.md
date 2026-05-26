@@ -6,6 +6,7 @@
 | [MAINTAINER_GUIDE.md](MAINTAINER_GUIDE.md) | Maintainers | Repository layout, deploy, extension checklist |
 | [HOOKS.md](HOOKS.md) | Optional hooks users | Hook behavior, limits, smoke tests |
 | [TOKEN_BUDGET.md](TOKEN_BUDGET.md) | Toolkit builders | Token/cost guidance when extending content |
+| [../skills/test-coverage/SKILL.md](../skills/test-coverage/SKILL.md) | Skill users | Coverage workflow (`use skill test-coverage`) and threshold behavior |
 
 **Related (repo root):**
 
