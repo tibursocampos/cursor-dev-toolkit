@@ -68,6 +68,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 - [ ] [Como a feature será verificada — unitário, integração, manual]
 - [ ] .NET: xUnit, Moq, FluentAssertions; `Should_<Result>_When_<Condition>`
 - [ ] Build passa local / CI
+- [ ] (Opcional/.NET) Cobertura nos arquivos alterados ≥ 80% via `use skill test-coverage`
 
 ---
 
@@ -110,6 +111,38 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 **Status:** Pendente | **Concluído:** - | **Deps:** 1 | **Orçamento de tokens:** ~[k] | **Tempo:** [min]
 
 [Repetir estrutura do bloco PASSO para cada baby step.]
+
+---
+
+### ⏳ PASSO N (Opcional - Qualidade): Verificação de cobertura
+
+**Status:** Pendente | **Concluído:** - | **Deps:** [último passo funcional] | **Orçamento de tokens:** ~[k] | **Tempo:** [min]
+
+**Quando aplicar:**
+
+- [ ] Projeto .NET com `coverlet.collector` disponível (ou possível de instalar no escopo)
+
+**Entregáveis:**
+
+- [ ] Relatório de cobertura anexado/registrado no passo
+- [ ] Lista de arquivos alterados com cobertura por arquivo (changed files)
+
+**Arquivos:**
+
+- `tests/...` (sem obrigatoriedade de novos arquivos)
+
+**Tarefas:**
+
+1. Executar `use skill test-coverage` com base branch adequada
+2. Coletar métricas: new code, branch/overall, por arquivo alterado
+3. Registrar resultado e gaps para follow-up (quando houver)
+
+**Aceite:**
+
+- [ ] Cobertura nos arquivos alterados ≥ 80% (meta: 100% quando viável)
+- [ ] Se não aplicável, justificar explicitamente (ex.: stack sem .NET/coverlet)
+
+**Notas:** Este passo é opcional para stacks sem suporte a `coverlet.collector`.
 
 ---
 
@@ -171,6 +204,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 - [ ] Cada passo cabe em uma sessão implement
 - [ ] Dependências explícitas; sem ciclos
 - [ ] Cenários de teste cobrem CA e bordas
+- [ ] (Opcional/.NET) Passo final de qualidade com cobertura ≥ 80% via `test-coverage`
 - [ ] Sem código de implementação embutido no PLAN
 - [ ] Handoff: `use skill implement — <caminho-completo-do-plan> — Step 1`
 ```

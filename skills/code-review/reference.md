@@ -61,6 +61,7 @@ Run in **step 0.5** before scoping the diff. Load `~/.cursor/skills/_shared/sdd-
 | SDD | [PRD/PLAN encontrados — caminhos] ou **Limitação SDD** (busca completa sem artefatos) |
 | Arquivos revisados | [N] |
 | Build / testes | [Passou / Falhou / Não executado] |
+| Cobertura (código novo) | [X% — Passou ≥ 80% / Abaixo / Não aplicável] |
 | Críticos | [0] |
 | Importantes | [N] |
 | Nice-to-have | [N] |
@@ -146,6 +147,10 @@ _Omitir esta seção somente se step 0.5 registrou **Limitação SDD**._
 - **Unitários:** [passou/falhou, escopo]
 - **Integração:** [passou/falhou, escopo]
 - **Lacunas:** [cenários não cobertos]
+- **Cobertura (código novo / arquivos alterados):** [X% — Passou ≥ [threshold]% / Abaixo do target / Não executado]
+- **Cobertura geral (branch):** [Y% — informativo]
+- **Meta:** 100% (mínimo aceitável: [80]% quando target aplicável)
+- **Fonte:** `use skill test-coverage` — [colar bloco do relatório ou N/A]
 
 ---
 
@@ -249,8 +254,25 @@ Problemas: [Nenhum | listados]
 
 ## Approval criteria
 
-**Approved:** PRD/PLAN satisfied; no critical issues; build/tests pass or user accepts documented gaps.
+**Approved:** PRD/PLAN satisfied; no critical issues; build/tests pass or user accepts documented gaps; when a coverage target applies (PRD, PLAN, user, or `test-coverage` run), **new code** line coverage on changed production files is **≥ threshold** (default **80%**).
 
-**Approved with reservations:** Minor issues or PLAN cosmetic drift; no security or correctness blockers.
+**Approved with reservations:** Minor issues or PLAN cosmetic drift; no security or correctness blockers; coverage at or above threshold with some changed files below **100%** target (document gaps).
 
-**Changes required:** Security vulnerability; broken behavior; missing PRD scope; build/test failure; critical architecture violation.
+**Changes required:** Security vulnerability; broken behavior; missing PRD scope; build/test failure; critical architecture violation; **coverage below threshold** on changed production files when a target applies.
+
+---
+
+## Coverage gate (.NET)
+
+Run when PRD, PLAN, or user requires coverage evidence:
+
+```text
+use skill test-coverage — <base-branch> — threshold 80
+```
+
+| Result from test-coverage | code-review decision |
+|---------------------------|---------------------|
+| Pass (≥ threshold) | May approve if all other criteria met |
+| Fail (&lt; threshold) | **Alterações necessárias** |
+| Not run, target required | Note limitation; ask user to run or waive explicitly |
+| Not applicable (no .NET / no target) | Omit coverage rows in § Testes |

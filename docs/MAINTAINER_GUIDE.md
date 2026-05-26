@@ -45,6 +45,7 @@ cursor-dev-toolkit/
     ├── dotnet-developer/
     ├── add-migrations/
     ├── fix-build/
+    ├── test-coverage/                   # + reference.md
     ├── plan-repo-docs/
     ├── document-repo/
     ├── refine-backlog-item/
@@ -74,6 +75,7 @@ cursor-dev-toolkit/
 | `dotnet-developer` | `~/.cursor/skills/dotnet-developer/` | Small .NET changes without full SDD |
 | `add-migrations` | `~/.cursor/skills/add-migrations/` | EF Core migration in consumer .NET repo |
 | `fix-build` | `~/.cursor/skills/fix-build/` | Build/test diagnosis (Git-only; optional `gh`) |
+| `test-coverage` | `~/.cursor/skills/test-coverage/` | .NET coverage report (Coverlet; SonarQube-aligned metrics) |
 | `plan-repo-docs` | `~/.cursor/skills/plan-repo-docs/` | Documentation plan for consumer repo |
 | `document-repo` | `~/.cursor/skills/document-repo/` | One step of consumer doc plan |
 | `refine-backlog-item` | `~/.cursor/skills/refine-backlog-item/` | Local backlog markdown + scorecard |
