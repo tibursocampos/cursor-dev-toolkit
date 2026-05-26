@@ -40,6 +40,16 @@ Every `git commit` must follow [Conventional Commits](https://www.conventionalco
 - Optional scope in parentheses: `feat(auth):`
 - Separate body and footers from the subject with a blank line
 
+## Forbidden (commit command and message)
+
+**Never** attribute Cursor as a co-author — not in the message, not via Git trailers:
+
+- No `Co-authored-by: Cursor …` (or variants) in body or footers
+- No `git commit --trailer` / `--trailer=…` for co-author attribution
+- No extra `-m` blocks or `--author` overrides added for Cursor attribution
+
+Allowed footers: `Refs: #…`, `BREAKING CHANGE:`, `Fixes: #…` — per project convention only.
+
 ## Examples
 
 ```

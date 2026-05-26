@@ -45,7 +45,14 @@ Do **not** use ticket id as the type prefix (e.g. avoid `feat(42):`).
 - **Severity:** Nitpick
 - Minimum ~10 characters; avoid generic-only text (`changes`, `updates`, `fixes`)
 
-### Rule 4: Exceptions (auto-skip — do not validate)
+### Rule 4: No Cursor co-author attribution
+
+- **Forbidden:** `Co-authored-by:` lines naming Cursor (any email/domain), in body or footers
+- **Forbidden:** `git commit --trailer` / `--trailer=…` (or equivalent) used to add co-author trailers
+- **Severity:** Error
+- **Fix:** Remove the trailer/footer; commit with approved Conventional Commits text only (`-m` / `-F`)
+
+### Rule 5: Exceptions (auto-skip — do not validate)
 
 - Merge commits: `Merge branch …` / `Merge pull request …`
 - Initial commits: `Initial commit` / `First commit`

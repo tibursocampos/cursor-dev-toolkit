@@ -32,8 +32,9 @@ format-validators
 **When:** After user approves message, before `git commit`
 
 1. Validate proposed first line (+ optional body/footer).
-2. If invalid: show issues and `suggestedFix`.
-3. Apply user-approved fix; then commit.
+2. Reject Cursor `Co-authored-by` trailers (message or `--trailer`) — Rule 4 in validator.
+3. If invalid: show issues and `suggestedFix`.
+4. Apply user-approved fix; then commit (`git commit -m` only — no `--trailer`).
 
 Also referenced from `developer-common/step-4-commits-pr.md`.
 

@@ -87,6 +87,8 @@ EOF
 )"
 ```
 
+Use **only** `-m` (or `-F` with a message file the user approved). Do **not** add `--trailer`, `--author` overrides, or extra `-m` blocks for attribution.
+
 Do not use `git commit --amend` on shared or pushed history unless the user explicitly requests it and amend rules apply.
 
 ### 6. Push (optional)
@@ -114,6 +116,10 @@ Never `git push --force` to `main`, `master`, or `develop`.
 - `git add -A` / `git add .` without review (unless user explicitly requests)
 - Deprecated commit skill aliases in user-facing handoff — use `commit` only
 - Auto-commit without message approval
+- **Cursor co-author trailers** — forbidden in any form:
+  - `Co-authored-by: Cursor …` (or similar) in the message body or footers
+  - `git commit --trailer "Co-authored-by: …"` / `--trailer=Co-authored-by:…`
+  - Any flag or footer that attributes Cursor as co-author of the commit
 
 ## Handoff
 

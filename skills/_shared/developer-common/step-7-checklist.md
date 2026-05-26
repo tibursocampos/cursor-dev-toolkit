@@ -48,6 +48,7 @@
 ## 7.6. Commits and PR (step 4)
 
 - [ ] Conventional commit message(s)
+- [ ] No Cursor `Co-authored-by` trailers (`--trailer` or message footer)
 - [ ] Pre-commit validation run (step 3.5) or user acknowledged skip
 - [ ] Push only if user requested
 - [ ] PR only if user requested; base branch confirmed
