@@ -24,6 +24,7 @@ Do **not** glob all of `code-guidelines/`.
 |------|------|
 | Layers, handlers, repos | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
 | Tests (xUnit, Moq, FluentAssertions, `Should_<R>_When_<C>`) | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
+| **Structure and formatting** (one type per file, signatures/180 chars, constants, method order) | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` — normative §§ File structure, Method signatures, Follow existing patterns, Named constants, Method ordering |
 | Pre-PR gate | `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md` |
 
 Quick checks (always apply):

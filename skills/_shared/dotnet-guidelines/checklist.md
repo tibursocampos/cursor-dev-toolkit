@@ -34,6 +34,16 @@ Use before opening a pull request.
 
 ---
 
+## Code structure and formatting (`csharp-patterns.md`)
+
+- [ ] **One top-level type per file** (no second `class` / `record` in the same file)
+- [ ] **Signatures and invocations:** inline only when ≤ 4 parameters and full line ≤ 180 characters; otherwise one parameter per line
+- [ ] **Follow existing project patterns** (Glob/Read similar types; no parallel validation/flow)
+- [ ] **Named constants** in production code — no magic strings/numbers; `const` names in **PascalCase**
+- [ ] **Method ordering:** public methods before private; each block alphabetical by method name
+
+---
+
 ## .NET patterns
 
 - [ ] Async methods use `Async` suffix
@@ -64,7 +74,7 @@ Use before opening a pull request.
 - [ ] Mock variables suffixed with `Mock`
 - [ ] Arrange data built via `*Fake` classes (not inline domain objects)
 - [ ] One behavior per test
-- [ ] No AAA comments
+- [ ] Arrange / Act / Assert structure with `// Arrange`, `// Act`, `// Assert` comments
 
 ---
 

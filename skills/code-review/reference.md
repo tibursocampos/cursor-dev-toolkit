@@ -209,6 +209,7 @@ Problemas: [Nenhum | listados]
 - [ ] Clean Architecture layers respected
 - [ ] Namespaces and folder layout consistent
 - [ ] Single responsibility; focused methods
+- [ ] **C# structure/formatting** per `csharp-patterns.md` (blocking when violated): one type per file; signatures/invocations (4 params / 180 chars); follow existing patterns; named constants (no magic literals, PascalCase); public methods before private, alphabetical within blocks
 
 **C#**
 
@@ -221,7 +222,7 @@ Problemas: [Nenhum | listados]
 
 - [ ] xUnit + Moq + FluentAssertions
 - [ ] Names: `Should_<Result>_When_<Condition>`
-- [ ] Arrange / Act / Assert structure
+- [ ] Arrange / Act / Assert structure with `// Arrange`, `// Act`, `// Assert` comments
 - [ ] Edge cases and failure paths where behavior changed
 
 **EF / data**

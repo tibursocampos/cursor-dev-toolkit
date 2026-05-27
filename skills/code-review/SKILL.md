@@ -88,7 +88,7 @@ Review changed files for:
 | Tests | Behavior covered; meaningful assertions; no trivial tests |
 | Security | Secrets, injection, authz, sensitive logs |
 | Performance | N+1, unbounded work, missing async where I/O |
-| Maintainability | Naming, method size, duplication, magic values |
+| Maintainability | Naming, method size, duplication; magic values / structure — see `csharp-patterns.md` normative sections |
 
 Use the checklists in `reference.md` — do not paste full guideline bodies into the report.
 

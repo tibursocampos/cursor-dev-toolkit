@@ -102,6 +102,8 @@ Expected naming:
 - `RegisterOrderCommand`
 - `RegisterOrderCommandValidator`
 
+**Follow existing project patterns (blocking in review):** Before implementing validation, handlers, repositories, or controller actions, use Glob/Read on similar types in the same layer and feature area. Do not introduce manual validation in handlers, ad-hoc DTO checks in controllers, or duplicate private logic when the repository already has a consolidated pattern. Full rules, examples, and review criteria: `csharp-patterns.md` — § **Follow existing project patterns** (PRD CA4, RN03).
+
 ---
 
 ## Naming
