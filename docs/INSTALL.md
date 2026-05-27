@@ -78,31 +78,23 @@ Optional: smoke-test hooks from repo root — see [HOOKS.md](HOOKS.md).
 
 ---
 
-## 4. Use in a project (SDD workflow)
+## 4. Use in a project
 
-Open **any codebase** in Cursor (not necessarily this toolkit repo). In chat:
+Open **any codebase** in Cursor (not necessarily this toolkit repo).
 
-### 4.1 New feature (medium/high complexity)
+**Daily usage:** step-by-step skill manuals live in **[guides/README.md](guides/README.md)** (decision tree + guides 01–05). The sections below are a short index; follow the guides for invokes, examples, and common mistakes.
 
-| Step | You say | Agent produces |
-|------|---------|----------------|
-| 1 | `use skill spec` + describe the feature | PRD in repo (`PRD/` or `docs/PRD/`) **or** global (`~/.cursor/sdd/<repo-id>/PRD/`) |
-| 2 | `use skill plan` + point to the PRD (full path) | PLAN in repo (`PLAN/`) **or** global (`~/.cursor/sdd/<repo-id>/PLAN/`) |
-| 3 | `use skill implement — <full-plan-path> — Step 1` | Code + tests for **one** PLAN step only |
-| 4 | New chat for each next step | `use skill implement — <full-plan-path> — Step 2`, etc. |
+### 4.1 SDD workflow (medium/high complexity)
 
-Before the first write, the agent asks where to store PRD/PLAN:
+| Step | Invoke | Guide |
+|------|--------|-------|
+| PRD | `use skill spec` | [01 — SDD workflow](guides/01-sdd-workflow.md) |
+| PLAN | `use skill plan — <prd-path>` | [01 — SDD workflow](guides/01-sdd-workflow.md) |
+| Implement | `use skill implement — <plan-path> — Step N` | [01 — SDD workflow](guides/01-sdd-workflow.md) |
 
-1. **Repository** — `PRD/` and `PLAN/` at project root (or `docs/PRD/` for PRD); `.gitignore` gets `/PRD/`, `/PLAN/`, `/docs/PRD/`, and `/docs/PLAN/` on first SDD write (`spec` / `plan` per `STORAGE.md`).
-2. **Global** — outside the project git tree under `~/.cursor/sdd/<repo-id>/` (use when the repo cannot contain or ignore SDD folders).
+**Rules (summary):** one `implement` session = **one** PLAN step; new chat per step; confirm **sim** in Agent before PRD/PLAN writes. At ~40% context, pause and start a new chat (see [guide 01](guides/01-sdd-workflow.md)).
 
-Details: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (synced with the toolkit).
-
-**Rules:**
-
-- One `implement` session = **one** PLAN step.
-- Update PLAN progress before starting the next step (implement skill does this).
-- At ~40% context usage, pause and start a new chat (see `context-management` rule).
+**Storage:** repo `PRD/` and `PLAN/` (gitignored) **or** global `~/.cursor/sdd/<repo-id>/` — details in [guide 01](guides/01-sdd-workflow.md) and `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`.
 
 ### 4.2 Small .NET change (no PRD)
 
@@ -110,51 +102,39 @@ Details: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (synced with the to
 use skill dotnet-developer
 ```
 
-Describe the fix/refactor; agent loads `dotnet-guidelines` on demand.
+Details: [02 — dotnet-developer](guides/02-dotnet-developer.md)
 
-### 4.3 Commit and review
+### 4.3 Commit, review, and coverage
 
-| Task | Invoke |
-|------|--------|
-| Conventional commit + push | `use skill commit` |
-| Review diff vs PRD/PLAN | `use skill code-review` (discovers artifacts per `STORAGE.md` in repo or `~/.cursor/sdd/<repo-id>/`) |
+| Task | Invoke | Guide |
+|------|--------|-------|
+| Review diff vs PRD/PLAN | `use skill code-review` | [03 — code-review](guides/03-code-review.md) |
+| Coverage report (.NET) | `use skill test-coverage` | [04 — test-coverage](guides/04-test-coverage.md) |
+| Conventional commit + push | `use skill commit` | [05 — operational skills](guides/05-operational-skills.md) |
 
 Branch rules: `feature/<slug>` or `feat/<id>` only — not `main` / `master` / `develop`.
 
-### 4.4 Operational skills (no work-item tracker)
+Post-code order: `code-review` → `test-coverage` → `commit` — see [guides/README.md](guides/README.md#post-code-workflow).
+
+### 4.4 Other operational skills
 
 All run in the **open workspace** (the project you are building). None require Azure DevOps, Jira APIs, or PAT scripts.
 
-| Skill | Invoke | Use for |
-|-------|--------|---------|
-| `add-migrations` | `use skill add-migrations` | Add EF Core migration (Glob/Grep discovery) |
-| `fix-build` | `use skill fix-build` | Diagnose/fix `dotnet build` or test failures; optional `gh` for CI logs |
-| `plan-repo-docs` | `use skill plan-repo-docs` | Create `docs/documentation-plan/plan.md` + overview |
-| `document-repo` | `use skill document-repo` | Execute next pending step in the doc plan |
-| `refine-backlog-item` | `use skill refine-backlog-item` | Bug / User Story / Technical Story markdown + scorecard |
-| `breakdown-tasks` | `use skill breakdown-tasks` | Group steps → `docs/implementation-tasks/<slug>.md` |
-| `create-message-consumer` | `use skill create-message-consumer` | Scaffold consumer (MassTransit/RabbitMQ/etc. via Grep) |
-
 **Language:** skills that write product `docs/` in the target repo ask **pt-BR** or **English** before saving.
 
-**Suggested flows:**
+| Skill | Invoke |
+|-------|--------|
+| `fix-build` | `use skill fix-build` |
+| `add-migrations` | `use skill add-migrations` |
+| `plan-repo-docs` | `use skill plan-repo-docs` |
+| `document-repo` | `use skill document-repo` |
+| `refine-backlog-item` | `use skill refine-backlog-item` |
+| `breakdown-tasks` | `use skill breakdown-tasks` |
+| `create-message-consumer` | `use skill create-message-consumer` |
 
-```
-use skill plan-repo-docs
-use skill document-repo
-```
+Full mini-manuals, suggested flows (RAG repo docs, backlog → SDD, fix-build → commit), and handoffs: **[05 — operational skills](guides/05-operational-skills.md)**.
 
-```
-use skill refine-backlog-item
-use skill breakdown-tasks
-use skill spec
-use skill plan
-```
-
-```
-use skill fix-build
-use skill commit
-```
+> **Note:** `plan-repo-docs` / `document-repo` document **application repositories** for RAG. They are not a substitute for toolkit user guides under `docs/guides/`.
 
 ---
 

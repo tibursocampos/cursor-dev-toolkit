@@ -17,14 +17,14 @@ Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md
 ## Quick start
 
 1. Clone this repo.
-2. Follow **[docs/INSTALL.md](docs/INSTALL.md)** (install, verify, use SDD in any project).
-3. One-liner deploy (from repo root):
+2. Follow **[docs/INSTALL.md §2](docs/INSTALL.md#2-deploy-to-cursor)** (full deploy steps) or run from repo root:
 
    ```powershell
    powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
    ```
 
-4. In any project chat: `use skill spec` → `use skill plan` → `use skill implement — <plan-path> — Step N` (repo or global storage).
+3. For **daily skill usage**, open **[docs/guides/README.md](docs/guides/README.md)** (decision tree + step-by-step guides 01–05).
+4. In any project chat: `use skill spec` → `use skill plan` → `use skill implement — <plan-path> — Step N` (repo or global storage). See [SDD workflow guide](docs/guides/01-sdd-workflow.md) for details.
 
 Re-run sync after pulling toolkit updates (idempotent).
 
@@ -32,7 +32,8 @@ Re-run sync after pulling toolkit updates (idempotent).
 
 | Doc | Content |
 |-----|---------|
-| [docs/INSTALL.md](docs/INSTALL.md) | **Install and usage** (step-by-step) |
+| [docs/guides/README.md](docs/guides/README.md) | **Daily usage** — decision tree, skill manuals (guides 01–05) |
+| [docs/INSTALL.md](docs/INSTALL.md) | Install, sync, short usage index |
 | [docs/README.md](docs/README.md) | Documentation index |
 | [docs/HOOKS.md](docs/HOOKS.md) | Optional hooks (behavior, limits) |
 | [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md) | Repository layout and maintainer checklist |
@@ -45,7 +46,8 @@ Re-run sync after pulling toolkit updates (idempotent).
 cursor-dev-toolkit/
 ├── AGENTS.md
 ├── README.md
-├── docs/                  # INSTALL, HOOKS, MAINTAINER_GUIDE, TOKEN_BUDGET
+├── docs/                  # INSTALL, guides/, HOOKS, MAINTAINER_GUIDE, TOKEN_BUDGET
+│   └── guides/            # User skill manuals (English, versioned)
 ├── rules/                 # → ~/.cursor/rules/*.mdc
 ├── hooks/                 # → ~/.cursor/hooks/ + merge hooks.json
 ├── scripts/               # sync-cursor.ps1
