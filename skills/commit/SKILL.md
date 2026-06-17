@@ -116,10 +116,10 @@ Never `git push --force` to `main`, `master`, or `develop`.
 - `git add -A` / `git add .` without review (unless user explicitly requests)
 - Deprecated commit skill aliases in user-facing handoff — use `commit` only
 - Auto-commit without message approval
-- **Cursor co-author trailers** — forbidden in any form:
-  - `Co-authored-by: Cursor …` (or similar) in the message body or footers
-  - `git commit --trailer "Co-authored-by: …"` / `--trailer=Co-authored-by:…`
-  - Any flag or footer that attributes Cursor as co-author of the commit
+- **AI co-author trailers** — forbidden in any form. Under NO circumstances should you include `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-authored-by: Antigravity`, or any other AI agent attribution. The commit message must contain JUST the commit message:
+  - No `Co-authored-by: Cursor …` or Antigravity (or similar) in the message body or footers
+  - No `git commit --trailer "Co-authored-by: …"` / `--trailer=Co-authored-by:…`
+  - Any flag or footer that attributes Cursor or Antigravity as co-author of the commit
 
 ## Handoff
 

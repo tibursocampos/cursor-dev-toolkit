@@ -42,9 +42,9 @@ Every `git commit` must follow [Conventional Commits](https://www.conventionalco
 
 ## Forbidden (commit command and message)
 
-**Never** attribute Cursor as a co-author — not in the message, not via Git trailers:
+**Never** attribute Cursor, Antigravity, or any AI agent as a co-author — not in the message, not via Git trailers:
 
-- No `Co-authored-by: Cursor …` (or variants) in body or footers
+- Under NO circumstances should you include `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-authored-by: Antigravity`, or any other AI agent attribution in the commit message or body. The commit message must contain JUST the commit message.
 - No `git commit --trailer` / `--trailer=…` for co-author attribution
 - No extra `-m` blocks or `--author` overrides added for Cursor attribution
 

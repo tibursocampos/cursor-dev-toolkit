@@ -137,6 +137,7 @@ No MCP work-item linking or mandatory corporate PR templates.
 - Block on coverage only when no target applies — when PRD, PLAN, user, or a `test-coverage` report defines a threshold (default **80%** on changed production files), treat below threshold as **Changes required**
 - Paste entire guideline files into the review output
 - Claim no PRD/PLAN or skip step 0.5 / SDD traceability without searching all locations in `STORAGE.md`
+- **AI co-author trailers** — in any form. Under NO circumstances should you include `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-authored-by: Antigravity`, or any other AI agent attribution in commit messages or PR descriptions.
 
 ## Handoff
 
