@@ -23,6 +23,7 @@ The PRD answers **what**, not **how**. No implementation code. Identifiers (type
 |------|-------------------|
 | Pipeline guards, modes, confirm, paths | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
 | Storage, manifest, `.gitignore` | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` — **Lite mode** |
 | SDD artifact language | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
 | .NET / C# context | `dotnet-guidelines/clean-architecture.md`, `csharp-patterns.md` |
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
@@ -32,6 +33,12 @@ The PRD answers **what**, not **how**. No implementation code. Identifiers (type
 ### -1. Pipeline and mode
 
 Load `PIPELINE.md`. Apply Phase A/B: in Plan/Ask, draft in chat only until Agent + user **sim** on § Confirm below. Pipeline lock: no PLAN, no `Edit`/`Write` on `*.cs`, `*.csproj`, migrations.
+
+Check `~/.cursor/sdd/preferences.json`:
+- If file missing → create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` → load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (**Lite mode** rules only) and display:
+  > 🪨 Modo Caveman ativo (respostas compactas — Lite). Digite `caveman off` a qualquer momento para desativar.
+- Honor `caveman on` / `caveman off` at any point during the session.
 
 ### 0. Workspace
 

@@ -4,7 +4,7 @@
   Deploys cursor-dev-toolkit to the user Cursor directory (~/.cursor/).
 
 .DESCRIPTION
-  Copies AGENTS.md, skills/, rules/ (.md -> .mdc), and hooks/ PowerShell scripts.
+  Copies AGENTS.md, skills/ (including Spec Kit and Caveman Mode), rules/ (.md -> .mdc), and hooks/ PowerShell scripts.
   Merges hooks/hooks.json into ~/.cursor/hooks.json without removing user hook entries.
   Does not overwrite Cursor user settings or unrelated files under ~/.cursor/.
 

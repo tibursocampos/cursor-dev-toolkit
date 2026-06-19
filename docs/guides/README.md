@@ -57,6 +57,8 @@ New task
 | Review before commit/merge | `code-review` | [03 — code-review](03-code-review.md) |
 | Coverage report (.NET, Coverlet) | `test-coverage` | [04 — test-coverage](04-test-coverage.md) |
 | Commit, fix-build, migrations, backlog, repo docs | See operational guide | [05 — operational skills](05-operational-skills.md) |
+| Structured CLI-based specification & planning | `speckit-spec` → `speckit-plan` → `speckit-develop` | [06 — Spec Kit workflow](06-speckit-workflow.md) |
+| Speed up chat & save token costs | Response compression | [07 — Caveman Mode](07-caveman-mode.md) |
 
 ---
 
@@ -69,6 +71,8 @@ New task
 | [03-code-review.md](03-code-review.md) | `code-review` | `use skill code-review` |
 | [04-test-coverage.md](04-test-coverage.md) | `test-coverage` | `use skill test-coverage` |
 | [05-operational-skills.md](05-operational-skills.md) | `commit`, `fix-build`, `add-migrations`, `plan-repo-docs`, `document-repo`, `refine-backlog-item`, `breakdown-tasks`, `create-message-consumer` | `use skill <kebab-name>` |
+| [06-speckit-workflow.md](06-speckit-workflow.md) | `speckit-setup`, `speckit-init`, `speckit-spec`, `speckit-plan`, `speckit-develop` | `use skill speckit-setup` · `use skill speckit-spec` |
+| [07-caveman-mode.md](07-caveman-mode.md) | `caveman-mode` (rule) | `caveman on` · `caveman off` |
 
 ---
 
@@ -81,6 +85,11 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 | `spec` | `use skill spec` | PRD from a feature request |
 | `plan` | `use skill plan` | Baby-step PLAN from PRD |
 | `implement` | `use skill implement` | Execute **one** PLAN step per session |
+| `speckit-setup` | `use skill speckit-setup` | Verify and install Spec Kit CLI prerequisites |
+| `speckit-init` | `use skill speckit-init` | Initialize `.specify/` and constitution.md in target repo |
+| `speckit-spec` | `use skill speckit-spec` | Create spec.md under `.specify/specs/` |
+| `speckit-plan` | `use skill speckit-plan` | Generate plan.md and tasks.md from spec |
+| `speckit-develop` | `use skill speckit-develop` | Implement code and run tests for one tasks.md item |
 | `code-review` | `use skill code-review` | Review diff or branch vs PRD/PLAN |
 | `commit` | `use skill commit` | Conventional commit and push |
 | `dotnet-developer` | `use skill dotnet-developer` | Small .NET task without full SDD |
@@ -99,6 +108,7 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 |------|--------|
 | Repo documentation (RAG in target app) | `plan-repo-docs` → `document-repo` |
 | Backlog → SDD | `refine-backlog-item` → optional `breakdown-tasks` → `spec` → `plan` → `implement` |
+| Spec Kit SDD | `speckit-setup` → `speckit-init` → `speckit-spec` → `speckit-plan` → `speckit-develop` |
 | Build failure | `fix-build` → optional `commit` |
 
 > **Note:** `plan-repo-docs` / `document-repo` document **application repositories** for RAG. They are not a substitute for these **toolkit** guides under `docs/guides/`.

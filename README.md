@@ -1,6 +1,6 @@
 # cursor-dev-toolkit
 
-Personal Cursor IDE agent toolkit: SDD workflow, .NET guidelines, Git-only developer flow, and optional hooks. Neutral branding — no work-item tracker or corporate pipeline integrations.
+Personal Cursor IDE agent toolkit: SDD (classic and Spec Kit) workflows, .NET guidelines, Git-only developer flow, Caveman response compression, and optional hooks. Neutral branding — no work-item tracker or corporate pipeline integrations.
 
 Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md](docs/INSTALL.md)).
 
@@ -8,11 +8,12 @@ Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md
 
 | Capability | Description |
 |------------|-------------|
-| **SDD workflow** | `spec` → `plan` → `implement` with PRD/PLAN in the repo or `~/.cursor/sdd/<repo-id>/` |
+| **SDD workflow** | Classic (`spec` → `plan` → `implement`) and Spec Kit (`speckit-spec` → `speckit-plan` → `speckit-develop`) workflows supporting local or global manifest-based storage |
 | **.NET guidelines** | `dotnet-guidelines` (Clean Architecture, xUnit, Moq, FluentAssertions) |
 | **Git-only flow** | Branching, commits, checklist — no Azure DevOps |
 | **Cursor-native** | Sync to `~/.cursor/` (skills, rules, hooks, router) |
 | **Operational skills** | EF migrations, fix-build, test-coverage, repo docs, backlog refine/breakdown, message-consumer scaffold (Git-only) |
+| **Caveman Mode** | Optional response compression mode to reduce token usage and speed up interactions |
 
 ## Quick start
 
@@ -23,8 +24,9 @@ Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md
    powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
    ```
 
-3. For **daily skill usage**, open **[docs/guides/README.md](docs/guides/README.md)** (decision tree + step-by-step guides 01–05).
-4. In any project chat: `use skill spec` → `use skill plan` → `use skill implement — <plan-path> — Step N` (repo or global storage). See [SDD workflow guide](docs/guides/01-sdd-workflow.md) for details.
+3. For **daily skill usage**, open **[docs/guides/README.md](docs/guides/README.md)** (decision tree + step-by-step guides 01–07).
+4. (Optional) Run `use skill speckit-setup` to install Spec Kit CLI prerequisites and run `use skill speckit-init` to initialize Spec Kit folders in your active repositories.
+5. In any project chat: `use skill spec` → `use skill plan` → `use skill implement — <plan-path> — Step N` (repo or global storage). See [SDD workflow guide](docs/guides/01-sdd-workflow.md) for details.
 
 Re-run sync after pulling toolkit updates (idempotent).
 
@@ -32,7 +34,7 @@ Re-run sync after pulling toolkit updates (idempotent).
 
 | Doc | Content |
 |-----|---------|
-| [docs/guides/README.md](docs/guides/README.md) | **Daily usage** — decision tree, skill manuals (guides 01–05) |
+| [docs/guides/README.md](docs/guides/README.md) | **Daily usage** — decision tree, skill manuals (guides 01–07) |
 | [docs/INSTALL.md](docs/INSTALL.md) | Install, sync, short usage index |
 | [docs/README.md](docs/README.md) | Documentation index |
 | [docs/HOOKS.md](docs/HOOKS.md) | Optional hooks (behavior, limits) |
@@ -49,12 +51,19 @@ cursor-dev-toolkit/
 ├── docs/                  # INSTALL, guides/, HOOKS, MAINTAINER_GUIDE, TOKEN_BUDGET
 │   └── guides/            # User skill manuals (English, versioned)
 ├── rules/                 # → ~/.cursor/rules/*.mdc
+│   ├── caveman-mode.md    # Global response compression trigger
+│   └── …
 ├── hooks/                 # → ~/.cursor/hooks/ + merge hooks.json
-├── scripts/               # sync-cursor.ps1
+├── scripts/               # sync-cursor.ps1, setup-speckit.ps1, configure-repo-sdd.ps1
 └── skills/                # → ~/.cursor/skills/
     ├── spec/
     ├── plan/
     ├── implement/
+    ├── speckit-setup/     # Verify and install Spec Kit CLI prerequisites
+    ├── speckit-init/      # Initialize .specify/ folders
+    ├── speckit-spec/      # Create technical spec
+    ├── speckit-plan/      # Technical design and checklist
+    ├── speckit-develop/   # Step-by-step developer task execution
     ├── code-review/
     ├── commit/
     ├── dotnet-developer/
@@ -69,6 +78,7 @@ cursor-dev-toolkit/
     └── _shared/
         ├── backlog-item-types/
         ├── dotnet-guidelines/
+        ├── caveman/       # Shared Caveman Mode guideline file
         └── …
 ```
 
@@ -79,6 +89,11 @@ cursor-dev-toolkit/
 | `spec` | `use skill spec` | PRD from a feature request |
 | `plan` | `use skill plan` | Baby-step PLAN from PRD |
 | `implement` | `use skill implement` | One PLAN step per session |
+| `speckit-setup` | `use skill speckit-setup` | Install Spec Kit CLI dependencies (Python, uv, specify-cli) |
+| `speckit-init` | `use skill speckit-init` | Initialize `.specify/` with stack-based `constitution.md` |
+| `speckit-spec` | `use skill speckit-spec` | Create technical specification `spec.md` |
+| `speckit-plan` | `use skill speckit-plan` | Generate plan `plan.md` and checklist `tasks.md` |
+| `speckit-develop` | `use skill speckit-develop` | Implement code and run tests for one Spec Kit task |
 | `code-review` | `use skill code-review` | Review diff or branch vs PRD/PLAN |
 | `commit` | `use skill commit` | Conventional commit and push |
 | `dotnet-developer` | `use skill dotnet-developer` | Small .NET work without full SDD |
@@ -91,7 +106,7 @@ cursor-dev-toolkit/
 | `breakdown-tasks` | `use skill breakdown-tasks` | Implementation task checklist (local markdown) |
 | `create-message-consumer` | `use skill create-message-consumer` | Scaffold message consumer (scaffold) |
 
-Optional flows: repo docs (`plan-repo-docs` → `document-repo`); backlog (`refine-backlog-item` → `breakdown-tasks` → SDD). See [AGENTS.md](AGENTS.md).
+Optional flows: repo docs (`plan-repo-docs` → `document-repo`); backlog (`refine-backlog-item` → `breakdown-tasks` → SDD); Spec Kit (`speckit-setup` → `speckit-init` → `speckit-spec` → `speckit-plan` → `speckit-develop`). See [AGENTS.md](AGENTS.md).
 
 Details and shared assets: [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md).
 
@@ -99,12 +114,13 @@ Details and shared assets: [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md).
 
 | Area | Rule |
 |------|------|
-| Skill names | English, kebab-case (`spec`, `plan`, `implement`) |
+| Skill names | English, kebab-case (`spec`, `plan`, `speckit-spec`) |
 | SDD agent artifacts (PRD, PLAN `.md`) | Brazilian Portuguese (pt-BR) — `rules/sdd-artifact-language-pt-br.md` |
 | Production code & tests | English; tests `Should_<Result>_When_<Condition>` |
 | Project docs (`docs/`, README deliverables) | Ask pt-BR or English in skill |
 | Test stack | xUnit + Moq + FluentAssertions |
 | User chat replies | Brazilian Portuguese (pt-BR) — `rules/user-language-pt-br.md` |
+| SDD Storage Mode | Local `repository` (in-repo) or `global` (centralized `~/.cursor/sdd/`) resolved via `manifest.json` |
 
 ## Rules (after sync)
 
@@ -115,8 +131,24 @@ Details and shared assets: [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md).
 | `rules/context-management.md` | `~/.cursor/rules/context-management.mdc` | Multi-step SDD |
 | `rules/user-language-pt-br.md` | `~/.cursor/rules/user-language-pt-br.mdc` | Always pt-BR in chat |
 | `rules/sdd-artifact-language-pt-br.md` | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` | PRD/PLAN `.md` in pt-BR; code always English |
+| `rules/caveman-mode.md` | `~/.cursor/rules/caveman-mode.mdc` | Compression of chat responses when enabled |
 
 Branches: `feature/<slug>` or `feat/<id>` only — not `main`, `master`, or `develop`.
+
+## Caveman Mode (Response Compression)
+
+Caveman Mode is an optional feature designed to reduce output token consumption by stripping away polite filler text and verbose progress narration, while fully protecting technical facts, code blocks, and confirmation gates.
+
+- **Persisted State**: Configured in `~/.cursor/sdd/preferences.json` under `"caveman_mode"`.
+- **In-Session Toggles**: 
+  - Send `caveman on` in chat to enable response compression.
+  - Send `caveman off` in chat to disable response compression.
+- **Participation Levels**:
+  - **NEVER**: `commit` (kept verbose for safety).
+  - **LITE**: `spec`, `plan`, `speckit-spec`, `speckit-plan` (compresses headers/preambles, but keeps questions and drafts intact).
+  - **FULL**: `code-review`, `dotnet-developer`, `fix-build`, `test-coverage`, `implement`, `speckit-develop` (compresses all prose to telegraphic bullet points).
+
+For a complete explanation, see [docs/guides/07-caveman-mode.md](docs/guides/07-caveman-mode.md).
 
 ## License
 

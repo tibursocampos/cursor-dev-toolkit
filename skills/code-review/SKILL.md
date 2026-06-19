@@ -33,6 +33,7 @@ Ask the user **only after** step 0.5 if zero or multiple PRD/PLAN pairs remain a
 | Pre-PR gate (.NET) | `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md` |
 | .NET coverage report | `~/.cursor/skills/test-coverage/reference.md` (when PRD/user/PLAN requires coverage) |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/principles-cheatsheet.md` |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` — **Full mode** |
 | Final Git hygiene | `~/.cursor/skills/_shared/developer-common/step-7-checklist.md` |
 | Report template | `reference.md` (this skill) |
 
@@ -41,6 +42,14 @@ Prefer project `docs/standards/` or repo `AGENTS.md` over generic guidelines whe
 Do **not** preload `code-guidelines/languages/**` or corporate static-analysis workflows.
 
 ## Process
+
+### -1. Caveman Mode
+
+Check `~/.cursor/sdd/preferences.json`:
+- If file missing → create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` → load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
+  > 🪨 Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
+- Honor `caveman on` / `caveman off` commands from the user at any point during the session.
 
 ### 0. Workspace
 

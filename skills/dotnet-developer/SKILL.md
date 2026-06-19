@@ -38,12 +38,21 @@ Recommend `use skill spec` → `plan` → `implement` if **two or more** apply:
 | Pre-PR gate | `~/.cursor/skills/_shared/developer-common/step-7-checklist.md` |
 | Architecture | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
 | C# / tests | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` — **Full mode** |
 | Final checklist | `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md` |
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
 
 Do **not** preload `code-guidelines/languages/**` or corporate pipeline docs.
 
 ## Process
+
+### -1. Caveman Mode
+
+Check `~/.cursor/sdd/preferences.json`:
+- If file missing → create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` → load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
+  > 🪨 Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
+- Honor `caveman on` / `caveman off` commands from the user at any point during the session.
 
 ### 0. Workspace
 
