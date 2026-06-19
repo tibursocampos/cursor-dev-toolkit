@@ -19,6 +19,7 @@ A **PLAN** in **pt-BR** at a **canonical** path (`PLAN/PLAN_NNN_*.md` or global)
 |------|------|
 | Pipeline guards, missing PRD dialog | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
 | Storage, manifest, `.gitignore` | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` — **Lite mode** |
 | SDD language, context, .NET | `sdd-artifact-language-pt-br.mdc`, `context-management.mdc`, `dotnet-guidelines/*.md` |
 
 ## Process
@@ -26,6 +27,12 @@ A **PLAN** in **pt-BR** at a **canonical** path (`PLAN/PLAN_NNN_*.md` or global)
 ### -1. Pipeline and mode
 
 Load `PIPELINE.md`. Phase A/B as for `spec`. No PRD authoring; no production/test code.
+
+Check `~/.cursor/sdd/preferences.json`:
+- If file missing → create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` → load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (**Lite mode** rules only) and display:
+  > 🪨 Modo Caveman ativo (respostas compactas — Lite). Digite `caveman off` a qualquer momento para desativar.
+- Honor `caveman on` / `caveman off` at any point during the session.
 
 ### 0. Workspace
 

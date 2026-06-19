@@ -146,6 +146,11 @@ Full rules: `PIPELINE.md` (order, mode phases, missing-artifact dialogs).
 | spec | Yes (or manifest) | Repository mode only | PRD + manifest |
 | plan | Yes if manifest missing; infer if PRD is global | Repository mode only | PLAN + manifest |
 | implement | No — use PLAN path from input | No | Updates same PLAN file |
+| speckit-setup | No | No | Global manifest directories |
+| speckit-init | Yes (resolves storage) | Repository mode only | `.specify/` + manifest |
+| speckit-spec | No — uses resolved storage | Repository mode only | `spec.md` |
+| speckit-plan | No — uses resolved storage | Repository mode only | `plan.md` + `tasks.md` |
+| speckit-develop | No — uses resolved storage | No | Updates `tasks.md` |
 | code-review | No | No | Read-only: manifest + glob repo/global; no writes |
 | refine-backlog-item | No (escalates to `spec`) | No | Read-only when listing existing PRDs before handoff |
 | breakdown-tasks | No | No | Read-only when resolving an existing SDD PLAN path |
@@ -172,3 +177,71 @@ Use the same resolution as `code-review` (`skills/code-review/reference.md` § S
 - Context rule: `rules/context-management.md`
 - Always-on rule: `rules/sdd-pipeline-guards.md`
 - Hooks: `hooks/_hook-common.ps1` (`Test-PlanFilePath` includes global PLAN paths)
+
+---
+
+## Global Manifest and Dynamic Storage Resolution
+
+> **Used by:** `speckit-setup`, `speckit-init`, `speckit-spec`, `speckit-plan`, `speckit-develop`. All Spec Kit skills use this resolution algorithm.
+
+### Manifest location
+
+```
+$env:USERPROFILE\.cursor\sdd\manifest.json
+```
+
+### Manifest structure
+
+```json
+{
+  "repositories": {
+    "D:/Source/Repos/Payments.Api": {
+      "storage_mode": "global",
+      "path": "C:/Users/rapha/.cursor/sdd/Payments_Api"
+    },
+    "D:/Source/Repos/cursor-dev-toolkit": {
+      "storage_mode": "repository",
+      "path": "D:/Source/Repos/cursor-dev-toolkit"
+    }
+  }
+}
+```
+
+### Resolution algorithm (Spec Kit skills only)
+
+Execute at skill load time, before any read or write:
+
+```
+1. Read $Cwd (active workspace working directory).
+2. Check whether $env:USERPROFILE\.cursor\sdd\manifest.json exists.
+   - If it does not exist: create the sdd/ folder and manifest.json with {"repositories": {}}.
+3. Look up the key matching $Cwd in the "repositories" object.
+
+4. If the key is NOT found (first run on this repository):
+   a. Pause and ask the user (pt-BR):
+      "Identifiquei que este é o primeiro uso das skills de SDD com Spec Kit neste repositório.
+       Onde você prefere salvar as especificações e planos (.md)?
+       1) No repositório local (pasta /.specify)
+       2) No diretório global compartilhado (salvo externamente em
+          ~/.cursor/sdd/ para não poluir o repositório)"
+   b. If "1" or "local":
+      - storage_mode: "repository"
+      - path: $Cwd
+   c. If "2" or "global":
+      - storage_mode: "global"
+      - path: $env:USERPROFILE\.cursor\sdd\<RepositoryName>
+   d. Write the entry to manifest.json.
+   e. If global mode: create the folder at the defined path if it does not exist.
+
+5. If the key IS found: read storage_mode and path directly.
+```
+
+### Physical path mapping
+
+| storage_mode | Spec Kit target |
+|---|---|
+| `repository` | `$Cwd/.specify/` |
+| `global` | `<path>/.specify/` |
+
+`<path>` = resolved value of the `path` field in the manifest for the active repository.
+`<RepositoryName>` = last segment of `$Cwd` with path separators replaced by `_`.

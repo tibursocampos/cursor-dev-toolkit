@@ -36,6 +36,7 @@ Do not re-ask SDD storage or change artifact language mid-PLAN unless requested.
 |------|------|
 | Pipeline, missing PLAN dialog | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
 | Storage | `STORAGE.md` |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` — **Full mode** |
 | .NET, Git, context | `dotnet-guidelines/*.md`, `branch-validation.mdc`, `conventional-commits.mdc`, `developer-common/GUIDE.md`, `context-management.mdc` |
 
 ## Process
@@ -43,6 +44,12 @@ Do not re-ask SDD storage or change artifact language mid-PLAN unless requested.
 ### -1. Pipeline and mode
 
 Load `PIPELINE.md`. **Agent** required for code changes and PLAN updates. If user asks for PRD/`spec` or PLAN/`plan` → guide per § Missing artifacts; do not create PRD/PLAN here.
+
+Check `~/.cursor/sdd/preferences.json`:
+- If file missing → create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` → load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
+  > 🪨 Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
+- Honor `caveman on` / `caveman off` commands from the user at any point during the session.
 
 ### 0. Workspace
 

@@ -17,6 +17,7 @@ Lean router for agents when this toolkit is installed under `~/.cursor/`. Pointe
 
 Use for medium/high complexity: migrations, multiple components, cross-cutting design, or unclear scope.
 
+#### Classic SDD
 ```
 spec → plan → implement (one PLAN step per session)
 ```
@@ -27,9 +28,22 @@ spec → plan → implement (one PLAN step per session)
 | plan | "use skill plan" | `PLAN/PLAN_XXX.md` **or** `~/.cursor/sdd/<repo-id>/PLAN/` |
 | implement | "use skill implement" | Code + PLAN step checkbox (same path as handoff) |
 
-**Checkpoint:** one `implement` session = one PLAN step. Start a new session for the next step.
+#### Spec Kit SDD (Alternative CLI-based flow)
+```
+speckit-spec → speckit-plan → speckit-develop (one Task per session)
+```
 
-**Pipeline guards:** canonical paths, confirm-before-write, missing PRD/PLAN dialogs, Plan vs Agent phases — `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` and `~/.cursor/rules/sdd-pipeline-guards.mdc`.
+| Skill | Invoke | Typical output |
+|-------|--------|----------------|
+| speckit-setup | "use skill speckit-setup" | Installs prerequisites (specify-cli, Python, uv) |
+| speckit-init | "use skill speckit-init" | Creates `.specify/` + `constitution.md` |
+| speckit-spec | "use skill speckit-spec" | `.specify/specs/NNN-<slug>/spec.md` |
+| speckit-plan | "use skill speckit-plan" | `.specify/specs/NNN-<slug>/plan.md` & `tasks.md` |
+| speckit-develop | "use skill speckit-develop" | Code + tasks checklist checkbox (`tasks.md`) |
+
+**Checkpoint:** one `implement`/`speckit-develop` session = one PLAN/tasks step. Start a new session for the next step.
+
+**Pipeline guards:** canonical paths, confirm-before-write, missing PRD/PLAN/Spec dialogs, Plan vs Agent phases — `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` and `~/.cursor/rules/sdd-pipeline-guards.mdc`.
 
 ### Shortcut — small .NET work
 
@@ -46,7 +60,7 @@ Invoke with "use skill dotnet-developer". Loads `dotnet-guidelines` on demand; s
 | Flow | Steps |
 |------|--------|
 | Repo documentation (RAG) | `plan-repo-docs` → `document-repo` (one plan step per session) |
-| Backlog intake → SDD | `refine-backlog-item` → optional `breakdown-tasks` → `spec` → `plan` → `implement` |
+| Backlog intake → SDD | `refine-backlog-item` → optional `breakdown-tasks` → `spec`/`speckit-spec` → `plan`/`speckit-plan` → `implement`/`speckit-develop` |
 | Build / test failure | `fix-build` → optional `commit` |
 | EF migration (repo alvo) | `add-migrations` (also handoff from `implement/reference.md`) |
 | Message consumer (scaffold) | `create-message-consumer` — detect bus via Grep; no corporate templates |
@@ -65,6 +79,7 @@ After `scripts/sync-cursor.ps1`, rules live as `.mdc` under `~/.cursor/rules/`:
 | SDD pipeline (order, paths, confirm, modes) | `~/.cursor/rules/sdd-pipeline-guards.mdc` |
 | SDD agent PRD/PLAN `.md` language | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
 | User-facing reply language | `~/.cursor/rules/user-language-pt-br.mdc` |
+| Caveman Mode response compression | `~/.cursor/rules/caveman-mode.mdc` |
 
 Rules override conflicting inline text in skills.
 
@@ -82,6 +97,7 @@ After sync, `~/.cursor/hooks.json` may register context/PLAN helpers. See `docs/
 | C# style and tests (xUnit, Moq, FluentAssertions; `Should_<Result>_When_<Condition>`) | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
 | Pre-PR / pre-push checklist | `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md` |
 | Git flow orchestration | `~/.cursor/skills/_shared/developer-common/GUIDE.md` |
+| Caveman Mode response compression rules | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
 | SOLID, DRY, KISS, YAGNI, encapsulation | `~/.cursor/skills/_shared/code-guidelines/principles/` (single file as needed) |
 | Commit / branch / PR comment format | `~/.cursor/skills/_shared/format-validators/` |
 
@@ -102,6 +118,11 @@ Installed under `~/.cursor/skills/` after sync. Triggers: `use skill <name>` (En
 | spec | `use skill spec` | PRD from a feature request |
 | plan | `use skill plan` | Baby-step PLAN from PRD |
 | implement | `use skill implement` | Execute one PLAN step |
+| speckit-setup | `use skill speckit-setup` | Install Spec Kit CLI dependencies (Python, uv, specify-cli) |
+| speckit-init | `use skill speckit-init` | Initialize `.specify/` with stack-based `constitution.md` |
+| speckit-spec | `use skill speckit-spec` | Create technical specification `spec.md` |
+| speckit-plan | `use skill speckit-plan` | Generate plan `plan.md` and checklist `tasks.md` |
+| speckit-develop | `use skill speckit-develop` | Implement code and run tests for one Spec Kit task |
 | code-review | `use skill code-review` | Review diff or branch vs PRD/PLAN |
 | commit | `use skill commit` | Conventional commit and push |
 | dotnet-developer | `use skill dotnet-developer` | Small .NET task without full SDD |
@@ -120,7 +141,7 @@ Shared templates: `~/.cursor/skills/_shared/backlog-item-types/` (loaded by `ref
 
 1. **Lazy-load only** — each skill reads what it needs when invoked.
 2. **Guidelines win conflicts** — if a skill disagrees with `dotnet-guidelines`, follow the guideline file.
-3. **One PLAN step per session** — persist PLAN state; continue in a new chat for the next step.
+3. **One PLAN/tasks step per session** — persist state; continue in a new chat for the next step.
 4. **Token discipline** — see `docs/TOKEN_BUDGET.md` in the toolkit repo.
 
 ## Editing this toolkit repo

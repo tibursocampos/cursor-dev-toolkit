@@ -8,13 +8,17 @@ Companion: `STORAGE.md` (folders, manifest, `.gitignore`).
 
 ## Skill order
 
-Fixed sequence: **`spec` → `plan` → `implement`**. Never skip a stage unless the user explicitly chooses a documented shortcut (see § Missing artifacts).
+- **Classic SDD**: Fixed sequence: **`spec` → `plan` → `implement`**. Never skip a stage unless shortcut selected.
+- **Spec Kit**: Fixed sequence: **`speckit-spec` → `speckit-plan` → `speckit-develop`**.
 
 | Skill | Writes | Must not in same session |
 |-------|--------|---------------------------|
 | `spec` | PRD + manifest | PLAN; production/test code (`*.cs`, migrations, etc.) |
 | `plan` | PLAN + manifest | PRD body; production/test code |
 | `implement` | Code (English) + PLAN progress | New PRD/PLAN files |
+| `speckit-spec` | `spec.md` + manifest | Plan/Tasks; production/test code |
+| `speckit-plan` | `plan.md` + `tasks.md` | spec.md body; production/test code |
+| `speckit-develop` | Code (English) + `tasks.md` progress | New spec/plan/tasks files |
 
 ## Canonical paths
 
@@ -146,12 +150,22 @@ Before `Write`, confirm the target matches:
 
 If validation fails, do not write — fix path or promote.
 
+### Spec Kit path validation
+
+Before writing any Spec Kit artifact (spec.md, plan.md, tasks.md), verify that the target path matches:
+
+- spec.md: `.*\.specify/specs/\d{3}-[^/]+/spec\.md$`
+- plan.md: `.*\.specify/specs/\d{3}-[^/]+/plan\.md$`
+- tasks.md: `.*\.specify/specs/\d{3}-[^/]+/tasks\.md$`
+
+If validation fails, do not write — abort and fix.
+
 ## Integration
 
 | Consumer | Use |
 |----------|-----|
-| `spec`, `plan`, `implement` | Step -1 load; steps reference § by name |
+| `spec`, `plan`, `implement`, `speckit-spec`, `speckit-plan`, `speckit-develop` | Step -1 load; steps reference § by name |
 | `STORAGE.md` | Folders, manifest, invalid-path summary |
 | `rules/sdd-pipeline-guards.mdc` | Short always-on reminder |
-| `code-review` | Handoff to `spec` for new PRD; read-only SDD discovery |
+| `code-review` | Handoff to `spec` or `speckit-spec` for new spec; read-only SDD discovery |
 | `test-coverage` | Phase B / Agent for shell; report paths in `reference.md` |
