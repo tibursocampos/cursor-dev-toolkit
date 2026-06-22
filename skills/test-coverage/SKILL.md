@@ -1,9 +1,28 @@
 ---
 name: test-coverage
-description: Run .NET test coverage (Coverlet), report metrics aligned with SonarQube (new code, branch, per-file), and evaluate against a threshold (default 80%). Use when the user says "use skill test-coverage", "coverage report", or "/coverage". Git-only — no Sonar server required.
+description: Run .NET test coverage (Coverlet), report metrics aligned with SonarQube (new code, branch, per-file), and evaluate against a threshold (default 80%). Use when the user says "use skill test-coverage", "coverage report", or "/coverage". Git-only - no Sonar server required.
 ---
 
-# Skill: test-coverage
+## STOP - Read before ANY tool call
+
+1. Read `~/.cursor/rules/guardrails.mdc`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
+4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
+
+### Step -1 - Gate check (report in chat before continuing)
+
+```
+Gate check:
+[ ] guardrails.mdc read
+[ ] SESSION.md read; session-state loaded
+[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] User confirmed current action (sim)
+-> If any unchecked: STOP
+```
+
+---
 
 ## Trigger
 
@@ -13,19 +32,19 @@ Invoke when the user asks for: `use skill test-coverage`, `coverage report`, `/c
 
 | Input | Meaning |
 |-------|---------|
-| Base branch | `main`, `develop` — ask once if missing (same as `code-review`) |
-| Test project path | `path/to/Tests.csproj` — auto-detect `*Tests.csproj` / `*.Tests.csproj` if omitted |
+| Base branch | `main`, `develop` - ask once if missing (same as `code-review`) |
+| Test project path | `path/to/Tests.csproj` - auto-detect `*Tests.csproj` / `*.Tests.csproj` if omitted |
 | Threshold | Minimum line coverage on **changed production `.cs` files** (default: **80**) |
-| Target | **100** — aspirational; document gaps when below 100 but ≥ threshold |
+| Target | **100** - aspirational; document gaps when below 100 but >= threshold |
 
 ## Outcome
 
 A structured **coverage report** in **pt-BR** with:
 
-- **Coverage on new code** — line coverage on changed production files vs base branch
-- **Overall branch coverage** — solution-wide line coverage after tests
-- **Per-file breakdown** — each changed production file with line %
-- **Decision:** Pass (≥ threshold) or Fail (&lt; threshold) with gap list
+- **Coverage on new code** - line coverage on changed production files vs base branch
+- **Overall branch coverage** - solution-wide line coverage after tests
+- **Per-file breakdown** - each changed production file with line %
+- **Decision:** Pass (>= threshold) or Fail (< threshold) with gap list
 
 Does not modify code unless the user asks for test additions in a follow-up.
 
@@ -34,8 +53,8 @@ Does not modify code unless the user asks for test additions in a follow-up.
 | When | Path |
 |------|------|
 | Commands, parsing, exclusions, on-disk report paths | `test-coverage/reference.md` after sync |
-| Cursor mode (Agent for shell) | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` § Cursor mode |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` — **Full mode** |
+| Cursor mode (Agent for shell) | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` section Cursor mode |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full mode** |
 | Add tests for gaps | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
 | Commit | `use skill commit` |
 
@@ -46,9 +65,9 @@ Does not modify code unless the user asks for test additions in a follow-up.
 `PIPELINE.md`: **Agent** required for `dotnet test` and ReportGenerator. In Plan/Ask, explain limitation and list expected paths under `TestResults/` after the user switches to Agent.
 
 Check `~/.cursor/sdd/preferences.json`:
-- If file missing → create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` → load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
-  > 🪨 Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
+- If file missing -> create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
+  > Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
 - Honor `caveman on` / `caveman off` commands from the user at any point during the session.
 
 ### 0. Workspace
@@ -67,28 +86,28 @@ git rev-parse --abbrev-ref HEAD
 git diff <base>...HEAD --name-only -- "*.cs"
 ```
 
-Filter to **production** changed files per `reference.md` § Exclusions. Record the list for per-file metrics.
+Filter to **production** changed files per `reference.md` section Exclusions. Record the list for per-file metrics.
 
 ### 2. Prerequisites check
 
-Before running tests, verify per `reference.md` § Prerequisites:
+Before running tests, verify per `reference.md` section Prerequisites:
 
 - `coverlet.collector` on test project(s)
 - `dotnet test` succeeds
 - `reportgenerator` global tool (install once if missing)
 
-If `coverlet.collector` is missing, stop with install instructions — do not fail silently.
+If `coverlet.collector` is missing, stop with install instructions - do not fail silently.
 
 ### 3. Collect coverage (mandatory ReportGenerator)
 
-1. Run `dotnet test` with Coverlet → `TestResults/**/coverage.cobertura.xml` per `reference.md` § Commands.
-2. **Always** run ReportGenerator → `TestResults/CoverageReport/` (`Summary.txt`, `index.html`, Cobertura). Do not finish with XML only.
+1. Run `dotnet test` with Coverlet -> `TestResults/**/coverage.cobertura.xml` per `reference.md` section Commands.
+2. **Always** run ReportGenerator -> `TestResults/CoverageReport/` (`Summary.txt`, `index.html`, Cobertura). Do not finish with XML only.
 
 Use scoped test project when the repo is large or user provided a path.
 
 ### 4. Compute metrics
 
-Parse Cobertura / ReportGenerator output per `reference.md` § Metrics:
+Parse Cobertura / ReportGenerator output per `reference.md` section Metrics:
 
 | Metric | Definition |
 |--------|------------|
@@ -102,8 +121,8 @@ Exclude migrations, generated code, and test projects from **new code** denomina
 
 | Result | When |
 |--------|------|
-| **Pass** | New code coverage ≥ threshold (default 80%) |
-| **Fail** | New code coverage &lt; threshold |
+| **Pass** | New code coverage >= threshold (default 80%) |
+| **Fail** | New code coverage < threshold |
 
 Always note distance to **target 100%** for files below 100% even when Pass.
 
@@ -121,10 +140,12 @@ Do not claim Pass if ReportGenerator output or Cobertura files are missing.
 
 | Situation | Next |
 |-----------|------|
-| Pass | `use skill code-review` — paste approval block from report |
-| Fail — add tests | `use skill dotnet-developer` or `use skill implement` |
+| Pass | `use skill code-review` - paste approval block from report |
+| Fail - add tests | `use skill developer` or `use skill sdd-develop` |
 | Build/test broken | `use skill fix-build` |
 | Commit coverage tooling in consumer repo | `use skill commit` |
+| SDD feature with PLAN | Last PLAN step or `code-review` after all `sdd-develop` steps |
+| Small fix | `use skill developer` to raise coverage, then re-run this skill |
 
 ## Must not
 
@@ -133,11 +154,4 @@ Do not claim Pass if ReportGenerator output or Cobertura files are missing.
 - Claim Pass when tests did not run, coverlet output is missing, or ReportGenerator was skipped
 - Deliver coverage **only** in chat without citing on-disk paths under `TestResults/`
 - Count EF migrations, `*.g.cs`, or `*.Designer.cs` in new-code denominator
-- Block merge by itself — gate is informational unless PRD/PLAN/`code-review` applies threshold
-
-## Handoff
-
-| Situation | Next |
-|-----------|------|
-| SDD feature with PLAN | Last PLAN step or `code-review` after all implement steps |
-| Small fix | `use skill dotnet-developer` to raise coverage, then re-run this skill |
+- Block merge by itself - gate is informational unless PRD/PLAN/`code-review` applies threshold

@@ -1,6 +1,6 @@
-# test-coverage — reference
+# test-coverage - reference
 
-Commands, metrics, exclusions, and report templates for `skills/test-coverage/SKILL.md`. Keep `SKILL.md` under 150 lines.
+Commands, metrics, exclusions, and report templates for `skills/test-coverage/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
 
 ---
 
@@ -17,7 +17,7 @@ The test `.csproj` must reference the collector package:
 **Detect:**
 
 ```bash
-# From repo root — replace path when scoped
+# From repo root - replace path when scoped
 grep -l "coverlet.collector" **/*Tests*.csproj **/*.Tests.csproj 2>/dev/null
 ```
 
@@ -28,7 +28,7 @@ Get-ChildItem -Recurse -Filter *.csproj | Where-Object { $_.Name -match 'Tests?'
   ForEach-Object { Select-String -Path $_.FullName -Pattern 'coverlet.collector' -Quiet; if ($?) { $_.FullName } }
 ```
 
-If missing, instruct the user to add the package and re-run — do not proceed with a fake Pass.
+If missing, instruct the user to add the package and re-run - do not proceed with a fake Pass.
 
 ### dotnet-reportgenerator-globaltool (once per machine)
 
@@ -41,7 +41,7 @@ If install fails (permissions), document limitation and parse `coverage.cobertur
 
 ### Tests must pass
 
-Run `dotnet build` first. Coverage on failing tests is misleading — fix via `use skill fix-build` before coverage collection.
+Run `dotnet build` first. Coverage on failing tests is misleading - fix via `use skill fix-build` before coverage collection.
 
 ---
 
@@ -55,12 +55,12 @@ Run `dotnet build` first. Coverage on failing tests is misleading — fix via `u
 
 | Pattern | Reason |
 |---------|--------|
-| `**/Migrations/**` | EF migrations — SonarQube new-code exclusion |
+| `**/Migrations/**` | EF migrations - SonarQube new-code exclusion |
 | `**/*.g.cs` | Generated |
 | `**/*.Designer.cs` | Generated |
 | `**/obj/**`, `**/bin/**` | Build output |
 | `**/*Tests/**`, `**/*.Tests/**`, `**/*Test*.csproj` | Test code |
-| `**/Program.cs` | Host bootstrap only — optional per repo; document if excluded |
+| `**/Program.cs` | Host bootstrap only - optional per repo; document if excluded |
 
 Normalize paths (forward slashes) when matching Cobertura `filename` attributes.
 
@@ -91,7 +91,7 @@ dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestResults
 dotnet test path/to/MyApp.Tests.csproj --collect:"XPlat Code Coverage" --results-directory ./TestResults
 ```
 
-**Large repo — filter:**
+**Large repo - filter:**
 
 ```bash
 dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestResults --filter "FullyQualifiedName~MyFeatureTests"
@@ -140,7 +140,7 @@ If multiple Cobertura files exist (multiple test projects), merge or take the un
 | Label | Rule |
 |-------|------|
 | **Threshold** | User/PRD argument or default **80%** on **new code** (weighted) |
-| **Target** | **100%** — report gaps for any changed file below 100% even when Pass |
+| **Target** | **100%** - report gaps for any changed file below 100% even when Pass |
 | **Pass** | New code ≥ threshold |
 | **Fail** | New code &lt; threshold |
 
@@ -157,18 +157,18 @@ After a successful run, these paths must exist (workspace-relative unless noted)
 | HTML report | `TestResults/CoverageReport/index.html` |
 | Merged Cobertura | `TestResults/CoverageReport/Cobertura.xml` (when ReportGenerator emits it) |
 
-The skill **must** list these paths in the final chat report and paste metrics from `Summary.txt`. Do not create a separate custom `.md` report path — consumer repos typically gitignore `TestResults/`.
+The skill **must** list these paths in the final chat report and paste metrics from `Summary.txt`. Do not create a separate custom `.md` report path - consumer repos typically gitignore `TestResults/`.
 
 ## Report template (pt-BR)
 
 ```markdown
-# Relatório de cobertura — [nome da feature ou branch]
+# Relatório de cobertura - [nome da feature ou branch]
 
 ## Artefatos no disco
 
 - `TestResults/CoverageReport/Summary.txt`
 - `TestResults/CoverageReport/index.html`
-- `TestResults/.../coverage.cobertura.xml` — [caminho exato encontrado]
+- `TestResults/.../coverage.cobertura.xml` - [caminho exato encontrado]
 
 ## Resumo
 
@@ -205,7 +205,7 @@ The skill **must** list these paths in the final chat report and paste metrics f
 
 ## Lacunas (quando abaixo do threshold ou &lt; 100%)
 
-### `src/.../Service.cs` — [X%]
+### `src/.../Service.cs` - [X%]
 
 - Métodos / linhas sem cobertura: [listar quando identificável]
 - Sugestão: testes `Should_<Result>_When_<Condition>` em [TestProject]
@@ -218,7 +218,7 @@ The skill **must** list these paths in the final chat report and paste metrics f
 Cobertura validada via test-coverage:
 - New code: [X%] (≥ [threshold]%)
 - Branch overall: [Y%]
-- Meta 100%: [N] arquivo(s) abaixo — documentado acima
+- Meta 100%: [N] arquivo(s) abaixo - documentado acima
 ```
 
 ---
@@ -226,7 +226,7 @@ Cobertura validada via test-coverage:
 ## Próximos passos
 
 - [ ] `use skill code-review` (se Pass)
-- [ ] `use skill dotnet-developer` / `implement` — adicionar testes (se Fail)
+- [ ] `use skill developer` / `sdd-develop` - adicionar testes (se Fail)
 - [ ] Re-executar `use skill test-coverage` após novos testes
 ```
 
@@ -236,7 +236,7 @@ Cobertura validada via test-coverage:
 
 | Step | Action |
 |------|--------|
-| 1 | `git diff <base>...HEAD --name-only` → infer feature area |
+| 1 | `git diff <base>...HEAD --name-only` -> infer feature area |
 | 2 | Glob `**/*Tests*.csproj` near changed paths |
 | 3 | `dotnet test <closest-test-project> --collect:"XPlat Code Coverage"` |
 | 4 | Note in report that overall branch % may be partial |
@@ -249,7 +249,7 @@ When `code-review` Step 5 invokes this skill:
 
 1. Run full `test-coverage` process.
 2. Paste **Resumo** table into the review report § Testes.
-3. If **Reprovado**, `code-review` decision → **Alterações necessárias** when PRD/user/threshold applies.
+3. If **Reprovado**, `code-review` decision -> **Alterações necessárias** when PRD/user/threshold applies.
 
 ---
 
@@ -258,7 +258,7 @@ When `code-review` Step 5 invokes this skill:
 PLAN step template (in `plan/reference.md` after step 3 of PLAN_001):
 
 ```text
-use skill test-coverage — <base-branch> — threshold 80
+use skill test-coverage - <base-branch> - threshold 80
 ```
 
 Attach report summary to PLAN step notes when completing the quality step.
@@ -272,7 +272,7 @@ Do **not** require or generate:
 - SonarLint / Visual Studio extension workflows
 - SonarQube server API, tokens, or `dotnet-sonarscanner` upload
 - Mandatory corporate pipeline URLs
-- Coverage gates in this toolkit repo itself (Markdown-only — validate in consumer .NET repos)
+- Coverage gates in this toolkit repo itself (Markdown-only - validate in consumer .NET repos)
 
 ---
 
