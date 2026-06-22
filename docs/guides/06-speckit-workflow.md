@@ -1,6 +1,6 @@
-# Spec Kit Workflow (speckit-setup → speckit-init → speckit-spec → speckit-plan → speckit-develop)
+# Spec Kit Workflow (speckit-setup -> speckit-init -> speckit-spec -> speckit-plan -> speckit-develop)
 
-The Spec Kit workflow is an alternative to classic SDD, based on the official [GitHub Spec Kit](https://github.com/github/spec-kit) CLI and the `.specify/` folder structure.
+The Spec Kit workflow is an alternative to classic SDD, based on the official [GitHub Spec Kit](https://github.com/github/sdd-spec-kit) CLI and the `.specify/` folder structure.
 
 ---
 
@@ -39,7 +39,7 @@ The agent will:
 
 ## Step 4: `use skill speckit-plan`
 Generates the detailed plan and checklist from the specification.
-**Example:** `use skill speckit-plan — <path-to-spec.md>`
+**Example:** `use skill speckit-plan - <path-to-spec.md>`
 
 The agent will:
 - Analyze the `spec.md` and the `constitution.md` of the project.
@@ -51,7 +51,7 @@ The agent will:
 
 ## Step 5: `use skill speckit-develop`
 Executes tasks iteratively step by step.
-**Example:** `use skill speckit-develop — <path-to-tasks.md>`
+**Example:** `use skill speckit-develop - <path-to-tasks.md>`
 
 The agent will:
 - Read the first pending task from the `tasks.md` file.

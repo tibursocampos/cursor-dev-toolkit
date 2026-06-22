@@ -6,15 +6,15 @@ Context and PLAN checkpoint helpers. Installed under `~/.cursor/` by `scripts/sy
 
 | Hook | Script | Purpose |
 |------|--------|---------|
-| `beforeSubmitPrompt` | `hooks/context-before-prompt.ps1` | Detect `use skill spec|plan|implement|commit|code-review|dotnet-developer` and record session state |
-| `afterFileEdit` | `hooks/plan-after-edit.ps1` | Record edits to `PLAN/PLAN_*.md` (repo or `~/.cursor/sdd/<repo-id>/PLAN/`) |
+| `beforeSubmitPrompt` | `hooks/context-before-prompt.ps1` | Detect SDD/speckit skill invocations and record session state |
+| `afterFileEdit` | `hooks/sdd-plan-after-edit.ps1` | Record edits to `PLAN/PLAN_*.md` (repo or `~/.cursor/sdd/<repo-id>/PLAN/`) |
 | `preCompact` | `hooks/context-pre-compact.ps1` | Show user message before context compaction (40%/80% thresholds) |
 
 ## What hooks do not do
 
-- **No model selection** — hooks never pick or switch LLM models.
-- **No external session JSONL** — hooks do not read `~/.claude/projects/*.jsonl` or similar paths.
-- **No token metering on every prompt** — `beforeSubmitPrompt` cannot inject `additional_context` in current Cursor API; rely on `context-management.mdc` and visible usage when available.
+- **No model selection** - hooks never pick or switch LLM models.
+- **No external session JSONL** - hooks do not read `~/.claude/projects/*.jsonl` or similar paths.
+- **No token metering on every prompt** - `beforeSubmitPrompt` cannot inject `additional_context` in current Cursor API; rely on `context-management.mdc` and visible usage when available.
 
 ## Install
 
@@ -54,7 +54,7 @@ Written under `~/.cursor/hooks-state/`:
 ```powershell
 cd path\to\cursor-dev-toolkit
 
-'{"prompt":"use skill implement - PLAN/PLAN_003_feature.md - Step 1","attachments":[]}' |
+'{"prompt":"use skill sdd-develop - PLAN/PLAN_003_feature.md - Step 1","attachments":[]}' |
   powershell -NoProfile -File hooks\context-before-prompt.ps1
 
 '{"file_path":"D:/proj/PLAN/PLAN_003_feature.md","edits":[]}' |
@@ -68,12 +68,12 @@ Expected: first script prints `{"continue":true}`; third prints JSON with `user_
 
 ## Limits
 
-- `afterFileEdit` has no output fields — only sidecar state for `preCompact`.
+- `afterFileEdit` has no output fields - only sidecar state for `preCompact`.
 - `beforeSubmitPrompt` `user_message` is shown when submission is **blocked**; this toolkit always returns `continue: true`.
 - Compaction reminders depend on Cursor passing `context_usage_percent` into `preCompact` (may be absent in some builds).
 - Project-level hooks (`.cursor/hooks.json` in a consumer repo) are optional; this package targets user-level `~/.cursor/`.
 
 ## Related rules
 
-- `rules/context-management.md` → `~/.cursor/rules/context-management.mdc`
-- `rules/user-language-pt-br.md` → reply language (not handled by hooks)
+- `rules/context-management.md` -> `~/.cursor/rules/context-management.mdc`
+- `rules/user-language-pt-br.md` -> reply language (not handled by hooks)

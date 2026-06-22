@@ -8,7 +8,7 @@ This guide details the **Caveman Response Compression Mode**, an optional featur
 
 Caveman Mode directs the agent to communicate in telegraphic, extremely concise fragments rather than complete polite paragraphs. 
 
-* **Goal**: Reduce token usage (expected savings of **22–87%** of conversational prose tokens).
+* **Goal**: Reduce token usage (expected savings of **22-87%** of conversational prose tokens).
 * **Rule**: Go straight to the technical facts and actions.
 * **Exceptions**: Never compress code blocks, file paths, security/git warnings, or confirmation options.
 
@@ -47,8 +47,8 @@ Different skills implement compression to varying degrees to preserve clarity wh
 | Participation Level | Skills | Behavior |
 |---|---|---|
 | **NEVER** | `commit` | Standard communication. Excluded to ensure critical git operations and commit messages remain completely natural. |
-| **LITE** | `spec`, `plan`, `speckit-spec`, `speckit-plan` | Compresses preambles and greeting text, but preserves clarifying questions and artifact drafts (like `spec.md`/`plan.md` previews) 100% intact. |
-| **FULL** | `code-review`, `dotnet-developer`, `fix-build`, `test-coverage`, `implement`, `speckit-develop` | Compresses all prose. Strips introductory and concluding pleasantries entirely. Uses direct bullet points and action statements instead of sentences. |
+| **LITE** | `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan` | Compresses preambles and greeting text, but preserves clarifying questions and artifact drafts (like `spec.md`/`plan.md` previews) 100% intact. |
+| **FULL** | `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop`, `speckit-develop` | Compresses all prose. Strips introductory and concluding pleasantries entirely. Uses direct bullet points and action statements instead of sentences. |
 
 ---
 
@@ -67,7 +67,7 @@ Under **no circumstances** (even in **FULL** mode) are the following elements co
 
 | Instead of (Verbose) | Use (Telegraphic) |
 |---|---|
-| *"Sure, I can help you with that! Here is the plan of action I'm going to take:"* | *(Omit entirely — go straight to action or checklist)* |
+| *"Sure, I can help you with that! Here is the plan of action I'm going to take:"* | *(Omit entirely - go straight to action or checklist)* |
 | *"After analyzing the requested files, I noticed that..."* | *"Identified:"* |
 | *"Once this task is completed, we will proceed to the next step, which is..."* | *"Next: Task N+1"* |
 | *"I hope this resolves your compilation error! Let me know if you need anything else."* | *(Omit entirely)* |
