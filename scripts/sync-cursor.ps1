@@ -6,10 +6,15 @@
 .DESCRIPTION
   Copies AGENTS.md, skills/ (including Spec Kit and Caveman Mode), rules/ (.md -> .mdc), and hooks/ PowerShell scripts.
   Merges hooks/hooks.json into ~/.cursor/hooks.json without removing user hook entries.
+  Removes skill directories and deployed files that no longer exist in the repo (mirror deploy).
   Does not overwrite Cursor user settings or unrelated files under ~/.cursor/.
 
 .PARAMETER Force
-  Reserved for future prompts; currently has no effect (sync is non-destructive by default).
+  Reserved for future prompts; currently has no effect.
+
+.PARAMETER KeepExtraSkills
+  Do not remove top-level skill folders under ~/.cursor/skills that are absent from the repo
+  (use when you keep custom skills beside the toolkit).
 
 .PARAMETER DryRun
   Report planned changes without writing files.
@@ -23,6 +28,7 @@
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
     [switch] $Force,
+    [switch] $KeepExtraSkills,
     [switch] $DryRun
 )
 
@@ -143,6 +149,134 @@ function Sync-DirectoryTree {
             }
         }
     return $changed
+}
+
+function Get-TopLevelDirectoryNames {
+    param([string] $Root)
+    if (-not (Test-Path -LiteralPath $Root)) {
+        return @()
+    }
+    return @(Get-ChildItem -LiteralPath $Root -Directory | ForEach-Object { $_.Name })
+}
+
+function Remove-StaleSkillDirectories {
+    param(
+        [string] $RepoSkillsRoot,
+        [string] $DestSkillsRoot
+    )
+    if ($KeepExtraSkills) {
+        return 0
+    }
+    if (-not (Test-Path -LiteralPath $DestSkillsRoot)) {
+        return 0
+    }
+
+    $expected = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+    foreach ($name in (Get-TopLevelDirectoryNames $RepoSkillsRoot)) {
+        [void]$expected.Add($name)
+    }
+
+    $removed = 0
+    Get-ChildItem -LiteralPath $DestSkillsRoot -Directory | ForEach-Object {
+        if ($expected.Contains($_.Name)) {
+            return
+        }
+        if ($DryRun) {
+            Write-ToolkitMessage "Would remove stale skill directory: $($_.FullName)" ([ConsoleColor]::Cyan)
+        }
+        else {
+            Remove-Item -LiteralPath $_.FullName -Recurse -Force
+            Write-ToolkitMessage "Removed stale skill directory: $($_.Name)" ([ConsoleColor]::Yellow)
+        }
+        $removed++
+    }
+    return $removed
+}
+
+function Remove-EmptyDirectories {
+    param([string] $Root)
+    if (-not (Test-Path -LiteralPath $Root)) {
+        return
+    }
+    Get-ChildItem -LiteralPath $Root -Recurse -Directory |
+        Sort-Object { $_.FullName.Length } -Descending |
+        ForEach-Object {
+            $childItems = @(Get-ChildItem -LiteralPath $_.FullName -Force -ErrorAction SilentlyContinue)
+            if ($childItems.Count -gt 0) {
+                return
+            }
+            if ($DryRun) {
+                Write-ToolkitMessage "Would remove empty directory: $($_.FullName)" ([ConsoleColor]::Cyan)
+            }
+            else {
+                Remove-Item -LiteralPath $_.FullName -Force
+                Write-ToolkitMessage "Removed empty directory: $($_.FullName)" ([ConsoleColor]::DarkYellow)
+            }
+        }
+}
+
+function Remove-StaleFilesInTree {
+    param(
+        [string] $SourceRoot,
+        [string] $DestRoot,
+        [string[]] $ExcludeFileNames = @()
+    )
+    if (-not (Test-Path -LiteralPath $DestRoot)) {
+        return 0
+    }
+
+    $removed = 0
+    Get-ChildItem -LiteralPath $DestRoot -Recurse -File |
+        Where-Object {
+            $ExcludeFileNames -notcontains $_.Name -and
+            $_.Name -ne '.gitkeep'
+        } |
+        ForEach-Object {
+            $relative = $_.FullName.Substring($DestRoot.Length).TrimStart('\', '/')
+            $sourcePath = Join-Path $SourceRoot $relative
+            if (Test-Path -LiteralPath $sourcePath) {
+                return
+            }
+            if ($DryRun) {
+                Write-ToolkitMessage "Would remove stale file: $($_.FullName)" ([ConsoleColor]::Cyan)
+            }
+            else {
+                Remove-Item -LiteralPath $_.FullName -Force
+                Write-ToolkitMessage "Removed stale file: $relative" ([ConsoleColor]::Yellow)
+            }
+            $removed++
+        }
+
+    Remove-EmptyDirectories -Root $DestRoot
+    return $removed
+}
+
+function Remove-StaleRules {
+    param(
+        [string] $RulesSource,
+        [string] $RulesDest
+    )
+    if (-not (Test-Path -LiteralPath $RulesDest)) {
+        return 0
+    }
+
+    $removed = 0
+    Get-ChildItem -LiteralPath $RulesDest -Filter '*.mdc' -File | ForEach-Object {
+        $mdName = [System.IO.Path]::ChangeExtension($_.Name, '.md')
+        $sourcePath = Join-Path $RulesSource $mdName
+        if (Test-Path -LiteralPath $sourcePath) {
+            return
+        }
+        if ($DryRun) {
+            Write-ToolkitMessage "Would remove stale rule: $($_.FullName)" ([ConsoleColor]::Cyan)
+        }
+        else {
+            Remove-Item -LiteralPath $_.FullName -Force
+            Write-ToolkitMessage "Removed stale rule: $($_.Name)" ([ConsoleColor]::Yellow)
+        }
+        $removed++
+    }
+    return $removed
 }
 
 function Sync-Rules {
@@ -370,6 +504,15 @@ $totalChanges += Sync-DirectoryTree `
     -ExcludeFileNames @('hooks.json')
 
 $totalChanges += Sync-HooksJson -RepoRoot $repoRoot -CursorRoot $cursorRoot
+
+$skillsSource = Join-Path $repoRoot 'skills'
+$hooksSource = Join-Path $repoRoot 'hooks'
+$rulesSource = Join-Path $repoRoot 'rules'
+
+$totalChanges += Remove-StaleSkillDirectories -RepoSkillsRoot $skillsSource -DestSkillsRoot $skillsDest
+$totalChanges += Remove-StaleFilesInTree -SourceRoot $skillsSource -DestRoot $skillsDest
+$totalChanges += Remove-StaleFilesInTree -SourceRoot $hooksSource -DestRoot $hooksDest -ExcludeFileNames @('hooks.json')
+$totalChanges += Remove-StaleRules -RulesSource $rulesSource -RulesDest $rulesDest
 
 Write-Host ''
 if ($totalChanges -eq 0) {
