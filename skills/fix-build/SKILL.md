@@ -1,6 +1,27 @@
 ---
 name: fix-build
-description: Diagnose and fix failing dotnet build or test runs in the open workspace. Local first; optional GitHub Actions logs via gh. Use when the user says "use skill fix-build", "fix build", or "/fix-build". Git-only commit handoff — no Azure DevOps API.
+description: Diagnose and fix failing dotnet build or test runs in the open workspace. Local first; optional GitHub Actions logs via gh. Use when the user says "use skill fix-build", "fix build", or "/fix-build". Git-only commit handoff - no Azure DevOps API.
+---
+
+## STOP - Read before ANY tool call
+
+1. Read `~/.cursor/rules/guardrails.mdc`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
+4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
+
+### Step -1 - Gate check (report in chat before continuing)
+
+```
+Gate check:
+[ ] guardrails.mdc read
+[ ] SESSION.md read; session-state loaded
+[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] User confirmed current action (sim)
+-> If any unchecked: STOP
+```
+
 ---
 
 # Skill: fix-build
@@ -15,7 +36,7 @@ Invoke when the user asks for: `use skill fix-build`, `fix build`, `/fix-build`,
 |-------|---------|
 | (none) | Run local `dotnet build` / `dotnet test` in the open workspace |
 | Pasted log | Analyze the log text the user provides |
-| `gh` context | User names a failed workflow run — use `gh` per `reference.md` § CI (optional) |
+| `gh` context | User names a failed workflow run - use `gh` per `reference.md` section CI (optional) |
 
 Do not require a build ID from Azure Pipelines or any PAT.
 
@@ -29,7 +50,7 @@ Structured diagnosis, proposed fixes with rationale, fixes applied only after us
 |------|------|
 | Locale / timezone / Bogus heuristics | `skills/fix-build/reference.md` or `~/.cursor/skills/fix-build/reference.md` after sync |
 | C# patterns | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` — **Full mode** |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full mode** |
 | Commit | `use skill commit` |
 
 ## Process
@@ -37,9 +58,9 @@ Structured diagnosis, proposed fixes with rationale, fixes applied only after us
 ### -1. Caveman Mode
 
 Check `~/.cursor/sdd/preferences.json`:
-- If file missing → create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` → load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
-  > 🪨 Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
+- If file missing -> create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
+  > [Caveman] Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
 - Honor `caveman on` / `caveman off` commands from the user at any point during the session.
 
 ### 0. Workspace
@@ -59,7 +80,7 @@ Capture errors: file, line, test name, expected vs actual.
 
 **Pasted log:** extract compile errors, restore failures, and test failures (`[FAIL]`, `Error Message`, `Expected`/`Actual`).
 
-**GitHub Actions (optional):** if user points to a run and `gh` is available, fetch logs per `reference.md` § CI. Skip if unavailable — stay on local reproduction.
+**GitHub Actions (optional):** if user points to a run and `gh` is available, fetch logs per `reference.md` section CI. Skip if unavailable - stay on local reproduction.
 
 ### 2. Structured diagnosis
 
@@ -73,7 +94,7 @@ Present:
 **Failures:** N
 
 ### Items
-1. [<category>] <summary> — <file>:<line> or <test name>
+1. [<category>] <summary> - <file>:<line> or <test name>
 ...
 ```
 
@@ -81,7 +102,7 @@ Categories: compile, restore/NuGet, test assertion, configuration, pipeline conf
 
 ### 3. Root-cause investigation
 
-For each item, Read/Grep the codebase. Apply heuristics in `reference.md` § Common causes (culture, timezone, Bogus seed, fixture order, glob in CI YAML).
+For each item, Read/Grep the codebase. Apply heuristics in `reference.md` section Common causes (culture, timezone, Bogus seed, fixture order, glob in CI YAML).
 
 Load `csharp-patterns.md` only when editing production or test code.
 
@@ -98,7 +119,7 @@ dotnet build
 dotnet test --no-build
 ```
 
-Or scoped test filter when the repo is large (see `reference.md` § Scoped test).
+Or scoped test filter when the repo is large (see `reference.md` section Scoped test).
 
 ### 6. Handoff
 
@@ -113,7 +134,7 @@ Do not auto-commit. Do not push unless the user asks via commit skill or explici
 ## Must not
 
 - Azure DevOps REST, PAT, `dev.azure.com`, Credential Manager ADO entries, or corporate org URLs
-- Mandatory external CI API — local reproduction is enough
+- Mandatory external CI API - local reproduction is enough
 - Auto-commit or auto-push
 - Corporate agent pool names or private feed assumptions without repo evidence
 
@@ -123,4 +144,4 @@ Do not auto-commit. Do not push unless the user asks via commit skill or explici
 |-----------|------|
 | Commit on valid branch | `use skill commit` |
 | New EF migration needed | `use skill add-migrations` |
-| Large feature scope | `use skill spec` → `plan` → `implement` |
+| Large feature scope | `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` |

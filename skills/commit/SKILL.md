@@ -1,6 +1,27 @@
 ---
 name: commit
-description: Review staged and unstaged changes, draft a Conventional Commits message, commit on a valid feature branch, and optionally push. Use when the user says "use skill commit", "commit changes", or "/commit". Git-only — no work-item tracker APIs.
+description: Review staged and unstaged changes, draft a Conventional Commits message, commit on a valid feature branch, and optionally push. Use when the user says "use skill commit", "commit changes", or "/commit". Git-only - no work-item tracker APIs.
+---
+
+## STOP - Read before ANY tool call
+
+1. Read `~/.cursor/rules/guardrails.mdc`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
+4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
+
+### Step -1 - Gate check (report in chat before continuing)
+
+```
+Gate check:
+[ ] guardrails.mdc read
+[ ] SESSION.md read; session-state loaded
+[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] User confirmed current action (sim)
+-> If any unchecked: STOP
+```
+
 ---
 
 # Skill: commit
@@ -21,7 +42,7 @@ One or more **Conventional Commits** on `feature/<slug>` or `feat/<id>`, with an
 | Commit format | `~/.cursor/rules/conventional-commits.mdc` |
 | Detailed Git flow | `~/.cursor/skills/_shared/developer-common/step-4-commits-pr.md` |
 | Pre-commit checks | `~/.cursor/skills/_shared/developer-common/step-3.5-precommit-validation.md` |
-| Message validator (ETAPA 11+) | `~/.cursor/skills/_shared/format-validators/commit-message-validator.md` |
+| Message validator (commit-message-validator step) | `~/.cursor/skills/_shared/format-validators/commit-message-validator.md` |
 
 ## Process
 
@@ -64,7 +85,7 @@ Apply `conventional-commits.mdc` and `step-4-commits-pr.md`:
 ```
 <type>[optional scope][!]: <description>
 
-[optional body — why, not what]
+[optional body - why, not what]
 
 Refs: #<issue>    # optional footer
 ```
@@ -73,7 +94,7 @@ Valid types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`
 
 Present the proposed message and **wait for user confirmation** before committing. Apply edits if requested.
 
-Prefer **atomic commits**: stage explicit paths — avoid `git add -A` unless the user explicitly requests it.
+Prefer **atomic commits**: stage explicit paths - avoid `git add -A` unless the user explicitly requests it.
 
 ### 5. Commit
 
@@ -107,24 +128,21 @@ Never `git push --force` to `main`, `master`, or `develop`.
 - Short commit hash (`git rev-parse --short HEAD`)
 - Files included
 - Push status (if applicable)
-- SDD handoff: if mid-PLAN, remind to update PLAN via `implement` before the next step in a new chat
+- SDD handoff: if mid-PLAN, remind to update PLAN via `sdd-develop` before the next step in a new chat
 
 ## Must not
 
 - Commit on `main`, `master`, `develop`, or invalid branch names
 - ADO/MCP work-item APIs, mandatory PR creation, or corporate PR templates
 - `git add -A` / `git add .` without review (unless user explicitly requests)
-- Deprecated commit skill aliases in user-facing handoff — use `commit` only
+- Deprecated commit skill aliases in user-facing handoff - use `commit` only
 - Auto-commit without message approval
-- **AI co-author trailers** — forbidden in any form. Under NO circumstances should you include `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-authored-by: Antigravity`, or any other AI agent attribution. The commit message must contain JUST the commit message:
-  - No `Co-authored-by: Cursor …` or Antigravity (or similar) in the message body or footers
-  - No `git commit --trailer "Co-authored-by: …"` / `--trailer=Co-authored-by:…`
-  - Any flag or footer that attributes Cursor or Antigravity as co-author of the commit
+- **AI co-author trailers** - forbidden. No `Co-authored-by: Cursor`, Antigravity, or `--trailer` attribution.
 
 ## Handoff
 
 | Situation | Next |
 |-----------|------|
-| Continue SDD step | New session → `use skill implement — <full-plan-path> — Step N` |
+| Continue SDD step | New session -> `use skill sdd-develop - <full-plan-path> - Step N` |
 | Review before PR | `use skill code-review` |
 | Create PR (user asks) | `gh pr create` per `step-4-commits-pr.md` |

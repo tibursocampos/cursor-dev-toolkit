@@ -1,6 +1,6 @@
-# add-migrations — reference
+# add-migrations - reference
 
-Detailed discovery and EF commands for `skills/add-migrations/SKILL.md`. Keep `SKILL.md` under 150 lines.
+Detailed discovery and EF commands for `skills/add-migrations/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
 
 ---
 
@@ -54,13 +54,13 @@ Some repos ship `dotnet-ef` under the repo root:
 
 Prefer matching the repo’s target framework. Read `global.json`, `Directory.Build.props`, or main `.csproj` `TargetFramework` before installing.
 
-**Global (example — adjust version to repo):**
+**Global (example - adjust version to repo):**
 
 ```bash
 dotnet tool install --global dotnet-ef
 ```
 
-**Local tool-path (example — no version pinned in SKILL):**
+**Local tool-path (example - no version pinned in SKILL):**
 
 ```bash
 dotnet tool install dotnet-ef --tool-path . --ignore-failed-sources
@@ -111,7 +111,7 @@ List the newest files in the migrations directory to confirm.
 When a PLAN step says “add EF migration”, the **implement** skill hands off here instead of embedding `dotnet ef` steps in the PLAN body. After migration files exist, resume:
 
 ```
-use skill implement — <full-plan-path> — Step N
+use skill sdd-develop - <full-plan-path> - Step N
 ```
 
-Use the **same** SDD PLAN path `implement` passed in (workspace `PLAN/PLAN_*.md` or `~/.cursor/sdd/<repo-id>/PLAN/` per `STORAGE.md`). Do not use `docs/documentation-plan/plan.md`.
+Use the **same** SDD PLAN path `sdd-develop` passed in (workspace `PLAN/PLAN_*.md` or `~/.cursor/sdd/<repo-id>/PLAN/` per `STORAGE.md`). Do not use `docs/documentation-plan/plan.md`.

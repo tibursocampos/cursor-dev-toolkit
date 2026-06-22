@@ -1,13 +1,34 @@
 ---
 name: create-message-consumer
-description: Scaffold a new message consumer in the open .NET workspace. Detects MassTransit, RabbitMQ, or other messaging stacks via Grep — does not assume Azure Service Bus. Collects requirements before code. Use when the user says "use skill create-message-consumer", "create message consumer", or "/create-message-consumer".
+description: Scaffold a new message consumer in the open .NET workspace. Detects MassTransit, RabbitMQ, or other messaging stacks via Grep - does not assume Azure Service Bus. Collects requirements before code. Use when the user says "use skill create-message-consumer", "create message consumer", or "/create-message-consumer".
+---
+
+## STOP - Read before ANY tool call
+
+1. Read `~/.cursor/rules/guardrails.mdc`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
+4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
+
+### Step -1 - Gate check (report in chat before continuing)
+
+```
+Gate check:
+[ ] guardrails.mdc read
+[ ] SESSION.md read; session-state loaded
+[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] User confirmed current action (sim)
+-> If any unchecked: STOP
+```
+
 ---
 
 # Skill: create-message-consumer
 
 ## Status
 
-**Scaffold** — guides discovery, requirements, and implementation in the **target repository**. This toolkit ships **no** embedded corporate consumer templates or org-specific wiring.
+**Scaffold** - guides discovery, requirements, and implementation in the **target repository**. This toolkit ships **no** embedded corporate consumer templates or org-specific wiring.
 
 ## Trigger
 
@@ -22,7 +43,7 @@ In the **target workspace** (not `cursor-dev-toolkit` unless it is the .NET repo
 1. Detected messaging stack and reference consumer(s)
 2. Confirmed requirements (payload, errors, idempotency, retry, DLQ)
 3. Proposed file layout aligned with the repo
-4. Scaffold code and tests **only after** user confirmation — following **existing** project patterns, not copied templates from this repo
+4. Scaffold code and tests **only after** user confirmation - following **existing** project patterns, not copied templates from this repo
 
 ## Lazy-load
 
@@ -31,7 +52,7 @@ In the **target workspace** (not `cursor-dev-toolkit` unless it is the .NET repo
 | Detection, checklist, scaffold notes | `skills/create-message-consumer/reference.md` or `~/.cursor/skills/create-message-consumer/reference.md` after sync |
 | Generating or reviewing .NET code | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
 | C# / test naming | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
-| Small follow-up without SDD | `use skill dotnet-developer` |
+| Small follow-up without SDD | `use skill developer` |
 
 ## Process
 
@@ -41,7 +62,7 @@ Confirm **target .NET repository** (`.sln` or worker/API with messaging). If the
 
 ### 1. Detect messaging stack
 
-Grep/Glob per `reference.md` § Stack detection. Report:
+Grep/Glob per `reference.md` section Stack detection. Report:
 
 | Signal | Likely stack |
 |--------|----------------|
@@ -60,7 +81,7 @@ If **no** consumer exists, say so and propose a layout consistent with Clean Arc
 
 ### 3. Collect requirements (blocker before code)
 
-Ask using `reference.md` § Requirements checklist. Minimum:
+Ask using `reference.md` section Requirements checklist. Minimum:
 
 - Queue or topic name (and subscription if applicable)
 - Message contract (type name, key fields, schema source)
@@ -114,7 +135,7 @@ use skill fix-build
 ```
 
 ```
-use skill implement — <full-plan-path> — Step N
+use skill sdd-develop - <full-plan-path> - Step N
 ```
 
 SDD `PLAN` paths: resolve per `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (workspace `PLAN/PLAN_*.md` or global `~/.cursor/sdd/<repo-id>/PLAN/`). Not `docs/documentation-plan/plan.md`.
