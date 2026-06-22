@@ -1,6 +1,6 @@
-# document-repo — reference
+# document-implement - reference
 
-Execution details for `skills/document-repo/SKILL.md`. Plan structure lives in `skills/plan-repo-docs/reference.md`.
+Execution details for `skills/document-implement/SKILL.md`. Plan structure lives in `skills/document-plan/reference.md`.
 
 ---
 
@@ -8,18 +8,18 @@ Execution details for `skills/document-repo/SKILL.md`. Plan structure lives in `
 
 | File | Required |
 |------|----------|
-| `docs/documentation-plan/plan.md` | Yes — created by `plan-repo-docs` |
-| `docs/overview.md` | Recommended — context for domain steps |
+| `docs/documentation-plan/plan.md` | Yes - created by `document-plan` |
+| `docs/overview.md` | Recommended - context for domain steps |
 
 If the plan is missing:
 
 ```
-use skill plan-repo-docs
+use skill document-plan
 ```
 
 User may supply an alternate plan path; treat it like `docs/documentation-plan/plan.md` for updates.
 
-**Not SDD:** do not substitute workspace `PLAN/PLAN_*.md` or `~/.cursor/sdd/<repo-id>/PLAN/` — those follow `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` and skills `spec` / `plan` / `implement` / `code-review`.
+**Not SDD:** do not substitute workspace `PLAN/PLAN_*.md` or `~/.cursor/sdd/<repo-id>/PLAN/` - those follow `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` and skills `sdd-spec` / `sdd-plan` / `sdd-develop` / `code-review`.
 
 ---
 
@@ -27,14 +27,14 @@ User may supply an alternate plan path; treat it like `docs/documentation-plan/p
 
 1. Sort steps in plan order (STEP 1, PASSO 1, etc.).
 2. Skip steps marked Completed / Concluído.
-3. Respect **Deps:** — dependent steps stay blocked until deps are done.
-4. One step per `document-repo` session unless the user explicitly requests batching and context is low.
+3. Respect **Deps:** - dependent steps stay blocked until deps are done.
+4. One step per `document-implement` session unless the user explicitly requests batching and context is low.
 
 ---
 
 ## PLAN update protocol (documentation plan)
 
-Mirror SDD implement updates on `docs/documentation-plan/plan.md`:
+Mirror SDD develop (`sdd-develop`) updates on `docs/documentation-plan/plan.md`:
 
 ### Completed step block
 
@@ -61,7 +61,7 @@ Mirror SDD implement updates on `docs/documentation-plan/plan.md`:
 ### Next step line
 
 ```markdown
-**Next step:** STEP 3 — Architecture patterns
+**Next step:** STEP 3 - Architecture patterns
 ```
 
 Only check deliverables fully satisfied by **this** step.
@@ -85,7 +85,7 @@ Only check deliverables fully satisfied by **this** step.
 
 Read from plan header. If executing first step after manual plan edit without language:
 
-> Documentation language for product `docs/` — **pt-BR** or **English**?
+> Documentation language for product `docs/` - **pt-BR** or **English**?
 
 Update plan header after answer.
 
@@ -102,7 +102,7 @@ After each completed documentation step:
 Handoff:
 
 ```
-New chat: use skill document-repo
+New chat: use skill document-implement
 ```
 
 ---

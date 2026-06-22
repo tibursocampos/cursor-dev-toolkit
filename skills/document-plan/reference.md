@@ -1,6 +1,6 @@
-# plan-repo-docs — reference
+# document-plan - reference
 
-Templates and checklists for `skills/plan-repo-docs/SKILL.md`. Keep `SKILL.md` under 150 lines.
+Templates and checklists for `skills/document-plan/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
 
 ---
 
@@ -19,7 +19,7 @@ Use Glob from repo root. Combine signals; report confidence.
 | Docker / compose | `Dockerfile`, `docker-compose*.yml` |
 | CI | `.github/workflows/*.yml`, `azure-pipelines.yml` (describe generically if present) |
 
-Read one representative project file per stack found. Do not invent versions — read from manifests when needed.
+Read one representative project file per stack found. Do not invent versions - read from manifests when needed.
 
 **Overview content hints (stack-agnostic):**
 
@@ -85,10 +85,10 @@ docs/
 
 ### ⏳ STEP 1: [Domain or area title]
 
-**Status:** Pending | **Completed:** - | **Deps:** none | **Est.:** 30–45 min
+**Status:** Pending | **Completed:** - | **Deps:** none | **Est.:** 30-45 min
 
 **Deliverables:**
-- [ ] `docs/domains/<slug>.md` — purpose, main types, flows, extension points
+- [ ] `docs/domains/<slug>.md` - purpose, main types, flows, extension points
 
 **Tasks:**
 1. Glob/Grep bounded context folders
@@ -121,23 +121,23 @@ docs/
 - [ ] `docs/architecture/patterns.md` or section in overview
 
 **Tasks:**
-1. Evidence layers (Clean Architecture, CQRS, etc.) from structure — do not assert patterns not present
+1. Evidence layers (Clean Architecture, CQRS, etc.) from structure - do not assert patterns not present
 2. Link to representative files (paths only)
 
 ---
 
 ## Execution order
 
-**Critical path:** 1 → 2 → 3 → …
+**Critical path:** 1 -> 2 -> 3 -> …
 
-**Next step:** STEP 1 — [title]
+**Next step:** STEP 1 - [title]
 
-## Update protocol (document-repo skill)
+## Update protocol (document-implement skill)
 
-After each completed step, `document-repo` updates this file: status, progress bar, **Next step** line, and checked deliverables.
+After each completed step, `document-implement` updates this file: status, progress bar, **Next step** line, and checked deliverables.
 ```
 
-Add steps until domains and integrations from exploration are covered. Prefer 5–12 baby steps for medium repos.
+Add steps until domains and integrations from exploration are covered. Prefer 5-12 baby steps for medium repos.
 
 ---
 
@@ -147,7 +147,7 @@ Add steps until domains and integrations from exploration are covered. Prefer 5�
 - [ ] Overview reflects detected stack (not a template from another company)
 - [ ] Each step has deliverable path, tasks, acceptance
 - [ ] No ADO/work-item URLs required
-- [ ] Steps fit one `document-repo` session when possible
+- [ ] Steps fit one `document-implement` session when possible
 
 ---
 
@@ -166,8 +166,8 @@ Pause message includes: `docs/documentation-plan/plan.md` path, steps completed,
 
 | Skill | Use |
 |-------|-----|
-| `plan` / `implement` | Feature delivery PRD/PLAN — `PRD/`, `PLAN/`, or `~/.cursor/sdd/<repo-id>/` per `STORAGE.md` |
-| `plan-repo-docs` | Cross-cutting documentation strategy — output `docs/documentation-plan/plan.md` only |
-| `document-repo` | Executes one step of `docs/documentation-plan/plan.md` |
+| `plan` / `sdd-develop` | Feature delivery PRD/PLAN - `PRD/`, `PLAN/`, or `~/.cursor/sdd/<repo-id>/` per `STORAGE.md` |
+| `document-plan` | Cross-cutting documentation strategy - output `docs/documentation-plan/plan.md` only |
+| `document-implement` | Executes one step of `docs/documentation-plan/plan.md` |
 
-Do **not** read or write SDD `PLAN/PLAN_*.md` when executing `plan-repo-docs` / `document-repo`. Do **not** read `docs/documentation-plan/plan.md` when executing SDD `plan` / `implement`.
+Do **not** read or write SDD `PLAN/PLAN_*.md` when executing `document-plan` / `document-implement`. Do **not** read `docs/documentation-plan/plan.md` when executing SDD `sdd-plan` / `sdd-develop`.

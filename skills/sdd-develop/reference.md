@@ -1,6 +1,6 @@
-# Implement skill — reference
+# Implement skill - reference
 
-Detailed protocols for `skills/implement/SKILL.md`. Keep `SKILL.md` under 150 lines; use this file for templates and checklists.
+Detailed protocols for `skills/sdd-develop/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for templates and checklists.
 
 PLAN may live in the workspace or globally (`~/.cursor/sdd/<repo-id>/PLAN/`). Update the same file path passed in the handoff. **Code** in the repo stays **English**. **PLAN prose** stays in the file's language (pt-BR default). See `sdd-artifact-language-pt-br.mdc` and `STORAGE.md`.
 
@@ -36,7 +36,7 @@ Example:
 
 ### 2. Deliverables and acceptance
 
-- Check `[ ]` → `[x]` for deliverables and acceptance items **fully** met by this step only.
+- Check `[ ]` -> `[x]` for deliverables and acceptance items **fully** met by this step only.
 - Do not check items owned by later steps.
 
 ### 3. Progress header
@@ -58,7 +58,7 @@ Progress bar (adjust emoji count to total steps):
 Under **Execution order** or equivalent:
 
 ```markdown
-**Next step:** STEP 2 — [short title from PLAN]
+**Next step:** STEP 2 - [short title from PLAN]
 ```
 
 ### 5. Objectives (optional)
@@ -68,9 +68,9 @@ If an objective (O1, O2, …) is fully satisfied by this step alone, mark its ch
 ### 6. When not to mark Completed
 
 - Build or targeted tests still failing
-- User chose not to commit and step acceptance requires pushed commit (rare — note in PLAN)
+- User chose not to commit and step acceptance requires pushed commit (rare - note in PLAN)
 - Dependency steps incomplete
-- Session ended at context ≥ 40% **before** PLAN write — still write PLAN with **In progress** or leave Pending and note partial work in notes
+- Session ended at context ≥ 40% **before** PLAN write - still write PLAN with **In progress** or leave Pending and note partial work in notes
 
 ### 7. Recovery
 
@@ -80,8 +80,8 @@ If a session crashed mid-step: set **Status:** `In progress`, list files touched
 
 ## Git preparation checklist
 
-1. `git rev-parse --abbrev-ref HEAD` — confirm not on blocked branch before edits.
-2. `git status` — resolve dirty tree with user if needed.
+1. `git rev-parse --abbrev-ref HEAD` - confirm not on blocked branch before edits.
+2. `git status` - resolve dirty tree with user if needed.
 3. Branch name matches `feature/<slug>` or `feat/<id>` (see `branch-validation.mdc`).
 4. Baseline updated if user requested: `git fetch` + merge/rebase per team practice (document in PLAN notes if non-trivial).
 
@@ -108,7 +108,7 @@ Record answers before coding: naming language, async rules, Result vs exceptions
 
 ## .NET implementation pointers
 
-Load on demand — do not paste into PLAN:
+Load on demand - do not paste into PLAN:
 
 | Topic | File |
 |-------|------|
@@ -152,14 +152,14 @@ Use after PLAN is saved:
 ## Step N complete
 
 **PLAN:** <full-plan-path>
-**Step:** N — [title]
+**Step:** N - [title]
 **Branch:** feature/... or feat/...
 **Files:** [list]
 **Tests:** [pass/fail summary]
 **Progress:** N/M (X%)
 
 **Next (new chat):**
-use skill implement — <full-plan-path> — Step N+1
+use skill sdd-develop - <full-plan-path> - Step N+1
 ```
 
 ---
@@ -183,7 +183,7 @@ Include in pause message: saved PLAN path, last step completed, next step id/tit
 |-----------------|--------------|
 | Review diff | `use skill code-review` |
 | Commit | `use skill commit` |
-| Open PR | `gh pr create` with repo template — no ADO work-item fields |
+| Open PR | `gh pr create` with repo template - no ADO work-item fields |
 
 Do not auto-create PRs or link external trackers.
 
@@ -207,7 +207,7 @@ Do not auto-create PRs or link external trackers.
 |-------|-------------|
 | `git clone` into `projects/{repo}` | Use open workspace only |
 | `feature/base/{parent}/{child}` | `feature/<slug>` or `feat/<id>` only |
-| Portuguese implement skill / `PLANO_*` filenames | `implement`, `PLAN_*` |
+| Portuguese implement skill / `PLANO_*` filenames | `sdd-develop`, `PLAN_*` |
 | NUnit-only bans in new tests | `dotnet-guidelines`, xUnit/Moq |
 | Auto sync-commit with work item IDs | Optional `use skill commit` |
 | Auto PR analyzer + work-item links | User runs `gh` / review skill |

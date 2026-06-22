@@ -1,6 +1,6 @@
 # PRD template (spec skill)
 
-Use this template when writing the PRD at the resolved path (repository or global). **Default:** all section titles and body text in **Brazilian Portuguese (pt-BR)**. English only if the user overrides in the skill invocation — see `sdd-artifact-language-pt-br.mdc`.
+Use this template when writing the PRD at the resolved path (repository or global). **Default:** all section titles and body text in **Brazilian Portuguese (pt-BR)**. English only if the user overrides in the skill invocation - see `sdd-artifact-language-pt-br.mdc`.
 
 **Identifiers** (types, methods, APIs, paths, test names) stay in **English**. No implementation code in the PRD.
 
@@ -18,7 +18,7 @@ Storage: `STORAGE.md`. Pipeline (confirm-before-write, canonical paths, modes): 
 
 ## Storage and `.gitignore` (spec skill)
 
-Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode — `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (append the full four-line SDD block if any is missing). Run this on first SDD write in a repo even when creating only `PRD/` or `docs/PRD/`.
+Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (append the full four-line SDD block if any is missing). Run this on first SDD write in a repo even when creating only `PRD/` or `docs/PRD/`.
 
 **Global** mode: no `.gitignore` changes.
 
@@ -30,7 +30,7 @@ If the PRD scope includes creating or updating **project** docs under `docs/` or
 
 ---
 
-## Document template (pt-BR — default)
+## Document template (pt-BR - default)
 
 Copy from the heading below through **Histórico de alterações**, then remove instructional comments in brackets.
 
@@ -63,14 +63,14 @@ Copy from the heading below through **Histórico de alterações**, then remove 
 
 Use BDD: **Dado** / **Quando** / **Então** / **E**.
 
-### CA1 — [Nome descritivo]
+### CA1 - [Nome descritivo]
 
 **Dado** [contexto inicial]
 **Quando** [ação]
 **Então** [resultado esperado]
 **E** [condição extra opcional]
 
-### CA2 — [Nome descritivo]
+### CA2 - [Nome descritivo]
 
 **Dado** [contexto inicial]
 **Quando** [ação]
@@ -80,11 +80,11 @@ Use BDD: **Dado** / **Quando** / **Então** / **E**.
 
 ### 3.1 Componentes a modificar
 
-[Listar módulos, serviços ou áreas — sem código.]
+[Listar módulos, serviços ou áreas - sem código.]
 
 ### 3.2 Novos componentes
 
-[Listar módulos, endpoints ou artefatos — sem código.]
+[Listar módulos, endpoints ou artefatos - sem código.]
 
 ### 3.3 Reuso sem alteração
 
@@ -104,7 +104,7 @@ Descrever responsabilidades e contratos **sem** exemplos de código.
 
 ### 4.2 DTOs / commands / queries
 
-[Entradas e saídas — nomes opcionais, formatos obrigatórios.]
+[Entradas e saídas - nomes opcionais, formatos obrigatórios.]
 
 ### 4.3 Handlers / serviços
 
@@ -112,7 +112,7 @@ Descrever responsabilidades e contratos **sem** exemplos de código.
 
 ### 4.4 Acesso a dados
 
-[Operações necessárias — padrões leitura/escrita.]
+[Operações necessárias - padrões leitura/escrita.]
 
 ### 4.5 Eventos / mensageria
 
@@ -155,7 +155,7 @@ Se sim: tabelas/colunas afetadas, impacto em dados existentes, reversibilidade.
 
 ## 10. Tratamento de erros
 
-### TE01 — [Nome do cenário]
+### TE01 - [Nome do cenário]
 
 - **Situação**: [Quando ocorre]
 - **Tratamento**: [Comportamento esperado]
@@ -163,7 +163,7 @@ Se sim: tabelas/colunas afetadas, impacto em dados existentes, reversibilidade.
 
 ## 11. Casos de uso
 
-### CU01 — [Caso de uso principal]
+### CU01 - [Caso de uso principal]
 
 **Ator:** [Usuário / sistema / serviço]
 
@@ -185,11 +185,11 @@ Se sim: tabelas/colunas afetadas, impacto em dados existentes, reversibilidade.
 
 Espelhar critérios de aceite; incluir borda e falha.
 
-### CT1 — [Caminho feliz]
+### CT1 - [Caminho feliz]
 
 **Dado** … **Quando** … **Então** …
 
-### CT2 — [Validação / borda]
+### CT2 - [Validação / borda]
 
 **Dado** … **Quando** … **Então** …
 
@@ -209,7 +209,7 @@ Espelhar critérios de aceite; incluir borda e falha.
 Este PRD está pronto para a skill **plan**:
 
 ```
-use skill plan — <caminho-completo-do-prd>
+use skill sdd-plan - <caminho-completo-do-prd>
 ```
 
 ## 15. Referências
@@ -258,4 +258,4 @@ Use only when the user requests English in the skill invocation. Same structure;
 - [ ] Body in pt-BR unless English override
 - [ ] Type/method/API names in English where cited
 - [ ] Status **Pronto para planejamento** (or **Ready for planning** if EN override)
-- [ ] Handoff: `use skill plan — <full-prd-path>`
+- [ ] Handoff: `use skill sdd-plan - <full-prd-path>`

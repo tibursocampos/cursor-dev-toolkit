@@ -1,13 +1,32 @@
 ---
-name: dotnet-developer
-description: Implement or fix small-to-medium .NET features without full SDD. Uses Clean Architecture, xUnit/Moq/FluentAssertions, and Git-only developer-common steps. Use when the user says "use skill dotnet-developer", "dotnet fix", or for isolated C# work. For large cross-cutting features, prefer spec → plan → implement.
+name: developer
+description: Implement or fix small-to-medium .NET features without full SDD. Uses Clean Architecture, xUnit/Moq/FluentAssertions, and Git-only developer-common steps. Use when the user says "use skill developer", "dotnet fix", or for isolated C# work. For large cross-cutting features, prefer sdd-spec -> sdd-plan -> sdd-develop.
 ---
 
-# Skill: dotnet-developer
+## STOP - Read before ANY tool call
+
+1. Read `~/.cursor/rules/guardrails.mdc`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
+4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
+
+### Step -1 - Gate check (report in chat before continuing)
+
+```
+Gate check:
+[ ] guardrails.mdc read
+[ ] SESSION.md read; session-state loaded
+[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] User confirmed current action (sim)
+-> If any unchecked: STOP
+```
+
+---
 
 ## Trigger
 
-Invoke when the user asks for: `use skill dotnet-developer`, `dotnet fix`, `implement .NET feature`, or for **small** backend work that does not need a full PRD/PLAN cycle.
+Invoke when the user asks for: `use skill developer`, `dotnet fix`, `implement .NET feature`, or for **small** backend work that does not need a full PRD/PLAN cycle.
 
 ## Outcome
 
@@ -15,7 +34,7 @@ Working **.NET** code and tests in the open workspace: build and tests green, on
 
 ## When to prefer SDD instead
 
-Recommend `use skill spec` → `plan` → `implement` if **two or more** apply:
+Recommend `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` if **two or more** apply:
 
 | Signal | Indicator |
 |--------|-----------|
@@ -24,7 +43,7 @@ Recommend `use skill spec` → `plan` → `implement` if **two or more** apply:
 | Repos | Backend and another repo or service |
 | Integrations | New messaging, external APIs, or consumers |
 | Size | 10+ files or estimated 4+ hours |
-| PLAN exists | User already has an approved PLAN — use `implement` |
+| PLAN exists | User already has an approved PLAN - use `sdd-develop` |
 
 ## Lazy-load (only when needed)
 
@@ -38,7 +57,7 @@ Recommend `use skill spec` → `plan` → `implement` if **two or more** apply:
 | Pre-PR gate | `~/.cursor/skills/_shared/developer-common/step-7-checklist.md` |
 | Architecture | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
 | C# / tests | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` — **Full mode** |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full mode** |
 | Final checklist | `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md` |
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
 
@@ -49,9 +68,9 @@ Do **not** preload `code-guidelines/languages/**` or corporate pipeline docs.
 ### -1. Caveman Mode
 
 Check `~/.cursor/sdd/preferences.json`:
-- If file missing → create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` → load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
-  > 🪨 Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
+- If file missing -> create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
+  > Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
 - Honor `caveman on` / `caveman off` commands from the user at any point during the session.
 
 ### 0. Workspace
@@ -64,11 +83,11 @@ Follow `~/.cursor/skills/_shared/developer-common/step-0.5-review-guidelines.md`
 
 ### 2. Branch (step 3)
 
-Baseline branch from user or repo default. Create/checkout `feature/<slug>` or `feat/<id>` — never commit on `main` / `master` / `develop`.
+Baseline branch from user or repo default. Create/checkout `feature/<slug>` or `feat/<id>` - never commit on `main` / `master` / `develop`.
 
 ### 3. Plan micro-steps
 
-List 3–7 concrete tasks (files to touch, tests to add). Stay within one session when possible; checkpoint per `context-management.mdc` (≥ 40% → pause, offer `use skill commit`).
+List 3-7 concrete tasks (files to touch, tests to add). Stay within one session when possible; checkpoint per `context-management.mdc` (>= 40% -> pause, offer `use skill commit`).
 
 ### 4. Implement
 
@@ -81,7 +100,7 @@ Match existing project patterns (Glob/Read similar types first).
 | Infrastructure | EF, repositories, external clients |
 | API | Endpoints, DTOs, auth filters |
 
-Apply `clean-architecture.md` and `csharp-patterns.md` from `~/.cursor/skills/_shared/dotnet-guidelines/` while writing — do not paste full bodies into chat.
+Apply `clean-architecture.md` and `csharp-patterns.md` from `~/.cursor/skills/_shared/dotnet-guidelines/` while writing - do not paste full bodies into chat.
 
 ### 5. Tests
 
@@ -98,7 +117,7 @@ Fix failures within scope. Ask before running full-solution tests if the repo is
 
 ### 7. Pre-commit (step 3.5) and handoff
 
-Run `~/.cursor/skills/_shared/developer-common/step-3.5-precommit-validation.md` when appropriate. Offer `use skill commit` — do not commit automatically.
+Run `~/.cursor/skills/_shared/developer-common/step-3.5-precommit-validation.md` when appropriate. Offer `use skill commit` - do not commit automatically.
 
 Before push/PR, run `~/.cursor/skills/_shared/developer-common/step-7-checklist.md` and `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md`.
 
@@ -107,11 +126,11 @@ Before push/PR, run `~/.cursor/skills/_shared/developer-common/step-7-checklist.
 If scope grows during work, stop and recommend:
 
 ```
-use skill spec — [feature description]
+use skill sdd-spec - [feature description]
 # then
-use skill plan — PRD/...
+use skill sdd-plan - PRD/...
 # then
-use skill implement — PLAN/... — Step 1
+use skill sdd-develop - PLAN/... - Step 1
 ```
 
 ## Must not
@@ -122,7 +141,7 @@ use skill implement — PLAN/... — Step 1
 - Nested `feature/base/...` branches; commit on default integration branches
 - Speculative features outside stated acceptance (YAGNI)
 - Auto-commit or auto-PR without user request
-- Deprecated SDD skill aliases in handoff text — use `spec`, `plan`, `implement`, `commit` only
+- Deprecated SDD skill aliases in handoff text - use `sdd-spec`, `sdd-plan`, `sdd-develop`, `commit` only
 
 ## Handoff
 
@@ -130,5 +149,5 @@ use skill implement — PLAN/... — Step 1
 |-----------|------|
 | Commit | `use skill commit` |
 | Review | `use skill code-review` |
-| Large scope | `use skill spec` → `plan` → `implement` |
-| Next PLAN step | New chat → `use skill implement — PLAN/... — Step N` |
+| Large scope | `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| Next PLAN step | New chat -> `use skill sdd-develop - PLAN/... - Step N` |

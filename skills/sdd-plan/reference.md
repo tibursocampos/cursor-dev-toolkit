@@ -1,6 +1,6 @@
 # PLAN template (plan skill)
 
-Use this template when writing the PLAN at the resolved path (repository or global). **Default:** section titles and body in **Brazilian Portuguese (pt-BR)**. English only on explicit skill invocation override — see `sdd-artifact-language-pt-br.mdc`.
+Use this template when writing the PLAN at the resolved path (repository or global). **Default:** section titles and body in **Brazilian Portuguese (pt-BR)**. English only on explicit skill invocation override - see `sdd-artifact-language-pt-br.mdc`.
 
 **File paths** and **test names** in English. No implementation code blocks in the PLAN.
 
@@ -19,7 +19,7 @@ Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`. Pipeline gua
 
 ## Storage and `.gitignore` (plan skill)
 
-If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode — `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (same four-line block as `spec`; run even if only `PLAN/` will receive files). Update manifest (`artifact_language`, folders).
+If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (same four-line block as `spec`; run even if only `PLAN/` will receive files). Update manifest (`artifact_language`, folders).
 
 ## Product documentation language
 
@@ -27,7 +27,7 @@ If a step updates **project** `docs/` or README, the **plan** or **implement** s
 
 ---
 
-## Document template (pt-BR — default)
+## Document template (pt-BR - default)
 
 Copy from the heading below through **Checklist final**, then remove bracketed instructions.
 
@@ -55,7 +55,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 
 ## Árvore alvo (entregáveis)
 
-[Listar arquivos ou módulos principais — só caminhos, sem código.]
+[Listar arquivos ou módulos principais - só caminhos, sem código.]
 
 ```
 [repo-root]/
@@ -65,7 +65,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 
 ## Estratégia de validação
 
-- [ ] [Como a feature será verificada — unitário, integração, manual]
+- [ ] [Como a feature será verificada - unitário, integração, manual]
 - [ ] .NET: xUnit, Moq, FluentAssertions; `Should_<Result>_When_<Condition>`
 - [ ] Build passa local / CI
 - [ ] (Opcional/.NET) Cobertura nos arquivos alterados ≥ 80% via `use skill test-coverage`
@@ -148,9 +148,9 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 
 ## Ordem de execução
 
-**Caminho crítico:** 1 → 2 → … → N
+**Caminho crítico:** 1 -> 2 -> … -> N
 
-**Próximo passo:** PASSO 1 — [título]
+**Próximo passo:** PASSO 1 - [título]
 
 ---
 
@@ -206,14 +206,14 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 - [ ] Cenários de teste cobrem CA e bordas
 - [ ] (Opcional/.NET) Passo final de qualidade com cobertura ≥ 80% via `test-coverage`
 - [ ] Sem código de implementação embutido no PLAN
-- [ ] Handoff: `use skill implement — <caminho-completo-do-plan> — Step 1`
+- [ ] Handoff: `use skill sdd-develop - <caminho-completo-do-plan> - Step 1`
 ```
 
 ---
 
 ## PLAN update protocol (implement skill)
 
-Do **not** embed implement update rules inside the PLAN artifact. After each completed step, **`implement`** updates the same PLAN file per `skills/implement/reference.md` § PLAN update protocol (status **Concluído** / **Completed**, progress bar, **Próximo passo** / **Next step**, deliverable checkboxes). Do not edit progress manually during implementation except session recovery.
+Do **not** embed implement update rules inside the PLAN artifact. After each completed step, **`sdd-develop`** updates the same PLAN file per `skills/sdd-develop/reference.md` § PLAN update protocol (status **Concluído** / **Completed**, progress bar, **Próximo passo** / **Next step**, deliverable checkboxes). Do not edit progress manually during implementation except session recovery.
 
 ---
 
@@ -238,7 +238,7 @@ Use **Pendente** / **Concluído** / **Bloqueado** (or English equivalents) on th
 - [ ] EF migration and mapping separated when both apply
 - [ ] Handler, consumer, and tests not in the same step unless trivial
 - [ ] Dense steps include a context warning for implement
-- [ ] Optional docs step only when contract or visible behavior changes — **ask system doc language** (pt-BR vs English)
+- [ ] Optional docs step only when contract or visible behavior changes - **ask system doc language** (pt-BR vs English)
 
 ---
 
@@ -250,5 +250,5 @@ Use **Pendente** / **Concluído** / **Bloqueado** (or English equivalents) on th
 - [ ] Step prose in pt-BR (unless English override)
 - [ ] No full implementation code blocks in the PLAN
 - [ ] Output path: `PLAN/PLAN_NNN_*.md` or global (not ad-hoc `docs/` or `~/.cursor/` outside `sdd/`)
-- [ ] Handoff: `use skill implement — <full-plan-path> — Step 1`
+- [ ] Handoff: `use skill sdd-develop - <full-plan-path> - Step 1`
 - [ ] Initial progress `0/N`
