@@ -3,38 +3,38 @@ description: SDD agent artifacts (PRD, PLAN) in Brazilian Portuguese by default;
 alwaysApply: true
 ---
 
-# SDD artifact language — pt-BR (agent workflow only)
+# SDD artifact language - pt-BR (agent workflow only)
 
 ## Scope (read first)
 
 | In scope | Out of scope |
 |----------|--------------|
-| `PRD/*.md`, `docs/PRD/*.md`, global `~/.cursor/sdd/<repo-id>/PRD/*.md` | Source code, tests, configs |
-| `PLAN/PLAN_*.md`, global `~/.cursor/sdd/<repo-id>/PLAN/PLAN_*.md` | Commit messages |
+| `PRD/*.md`, `docs/PRD/*.md`, global PRD paths | `.specify/specs/**/spec.md`, `plan.md`, `tasks.md` |
+| `PLAN/PLAN_*.md`, global PLAN paths | Source code, tests, configs |
 | Progress, step notes, checkboxes inside those PLAN files | Project `docs/`, README, ADRs (ask user) |
 
 This rule does **not** change code language. It does **not** default project documentation to pt-BR.
 
-## SDD artifacts — default pt-BR
+## SDD artifacts - default pt-BR
 
 Write **section titles**, **metadata labels**, **prose**, **acceptance criteria** (Dado/Quando/Então/E), **PLAN steps**, and **implementation notes** in **Brazilian Portuguese (pt-BR)**.
 
-- Use templates in `~/.cursor/skills/spec/reference.md` and `~/.cursor/skills/plan/reference.md` (pt-BR variant).
+- Use templates in `~/.cursor/skills/sdd-spec/reference.md` and `~/.cursor/skills/sdd-plan/reference.md` (pt-BR variant).
 - Do **not** write PRD/PLAN body in English unless the user overrides in the **same skill invocation** (see below).
 
 **Identifiers in prose:** type names, method names, API routes, file paths, and test names stay in **English** (e.g. `UserService`, `Should_ReturnOk_When_ValidRequest`).
 
 **No implementation code** in PRD/PLAN bodies (existing skill boundaries). If a minimal illustrative snippet is unavoidable, syntax and identifiers remain **English**.
 
-## Code — always English
+## Code - always English
 
 Any code generated or edited in the repository: **English** identifiers, comments, XML docs, commit messages, and test names `Should_<Result>_When_<Condition>`.
 
 This rule does not grant an exception for “artifact in English” on code.
 
-## Project documentation — ask
+## Project documentation - ask
 
-When `spec`, `plan`, or `implement` will create or change **product** documentation under `docs/`, README, or similar (not PRD/PLAN agent files), **ask once** before writing:
+When `sdd-spec`, `sdd-plan`, or `sdd-develop` will create or change **product** documentation under `docs/`, README, or similar (not PRD/PLAN agent files), **ask once** before writing:
 
 ```
 Em qual idioma gravar a documentação do sistema (docs/, README)?
@@ -45,7 +45,7 @@ Em qual idioma gravar a documentação do sistema (docs/, README)?
 
 Record the choice in the PLAN step or PRD notes if relevant. Do not assume pt-BR from this rule.
 
-## Override — SDD artifact in English only
+## Override - SDD artifact in English only
 
 Apply only when the user explicitly requests it in the **same** prompt that invokes the skill (case-insensitive), for example:
 
@@ -60,9 +60,10 @@ Set `artifact_language` to `"en"` in `~/.cursor/sdd/<repo-id>/manifest.json` whe
 
 | Skill | Behavior |
 |-------|----------|
-| `spec` | New PRD → pt-BR unless override |
-| `plan` | New PLAN → pt-BR unless override; read existing PRD in any language |
-| `implement` | Code → English; update PLAN in **existing file language** |
+| `sdd-spec` | New PRD -> pt-BR unless override |
+| `sdd-plan` | New PLAN -> pt-BR unless override; read existing PRD in any language |
+| `sdd-develop` | Code -> English; update PLAN in **existing file language** |
+| `speckit-spec` / `speckit-plan` / `speckit-develop` | spec/plan/tasks -> pt-BR unless override |
 
 This rule overrides conflicting lines in `AGENTS.md` or old templates **only for SDD agent `.md` files** listed above.
 

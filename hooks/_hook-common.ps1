@@ -58,19 +58,21 @@ function Test-PlanFilePath([string] $FilePath) {
         return $false
     }
     $name = [System.IO.Path]::GetFileName($FilePath)
-    if (-not ($name -like 'PLAN_*.md')) {
-        return $false
+    if ($name -like 'PLAN_*.md') {
+        if ($FilePath -match '[\\/]PLAN[\\/]') {
+            return $true
+        }
+        return $FilePath -match '[\\/]\.cursor[\\/]sdd[\\/][^\\/]+[\\/]PLAN[\\/]'
     }
-    if ($FilePath -match '[\\/]PLAN[\\/]') {
+    if ($name -eq 'tasks.md' -and $FilePath -match '[\\/]\.specify[\\/]specs[\\/]') {
         return $true
     }
-    # Global SDD: ~/.cursor/sdd/<repo-id>/PLAN/PLAN_*.md
-    return $FilePath -match '[\\/]\.cursor[\\/]sdd[\\/][^\\/]+[\\/]PLAN[\\/]'
+    return $false
 }
 
 function Test-SddSkillPrompt([string] $Prompt) {
     if ([string]::IsNullOrWhiteSpace($Prompt)) {
         return $false
     }
-    return $Prompt -match '(?i)use\s+skill\s+(spec|plan|implement|commit|code-review|dotnet-developer)'
+    return $Prompt -match '(?i)use\s+skill\s+(sdd-spec|sdd-plan|sdd-develop|speckit-[a-z-]+|commit|push|code-review|developer|document-plan|document-implement|refine-backlog-item|breakdown-tasks|fix-build|test-coverage|add-migrations|create-message-consumer|refactor|api-integrate|performance-profile|containerize|i18n-manager)'
 }

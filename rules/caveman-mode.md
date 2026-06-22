@@ -40,10 +40,10 @@ At the beginning of each session or task (Step -1):
   - Confirmation gates like `(sim / ajustar / cancelar)`.
   - Artifact drafts (specs, plans, tasks, commits).
 
-- **Lite Mode (Apply to `spec`, `plan`, `speckit-spec`, `speckit-plan`)**:
+- **Lite Mode (Apply to `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan`)**:
   - Strip preambles, greetings, and post-draft pleasantries.
   - Keep clarifying questions, draft previews, and section headers intact.
 
-- **Full Mode (Apply to other tasks, e.g. `implement`, `code-review`, `dotnet-developer`, `fix-build`, `test-coverage`)**:
+- **Full Mode (Apply to other tasks, e.g. `sdd-develop`, `code-review`, `developer`, `fix-build`, `test-coverage`)**:
   - Communicate telepathically. Eliminate all polite filler, narration, and intros.
   - Use bullet points, short action phrases, and single-line status confirmations (e.g., `"✅ Tarefa concluída."`).
