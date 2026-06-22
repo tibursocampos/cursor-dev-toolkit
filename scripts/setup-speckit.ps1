@@ -1,98 +1,109 @@
-# Script para configurar o Spec Kit no Windows (cursor-dev-toolkit)
-# Executa as validações e instalações necessárias conforme a especificação do speckit_setup.
+#Requires -Version 5.1
+<#
+.SYNOPSIS
+  Installs Spec Kit prerequisites and initializes global SDD directories for cursor-dev-toolkit.
 
-Write-Host "Iniciando a configuração do GitHub Spec Kit..." -ForegroundColor Cyan
+.EXAMPLE
+  .\scripts\setup-speckit.ps1
+#>
+[CmdletBinding()]
+param()
 
-# 1. Verificar Python
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+Write-Host 'Setting up GitHub Spec Kit...' -ForegroundColor Cyan
+
 $pythonInstalled = $false
 try {
     $pyVersion = & python --version 2>&1
-    if ($pyVersion -match "Python 3\.(1[0-9]|[2-9])") {
-        Write-Host "Python detectado: $pyVersion" -ForegroundColor Green
+    if ($pyVersion -match 'Python 3\.(1[0-9]|[2-9])') {
+        Write-Host "Python detected: $pyVersion" -ForegroundColor Green
         $pythonInstalled = $true
-    } else {
-        Write-Host "Python encontrado, mas a versão é inferior a 3.10: $pyVersion" -ForegroundColor Yellow
     }
-} catch {
-    Write-Host "Python não encontrado no PATH." -ForegroundColor Yellow
+    else {
+        Write-Host "Python found but version is below 3.10: $pyVersion" -ForegroundColor Yellow
+    }
+}
+catch {
+    Write-Host 'Python not found on PATH.' -ForegroundColor Yellow
 }
 
 if (-not $pythonInstalled) {
-    $response = Read-Host "O Python 3.10+ não foi encontrado no PATH. Deseja tentar instalá-lo via winget? (sim / não)"
-    if ($response -eq "sim") {
-        Write-Host "Instalando Python 3.12 via winget..."
+    $response = Read-Host 'Python 3.10+ not found. Install via winget? (yes / no)'
+    if ($response -match '^(yes|sim|y)$') {
         winget install -e --id Python.Python.3.12
-        Write-Host "Por favor, reinicie seu terminal após a instalação e execute este script novamente." -ForegroundColor Yellow
-        exit
-    } else {
-        Write-Host "Instalação do Python cancelada. Por favor, resolva manualmente:" -ForegroundColor Red
-        Write-Host "1. Abra o terminal como Administrador e rode: winget install -e --id Python.Python.3.12"
-        Write-Host "2. Ou baixe o instalador oficial: https://www.python.org/downloads/"
-        exit
+        Write-Host 'Restart the terminal and run this script again.' -ForegroundColor Yellow
+        exit 0
     }
+    Write-Host 'Install Python 3.10+ manually: https://www.python.org/downloads/' -ForegroundColor Red
+    exit 1
 }
 
-# 2. Verificar uv
 $uvInstalled = $false
 try {
     $uvVer = & uv --version 2>&1
-    if ($uvVer -match "uv \d") {
-        Write-Host "uv detectado: $uvVer" -ForegroundColor Green
+    if ($uvVer -match 'uv \d') {
+        Write-Host "uv detected: $uvVer" -ForegroundColor Green
         $uvInstalled = $true
     }
-} catch {
-    Write-Host "Gerenciador 'uv' não encontrado." -ForegroundColor Yellow
+}
+catch {
+    Write-Host 'uv not found.' -ForegroundColor Yellow
 }
 
 if (-not $uvInstalled) {
-    $response = Read-Host "O gerenciador 'uv' não foi encontrado. Deseja que eu execute a instalação? (sim / não)"
-    if ($response -eq "sim") {
-        Write-Host "Instalando 'uv'..."
+    $response = Read-Host 'Install uv now? (yes / no)'
+    if ($response -match '^(yes|sim|y)$') {
         powershell -ExecutionPolicy Bypass -c "irm https://astral.sh/uv/install.ps1 | iex"
-        # Refresh PATH para a sessão atual
-        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-    } else {
-        Write-Host "Por favor, instale o 'uv' manualmente executando este comando no terminal:" -ForegroundColor Red
-        Write-Host 'powershell -ExecutionPolicy Bypass -c "irm https://astral.sh/uv/install.ps1 | iex"' -ForegroundColor Yellow
-        exit
+        $env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path', 'User')
+    }
+    else {
+        Write-Host 'Install uv: powershell -ExecutionPolicy Bypass -c "irm https://astral.sh/uv/install.ps1 | iex"' -ForegroundColor Red
+        exit 1
     }
 }
 
-# 3. Instalar specify-cli
-Write-Host "Verificando 'specify-cli'..."
+Write-Host 'Checking specify-cli...'
 $specifyInstalled = $false
 try {
     $specVer = & specify --version 2>&1
-    if ($specVer -match "specify \d") {
-        Write-Host "specify-cli detectado: $specVer" -ForegroundColor Green
+    if ($specVer -match 'specify \d') {
+        Write-Host "specify-cli detected: $specVer" -ForegroundColor Green
         $specifyInstalled = $true
     }
-} catch {
-    Write-Host "specify-cli não detectado." -ForegroundColor Yellow
+}
+catch {
+    Write-Host 'specify-cli not detected.' -ForegroundColor Yellow
 }
 
 if (-not $specifyInstalled) {
-    Write-Host "Instalando specify-cli via uv..."
+    Write-Host 'Installing specify-cli via uv...'
     & uv tool install specify-cli --from git+https://github.com/github/spec-kit.git --force
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Falha ao instalar specify-cli via uv. Tente executar manualmente no terminal:" -ForegroundColor Red
-        Write-Host "uv tool install specify-cli --from git+https://github.com/github/spec-kit.git --force" -ForegroundColor Yellow
-    } else {
-        Write-Host "specify-cli instalado com sucesso!" -ForegroundColor Green
+        Write-Host 'Failed to install specify-cli.' -ForegroundColor Red
+        exit 1
+    }
+    Write-Host 'specify-cli installed.' -ForegroundColor Green
+}
+
+$sddPath = Join-Path $env:USERPROFILE '.cursor\sdd'
+$sessionsPath = Join-Path $sddPath 'sessions'
+$manifestPath = Join-Path $sddPath 'manifest.json'
+
+foreach ($dir in @($sddPath, $sessionsPath)) {
+    if (-not (Test-Path $dir)) {
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+        Write-Host "Created: $dir"
     }
 }
 
-# 4. Inicializar diretórios globais
-$sddPath = Join-Path $env:USERPROFILE ".cursor\sdd"
-if (-not (Test-Path $sddPath)) {
-    Write-Host "Criando diretório global: $sddPath"
-    New-Item -ItemType Directory -Force -Path $sddPath | Out-Null
-}
-
-$manifestPath = Join-Path $sddPath "manifest.json"
 if (-not (Test-Path $manifestPath)) {
-    Write-Host "Inicializando manifest.json..."
-    '{"repositories": {}}' | Out-File -FilePath $manifestPath -Encoding utf8
+    $initial = @{ schema_version = 2; repositories = @{} } | ConvertTo-Json -Depth 5
+    $initial | Set-Content -Path $manifestPath -Encoding UTF8
+    Write-Host 'Initialized manifest.json (schema v2).'
 }
 
-Write-Host "`n✅ Setup do Spec Kit concluído. Todos os pré-requisitos estão instalados e o diretório global de SDD foi inicializado." -ForegroundColor Green
+Write-Host ''
+Write-Host 'Spec Kit setup complete. Run configure-repo-sdd.ps1 for each repository.' -ForegroundColor Green
+exit 0

@@ -27,7 +27,7 @@ Find code written for hypothetical future use or left unused:
 
 ---
 
-## Blocking — Critical dead code
+## Blocking - Critical dead code
 
 ### 1. Unused class / record / interface
 
@@ -43,7 +43,7 @@ Find code written for hypothetical future use or left unused:
 
 ---
 
-## Suggestion — Minor dead code
+## Suggestion - Minor dead code
 
 ### 3. Variable never read
 
@@ -89,7 +89,7 @@ private\s+\w+\s+\w+\s*\(
 
 ## References
 
-- Martin Fowler — YAGNI
-- *Clean Code* — Robert C. Martin
+- Martin Fowler - YAGNI
+- *Clean Code* - Robert C. Martin
 
 **Version:** 1.1 (cursor-dev-toolkit)

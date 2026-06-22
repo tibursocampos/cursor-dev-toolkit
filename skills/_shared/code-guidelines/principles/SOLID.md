@@ -11,13 +11,13 @@ Fundamental software design principles for maintainable, scalable code.
 
 This directory documents core engineering principles. Deep dives:
 
-### DRY — Don't Repeat Yourself
+### DRY - Don't Repeat Yourself
 
 **File:** [DRY.md](./DRY.md)
 
 - Extract duplicated logic into reusable functions/classes
 - Consolidate repeated validation and mapping
-- **Threshold:** 3+ similar occurrences → suggest refactor
+- **Threshold:** 3+ similar occurrences -> suggest refactor
 
 ```csharp
 // Duplication
@@ -30,13 +30,13 @@ public void MethodA() { Validate(); }
 public void MethodB() { Validate(); }
 ```
 
-### KISS — Keep It Simple, Stupid
+### KISS - Keep It Simple, Stupid
 
 **File:** [KISS.md](./KISS.md)
 
 - Prefer simple solutions over premature abstraction
 - One clear responsibility per method
-- Limit nesting (roughly 3–4 levels)
+- Limit nesting (roughly 3-4 levels)
 
 ```csharp
 // Over-engineering
@@ -50,7 +50,7 @@ public Customer CreateCustomer(string name)
 }
 ```
 
-### YAGNI — You Aren't Gonna Need It
+### YAGNI - You Aren't Gonna Need It
 
 **File:** [YAGNI.md](./YAGNI.md)
 
@@ -78,7 +78,7 @@ public class Order
 **File:** [encapsulation.md](./encapsulation.md)
 
 - Group data that travels together
-- **Threshold:** 4+ related parameters → record/class
+- **Threshold:** 4+ related parameters -> record/class
 - Prefer behavior on the object that owns the data
 
 ```csharp
@@ -133,7 +133,7 @@ Apply alongside the files above. Quick reminders:
 
 | Skill | Phase | Usage |
 |-------|-------|-------|
-| dotnet-developer | Step 0.5 | Read before coding |
+| developer | Step 0.5 | Read before coding |
 | implement | Analysis | When design spans multiple types |
 | code-review | Review | Validate diff against principles |
 
@@ -149,7 +149,7 @@ Apply alongside the files above. Quick reminders:
 
 ## References
 
-- *Clean Code* — Robert C. Martin
-- *The Pragmatic Programmer* — Hunt & Thomas
-- *Refactoring* — Martin Fowler
-- *Design Patterns* — Gang of Four
+- *Clean Code* - Robert C. Martin
+- *The Pragmatic Programmer* - Hunt & Thomas
+- *Refactoring* - Martin Fowler
+- *Design Patterns* - Gang of Four

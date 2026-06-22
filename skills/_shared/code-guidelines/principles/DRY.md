@@ -9,7 +9,7 @@ Detect duplicated code and repeated patterns.
 
 ## TL;DR
 
-- **Threshold:** 3+ identical or very similar occurrences → suggest extraction
+- **Threshold:** 3+ identical or very similar occurrences -> suggest extraction
 - **Severity:** Suggestion (not blocking alone)
 - **Do not flag:** 2 occurrences, generated code, distinct test scenarios, documented intentional duplication
 - See below for edge cases.
@@ -27,7 +27,7 @@ Find duplication that should be extracted:
 
 ---
 
-## Suggestion — Repeated patterns
+## Suggestion - Repeated patterns
 
 ### 1. Duplicated code blocks
 
@@ -106,7 +106,7 @@ private void ValidateEmail(string email)
 | Situation | Severity |
 |-----------|----------|
 | 2 occurrences | Do not comment |
-| 3–4 occurrences | Suggestion |
+| 3-4 occurrences | Suggestion |
 | 5+ occurrences | Suggestion (emphasize) |
 | Blocks > 10 lines duplicated | Suggestion |
 
@@ -123,8 +123,8 @@ private void ValidateEmail(string email)
 
 ## References
 
-- *The Pragmatic Programmer* — Hunt & Thomas
-- *Clean Code* — Robert C. Martin
-- *Refactoring* — Martin Fowler
+- *The Pragmatic Programmer* - Hunt & Thomas
+- *Clean Code* - Robert C. Martin
+- *Refactoring* - Martin Fowler
 
 **Version:** 1.1 (cursor-dev-toolkit)

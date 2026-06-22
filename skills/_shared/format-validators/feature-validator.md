@@ -1,6 +1,6 @@
 # PRD Format Validator
 
-Validates PRD markdown against the **spec** skill template (`skills/spec/reference.md`).
+Validates PRD markdown against the **spec** skill template (`skills/sdd-spec/reference.md`).
 
 **Default language:** pt-BR section titles and metadata labels. If manifest or invocation sets `artifact_language: en`, use the **English override** checklist below instead.
 
@@ -8,12 +8,12 @@ Validates PRD markdown against the **spec** skill template (`skills/spec/referen
 
 ## Validation levels
 
-### Level 1: Structure — pt-BR (default)
+### Level 1: Structure - pt-BR (default)
 
 **Required sections (in order, after title/metadata table):**
 
 - `# PRD:` title
-- Metadata table (`Sequência`, `Status`, `Prioridade`, `Complexidade`, `Repositório`, `Stack` — or English equivalents if `en` override)
+- Metadata table (`Sequência`, `Status`, `Prioridade`, `Complexidade`, `Repositório`, `Stack` - or English equivalents if `en` override)
 - `## 1. Visão geral` (`### 1.1 Contexto`, `### 1.2 Objetivo`)
 - `## 2. Critérios de aceite` (at least one `### CA` block with Dado/Quando/Então)
 - `## 3. Escopo técnico (alto nível)`
@@ -27,18 +27,18 @@ Validates PRD markdown against the **spec** skill template (`skills/spec/referen
 - `## 11. Casos de uso`
 - `## 12. Cenários de teste`
 - `## 13. Definição de pronto`
-- `## 14. Próximos passos` (contains `use skill plan`)
+- `## 14. Próximos passos` (contains `use skill sdd-plan`)
 - `## 15. Referências`
 - `## 16. Notas`
 - `## 17. Histórico de alterações`
 
-### Level 1: Structure — English override
+### Level 1: Structure - English override
 
 When `artifact_language` is `en` or user requested English in invocation:
 
 - `## 1. Overview`, `### 1.1 Context`, `### 1.2 Objective`
 - `## 2. Acceptance criteria` with Given/When/Then
-- Sections 3–17 per English template in `reference.md` (Overview through Change history)
+- Sections 3-17 per English template in `reference.md` (Overview through Change history)
 - Status **Ready for planning**
 
 ### Level 2: Content (recommended)
@@ -59,7 +59,7 @@ When `artifact_language` is `en` or user requested English in invocation:
 |---------|------|----------|
 | Context / Contexto | Minimum ~80 characters | info |
 | Acceptance criteria | Dado/Quando/Então or Given/When/Then in each block | info |
-| Próximos passos / Handoff | Contains `use skill plan` with PRD path | info |
+| Próximos passos / Handoff | Contains `use skill sdd-plan` with PRD path | info |
 | Identifiers in prose | Type/method names in English when cited | info |
 
 ## Usage in spec skill
@@ -82,9 +82,9 @@ PRD does not fully match template:
   ## 2. Critérios de aceite: only one CA block found
      Expected: at least 2 | Actual: 1
 
-PRD saved with warnings — review manually.
+PRD saved with warnings - review manually.
 ```
 
 ---
 
-**Version:** 1.1.0 (cursor-dev-toolkit — pt-BR default artifacts)
+**Version:** 1.1.0 (cursor-dev-toolkit - pt-BR default artifacts)

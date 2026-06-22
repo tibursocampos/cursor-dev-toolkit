@@ -1,4 +1,4 @@
-# Clean Architecture — .NET
+# Clean Architecture - .NET
 
 > **Highest priority.** When this document conflicts with generic best practices, **always follow this document**.
 
@@ -59,7 +59,7 @@ For each new feature:
 Layer flow:
 
 ```
-Controller → Application → Domain → Infrastructure
+Controller -> Application -> Domain -> Infrastructure
 ```
 
 - Controllers **must not** contain business rules.
@@ -102,7 +102,7 @@ Expected naming:
 - `RegisterOrderCommand`
 - `RegisterOrderCommandValidator`
 
-**Follow existing project patterns (blocking in review):** Before implementing validation, handlers, repositories, or controller actions, use Glob/Read on similar types in the same layer and feature area. Do not introduce manual validation in handlers, ad-hoc DTO checks in controllers, or duplicate private logic when the repository already has a consolidated pattern. Full rules, examples, and review criteria: `csharp-patterns.md` — § **Follow existing project patterns** (PRD CA4, RN03).
+**Follow existing project patterns (blocking in review):** Before implementing validation, handlers, repositories, or controller actions, use Glob/Read on similar types in the same layer and feature area. Do not introduce manual validation in handlers, ad-hoc DTO checks in controllers, or duplicate private logic when the repository already has a consolidated pattern. Full rules, examples, and review criteria: `csharp-patterns.md` - § **Follow existing project patterns** (PRD CA4, RN03).
 
 ---
 
@@ -171,7 +171,7 @@ if (!order.Lines.Any())
 
 - Keep methods small and focused.
 - Avoid duplication.
-- Code should be self-explanatory — do not comment around poorly written code.
+- Code should be self-explanatory - do not comment around poorly written code.
 
 ---
 

@@ -16,11 +16,11 @@ Use at the start of a dev session (step 0). Keep ≤ 10 items; one `in_progress`
 | 6 | Commit (+ push if requested) | `pending` |
 | 7 | Pre-PR checklist (step 7) | `pending` |
 
-For SDD, the PLAN file is the detailed control artifact — this list tracks Git workflow only.
+For SDD, the PLAN file is the detailed control artifact - this list tracks Git workflow only.
 
 ---
 
-## By stack (suffix step 4–6)
+## By stack (suffix step 4-6)
 
 | Stack | Verify commands |
 |-------|-----------------|

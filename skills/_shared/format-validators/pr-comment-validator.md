@@ -35,22 +35,22 @@ Validates inline pull-request review comments for consistent structure (GitHub/g
 </details>
 
 ---
-_Review comment — cursor-dev-toolkit code-review_
+_Review comment - cursor-dev-toolkit code-review_
 ```
 
 ## Validation rules
 
-### Rule 1: Severity marker (required — error)
+### Rule 1: Severity marker (required - error)
 
 Comment must start with `🔴 BLOCKING` or `🟡 SUGGESTION`.
 
-### Rule 2: Code blocks (required — error)
+### Rule 2: Code blocks (required - error)
 
 - Must include `**Current code:**` with a non-empty fenced block
 - Must include `**Suggested fix`** with a non-empty fenced block
 - Fences must have a language tag (`csharp`, `typescript`, etc.)
 
-### Rule 3: Details section (required — error)
+### Rule 3: Details section (required - error)
 
 - Closed `<details>` … `</details>`
 - Inside: `**Reason:**`, `**Impact:**`, `**Priority:**` (required)
@@ -60,11 +60,11 @@ Comment must start with `🔴 BLOCKING` or `🟡 SUGGESTION`.
 
 Body text should match the repository convention (English by default in this toolkit). Flag mixed-language field labels if the repo standard is English.
 
-### Rule 5: Footer signature (warning — auto-fixable)
+### Rule 5: Footer signature (warning - auto-fixable)
 
-Optional footer regex: `/_Review comment — .+/`
+Optional footer regex: `/_Review comment - .+/`
 
-### Rule 6: Line reference (required for inline — error)
+### Rule 6: Line reference (required for inline - error)
 
 Line number must be valid for the diff hunk.
 
@@ -95,8 +95,8 @@ Line number must be valid for the diff hunk.
 ```text
 Comment validation:
   ✅ OrderService.cs (line 45): Valid
-  ⚠️  UserRepo.cs (line 89): Missing signature — auto-fixed
-  ❌ PaymentService.cs (line 102): Missing "Current code:" — skipped
+  ⚠️  UserRepo.cs (line 89): Missing signature - auto-fixed
+  ❌ PaymentService.cs (line 102): Missing "Current code:" - skipped
 
 Totals: 3 | Valid: 1 | Auto-fixed: 1 | Skipped: 1
 ```

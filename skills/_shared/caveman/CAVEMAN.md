@@ -1,7 +1,7 @@
-# Caveman Mode — Response Compression Guideline
+# Caveman Mode - Response Compression Guideline
 
 Single source of truth for Caveman Mode behavior across all participating skills.
-Load on demand from skills at step -1 — do not pre-load.
+Load on demand from skills at step -1 - do not pre-load.
 
 Install path after sync: `~/.cursor/skills/_shared/caveman/CAVEMAN.md`
 
@@ -9,12 +9,12 @@ Install path after sync: `~/.cursor/skills/_shared/caveman/CAVEMAN.md`
 
 ## What Caveman Mode Does
 
-Forces the agent to respond in telegraphic, concise fragments — eliminating
-conversational filler, preambles, and polite wrapper text — while preserving
+Forces the agent to respond in telegraphic, concise fragments - eliminating
+conversational filler, preambles, and polite wrapper text - while preserving
 100% of technical content (code, paths, artifact drafts, confirmation gates).
 
 Inspired by: https://github.com/juliusbrussee/caveman  
-Expected savings: 22–87% of output prose tokens per session.
+Expected savings: 22-87% of output prose tokens per session.
 
 ---
 
@@ -35,11 +35,11 @@ Expected savings: 22–87% of output prose tokens per session.
 1. Check if preferences.json exists at the location above.
    - If NOT exists: create it with { "caveman_mode": false }. Mode = OFF.
 2. Read value of "caveman_mode".
-   - If true:  Mode = ON  → load this file, display activation notice.
-   - If false: Mode = OFF → skip rest of this file.
+   - If true:  Mode = ON  -> load this file, display activation notice.
+   - If false: Mode = OFF -> skip rest of this file.
 3. During session: watch for user typing "caveman off" or "caveman on".
-   - "caveman off" → set caveman_mode: false in preferences.json. Confirm in chat (pt-BR): "🪨 Modo Caveman desativado."
-   - "caveman on"  → set caveman_mode: true  in preferences.json. Confirm in chat (pt-BR): "🪨 Modo Caveman ativado."
+   - "caveman off" -> set caveman_mode: false in preferences.json. Confirm in chat (pt-BR): "🪨 Modo Caveman desativado."
+   - "caveman on"  -> set caveman_mode: true  in preferences.json. Confirm in chat (pt-BR): "🪨 Modo Caveman ativado."
 ```
 
 **Activation notice (display in chat when mode is ON):**
@@ -51,10 +51,10 @@ Expected savings: 22–87% of output prose tokens per session.
 
 | Skill | Level |
 |---|---|
-| `commit` | **NEVER** — excluded regardless of setting |
-| `spec`, `plan`, `speckit-spec`, `speckit-plan` | **LITE** when mode ON |
-| `code-review`, `dotnet-developer`, `fix-build`, `test-coverage` | **FULL** when mode ON |
-| `implement`, `speckit-develop` | **FULL** when mode ON |
+| `commit` | **NEVER** - excluded regardless of setting |
+| `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan` | **LITE** when mode ON |
+| `code-review`, `developer`, `fix-build`, `test-coverage` | **FULL** when mode ON |
+| `sdd-develop`, `speckit-develop` | **FULL** when mode ON |
 
 **Always protected in every skill (never compressed under any mode):**
 - Confirmation gates: `(sim / ajustar / cancelar)` blocks
@@ -66,7 +66,7 @@ Expected savings: 22–87% of output prose tokens per session.
 
 ## Full Mode Rules
 
-Apply to: `code-review`, `dotnet-developer`, `fix-build`, `test-coverage`, `implement`, `speckit-develop`.
+Apply to: `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop`, `speckit-develop`.
 
 **Strip completely:**
 - Opening preambles ("Claro! Vou ajudar com isso.", "Ótima pergunta!", "Com certeza!")
@@ -85,13 +85,13 @@ Apply to: `code-review`, `dotnet-developer`, `fix-build`, `test-coverage`, `impl
 - Error messages and stack traces
 - Command suggestions
 - Confirmation gates and security guardrail text
-- Artifact drafts (spec/plan/tasks/commit content)
+- Artifact drafts (spec/sdd-plan/tasks/commit content)
 
 ---
 
 ## Lite Mode Rules
 
-Apply to: `spec`, `plan`, `speckit-spec`, `speckit-plan`.
+Apply to: `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan`.
 
 **Strip:**
 - Opening preambles and framing before questions
@@ -111,7 +111,7 @@ Apply to: `spec`, `plan`, `speckit-spec`, `speckit-plan`.
 ### Blocked (Full Mode)
 | Instead of | Use |
 |---|---|
-| "Claro! Vou ajudar com isso. Aqui está o que farei:" | *(nothing — go straight to action)* |
+| "Claro! Vou ajudar com isso. Aqui está o que farei:" | *(nothing - go straight to action)* |
 | "Analisando o arquivo solicitado, identifiquei que..." | "Identificado:" |
 | "Após concluir esta etapa, o próximo passo será..." | "Próximo: Task N+1" |
 | "Espero que isso resolva o problema!" | *(omit)* |
@@ -134,8 +134,8 @@ Posso gravar em `{path}`? (sim / ajustar / cancelar)
 
 | Consumer | Load condition |
 |---|---|
-| `implement`, `speckit-develop` | Step -1, if caveman_mode check passes |
-| `code-review`, `dotnet-developer`, `fix-build`, `test-coverage` | Step -1, if caveman_mode check passes |
-| `spec`, `plan`, `speckit-spec`, `speckit-plan` | Step -1, if caveman_mode check passes (Lite rules only) |
-| `AGENTS.md` | Reference only — documents the toggle and participation table |
-| `PIPELINE.md` | Reference only — documents confirmation gate protection |
+| `sdd-develop`, `speckit-develop` | Step -1, if caveman_mode check passes |
+| `code-review`, `developer`, `fix-build`, `test-coverage` | Step -1, if caveman_mode check passes |
+| `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan` | Step -1, if caveman_mode check passes (Lite rules only) |
+| `AGENTS.md` | Reference only - documents the toggle and participation table |
+| `PIPELINE.md` | Reference only - documents confirmation gate protection |
