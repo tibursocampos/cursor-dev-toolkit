@@ -326,6 +326,7 @@ $cursorRoot = Join-Path $env:USERPROFILE '.cursor'
 $skillsDest = Join-Path $cursorRoot 'skills'
 $rulesDest = Join-Path $cursorRoot 'rules'
 $hooksDest = Join-Path $cursorRoot 'hooks'
+$sessionsDest = Join-Path $cursorRoot 'sdd\sessions'
 
 Write-ToolkitMessage "Repo : $repoRoot"
 Write-ToolkitMessage "Target: $cursorRoot"
@@ -334,11 +335,14 @@ if ($DryRun) {
 }
 
 if (-not $DryRun) {
-    foreach ($dir in @($cursorRoot, $skillsDest, $rulesDest, $hooksDest)) {
+    foreach ($dir in @($cursorRoot, $skillsDest, $rulesDest, $hooksDest, $sessionsDest)) {
         if (-not (Test-Path -LiteralPath $dir)) {
             New-Item -ItemType Directory -Path $dir -Force | Out-Null
         }
     }
+}
+elseif (-not (Test-Path -LiteralPath $sessionsDest)) {
+    Write-ToolkitMessage "Would create directory: $sessionsDest" ([ConsoleColor]::Cyan)
 }
 
 $totalChanges = 0
@@ -380,5 +384,8 @@ else {
         Write-ToolkitMessage 'Restart Cursor or reload hooks if hooks.json changed.' ([ConsoleColor]::DarkGray)
     }
 }
+
+Write-Host ''
+Write-ToolkitMessage 'Run smoke test: .\scripts\validate-all.ps1' ([ConsoleColor]::DarkGray)
 
 exit 0

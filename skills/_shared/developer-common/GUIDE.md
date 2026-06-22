@@ -1,9 +1,9 @@
-# Developer common — Git workflow reference
+# Developer common - Git workflow reference
 
-Shared steps for dev skills (`implement`, `commit`, `code-review`, `dotnet-developer`). Load only the steps your skill needs.
+Shared steps for dev skills (`sdd-develop`, `commit`, `code-review`, `developer`). Load only the steps your skill needs.
 
 **Version:** 2.0.0 (cursor-dev-toolkit)  
-**Scope:** Git-only — no work-item trackers, no corporate PR APIs.
+**Scope:** Git-only - no work-item trackers, no corporate PR APIs.
 
 Install path after sync: `~/.cursor/skills/_shared/developer-common/`
 
@@ -68,7 +68,7 @@ Override only stack-specific commands (e.g. `dotnet test` vs `npm test`).
 └──────────────────────────────────────────────────────────────┘
 ```
 
-SDD skills (`spec`, `plan`, `implement`) embed parts of this flow inline; dev skills load step files on demand.
+SDD skills (`sdd-spec`, `sdd-plan`, `sdd-develop`) embed parts of this flow inline; dev skills load step files on demand.
 
 ---
 
@@ -79,7 +79,7 @@ SDD skills (`spec`, `plan`, `implement`) embed parts of this flow inline; dev sk
 | 3 | `~/.cursor/rules/branch-validation.mdc` |
 | 4 | `~/.cursor/rules/conventional-commits.mdc`, `commit` skill |
 | Context | `~/.cursor/rules/context-management.mdc` |
-| SDD PLAN | `implement` skill |
+| SDD PLAN | `sdd-develop` skill |
 
 Rules win over conflicting text in step files.
 

@@ -1,6 +1,6 @@
 # Step 4: Commits and pull request (Git-only)
 
-**Goal:** Atomic conventional commits, push, and optional GitHub PR — no work-item tracker APIs.
+**Goal:** Atomic conventional commits, push, and optional GitHub PR - no work-item tracker APIs.
 
 Rules: `~/.cursor/rules/conventional-commits.mdc`, `~/.cursor/rules/branch-validation.mdc`.  
 Validator (when installed): `~/.cursor/skills/_shared/format-validators/commit-message-validator.md`.
@@ -14,7 +14,7 @@ Validator (when installed): `~/.cursor/skills/_shared/format-validators/commit-m
 
 [optional body]
 
-Refs: #<issue>    # optional — GitHub issue or slug
+Refs: #<issue>    # optional - GitHub issue or slug
 ```
 
 | Element | Required | Examples |
@@ -40,7 +40,7 @@ Do not use `feat(42):` or ticket id as the **title** type prefix.
 
 One logical change per commit.
 
-Suggested order: domain → interfaces → application → infrastructure → API → tests → config.
+Suggested order: domain -> interfaces -> application -> infrastructure -> API -> tests -> config.
 
 **Never (unless user explicitly requests):**
 
@@ -84,7 +84,7 @@ gh pr create --base main --head "$(git rev-parse --abbrev-ref HEAD)" \
 | Element | Guidance |
 |---------|----------|
 | Base branch | User or PLAN specifies (`main`, `develop`, etc.) |
-| Title | Conventional summary or repo convention — not tracker `id - title` only |
+| Title | Conventional summary or repo convention - not tracker `id - title` only |
 | Body | Summary, test plan, breaking changes |
 | Links | `Refs #42` / `Fixes #42` in body when applicable |
 
@@ -95,7 +95,7 @@ No MCP work-item linking, no corporate PR template APIs, no mandatory `pr-analyz
 ## 4.5. After commit
 
 - Confirm `git status` clean (or only intentional untracked files).
-- For SDD: update PLAN via `implement` skill before starting the next step in a new chat.
+- For SDD: update PLAN via `sdd-develop` skill before starting the next step in a new chat.
 
 ---
 

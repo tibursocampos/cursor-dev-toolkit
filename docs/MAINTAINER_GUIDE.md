@@ -1,139 +1,72 @@
-# Maintainer guide — cursor-dev-toolkit
+# Maintainer guide - cursor-dev-toolkit
 
-Reference for repository layout, deploy, and conventions when extending this toolkit.
+Reference for repository layout, deploy, validation, and conventions.
 
 | Field | Value |
 |-------|--------|
 | **Install target** | `~/.cursor/` via `scripts/sync-cursor.ps1` |
-| **Install guide** | [INSTALL.md](INSTALL.md) |
-| **Toolkit paths** | `skills/`, `rules/`, `hooks/`, `scripts/`, `AGENTS.md`, `docs/` |
+| **Smoke test** | `scripts/validate-all.ps1` after sync |
+| **Skills catalog** | [docs/SKILLS.md](SKILLS.md) |
 
 ## Repository layout
 
-Deployed to `~/.cursor/` by `scripts/sync-cursor.ps1`. See [INSTALL.md](INSTALL.md) for usage.
-
 ```
 cursor-dev-toolkit/
-├── AGENTS.md                          # Router (→ ~/.cursor/AGENTS.md)
+├── AGENTS.md
 ├── README.md
-├── docs/
-│   ├── README.md
-│   ├── INSTALL.md
-│   ├── MAINTAINER_GUIDE.md            # This file
-│   ├── HOOKS.md
-│   └── TOKEN_BUDGET.md
-├── rules/                             # → ~/.cursor/rules/*.mdc
-│   ├── conventional-commits.md
-│   ├── branch-validation.md
-│   ├── context-management.md
-│   ├── user-language-pt-br.md
-│   └── sdd-artifact-language-pt-br.md
-├── hooks/                             # → ~/.cursor/hooks/ + merge hooks.json
-│   ├── hooks.json
-│   ├── context-before-prompt.ps1
-│   ├── plan-after-edit.ps1
-│   ├── context-pre-compact.ps1
-│   └── _hook-common.ps1
-├── scripts/
-│   └── sync-cursor.ps1
-└── skills/                            # → ~/.cursor/skills/
-    ├── spec/                          # + reference.md
-    ├── plan/                          # + reference.md
-    ├── implement/                     # + reference.md
-    ├── code-review/                   # + reference.md
-    ├── commit/
-    ├── dotnet-developer/
-    ├── add-migrations/
-    ├── fix-build/
-    ├── test-coverage/                   # + reference.md
-    ├── plan-repo-docs/
-    ├── document-repo/
-    ├── refine-backlog-item/
-    ├── breakdown-tasks/
-    ├── create-message-consumer/
-    └── _shared/
-        ├── backlog-item-types/         # bug, user-story, technical-story templates
-        ├── sdd-artifacts/
-        │   ├── STORAGE.md              # PRD/PLAN repo vs ~/.cursor/sdd/
-        │   └── PIPELINE.md             # Order, modes, confirm-before-write, dialogs
-        ├── dotnet-guidelines/
-        ├── developer-common/
-        ├── code-guidelines/
-        │   ├── README.md
-        │   └── principles/
-        └── format-validators/
+├── docs/                    # INSTALL, SKILLS, ENFORCEMENT, guides/
+├── rules/                   # -> ~/.cursor/rules/*.mdc (incl. guardrails.md)
+├── hooks/
+├── scripts/                 # sync, validate-*, setup-speckit, configure-repo-sdd
+└── skills/                  # -> ~/.cursor/skills/
+    ├── sdd-spec/, sdd-plan/, sdd-develop/
+    ├── speckit-setup/ … speckit-develop/
+    ├── developer/, code-review/, commit/, push/, …
+    └── _shared/             # sdd-artifacts, guidelines, validators
 ```
 
-## Skills catalog
+## Skills (25 folders)
 
-| Skill | Installed path | Typical output |
-|-------|----------------|----------------|
-| `spec` | `~/.cursor/skills/spec/` | `PRD/` or `docs/PRD/` or `~/.cursor/sdd/<repo-id>/PRD/` |
-| `plan` | `~/.cursor/skills/plan/` | `PLAN/PLAN_XXX.md` or global PLAN under `~/.cursor/sdd/` |
-| `implement` | `~/.cursor/skills/implement/` | Code + PLAN step checkbox (handoff path) |
-| `code-review` | `~/.cursor/skills/code-review/` | Structured review report |
-| `commit` | `~/.cursor/skills/commit/` | Conventional commit + optional push |
-| `dotnet-developer` | `~/.cursor/skills/dotnet-developer/` | Small .NET changes without full SDD |
-| `add-migrations` | `~/.cursor/skills/add-migrations/` | EF Core migration in consumer .NET repo |
-| `fix-build` | `~/.cursor/skills/fix-build/` | Build/test diagnosis (Git-only; optional `gh`) |
-| `test-coverage` | `~/.cursor/skills/test-coverage/` | .NET coverage report (Coverlet; SonarQube-aligned metrics) |
-| `plan-repo-docs` | `~/.cursor/skills/plan-repo-docs/` | Documentation plan for consumer repo |
-| `document-repo` | `~/.cursor/skills/document-repo/` | One step of consumer doc plan |
-| `refine-backlog-item` | `~/.cursor/skills/refine-backlog-item/` | Local backlog markdown + scorecard |
-| `breakdown-tasks` | `~/.cursor/skills/breakdown-tasks/` | `docs/implementation-tasks/` checklist |
-| `create-message-consumer` | `~/.cursor/skills/create-message-consumer/` | Message consumer scaffold (bus-agnostic) |
+See [SKILLS.md](SKILLS.md). Naming: **kebab-case** folders and `use skill <name>`.
 
-Shared assets: `dotnet-guidelines`, `developer-common`, `code-guidelines`, `format-validators`, `backlog-item-types/` (for `refine-backlog-item` only).
-
-## Deploy
-
-From repo root:
+## Deploy and validate
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
+.\scripts\validate-all.ps1
 ```
-
-Preview: add `-DryRun`. Re-run after pulling toolkit updates (idempotent).
 
 ## Checklist: new skill or rule
 
-1. **English** — skill names kebab-case; SKILL.md and shared guidelines in English. **SDD agent PRD/PLAN `.md`** default pt-BR (`sdd-artifact-language-pt-br.md`). **Code** always English.
-2. **Split large skills** — `SKILL.md` ≤ **150 lines**; overflow in `reference.md`.
-3. **Lazy-load** — router (`AGENTS.md`) lists paths only; do not paste full guideline bodies.
-4. **Line count** — from repo root:
+1. **English** - SKILL.md body in English; user prompts may be pt-BR.
+2. **Gate block** - copy from `skills/_shared/SKILL_TEMPLATE.md` or run `inject-skill-gates.ps1`.
+3. **Size policy** - `SKILL.md` hard limit **500 lines** (Cursor / Agent Skills standard). STOP gate (~27 lines) is fixed overhead. Soft targets by tier: speckit workflow 150-180; SDD classic 115-135; review/coverage 150-170; atomic ops (`push`) 90-110. Use `reference.md` for long templates and encyclopedic checklists; keep decision tables, must-not, and resolution gates in `SKILL.md`. See [TOKEN_BUDGET.md](TOKEN_BUDGET.md).
+4. **Catalog** - add entry to `docs/SKILLS.md`.
+5. **Sync + validate** - `sync-cursor.ps1` then `validate-all.ps1`.
 
-   ```powershell
-   Get-ChildItem skills -Directory | Where-Object { $_.Name -ne '_shared' } | ForEach-Object {
-     $f = Join-Path $_.FullName 'SKILL.md'
-     if (Test-Path $f) { "$($_.Name): $((Get-Content $f).Count) lines" }
-   }
-   ```
+## SKILL.md vs reference.md
 
-5. **Sync** — run `sync-cursor.ps1` and verify under `~/.cursor/`.
+| Keep in SKILL.md | Move to reference.md |
+|------------------|---------------------|
+| Outcome, triggers, process steps | Full markdown templates (optional duplicate) |
+| Decision / resolution / escalation tables | Extensive .NET checklists (`dotnet-guidelines`) |
+| Must-not, handoff | Long examples, optional heuristics |
+| Explicit hooks: "Before step N, Read reference.md section X" | Stack detection detail tables |
 
-## Out of scope for this toolkit
 
-Do not add or document as built-in:
+Path: `~/.cursor/sdd/manifest.json` - `schema_version: 2`, per-repo `classic` + `speckit` sections. See `skills/_shared/sdd-artifacts/STORAGE.md`.
 
-- **Azure DevOps** (or similar) work-item REST/PATCH, PAT scripts, MCP `wit_*`, custom field names (`Custom.Standard_*`), mandatory `TechAI` tags
-- Skills from ai-prompts not ported: `setup`, `fix-pr-comments` (ADO-coupled), `fix-sonar-issues`, `cypress-developer`, `angular-upgrade`
-- Fixed corporate pipeline layouts or agent pool documentation
-- Mandatory third-party static-analysis fix workflows
-- Automatic model selection via hooks
-- Embedded consumer code templates copied from internal monorepos (skills discover patterns in the **target** repo)
+## Session gates
 
-When porting from ai-prompts: grep gate — no `dev.azure.com`, internal org/product names, or ADO-specific guardrails in new skill bodies.
+Path: `~/.cursor/sdd/sessions/{repo-hash}.json` - see `SESSION.md`.
 
-Consumer projects may use their own CI and trackers; toolkit skills stay **Git-only** unless the working repo documents otherwise.
+## Maintenance scripts
 
-## Related docs
-
-| Document | Purpose |
-|----------|---------|
-| [INSTALL.md](INSTALL.md) | End-user install and SDD usage |
-| [HOOKS.md](HOOKS.md) | Optional hooks |
-| [TOKEN_BUDGET.md](TOKEN_BUDGET.md) | Token discipline when extending content |
-| [../AGENTS.md](../AGENTS.md) | Agent router |
-| [../skills/_shared/sdd-artifacts/STORAGE.md](../skills/_shared/sdd-artifacts/STORAGE.md) | SDD PRD/PLAN storage (consumer repos; local/gitignored) |
-| [../skills/_shared/sdd-artifacts/PIPELINE.md](../skills/_shared/sdd-artifacts/PIPELINE.md) | SDD pipeline guards (spec/plan/implement) |
-| [../rules/sdd-pipeline-guards.md](../rules/sdd-pipeline-guards.md) | Always-on SDD pipeline rule (synced as `.mdc`) |
+| Script | Purpose |
+|--------|---------|
+| `rename-skill-refs.ps1` | Bulk skill name migration |
+| `fix-speckit-refs.ps1` | Fix over-aggressive speckit renames |
+| `inject-skill-gates.ps1` | Add STOP blocks |
+| `fix-skill-gates.ps1` | Remove duplicate STOP blocks |
+| `normalize-skill-encoding.ps1` | Fix encoding in skills |
+| `migrate-manifest-v2.ps1` | Upgrade legacy manifest |

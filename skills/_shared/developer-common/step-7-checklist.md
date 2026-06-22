@@ -4,7 +4,7 @@
 
 ---
 
-## 7.1. Preparation (steps 0–0.5)
+## 7.1. Preparation (steps 0-0.5)
 
 - [ ] `AGENTS.md` / `README.md` reviewed when present
 - [ ] Guidelines reviewed (principles + stack files loaded as needed)
@@ -14,7 +14,7 @@
 
 ## 7.2. Branching (step 3)
 
-- [ ] On `feature/<slug>` or `feat/<id>` — not on `main` / `master` / `develop`
+- [ ] On `feature/<slug>` or `feat/<id>` - not on `main` / `master` / `develop`
 - [ ] No nested `feature/parent/child` branch names
 - [ ] Changes belong to the current feature scope
 

@@ -9,7 +9,7 @@ Identify opportunities to group related data and behavior.
 
 ## TL;DR
 
-- **Threshold:** 4+ semantically related parameters → suggest record/class
+- **Threshold:** 4+ semantically related parameters -> suggest record/class
 - **Severity:** Suggestion
 - **Do not flag:** unrelated parameter types, DI constructors with many services (normal in layered apps)
 - See below for grouping examples.
@@ -26,7 +26,7 @@ Find cases where:
 
 ---
 
-## Suggestion — Encapsulation opportunities
+## Suggestion - Encapsulation opportunities
 
 ### 1. Many related parameters
 
@@ -76,7 +76,7 @@ public void ProcessOrder(CustomerInfo customer, ShippingAddress shipping)
 
 | Situation | Severity |
 |-----------|----------|
-| 4–5 related parameters | Suggestion |
+| 4-5 related parameters | Suggestion |
 | 6+ related parameters | Suggestion (emphasize) |
 | Same tuple in 3+ methods | Suggestion |
 
@@ -84,8 +84,8 @@ public void ProcessOrder(CustomerInfo customer, ShippingAddress shipping)
 
 ## References
 
-- *Clean Code* — Robert C. Martin
-- *Refactoring* — Fowler (Introduce Parameter Object)
-- *Domain-Driven Design* — Eric Evans
+- *Clean Code* - Robert C. Martin
+- *Refactoring* - Fowler (Introduce Parameter Object)
+- *Domain-Driven Design* - Eric Evans
 
 **Version:** 1.1 (cursor-dev-toolkit)

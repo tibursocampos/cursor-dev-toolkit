@@ -1,0 +1,122 @@
+---
+name: sdd-spec
+description: Create a PRD for a new feature or change. Writes agent PRD .md in pt-BR by default (repo or ~/.cursor/sdd/<repo-id>/). Use when the user says "use skill sdd-spec", "create spec", "new feature", or "/sdd-spec". Output feeds sdd-plan.
+---
+
+## STOP - Read before ANY tool call
+
+1. Read `~/.cursor/rules/guardrails.mdc`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
+4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
+
+### Step -1 - Gate check (report in chat before continuing)
+
+```
+Gate check:
+[ ] guardrails.mdc read
+[ ] SESSION.md read; session-state loaded
+[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] User confirmed current action (sim)
+-> If any unchecked: STOP
+```
+
+---
+
+# Skill: sdd-spec
+
+## Trigger
+
+Invoke when the user asks for: `use skill sdd-spec`, `create spec`, `new feature`, or `/sdd-spec`.
+
+## Outcome
+
+A complete **PRD** (agent `.md` artifact) in **Brazilian Portuguese (pt-BR)** at a **canonical** path (`PRD/`, `docs/PRD/`, or `~/.cursor/sdd/<repo-id>/PRD/`). English only if the user overrides in this invocation. Mandatory input for **sdd-plan**.
+
+## PRD boundaries
+
+The PRD answers **what**, not **how**. No implementation code. Identifiers (types, APIs, paths) in **English**.
+
+## Lazy-load (only when needed)
+
+| When | Path (after sync) |
+|------|-------------------|
+| Pipeline guards, modes, confirm, paths | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
+| Storage, manifest, `.gitignore` | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Lite mode** |
+| SDD artifact language | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
+| .NET / C# context | `dotnet-guidelines/clean-architecture.md`, `csharp-patterns.md` |
+| Context pressure | `~/.cursor/rules/context-management.mdc` |
+
+## Process
+
+### -1. Pipeline and mode
+
+Load `STORAGE.md` and `PIPELINE.md`. Use `STORAGE.md` schema v2 and run the dynamic storage resolution algorithm with parameter `$Workflow = classic`. Resolve `storage_mode` and `path` for the active repository. If this is the first run for the repository, execute the storage mode selection flow and persist it in `manifest.json`.
+Apply Phase A/B: in Plan/Ask, draft in chat only until Agent + user **sim** on section Confirm below. Pipeline lock: no PLAN, no `Edit`/`Write` on `*.cs`, `*.csproj`, migrations.
+
+Check `~/.cursor/sdd/preferences.json`:
+- If file missing -> create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (**Lite mode** rules only) and display:
+  > Modo Caveman ativo (respostas compactas - Lite). Digite `caveman off` a qualquer momento para desativar.
+- In Lite mode: compress only framing and introductions. Spec drafts, confirmation gates, and clarifying questions are **never** compressed.
+- Honor `caveman on` / `caveman off` at any point during the session.
+
+### 0. Workspace
+
+Target repo (not `cursor-dev-toolkit` unless subject). Read `AGENTS.md` / `README.md`. Detect stack. Resolve `<repo-id>`; glob PRDs (workspace + global) for `NNN`.
+
+### 1. Requirements
+
+**Prior context** (chat, code-review, backlog): structured summary + max **3** gap questions - skip full questionnaire (`PIPELINE.md` section Prior context).
+
+**Otherwise** ask (pt-BR):
+
+```
+Vou criar o PRD. Informe:
+1) Feature - o que construir ou alterar?
+2) Comportamento atual
+3) Comportamento esperado
+4) Contexto adicional (opcional)
+5) ID de rastreamento (opcional)
+```
+
+Wait for answers.
+
+### 2-5. Confirm repo, explore code, clarify (<=5), technical analysis
+
+Per existing skill intent: branch confirmation, Glob/Grep/Read, brief impact/risks for the PRD.
+
+### 6. Context checkpoint
+
+`context-management.mdc`. At >=40%, draft in chat or partial file; warn before continuing.
+
+### 6.75 Confirm before write
+
+Show title, `NNN`, **full canonical path** (resolved under the active storage-mode directory), storage mode, bullets, and status **Pronto para planejamento**. Wait for **sim** / **ajustar** / **cancelar**. In Plan/Ask without **sim** in Agent: Phase A message only.
+
+Record `artifact_language` (default pt-BR) from manifest or user override.
+
+### 7. Write PRD (Agent + sim only)
+
+1. Validate path per `PIPELINE.md` section Path validation - abort if non-canonical.
+2. Repository mode: `.gitignore` per `STORAGE.md` (all four patterns).
+3. `NNN_short_feature_slug.md`; body from `reference.md`.
+4. Product `docs/` in scope: ask doc language first.
+
+Report path, storage, language, `.gitignore` changes. Handoff: `use skill sdd-plan - <full-prd-path>`.
+
+## Must not
+
+- English PRD body by default; implementation code in PRD
+- `Write` outside canonical PRD folders; skip confirm-before-write
+- `Edit`/`Write` production or test code; create PLAN in this session
+- Claim "PRD saved" without successful `Write`
+- External trackers; paste full guideline bodies into PRD
+
+## Handoff
+
+```
+use skill sdd-plan - <full-prd-path>
+```

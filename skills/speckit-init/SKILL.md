@@ -1,9 +1,29 @@
 ---
 name: speckit-init
 description: >
-  Inicializa a estrutura do Spec Kit (.specify/) no repositório ativo ou na pasta
-  global de SDD configurada, gerando uma constituição pré-preenchida inteligente baseada no seu stack.
-  Use para inicializar o speckit ou /speckit-init.
+  Initialize Spec Kit (.specify/) with stack-based constitution.md at resolved storage path.
+  Use when the user says "use skill speckit-init", "init speckit", or "/speckit-init".
+---
+
+## STOP - Read before ANY tool call
+
+1. Read `~/.cursor/rules/guardrails.mdc`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
+4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
+
+### Step -1 - Gate check (report in chat before continuing)
+
+```
+Gate check:
+[ ] guardrails.mdc read
+[ ] SESSION.md read; session-state loaded
+[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] User confirmed current action (sim)
+-> If any unchecked: STOP
+```
+
 ---
 
 # Skill: speckit-init
@@ -20,7 +40,7 @@ Invoke when the user asks for: `use skill speckit-init`, `inicializar speckit`, 
 
 | When | Path |
 |------|------|
-| Storage resolution and manifest | `_shared/sdd-artifacts/STORAGE.md` § Global Manifest and Dynamic Storage Resolution |
+| Storage resolution and manifest | `_shared/sdd-artifacts/STORAGE.md` section Global Manifest and Dynamic Storage Resolution |
 | Repository guidelines scan | `_shared/developer-common/GUIDE.md` |
 | | `_shared/code-guidelines/principles/` |
 | | `_shared/dotnet-guidelines/` |
@@ -32,20 +52,20 @@ Invoke when the user asks for: `use skill speckit-init`, `inicializar speckit`, 
 Run: `specify --version`
 
 - If the command fails:
-  - Inform the user (pt-BR): *"A CLI do Spec Kit não foi encontrada. Execute primeiro: `use skill speckit-setup`."*
+  - Inform the user (pt-BR): *"A CLI do Spec Kit nÃ£o foi encontrada. Execute primeiro: `use skill speckit-setup`."*
   - Stop.
 
 ### 1. Resolve storage
 
-Load `STORAGE.md` § Resolution algorithm. Identify `storage_mode` and `path` for the active repository (`$Cwd`). If first run on this repo: execute the storage mode selection flow.
+Load `STORAGE.md` section Resolution algorithm. Identify `storage_mode` and `path` for the active repository (`$Cwd`). If first run on this repo: execute the storage mode selection flow.
 
 ### 2. Check for existing `.specify/`
 
 Check whether `.specify/` already exists at the resolved destination.
 
 - **Already exists**: inform the user (pt-BR):
-  > *"A estrutura `.specify/` já existe em `{destino}`. Não vou sobrescrever uma configuração existente. Encerrando."*
-  — stop.
+  > *"A estrutura `.specify/` jÃ¡ existe em `{destino}`. NÃ£o vou sobrescrever uma configuraÃ§Ã£o existente. Encerrando."*
+  - stop.
 - **Does not exist**: proceed.
 
 ### 3. Initialize via CLI
@@ -92,9 +112,9 @@ After successfully initializing the project structure, the agent must perform a 
 Check whether `.specify/memory/constitution.md` exists and contains the custom-written principles.
 
 - **Yes**: confirm in chat (pt-BR):
-  > *"✅ Spec Kit inicializado em `{destino}`. A constitution inteligente foi gerada e está em `{destino}/.specify/memory/constitution.md`."*
+  > *"âœ… Spec Kit inicializado em `{destino}`. A constitution inteligente foi gerada e estÃ¡ em `{destino}/.specify/memory/constitution.md`."*
 - **No**: warn in chat (pt-BR):
-  > *"⚠️ A inicialização completou mas `constitution.md` não foi encontrado. Verifique o diretório manualmente."*
+  > *"âš ï¸ A inicializaÃ§Ã£o completou mas `constitution.md` nÃ£o foi encontrado. Verifique o diretÃ³rio manualmente."*
 
 ## Must not
 

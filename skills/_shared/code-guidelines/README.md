@@ -25,7 +25,7 @@ Centralize guidelines so:
 
 Paths after sync: `~/.cursor/skills/_shared/code-guidelines/`
 
-`.NET` stack details live in `dotnet-guidelines/` — not under `languages/dotnet/` in MVP.
+`.NET` stack details live in `dotnet-guidelines/` - not under `languages/dotnet/` in MVP.
 
 ---
 
@@ -58,7 +58,7 @@ _shared/code-guidelines/
 
 | Skill | When | Guidelines |
 |-------|------|------------|
-| **dotnet-developer** | Step 0.5 | `principles/*` + `dotnet-guidelines/*` |
+| **developer** | Step 0.5 | `principles/*` + `dotnet-guidelines/*` |
 | **implement** | Before .NET code | `dotnet-guidelines` (lazy); principles if design-heavy |
 | **code-review** | Review pass | `principles/*` + stack guidelines as needed |
 
@@ -68,7 +68,7 @@ _shared/code-guidelines/
 
 ### Always (principles)
 
-Read only what the task needs — typical minimum:
+Read only what the task needs - typical minimum:
 
 ```
 principles/principles-cheatsheet.md   # quick rules
@@ -82,7 +82,7 @@ principles/encapsulation.md           # if many parameters
 
 ### .NET work
 
-Use `~/.cursor/skills/_shared/dotnet-guidelines/` — not `code-guidelines/languages/dotnet/` until v1.1.
+Use `~/.cursor/skills/_shared/dotnet-guidelines/` - not `code-guidelines/languages/dotnet/` until v1.1.
 
 ---
 
@@ -97,8 +97,8 @@ Use `~/.cursor/skills/_shared/dotnet-guidelines/` — not `code-guidelines/langu
 
 ## References
 
-- *Clean Code* — Robert C. Martin
-- *The Pragmatic Programmer* — Hunt & Thomas
-- *Refactoring* — Martin Fowler
+- *Clean Code* - Robert C. Martin
+- *The Pragmatic Programmer* - Hunt & Thomas
+- *Refactoring* - Martin Fowler
 
 **Maintained in:** cursor-dev-toolkit repo

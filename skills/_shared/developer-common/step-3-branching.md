@@ -13,8 +13,8 @@ Canonical rule: `~/.cursor/rules/branch-validation.mdc` (overrides this file if 
 | `feature/<slug>` | `feature/add-oauth-login` |
 | `feat/<id>` | `feat/42`, `feat/issue-123` |
 
-- `<slug>` — kebab-case topic (no extra `/`)
-- `<id>` — issue number or short id (no extra `/`)
+- `<slug>` - kebab-case topic (no extra `/`)
+- `<id>` - issue number or short id (no extra `/`)
 
 ---
 
@@ -30,11 +30,11 @@ Do **not** commit or implement on:
 
 ## 3.3. Create or checkout branch
 
-Open workspace only — no clone into `projects/{repo}`.
+Open workspace only - no clone into `projects/{repo}`.
 
 ```bash
 git fetch origin
-git checkout <baseline>          # e.g. main or develop — user confirms
+git checkout <baseline>          # e.g. main or develop - user confirms
 git pull origin <baseline>       # if team uses pull before branch
 
 git checkout -b feature/<slug>   # or feat/<id>

@@ -19,7 +19,7 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 
 ```markdown
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🐛 BUG — [title or slug]
+🐛 BUG - [title or slug]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ## Error
@@ -49,16 +49,16 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 [HTTP status, log excerpt, error message, observable behavior]
 
 **Frequency and impact:**
-[Always / intermittent — who or what is affected]
+[Always / intermittent - who or what is affected]
 
 ### 🧩 Suggested fix (steps)
 
-**Step 1 — [Action title]**
+**Step 1 - [Action title]**
 [What to do]
 - File: [path]
 - Depends on: [none / Step N]
 
-**Step 2 — [Action title]**
+**Step 2 - [Action title]**
 [What to do]
 - File: [path]
 - Depends on: [Step 1]
@@ -72,13 +72,13 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 
 **Verification criteria:**
 
-🎬 Scenario 1 — [Primary fix verification]
+🎬 Scenario 1 - [Primary fix verification]
 **Given** [same conditions that reproduce the bug]
 **When** [same action that triggered the error]
 **Then** [correct system behavior]
 **And** [no error / correct payload / consistent data]
 
-🎬 Scenario 2 — [Non-regression]
+🎬 Scenario 2 - [Non-regression]
 **Given** [adjacent normal usage context]
 **When** [related flows run]
 **Then** [existing behavior remains correct]
@@ -93,13 +93,13 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 When input is thin, ask:
 
 ```
-🐛 Bug — need more detail
+🐛 Bug - need more detail
 
 1. What is going wrong? (objective description)
 2. How do you reproduce it? (steps, environment, sample data)
 3. What should happen instead?
 4. Impact? (frequency, users or processes affected)
-5. Where to fix? (file, method, component — optional)
+5. Where to fix? (file, method, component - optional)
 6. Severity? (optional: Critical / High / Medium / Low)
 ```
 
@@ -111,11 +111,11 @@ When input is thin, ask:
 
 **Error:** Describe what **happens**, not vague "does not work". Reproduction steps must be specific enough for another dev without extra context. Include concrete evidence.
 
-**Suggested fix steps:** Same structure as Technical Story steps — one responsibility per step, file hint, explicit dependencies.
+**Suggested fix steps:** Same structure as Technical Story steps - one responsibility per step, file hint, explicit dependencies.
 
 **Expected Result:** State positive correct behavior, not only absence of error. BDD scenarios reuse reproduction conditions. Include non-regression for adjacent flows when relevant.
 
-**Severity:** Optional label in markdown only — do not assume a corporate enum.
+**Severity:** Optional label in markdown only - do not assume a corporate enum.
 
 ---
 
@@ -125,8 +125,8 @@ When input is thin, ask:
 
 **Context:** Regression after validation refactor in `OrderController`.
 
-**Steps to reproduce:** POST `/api/orders` with `{ "customerId": "valid-guid", "notes": "" }` → 500.
+**Steps to reproduce:** POST `/api/orders` with `{ "customerId": "valid-guid", "notes": "" }` -> 500.
 
-**Step 1 — Validate empty optional field in command** — Application layer — depends on: none.
+**Step 1 - Validate empty optional field in command** - Application layer - depends on: none.
 
 **Expected:** HTTP 400 with validation message when `notes` is invalid; HTTP 201 when valid.

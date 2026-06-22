@@ -1,6 +1,6 @@
-# create-message-consumer — reference
+# create-message-consumer - reference
 
-Stack detection, requirements checklist, and scaffold notes for `skills/create-message-consumer/SKILL.md`. Keep `SKILL.md` under 150 lines.
+Stack detection, requirements checklist, and scaffold notes for `skills/create-message-consumer/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
 
 **Scaffold:** this file does not contain copy-paste consumer code. Generated code must follow patterns already present in the **target repository**.
 
@@ -12,16 +12,16 @@ Run from the target repository root. Exclude `bin/`, `obj/`, `node_modules/`.
 
 | Signal | Grep / Glob | Notes |
 |--------|-------------|-------|
-| MassTransit | `MassTransit`, `AddMassTransit`, `IConsumer<`, `ConsumerDefinition` | Transport may be RabbitMQ, Azure Service Bus, Amazon SQS, in-memory — read config |
+| MassTransit | `MassTransit`, `AddMassTransit`, `IConsumer<`, `ConsumerDefinition` | Transport may be RabbitMQ, Azure Service Bus, Amazon SQS, in-memory - read config |
 | RabbitMQ (direct) | `RabbitMQ.Client`, `ConnectionFactory`, `IAsyncBasicConsumer` | May coexist without MassTransit |
-| Azure Service Bus | `Azure.Messaging.ServiceBus`, `ServiceBusClient` | One option among many — not default |
+| Azure Service Bus | `Azure.Messaging.ServiceBus`, `ServiceBusClient` | One option among many - not default |
 | AWS | `Amazon.SQS`, `IAmazonSQS` | Generic handling |
 | Kafka | `Confluent.Kafka`, `IConsumer<` (check namespace) | Distinguish from MassTransit `IConsumer` |
 | Hosted generic | `BackgroundService` + `ReadOnlyMemory<byte>` or channel | Document as custom |
 
-**Config files:** also Glob `appsettings*.json`, `**/MassTransit*` registration, `Program.cs` / `Startup.cs` for `AddMassTransit` or bus connection strings (describe generically in summary — do not echo secrets).
+**Config files:** also Glob `appsettings*.json`, `**/MassTransit*` registration, `Program.cs` / `Startup.cs` for `AddMassTransit` or bus connection strings (describe generically in summary - do not echo secrets).
 
-**Output to user:** one-line stack verdict + 1–3 example file paths of existing consumers.
+**Output to user:** one-line stack verdict + 1-3 example file paths of existing consumers.
 
 ---
 
@@ -72,7 +72,7 @@ Use after user confirms the plan. Check off in session notes; not all rows apply
 | **Contract** | Message DTO/event in correct layer (often Application contracts or shared messaging project) |
 | **Consumer** | Handler class or `IConsumer<T>` with single responsibility |
 | **Registration** | Bus/consumer registered in DI (`Program.cs`, `DependencyInjection`, `MassTransit` config) |
-| **Configuration** | Queue/topic name from named constants — see `csharp-patterns.md` § **Named constants (no magic literals)** |
+| **Configuration** | Queue/topic name from named constants - see `csharp-patterns.md` § **Named constants (no magic literals)** |
 | **Errors** | Retry policy matches checklist; poison path documented |
 | **Idempotency** | Dedup or idempotent handler per checklist |
 | **Logging** | Structured log on start, success, failure (correlation id if repo uses it) |
@@ -102,7 +102,7 @@ Do not introduce new projects or folders without user confirmation.
 
 | Level | When |
 |-------|------|
-| Unit | Handler logic with mocked dependencies — default |
+| Unit | Handler logic with mocked dependencies - default |
 | Integration | Repo already runs Testcontainers, in-memory bus, or shared `WebApplicationFactory` |
 
 Test names: `Should_<Result>_When_<Condition>` per team csharp-patterns.
@@ -123,7 +123,7 @@ Do **not** require or generate by default:
 If the target repo has no messaging libraries, stop after step 1 and recommend:
 
 1. Team chooses broker and NuGet packages
-2. First consumer added manually or via `dotnet-developer` with architectural approval
+2. First consumer added manually or via `developer` with architectural approval
 
 ---
 
@@ -131,10 +131,10 @@ If the target repo has no messaging libraries, stop after step 1 and recommend:
 
 | Skill | Use |
 |-------|-----|
-| `dotnet-developer` | Small consumer in a repo already standardized |
-| `implement` | PLAN step that includes consumer + tests + PLAN checkbox |
+| `developer` | Small consumer in a repo already standardized |
+| `sdd-develop` | PLAN step that includes consumer + tests + PLAN checkbox |
 | `fix-build` | Compile or test failures after scaffold |
-| `add-migrations` | Consumer persists new entities — migration in separate step |
+| `add-migrations` | Consumer persists new entities - migration in separate step |
 
 ---
 

@@ -7,157 +7,121 @@ Step-by-step instructions to deploy **cursor-dev-toolkit** to Cursor and use the
 | Requirement | Notes |
 |-------------|--------|
 | **Cursor IDE** | Skills and rules target Cursor's `~/.cursor/` layout |
-| **Windows** | Hooks and sync script use **PowerShell 5.1+** (Windows PowerShell or `pwsh`) |
+| **Windows** | Hooks and sync script use **PowerShell 5.1+** |
 | **Git** | Optional; only needed to clone/update this repo |
-| **This repo cloned** | Any local path (example: `D:\Source\Repos\cursor-dev-toolkit`) |
 
-> **macOS / Linux:** Skills and rules sync work if you adapt paths (`$HOME/.cursor/`). Hooks are PowerShell-only today; skip hooks or port scripts separately.
+> **macOS / Linux:** Skills and rules sync work with `$HOME/.cursor/`. Hooks are PowerShell-only today.
 
 ---
 
-## 1. Clone the toolkit
+## 1. Clone and deploy
 
 ```powershell
-git clone <your-remote-url> cursor-dev-toolkit
 cd cursor-dev-toolkit
-```
-
-If you already have the folder, `cd` to the repo root (where `AGENTS.md` and `scripts/` live).
-
----
-
-## 2. Deploy to `~/.cursor/`
-
-From the **repo root**:
-
-```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
 ```
 
-Preview without writing files:
+Preview: add `-DryRun`.
+
+### Post-deploy validation
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1 -DryRun
+.\scripts\validate-all.ps1
 ```
 
-### What gets installed
+Optional Spec Kit / session checks:
 
-| Source (this repo) | Installed path | Behavior |
-|--------------------|----------------|----------|
-| `AGENTS.md` | `~/.cursor/AGENTS.md` | Overwritten when content hash changes |
-| `skills/` (entire tree) | `~/.cursor/skills/` | Per-file sync; does **not** delete your other skills |
-| `rules/*.md` | `~/.cursor/rules/*.mdc` | Extension renamed `.md` → `.mdc` |
-| `hooks/*.ps1` | `~/.cursor/hooks/` | Hook scripts |
-| `hooks/hooks.json` | `~/.cursor/hooks.json` | **Merged** by `command` string; existing entries kept |
+```powershell
+.\scripts\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
+.\scripts\validate-all.ps1 -IncludeSessionGate -RepoPath "D:\Source\Repos\MyApp"
+```
 
-### What is never touched
+---
 
-- `~/.cursor/settings.json`, `mcp.json`, extensions, projects cache
-- Unrelated files already under `~/.cursor/`
+## 2. What gets installed
 
-### After sync
-
-- Re-run the same command after `git pull` in this repo (idempotent SHA-256 compare).
-- If `hooks.json` changed, restart Cursor or reload hooks.
+| Source | Installed path |
+|--------|----------------|
+| `AGENTS.md` | `~/.cursor/AGENTS.md` |
+| `skills/` | `~/.cursor/skills/` |
+| `rules/*.md` | `~/.cursor/rules/*.mdc` |
+| `hooks/` | `~/.cursor/hooks/` + merged `hooks.json` |
+| SDD sessions dir | `~/.cursor/sdd/sessions/` (created on sync) |
 
 ---
 
 ## 3. Verify installation
 
-Check these paths exist (Windows example):
-
 ```
 %USERPROFILE%\.cursor\AGENTS.md
-%USERPROFILE%\.cursor\skills\spec\SKILL.md
-%USERPROFILE%\.cursor\skills\implement\SKILL.md
-%USERPROFILE%\.cursor\rules\user-language-pt-br.mdc
-%USERPROFILE%\.cursor\hooks.json
+%USERPROFILE%\.cursor\skills\sdd-spec\SKILL.md
+%USERPROFILE%\.cursor\rules\guardrails.mdc
+%USERPROFILE%\.cursor\skills\_shared\sdd-artifacts\SESSION.md
 ```
-
-Optional: smoke-test hooks from repo root — see [HOOKS.md](HOOKS.md).
 
 ---
 
 ## 4. Use in a project
 
-Open **any codebase** in Cursor (not necessarily this toolkit repo).
+Open any codebase in Cursor. Manuals: **[guides/README.md](guides/README.md)**.
 
-**Daily usage:** step-by-step skill manuals live in **[guides/README.md](guides/README.md)** (decision tree + guides 01–05). The sections below are a short index; follow the guides for invokes, examples, and common mistakes.
+### Classic SDD
 
-### 4.1 SDD workflow (medium/high complexity)
+| Step | Invoke |
+|------|--------|
+| PRD | `use skill sdd-spec` |
+| PLAN | `use skill sdd-plan - <prd-path>` |
+| Develop | `use skill sdd-develop - <plan-path> - Step N` |
 
-| Step | Invoke | Guide |
-|------|--------|-------|
-| PRD | `use skill spec` | [01 — SDD workflow](guides/01-sdd-workflow.md) |
-| PLAN | `use skill plan — <prd-path>` | [01 — SDD workflow](guides/01-sdd-workflow.md) |
-| Implement | `use skill implement — <plan-path> — Step N` | [01 — SDD workflow](guides/01-sdd-workflow.md) |
+### Spec Kit
 
-**Rules (summary):** one `implement` session = **one** PLAN step; new chat per step; confirm **sim** in Agent before PRD/PLAN writes. At ~40% context, pause and start a new chat (see [guide 01](guides/01-sdd-workflow.md)).
+| Step | Invoke |
+|------|--------|
+| Setup | `use skill speckit-setup` |
+| Init | `use skill speckit-init` |
+| Spec | `use skill speckit-spec` |
+| Plan | `use skill speckit-plan - <spec-path>` |
+| Develop | `use skill speckit-develop - <tasks-path>` |
 
-**Storage:** repo `PRD/` and `PLAN/` (gitignored) **or** global `~/.cursor/sdd/<repo-id>/` — details in [guide 01](guides/01-sdd-workflow.md) and `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`.
+### Shortcut
 
-### 4.2 Small .NET change (no PRD)
+`use skill developer` - small work without full SDD.
 
+### Storage
+
+Unified manifest v2: `~/.cursor/sdd/manifest.json` with `classic` and `speckit` sections. See `STORAGE.md` and `docs/ENFORCEMENT.md`.
+
+Configure a repo:
+
+```powershell
+.\scripts\setup-speckit.ps1
+.\scripts\configure-repo-sdd.ps1 -StorageMode global -RepoPath "D:\Source\Repos\MyApp"
 ```
-use skill dotnet-developer
+
+Migrate legacy manifest:
+
+```powershell
+.\scripts\migrate-manifest-v2.ps1
 ```
-
-Details: [02 — dotnet-developer](guides/02-dotnet-developer.md)
-
-### 4.3 Commit, review, and coverage
-
-| Task | Invoke | Guide |
-|------|--------|-------|
-| Review diff vs PRD/PLAN | `use skill code-review` | [03 — code-review](guides/03-code-review.md) |
-| Coverage report (.NET) | `use skill test-coverage` | [04 — test-coverage](guides/04-test-coverage.md) |
-| Conventional commit + push | `use skill commit` | [05 — operational skills](guides/05-operational-skills.md) |
-
-Branch rules: `feature/<slug>` or `feat/<id>` only — not `main` / `master` / `develop`.
-
-Post-code order: `code-review` → `test-coverage` → `commit` — see [guides/README.md](guides/README.md#post-code-workflow).
-
-### 4.4 Other operational skills
-
-All run in the **open workspace** (the project you are building). None require Azure DevOps, Jira APIs, or PAT scripts.
-
-**Language:** skills that write product `docs/` in the target repo ask **pt-BR** or **English** before saving.
-
-| Skill | Invoke |
-|-------|--------|
-| `fix-build` | `use skill fix-build` |
-| `add-migrations` | `use skill add-migrations` |
-| `plan-repo-docs` | `use skill plan-repo-docs` |
-| `document-repo` | `use skill document-repo` |
-| `refine-backlog-item` | `use skill refine-backlog-item` |
-| `breakdown-tasks` | `use skill breakdown-tasks` |
-| `create-message-consumer` | `use skill create-message-consumer` |
-
-Full mini-manuals, suggested flows (RAG repo docs, backlog → SDD, fix-build → commit), and handoffs: **[05 — operational skills](guides/05-operational-skills.md)**.
-
-> **Note:** `plan-repo-docs` / `document-repo` document **application repositories** for RAG. They are not a substitute for toolkit user guides under `docs/guides/`.
 
 ---
 
-## 5. Language and rules
+## 5. Rules summary
 
-| Rule file | Effect |
-|-----------|--------|
-| `user-language-pt-br.mdc` | Agent replies in **Brazilian Portuguese** in chat |
-| `sdd-artifact-language-pt-br.mdc` | PRD/PLAN agent `.md` in **pt-BR** by default; **code always English**; ask language for project `docs/` |
-| `conventional-commits.mdc` | Commit message format |
-| `branch-validation.mdc` | Branch name before commit/push |
-| `context-management.mdc` | Multi-step session / compaction checkpoints |
-
-Source files live in this repo under `rules/`; installed names end with `.mdc`.
+| Rule | Effect |
+|------|--------|
+| `guardrails.mdc` | Git block, confirm-before-write, session gates |
+| `sdd-pipeline-guards.mdc` | SDD order and canonical paths |
+| `user-language-pt-br.mdc` | Chat in pt-BR |
+| `sdd-artifact-language-pt-br.mdc` | PRD/PLAN/spec/plan/tasks default pt-BR |
+| `branch-validation.mdc` | Valid branch before commit/push |
+| `context-management.mdc` | Pause at 40%/80% context |
 
 ---
 
 ## 6. Optional hooks
 
-Hooks track SDD skill usage and remind you before context compaction. They do **not** select models.
-
-- Details: [HOOKS.md](HOOKS.md)
-- Installed automatically by `sync-cursor.ps1` (section 2)
+See [HOOKS.md](HOOKS.md). Installed by `sync-cursor.ps1`.
 
 ---
 
@@ -165,21 +129,8 @@ Hooks track SDD skill usage and remind you before context compaction. They do **
 
 | Problem | Action |
 |---------|--------|
-| Skills not found | Re-run `sync-cursor.ps1`; confirm `~/.cursor/skills/spec/SKILL.md` exists |
-| Rules ignored | Confirm `~/.cursor/rules/*.mdc` exist; restart Cursor |
-| `ExecutionPolicy` blocks script | Use `-ExecutionPolicy Bypass` as in examples above |
-| Hooks not firing | Check `~/.cursor/hooks.json` has **array** entries per event; restart Cursor |
-| Agent replies in English | Ensure `user-language-pt-br.mdc` is installed |
-| PRD/PLAN saved in English unexpectedly | Ensure `sdd-artifact-language-pt-br.mdc` is installed; new chat after sync; override only with `em inglês` in invocation |
-| Sync always says "up to date" but files old | Run without `-DryRun`; delete target file and sync again if needed |
+| Skills not found | Re-run sync; check `~/.cursor/skills/sdd-spec/SKILL.md` |
+| Validation fails | Run `validate-all.ps1`; fix reported paths |
+| Hooks not firing | Restart Cursor after `hooks.json` merge |
 
----
-
-## 8. Maintainer: update the toolkit
-
-1. Edit files in `cursor-dev-toolkit` clone.
-2. Confirm each `skills/*/SKILL.md` is ≤ 150 lines (see [MAINTAINER_GUIDE.md](MAINTAINER_GUIDE.md)).
-3. `powershell -File scripts/sync-cursor.ps1`
-4. New Cursor chat in consumer projects picks up skills/rules.
-
-Repository layout and extension checklist: [MAINTAINER_GUIDE.md](MAINTAINER_GUIDE.md).
+Maintainer: [MAINTAINER_GUIDE.md](MAINTAINER_GUIDE.md) · Catalog: [SKILLS.md](SKILLS.md)

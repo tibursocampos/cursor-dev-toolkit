@@ -16,8 +16,8 @@ Before any `git add`, `git commit`, or `git push`, verify the current branch nam
 | `feature/<slug>` | `feature/add-oauth-login` |
 | `feat/<id>` | `feat/123`, `feat/issue-42` |
 
-- `<slug>` — kebab-case or alphanumeric segment (no extra `/`)
-- `<id>` — ticket, issue number, or short identifier (no extra `/`)
+- `<slug>` - kebab-case or alphanumeric segment (no extra `/`)
+- `<id>` - ticket, issue number, or short identifier (no extra `/`)
 
 ### Blocked branches
 
@@ -88,8 +88,8 @@ fi
 
 ## Where this applies
 
-- `commit` skill — before staging or committing
-- `implement` skill — aligns with branching step in `developer-common`
+- `commit` skill - before staging or committing
+- `sdd-develop` skill - aligns with branching step in `developer-common`
 - Any agent-initiated commit or push
 
 ## Install path

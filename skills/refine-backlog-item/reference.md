@@ -1,6 +1,6 @@
-# refine-backlog-item — reference
+# refine-backlog-item - reference
 
-Scorecard, guardrails, and boundaries for `skills/refine-backlog-item/SKILL.md`. Keep `SKILL.md` under 150 lines.
+Scorecard, guardrails, and boundaries for `skills/refine-backlog-item/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
 
 ---
 
@@ -8,23 +8,23 @@ Scorecard, guardrails, and boundaries for `skills/refine-backlog-item/SKILL.md`.
 
 | Aspect | `refine-backlog-item` | `spec` |
 |--------|----------------------|--------|
-| Purpose | Fast intake — clarify a single backlog item | Full PRD for medium/high complexity features |
+| Purpose | Fast intake - clarify a single backlog item | Full PRD for medium/high complexity features |
 | Output | Structured markdown + scorecard in chat | PRD with manifest, storage rules, traceability |
-| Persistence | Optional `docs/backlog/<slug>.md` — **not** a substitute for SDD PRD | `PRD/` or `docs/PRD/` or `~/.cursor/sdd/<repo-id>/PRD/` (see `STORAGE.md`, `PIPELINE.md`) |
+| Persistence | Optional `docs/backlog/<slug>.md` - **not** a substitute for SDD PRD | `PRD/` or `docs/PRD/` or `~/.cursor/sdd/<repo-id>/PRD/` (see `STORAGE.md`, `PIPELINE.md`) |
 | Acceptance | BDD in item template; scorecard rubric | PRD acceptance criteria + SDD PLAN linkage |
-| When to escalate | User confirms feature spans multiple areas, migrations, or unclear scope | Invoke `use skill spec` — do not expand refine into a PRD inline |
+| When to escalate | User confirms feature spans multiple areas, migrations, or unclear scope | Invoke `use skill sdd-spec` - do not expand refine into a PRD inline |
 
-`spec` does **not** replace refine for a one-line idea — refine first, then spec if needed.
+`spec` does **not** replace refine for a one-line idea - refine first, then spec if needed.
 
 Handoff wording:
 
 ```
-This item is large enough for SDD. Next: use skill spec — then use skill plan.
+This item is large enough for SDD. Next: use skill sdd-spec - then use skill sdd-plan.
 ```
 
-Before suggesting `spec`, optionally Glob existing PRDs in **both** workspace (`PRD/*.md`, `docs/PRD/*.md`) and global (`~/.cursor/sdd/<repo-id>/PRD/*.md`) per `STORAGE.md` — mention if a related PRD already exists so the user can extend it instead of duplicating scope.
+Before suggesting `spec`, optionally Glob existing PRDs in **both** workspace (`PRD/*.md`, `docs/PRD/*.md`) and global (`~/.cursor/sdd/<repo-id>/PRD/*.md`) per `STORAGE.md` - mention if a related PRD already exists so the user can extend it instead of duplicating scope.
 
-`spec` owns storage choice (repository vs global), manifest, `.gitignore`, and confirm-before-write (`PIPELINE.md`); refine does **not** write PRD/PLAN files. `docs/backlog/` items must be promoted via `use skill spec`, not treated as PRD.
+`spec` owns storage choice (repository vs global), manifest, `.gitignore`, and confirm-before-write (`PIPELINE.md`); refine does **not** write PRD/PLAN files. `docs/backlog/` items must be promoted via `use skill sdd-spec`, not treated as PRD.
 
 ---
 
@@ -39,7 +39,7 @@ Score immediately after generating the markdown. Maximum **100** points.
 | Objective | 15 | 15: affirmative, ≤3 sentences, correct perspective, specific / 8: correct but long or generic / 3: vague or wrong perspective / 0: missing |
 | Acceptance criteria (BDD) | 25 | 25: all Given/When/Then, covers happy path + error + edge / 15: BDD present but incomplete / 8: no BDD or intent language / 0: missing |
 | Implementation steps | 20 | 20: baby steps, infinitive verbs, layer order, explicit deps / 12: steps ok but weak granularity or deps / 5: generic steps / 0: missing |
-| No vague language | 10 | 10: none / 5: 1–2 vague phrases / 0: multiple |
+| No vague language | 10 | 10: none / 5: 1-2 vague phrases / 0: multiple |
 
 ### Type-specific criteria (30 points total)
 
@@ -47,7 +47,7 @@ Score immediately after generating the markdown. Maximum **100** points.
 
 | Criterion | Max |
 |-----------|-----|
-| Technical context (problem → solution → scope) | 10 |
+| Technical context (problem -> solution -> scope) | 10 |
 | Repositories / areas listed | 5 |
 | Technical specificity (types, endpoints, events when relevant) | 10 |
 | Dependencies declared or N/A justified | 5 |
@@ -129,7 +129,7 @@ Rules: notes must be specific (not "OK"); improvements name exact gaps; incomple
 - [ ] Reproduction steps are actionable
 - [ ] Expected result describes positive behavior
 
-If guardrails fail, ask for missing detail — do not publish incomplete docs.
+If guardrails fail, ask for missing detail - do not publish incomplete docs.
 
 ---
 
@@ -150,7 +150,7 @@ Prefix file with metadata:
 [generated body]
 ```
 
-Do not create `docs/backlog/` in **cursor-dev-toolkit** during toolkit porting — only in consumer repos at runtime.
+Do not create `docs/backlog/` in **cursor-dev-toolkit** during toolkit porting - only in consumer repos at runtime.
 
 ---
 

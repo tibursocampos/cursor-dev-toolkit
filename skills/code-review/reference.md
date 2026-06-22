@@ -1,4 +1,4 @@
-# Code review — report template and checklists
+# Code review - report template and checklists
 
 Use when writing the final report for the `code-review` skill. Keep the report in **Brazilian Portuguese (pt-BR)** (technical terms may stay in English). Replace bracketed placeholders.
 
@@ -10,9 +10,9 @@ Run in **step 0.5** before scoping the diff. Load `~/.cursor/skills/_shared/sdd-
 
 ### Checklist
 
-1. **Target repo** — open workspace is the project under review (not `cursor-dev-toolkit` unless that is the subject).
-2. **`<repo-id>`** — per `STORAGE.md`: `git remote get-url origin` → slug; else workspace root basename; reuse `repo_id` from manifest when present.
-3. **Manifest** — read `~/.cursor/sdd/<repo-id>/manifest.json` when it exists and `workspace_root` (normalized separators, case-insensitive on Windows) matches the open workspace → use `prd_folder` and `plan_folder` (may be absolute paths, e.g. `C:/Users/.../PRD`).
+1. **Target repo** - open workspace is the project under review (not `cursor-dev-toolkit` unless that is the subject).
+2. **`<repo-id>`** - per `STORAGE.md`: `git remote get-url origin` -> slug; else workspace root basename; reuse `repo_id` from manifest when present.
+3. **Manifest** - read `~/.cursor/sdd/<repo-id>/manifest.json` when it exists and `workspace_root` (normalized separators, case-insensitive on Windows) matches the open workspace -> use `prd_folder` and `plan_folder` (may be absolute paths, e.g. `C:/Users/.../PRD`).
 4. **Glob** (parallel):
 
    | Location | Patterns |
@@ -20,8 +20,8 @@ Run in **step 0.5** before scoping the diff. Load `~/.cursor/skills/_shared/sdd-
    | Workspace | `PRD/*.md`, `docs/PRD/*.md`, `PLAN/PLAN_*.md` |
    | Global | `~/.cursor/sdd/<repo-id>/PRD/*.md`, `~/.cursor/sdd/<repo-id>/PLAN/PLAN_*.md` |
 
-5. **Extract `NNN`** — first three digits from PRD filename (`001_...md`) and from PLAN (`PLAN_001_...md`).
-6. **Pair** — match PRD and PLAN with the same `NNN`.
+5. **Extract `NNN`** - first three digits from PRD filename (`001_...md`) and from PLAN (`PLAN_001_...md`).
+6. **Pair** - match PRD and PLAN with the same `NNN`.
 7. **Select one pair** (first match wins):
 
    | Priority | Signal |
@@ -30,10 +30,10 @@ Run in **step 0.5** before scoping the diff. Load `~/.cursor/skills/_shared/sdd-
    | 2 | PLAN header field **PRD** points to a discovered PRD path |
    | 3 | `NNN` or feature slug aligns with current branch name |
    | 4 | Single pair after pairing |
-   | 5 | Ask once in pt-BR — numbered list of PRD + PLAN paths |
+   | 5 | Ask once in pt-BR - numbered list of PRD + PLAN paths |
 
 8. **Read** selected PRD and PLAN before SDD traceability (step 2).
-9. **Report** — always record full paths used (workspace-relative or absolute global).
+9. **Report** - always record full paths used (workspace-relative or absolute global).
 
 ### Outcomes
 
@@ -48,7 +48,7 @@ Run in **step 0.5** before scoping the diff. Load `~/.cursor/skills/_shared/sdd-
 ## Report template
 
 ```markdown
-# Code review — [Nome da feature]
+# Code review - [Nome da feature]
 
 ## Resumo executivo
 
@@ -58,10 +58,10 @@ Run in **step 0.5** before scoping the diff. Load `~/.cursor/skills/_shared/sdd-
 |---------|-------|
 | Aderência ao PRD | [ex.: 4/4 critérios] |
 | Status do PLAN | [ex.: 6/6 passos concluídos] |
-| SDD | [PRD/PLAN encontrados — caminhos] ou **Limitação SDD** (busca completa sem artefatos) |
+| SDD | [PRD/PLAN encontrados - caminhos] ou **Limitação SDD** (busca completa sem artefatos) |
 | Arquivos revisados | [N] |
 | Build / testes | [Passou / Falhou / Não executado] |
-| Cobertura (código novo) | [X% — Passou ≥ 80% / Abaixo / Não aplicável] |
+| Cobertura (código novo) | [X% - Passou ≥ 80% / Abaixo / Não aplicável] |
 | Críticos | [0] |
 | Importantes | [N] |
 | Nice-to-have | [N] |
@@ -76,7 +76,7 @@ _Omitir esta seção somente se step 0.5 registrou **Limitação SDD**._
 
 **PLAN:** [caminho completo]
 
-- Progresso: [X/N] — [consistente | inconsistências listadas]
+- Progresso: [X/N] - [consistente | inconsistências listadas]
 - Passos concluídos: [lista]
 - Pendente / desvio: [lista ou Nenhum]
 
@@ -104,7 +104,7 @@ _Omitir esta seção somente se step 0.5 registrou **Limitação SDD**._
 
 ## Arquivos revisados
 
-- [caminho] — [nota breve]
+- [caminho] - [nota breve]
 
 ---
 
@@ -147,10 +147,10 @@ _Omitir esta seção somente se step 0.5 registrou **Limitação SDD**._
 - **Unitários:** [passou/falhou, escopo]
 - **Integração:** [passou/falhou, escopo]
 - **Lacunas:** [cenários não cobertos]
-- **Cobertura (código novo / arquivos alterados):** [X% — Passou ≥ [threshold]% / Abaixo do target / Não executado]
-- **Cobertura geral (branch):** [Y% — informativo]
+- **Cobertura (código novo / arquivos alterados):** [X% - Passou ≥ [threshold]% / Abaixo do target / Não executado]
+- **Cobertura geral (branch):** [Y% - informativo]
 - **Meta:** 100% (mínimo aceitável: [80]% quando target aplicável)
-- **Fonte:** `use skill test-coverage` — [colar bloco do relatório ou N/A]
+- **Fonte:** `use skill test-coverage` - [colar bloco do relatório ou N/A]
 
 ---
 
@@ -199,6 +199,29 @@ Problemas: [Nenhum | listados]
 
 - [ ]
 ```
+
+---
+
+## Code analysis focus
+
+| Area | Focus |
+|------|--------|
+| Correctness | Logic, edge cases, error handling |
+| Architecture | Layer boundaries, DI, no domain -> infrastructure leaks |
+| Tests | Behavior covered; meaningful assertions; no trivial tests |
+| Security | Secrets, injection, authz, sensitive logs |
+| Performance | N+1, unbounded work, missing async where I/O |
+| Maintainability | Naming, method size, duplication; magic values - see `csharp-patterns.md` |
+
+## Verification commands
+
+| Stack | Commands |
+|-------|----------|
+| .NET | `dotnet build`, `dotnet test` (scoped if large) |
+| .NET coverage | `use skill test-coverage` when PRD, PLAN, or user sets a target (default **80%** on changed production files) |
+| Node | `npm run build`, `npm test` per project scripts |
+
+When a coverage target applies: run `test-coverage` before final decision; paste summary into report section Testes. **Fail** below threshold -> **Changes required** unless user documents an accepted exception.
 
 ---
 
@@ -268,7 +291,7 @@ Problemas: [Nenhum | listados]
 Run when PRD, PLAN, or user requires coverage evidence:
 
 ```text
-use skill test-coverage — <base-branch> — threshold 80
+use skill test-coverage - <base-branch> - threshold 80
 ```
 
 | Result from test-coverage | code-review decision |

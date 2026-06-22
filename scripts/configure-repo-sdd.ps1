@@ -1,96 +1,128 @@
-# Configura este repositório no manifest.json do Spec Kit com o modo de armazenamento desejado.
+#Requires -Version 5.1
+<#
+.SYNOPSIS
+  Configures Spec Kit for a repository in manifest.json (schema v2) and runs specify init.
+
+.PARAMETER StorageMode
+  global or repository
+
+.PARAMETER RepoPath
+  Repository path (defaults to current location).
+
+.EXAMPLE
+  .\scripts\configure-repo-sdd.ps1 -StorageMode global -RepoPath "D:\Source\Repos\MyApp"
+#>
+[CmdletBinding()]
 param(
-    [string]$StorageMode = "global"
+    [ValidateSet('global', 'repository')]
+    [string] $StorageMode = 'global',
+    [string] $RepoPath = (Get-Location).Path
 )
 
-# 1. Verificar pré-requisitos (specify-cli)
-Write-Host "Verificando se specify-cli está disponível..." -ForegroundColor Cyan
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+Write-Host 'Checking specify-cli...' -ForegroundColor Cyan
 try {
     $specVer = & specify --version 2>&1
-    if ($specVer -match "specify \d") {
-        Write-Host "specify-cli detectado: $specVer" -ForegroundColor Green
-    }
-    else {
-        Write-Host "A CLI do Spec Kit não respondeu adequadamente." -ForegroundColor Red
+    if ($specVer -notmatch 'specify \d') {
+        Write-Host 'Spec Kit CLI did not respond correctly.' -ForegroundColor Red
         exit 1
     }
+    Write-Host "specify-cli detected: $specVer" -ForegroundColor Green
 }
 catch {
-    Write-Host "Erro: A CLI do Spec Kit não foi encontrada no PATH. Execute primeiro o setup-speckit.ps1 e garanta que o terminal foi reiniciado." -ForegroundColor Red
+    Write-Host 'Error: specify-cli not found. Run setup-speckit.ps1 first and restart the terminal.' -ForegroundColor Red
     exit 1
 }
 
-$sddPath = Join-Path $env:USERPROFILE ".cursor\sdd"
-$manifestPath = Join-Path $sddPath "manifest.json"
+$sddPath = Join-Path $env:USERPROFILE '.cursor\sdd'
+$manifestPath = Join-Path $sddPath 'manifest.json'
+$sessionsPath = Join-Path $sddPath 'sessions'
 
 if (-not (Test-Path $manifestPath)) {
-    Write-Host "Erro: O arquivo manifest.json não existe. Execute primeiro o setup-speckit.ps1." -ForegroundColor Red
+    Write-Host 'Error: manifest.json missing. Run setup-speckit.ps1 first.' -ForegroundColor Red
     exit 1
 }
 
-# Carregar manifest
+if (-not (Test-Path $sessionsPath)) {
+    New-Item -ItemType Directory -Path $sessionsPath -Force | Out-Null
+}
+
 $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+if (-not $manifest.schema_version) {
+    $manifest | Add-Member -NotePropertyName 'schema_version' -NotePropertyValue 2 -Force
+}
 if (-not $manifest.repositories) {
     $manifest.repositories = [PSCustomObject]@{}
 }
 
-$cwd = (Get-Item .).FullName.Replace('\', '/')
-$repoName = Split-Path $cwd -Leaf
-$targetPath = ""
+$cwd = $RepoPath.Replace('\', '/').TrimEnd('/')
+$repoName = Split-Path $RepoPath -Leaf
+$targetPath = if ($StorageMode -eq 'global') {
+    (Join-Path $sddPath $repoName).Replace('\', '/')
+} else {
+    $cwd
+}
 
-if ($StorageMode -eq "global") {
-    $targetPath = Join-Path $sddPath $repoName
+$entry = @{
+    classic = @{
+        storage_mode = $StorageMode
+        path         = $targetPath
+    }
+    speckit = @{
+        storage_mode      = $StorageMode
+        path              = $targetPath
+        initialized       = $false
+        init_validated_at = $null
+    }
+}
+
+$manifest.repositories | Add-Member -MemberType NoteProperty -Name $cwd -Value $entry -Force
+$manifest | ConvertTo-Json -Depth 10 | Set-Content -Path $manifestPath -Encoding UTF8
+Write-Host 'Repository configured in manifest.json (schema v2)!' -ForegroundColor Green
+
+$specifyFolderPath = Join-Path $targetPath '.specify'
+if (Test-Path -LiteralPath $specifyFolderPath) {
+    Write-Host ".specify/ already exists at '$targetPath'. Running validation only." -ForegroundColor Yellow
 }
 else {
-    $targetPath = $cwd
+    $parentDir = Split-Path $targetPath -Parent
+    if ($StorageMode -eq 'global' -and -not (Test-Path $parentDir)) {
+        New-Item -ItemType Directory -Force -Path $parentDir | Out-Null
+    }
+
+    Write-Host "Initializing Spec Kit at: $targetPath" -ForegroundColor Cyan
+    if ($StorageMode -eq 'global') {
+        & specify init $targetPath --integration generic --integration-options='--commands-dir .specify/commands/' --force
+    }
+    else {
+        Push-Location $RepoPath
+        try {
+            & specify init . --integration generic --integration-options='--commands-dir .specify/commands/' --force
+        }
+        finally {
+            Pop-Location
+        }
+    }
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host 'Error: specify init failed.' -ForegroundColor Red
+        exit 1
+    }
 }
 
-# Normalizar caminhos com barras normais para compatibilidade
-$targetPath = $targetPath.Replace('\', '/')
-
-# Atualizar o manifest
-$manifest.repositories | Add-Member -MemberType NoteProperty -Name $cwd -Value @{
-    storage_mode = $StorageMode
-    path         = $targetPath
-} -Force
-
-$json = $manifest | ConvertTo-Json -Depth 10
-[System.IO.File]::WriteAllText($manifestPath, $json)
-Write-Host "Repositório configurado no manifest.json!" -ForegroundColor Green
-
-# 2. Verificar se .specify/ já existe no destino
-$specifyFolderPath = Join-Path $targetPath ".specify"
-if (Test-Path $specifyFolderPath) {
-    Write-Host "A estrutura .specify/ já existe em '$targetPath'. Não vou sobrescrever uma configuração existente. Encerrando." -ForegroundColor Yellow
-    exit 0
-}
-
-# Criar pasta pai se for modo global e não existir
-# Não criamos o diretório final (targetPath) pois o specify init prefere criá-lo ou reclama se já existir sem --force.
-$parentDir = Split-Path $targetPath
-if ($StorageMode -eq "global" -and -not (Test-Path $parentDir)) {
-    New-Item -ItemType Directory -Force -Path $parentDir | Out-Null
-}
-
-# 3. Inicializar via CLI
-Write-Host "Inicializando Spec Kit no destino: $targetPath" -ForegroundColor Cyan
-if ($StorageMode -eq "global") {
-    & specify init $targetPath --integration generic --integration-options="--commands-dir .specify/commands/" --force
-}
-else {
-    & specify init . --integration generic --integration-options="--commands-dir .specify/commands/" --force
-}
-
+$validateScript = Join-Path $PSScriptRoot 'validate-speckit-init.ps1'
+& $validateScript -RepoPath $RepoPath -SpecifyRoot $targetPath
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Erro: Falha ao executar 'specify init'." -ForegroundColor Red
+    Write-Host 'Spec Kit validation failed after init.' -ForegroundColor Red
     exit 1
 }
 
-# 4. Validar resultado
-$constitutionPath = Join-Path $specifyFolderPath "memory/constitution.md"
-if (Test-Path $constitutionPath) {
-    Write-Host "`n✅ Spec Kit inicializado em '$targetPath'. A constitution está em '$targetPath/.specify/memory/constitution.md'." -ForegroundColor Green
-}
-else {
-    Write-Host "`n⚠️ A inicialização completou mas 'constitution.md' não foi encontrado em '$targetPath/.specify/memory/'. Verifique o diretório manualmente." -ForegroundColor Yellow
-}
+$manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+$manifest.repositories.$cwd.speckit.initialized = $true
+$manifest.repositories.$cwd.speckit.init_validated_at = [datetime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ')
+$manifest | ConvertTo-Json -Depth 10 | Set-Content -Path $manifestPath -Encoding UTF8
+
+Write-Host "Spec Kit ready at '$targetPath'." -ForegroundColor Green
+exit 0

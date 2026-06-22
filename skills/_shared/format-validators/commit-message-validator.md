@@ -1,6 +1,6 @@
 # Commit Message Format Validator
 
-Validates messages against **Conventional Commits** (Git-only — no work-item tracker APIs).
+Validates messages against **Conventional Commits** (Git-only - no work-item tracker APIs).
 
 **Related:** `~/.cursor/rules/conventional-commits.mdc`, `skills/_shared/developer-common/step-4-commits-pr.md`.
 
@@ -11,7 +11,7 @@ Validates messages against **Conventional Commits** (Git-only — no work-item t
 
 [optional body]
 
-Refs: #<issue>    # optional — GitHub issue or slug
+Refs: #<issue>    # optional - GitHub issue or slug
 ```
 
 | Element | Required | Notes |
@@ -33,14 +33,14 @@ Do **not** use ticket id as the type prefix (e.g. avoid `feat(42):`).
 
 - **Regex:** `/^(feat|fix|refactor|test|docs|ci|chore|perf|style|build|revert)(\(.+\))?:/`
 - **Severity:** Suggestion
-- **Common fixes:** `added` → `feat`, `fixed` → `fix`, `update` → `refactor`, `bugfix` → `fix`, `feature` → `feat`
+- **Common fixes:** `added` -> `feat`, `fixed` -> `fix`, `update` -> `refactor`, `bugfix` -> `fix`, `feature` -> `feat`
 
 ### Rule 2: Description present
 
 - First line must have non-empty description after `:`
 - **Severity:** Error
 
-### Rule 3: Description quality (optional — `--strict` only)
+### Rule 3: Description quality (optional - `--strict` only)
 
 - **Severity:** Nitpick
 - Minimum ~10 characters; avoid generic-only text (`changes`, `updates`, `fixes`)
@@ -52,7 +52,7 @@ Do **not** use ticket id as the type prefix (e.g. avoid `feat(42):`).
 - **Severity:** Error
 - **Fix:** Remove the trailer/footer; commit with approved Conventional Commits text only (`-m` / `-F`)
 
-### Rule 5: Exceptions (auto-skip — do not validate)
+### Rule 5: Exceptions (auto-skip - do not validate)
 
 - Merge commits: `Merge branch …` / `Merge pull request …`
 - Initial commits: `Initial commit` / `First commit`
@@ -63,7 +63,7 @@ Do **not** use ticket id as the type prefix (e.g. avoid `feat(42):`).
 Per commit: `{ isValid, isException, issues[], suggestedFix? }`
 
 - `isValid = true` when there are no non-nitpick issues
-- `isException = true` → skip validation
+- `isException = true` -> skip validation
 - `suggestedFix` = corrected first line with proper type/scope
 
 ## Context modes
@@ -89,7 +89,7 @@ Per commit: `{ isValid, isException, issues[], suggestedFix? }`
 | `abc123` | Valid | - |
 | `def456` | Invalid | Missing type prefix |
 
-**Suggestion** — commit `def456`:
+**Suggestion** - commit `def456`:
 **Current:** `added export endpoint`
 **Suggested:** `feat(export): add export endpoint`
 ```

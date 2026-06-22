@@ -1,9 +1,28 @@
 ---
 name: code-review
-description: Review a branch or diff against PRD/PLAN acceptance, project standards, and shared guidelines. Produces a structured report (critical, important, nice-to-have). Use when the user says "use skill code-review", "review this PR", or "/code-review". Git-only — optional GitHub PR via gh CLI.
+description: Review a branch or diff against PRD/PLAN acceptance, project standards, and shared guidelines. Produces a structured report (critical, important, nice-to-have). Use when the user says "use skill code-review", "review this PR", or "/code-review". Git-only - optional GitHub PR via gh CLI.
 ---
 
-# Skill: code-review
+## STOP - Read before ANY tool call
+
+1. Read `~/.cursor/rules/guardrails.mdc`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
+4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
+
+### Step -1 - Gate check (report in chat before continuing)
+
+```
+Gate check:
+[ ] guardrails.mdc read
+[ ] SESSION.md read; session-state loaded
+[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] User confirmed current action (sim)
+-> If any unchecked: STOP
+```
+
+---
 
 ## Trigger
 
@@ -17,9 +36,9 @@ A structured **review report** with severity tiers (critical / important / nice-
 
 | Input | Rule |
 |-------|------|
-| Base branch | `main`, `develop` — ask once if missing |
+| Base branch | `main`, `develop` - ask once if missing |
 | Feature branch | Current branch or named branch |
-| PRD / PLAN (SDD) | Optional in invocation; **resolve in step 0.5** if omitted (see `reference.md` § SDD artifact resolution) |
+| PRD / PLAN (SDD) | Optional in invocation; **resolve in step 0.5** if omitted (see `reference.md` section SDD artifact resolution) |
 
 Ask the user **only after** step 0.5 if zero or multiple PRD/PLAN pairs remain ambiguous. For a quick review without SDD artifacts, base branch + changed paths suffice after 0.5 reports no artifacts.
 
@@ -33,7 +52,7 @@ Ask the user **only after** step 0.5 if zero or multiple PRD/PLAN pairs remain a
 | Pre-PR gate (.NET) | `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md` |
 | .NET coverage report | `~/.cursor/skills/test-coverage/reference.md` (when PRD/user/PLAN requires coverage) |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/principles-cheatsheet.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` — **Full mode** |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full mode** |
 | Final Git hygiene | `~/.cursor/skills/_shared/developer-common/step-7-checklist.md` |
 | Report template | `reference.md` (this skill) |
 
@@ -46,18 +65,18 @@ Do **not** preload `code-guidelines/languages/**` or corporate static-analysis w
 ### -1. Caveman Mode
 
 Check `~/.cursor/sdd/preferences.json`:
-- If file missing → create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` → load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
-  > 🪨 Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
+- If file missing -> create with `{ "caveman_mode": false }`.
+- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
+  > Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
 - Honor `caveman on` / `caveman off` commands from the user at any point during the session.
 
 ### 0. Workspace
 
-Confirm target repo (not `cursor-dev-toolkit` unless that is the subject). Detect stack (`*.sln` → .NET; `angular.json` → Angular). Read `AGENTS.md` / `README.md`. Load dotnet-guidelines only for .NET reviews.
+Confirm target repo (not `cursor-dev-toolkit` unless that is the subject). Detect stack (`*.sln` -> .NET; `angular.json` -> Angular). Read `AGENTS.md` / `README.md`. Load dotnet-guidelines only for .NET reviews.
 
 ### 0.5 Resolve SDD artifacts
 
-Load `STORAGE.md`. Follow **`reference.md` § SDD artifact resolution** (manifest, globs repo + `~/.cursor/sdd/<repo-id>/`, pair by `NNN`). Use full paths in the report. If one PRD/PLAN pair → read both before the diff review. If none after a full search → note **SDD limitation** in the report (technical review only). If ambiguous → ask once in pt-BR with numbered options.
+Load `STORAGE.md`. Follow **`reference.md` section SDD artifact resolution** (manifest, globs repo + `~/.cursor/sdd/<repo-id>/`, pair by `NNN`). Use full paths in the report. If one PRD/PLAN pair -> read both before the diff review. If none after a full search -> note **SDD limitation** in the report (technical review only). If ambiguous -> ask once in pt-BR with numbered options.
 
 ### 1. Scope the diff
 
@@ -72,10 +91,10 @@ Default `<head>` to current branch. List files; confirm with user before deep re
 
 ### 2. SDD traceability (when artifacts found or user provided)
 
-Skip this section only when step 0.5 found no PRD/PLAN (document limitation — do not claim artifacts do not exist).
+Skip this section only when step 0.5 found no PRD/PLAN (document limitation - do not claim artifacts do not exist).
 
 - PLAN progress bar and step statuses match completed work
-- Each **Completed** / **Concluído** step has deliverables checked; no **Pending** steps with code already merged
+- Each **Completed** / **Concluido** step has deliverables checked; no **Pending** steps with code already merged
 - PRD acceptance criteria mapped to implementation and tests
 
 Flag PLAN/PRD drift as **important** (not necessarily blocking if scope is otherwise correct).
@@ -93,13 +112,13 @@ Review changed files for:
 | Area | Focus |
 |------|--------|
 | Correctness | Logic, edge cases, error handling |
-| Architecture | Layer boundaries, DI, no domain → infrastructure leaks |
+| Architecture | Layer boundaries, DI, no domain -> infrastructure leaks |
 | Tests | Behavior covered; meaningful assertions; no trivial tests |
 | Security | Secrets, injection, authz, sensitive logs |
 | Performance | N+1, unbounded work, missing async where I/O |
-| Maintainability | Naming, method size, duplication; magic values / structure — see `csharp-patterns.md` normative sections |
+| Maintainability | Naming, method size, duplication; magic values / structure - see `csharp-patterns.md` normative sections |
 
-Use the checklists in `reference.md` — do not paste full guideline bodies into the report.
+Use the checklists in `reference.md` - do not paste full guideline bodies into the report.
 
 ### 5. Run verification (when feasible)
 
@@ -109,17 +128,17 @@ Use the checklists in `reference.md` — do not paste full guideline bodies into
 | .NET coverage | `use skill test-coverage` when PRD, PLAN, or user sets a coverage target (default threshold **80%** on changed production files) |
 | Node | `npm run build`, `npm test` per project scripts |
 
-For .NET with a coverage target: run `test-coverage` before final decision; paste the summary into the report § Testes (see `reference.md`). If `test-coverage` reports **Fail** (&lt; threshold), treat as **Changes required** unless the user documents an accepted exception.
+For .NET with a coverage target: run `test-coverage` before final decision; paste the summary into the report section Testes (see `reference.md`). If `test-coverage` reports **Fail** (< threshold), treat as **Changes required** unless the user documents an accepted exception.
 
-Record pass/fail in the report. Missing local run → note as limitation.
+Record pass/fail in the report. Missing local run -> note as limitation.
 
 ### 6. Decision
 
 | Decision | When |
 |----------|------|
-| **Approved** | PRD/PLAN met; no critical issues; tests/build green; coverage ≥ threshold when target applies |
+| **Approved** | PRD/PLAN met; no critical issues; tests/build green; coverage >= threshold when target applies |
 | **Approved with reservations** | Minor gaps; no security/correctness blockers; coverage at or above threshold with documented gaps below 100% target |
-| **Changes required** | Critical bugs/security; PRD gaps; build/test failures; coverage &lt; threshold on changed files when target applies |
+| **Changes required** | Critical bugs/security; PRD gaps; build/test failures; coverage < threshold on changed files when target applies |
 
 ### 7. Write report
 
@@ -140,20 +159,20 @@ No MCP work-item linking or mandatory corporate PR templates.
 
 ## Must not
 
-- Write or update PRD/PLAN files (hand off to `use skill spec` / `use skill plan`)
+- Write or update PRD/PLAN files (hand off to `use skill sdd-spec` / `use skill sdd-plan`)
 - Auto-merge, auto-approve, or rewrite code without user request
 - Work-item tracker APIs, external PR platform APIs, or obsolete guideline paths
-- Block on coverage only when no target applies — when PRD, PLAN, user, or a `test-coverage` report defines a threshold (default **80%** on changed production files), treat below threshold as **Changes required**
+- Block on coverage only when no target applies - when PRD, PLAN, user, or a `test-coverage` report defines a threshold (default **80%** on changed production files), treat below threshold as **Changes required**
 - Paste entire guideline files into the review output
 - Claim no PRD/PLAN or skip step 0.5 / SDD traceability without searching all locations in `STORAGE.md`
-- **AI co-author trailers** — in any form. Under NO circumstances should you include `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-authored-by: Antigravity`, or any other AI agent attribution in commit messages or PR descriptions.
+- **AI co-author trailers** - in any form. Under NO circumstances should you include `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-authored-by: Antigravity`, or any other AI agent attribution in commit messages or PR descriptions.
 
 ## Handoff
 
 | Situation | Next |
 |-----------|------|
-| New feature / PRD from review findings | `use skill spec` — paste or summarize review items; do **not** write PRD in this skill |
-| Coverage below threshold | `use skill test-coverage` → then `use skill dotnet-developer` or `use skill implement` |
-| Fixes needed | User or `use skill implement` / `use skill dotnet-developer` |
+| New feature / PRD from review findings | `use skill sdd-spec` - paste or summarize review items; do **not** write PRD in this skill |
+| Coverage below threshold | `use skill test-coverage` -> then `use skill developer` or `use skill sdd-develop` |
+| Fixes needed | User or `use skill sdd-develop` / `use skill developer` |
 | Commit fixes | `use skill commit` |
 | All SDD steps done + approved | User runs `gh pr create` or merges per repo policy |

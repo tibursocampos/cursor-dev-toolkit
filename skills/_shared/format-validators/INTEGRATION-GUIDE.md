@@ -1,4 +1,4 @@
-# Format Validators — Integration Guide
+# Format Validators - Integration Guide
 
 How to wire validators into cursor-dev-toolkit skills (Git-only).
 
@@ -6,9 +6,9 @@ How to wire validators into cursor-dev-toolkit skills (Git-only).
 
 ```
 format-validators
-  ├── feature-validator.md      → spec (PRD)
-  ├── commit-message-validator.md → commit, code-review
-  └── pr-comment-validator.md   → code-review
+  ├── feature-validator.md      -> spec (PRD)
+  ├── commit-message-validator.md -> commit, code-review
+  └── pr-comment-validator.md   -> code-review
 ```
 
 ---
@@ -32,9 +32,9 @@ format-validators
 **When:** After user approves message, before `git commit`
 
 1. Validate proposed first line (+ optional body/footer).
-2. Reject Cursor `Co-authored-by` trailers (message or `--trailer`) — Rule 4 in validator.
+2. Reject Cursor `Co-authored-by` trailers (message or `--trailer`) - Rule 4 in validator.
 3. If invalid: show issues and `suggestedFix`.
-4. Apply user-approved fix; then commit (`git commit -m` only — no `--trailer`).
+4. Apply user-approved fix; then commit (`git commit -m` only - no `--trailer`).
 
 Also referenced from `developer-common/step-4-commits-pr.md`.
 
@@ -63,7 +63,7 @@ Also referenced from `developer-common/step-4-commits-pr.md`.
 
 ---
 
-## dotnet-developer (shortcut)
+## developer (shortcut)
 
 **Validator:** `commit-message-validator.md` only (via `step-4-commits-pr.md` when committing).
 
@@ -74,7 +74,7 @@ Also referenced from `developer-common/step-4-commits-pr.md`.
 1. **Fail gracefully:** Validator errors should warn, not crash the skill, unless the user requested strict mode.
 2. **Progressive levels:** Start with `structure`; increase to `content` / `quality` when stable.
 3. **Clear feedback:** Section + problem + expected + actual + suggestion.
-4. **Cautious auto-fix:** Only spacing, signatures, and language tags — never rewrite logic.
+4. **Cautious auto-fix:** Only spacing, signatures, and language tags - never rewrite logic.
 
 ---
 

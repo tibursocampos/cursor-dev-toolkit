@@ -21,11 +21,11 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 
 ```markdown
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 USER STORY — [title or slug]
+👤 USER STORY - [title or slug]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ### 🎯 Objective
-[What must be delivered and the value generated — user or business perspective.]
+[What must be delivered and the value generated - user or business perspective.]
 
 ---
 
@@ -33,7 +33,7 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 - [dependency id or link]
 
 ### 🚀 Context
-[2–3 short paragraphs: current situation → need → proposed solution and scope]
+[2-3 short paragraphs: current situation -> need -> proposed solution and scope]
 
 ### 🗂️ Repositories / areas
 - [repo or service 1]
@@ -47,12 +47,12 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 
 ### 🧩 Steps
 
-**Step 1 — [Action title]**
+**Step 1 - [Action title]**
 [What to do in this step]
 - Layer: [Domain / Application / Infrastructure / API / Pipeline / UI]
 - Depends on: [none / Step N]
 
-**Step 2 — [Action title]**
+**Step 2 - [Action title]**
 [What to do]
 - Layer: [...]
 - Depends on: [Step 1]
@@ -61,18 +61,18 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 
 ### 🕵️ Acceptance criteria (business)
 
-🎬 Scenario 1 — [Main business flow]
+🎬 Scenario 1 - [Main business flow]
 **Given** [user or system context]
 **When** [action]
 **Then** [business outcome]
 **And** [additional business condition]
 
-🎬 Scenario 2 — [Rule or alternate flow]
+🎬 Scenario 2 - [Rule or alternate flow]
 **Given** [...]
 **When** [...]
 **Then** [...]
 
-🎬 Scenario 3 — [Failure or exception for the user]
+🎬 Scenario 3 - [Failure or exception for the user]
 **Given** [...]
 **When** [...]
 **Then** [...]
@@ -81,7 +81,7 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 
 ### 🔧 Technical acceptance criteria
 
-- [ ] [Verifiable technical item — API contract, validation, component behavior]
+- [ ] [Verifiable technical item - API contract, validation, component behavior]
 - [ ] [Verifiable technical item]
 - [ ] [Verifiable technical item]
 
@@ -95,7 +95,7 @@ Templates and writing rules for `refine-backlog-item`. Output is **markdown in c
 When input is thin, ask:
 
 ```
-📝 User Story — need more detail
+📝 User Story - need more detail
 
 1. What must be delivered? (free description)
 2. How does it work today?
@@ -108,15 +108,15 @@ When input is thin, ask:
 
 ## Writing guidelines
 
-**Objective:** Beneficiary perspective — not "the system must". Include value (e.g. removes manual step).
+**Objective:** Beneficiary perspective - not "the system must". Include value (e.g. removes manual step).
 
 **Dependencies:** Omit section if none.
 
 **Acceptance criteria (business):** No HTTP codes, class names, or DB details. Cover main flow, business rule, and user-visible failure. Use **Given / When / Then / And**.
 
-**Technical acceptance criteria:** Markdown checkboxes only — **no BDD** in this section. Technical language allowed (status codes, endpoints, tables, queues). Do not duplicate business criteria.
+**Technical acceptance criteria:** Markdown checkboxes only - **no BDD** in this section. Technical language allowed (status codes, endpoints, tables, queues). Do not duplicate business criteria.
 
-**Steps:** Infinitive verbs; layer order Domain → Application → Infrastructure → API → Tests when applicable; explicit dependencies; mark parallel steps when independent.
+**Steps:** Infinitive verbs; layer order Domain -> Application -> Infrastructure -> API -> Tests when applicable; explicit dependencies; mark parallel steps when independent.
 
 ---
 
@@ -128,7 +128,7 @@ When input is thin, ask:
 
 **Expected flow:** Authenticated UI action generates CSV for a validated date range with audit log.
 
-**Step 1 — Add export query and handler** — Application — depends on: none.
+**Step 1 - Add export query and handler** - Application - depends on: none.
 
 **Business AC:** Given an operator with export permission, When they request a valid range, Then a CSV download starts within 30 seconds.
 

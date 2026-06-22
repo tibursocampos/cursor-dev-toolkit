@@ -1,6 +1,6 @@
-# fix-build — reference
+# fix-build - reference
 
-Heuristics and optional CI helpers for `skills/fix-build/SKILL.md`. Keep `SKILL.md` under 150 lines.
+Heuristics and optional CI helpers for `skills/fix-build/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
 
 ---
 
@@ -44,7 +44,7 @@ Heuristics and optional CI helpers for `skills/fix-build/SKILL.md`. Keep `SKILL.
 dotnet build
 dotnet test --no-build
 
-# Large repo — scoped
+# Large repo - scoped
 dotnet test path/to/TestProject.csproj --filter "FullyQualifiedName~MyFeatureTests"
 dotnet test --no-build --filter "FullyQualifiedName~MyFeatureTests"
 ```
@@ -53,7 +53,7 @@ Capture tail of output for diagnosis; read full lines for file paths and test na
 
 ---
 
-## Pasted CI log — what to extract
+## Pasted CI log - what to extract
 
 | Signal | Pattern |
 |--------|---------|
@@ -66,7 +66,7 @@ Ignore stack frames from test frameworks unless they point to product code.
 
 ---
 
-## CI via GitHub (`gh`) — optional
+## CI via GitHub (`gh`) - optional
 
 Use only when the user references a GitHub Actions failure and `gh` is installed and authenticated.
 
@@ -77,7 +77,7 @@ gh run view <run-id> --log-failed
 
 Parse failed steps similarly to pasted logs. If `gh` is missing or auth fails, ask the user to paste the failed step log and continue with local `dotnet build` / `dotnet test`.
 
-Do not use this section for Azure Pipelines or other hosts unless the user pastes logs — no REST API calls.
+Do not use this section for Azure Pipelines or other hosts unless the user pastes logs - no REST API calls.
 
 ---
 
@@ -94,7 +94,7 @@ Do not use this section for Azure Pipelines or other hosts unless the user paste
 - **File:** tests/.../OrderTests.cs:42
 - **Expected:** 10.5
 - **Actual:** 10,5
-- **Hypothesis:** culture — see § Culture and parsing
+- **Hypothesis:** culture - see § Culture and parsing
 
 ### 2. [Compile] CS0246 in Handler.cs:12
 - **Hypothesis:** missing using or renamed type
@@ -107,7 +107,7 @@ Do not use this section for Azure Pipelines or other hosts unless the user paste
 ```markdown
 ## Proposed fixes
 
-1. **src/.../Mapper.cs:28** — implicit `decimal.Parse`
+1. **src/.../Mapper.cs:28** - implicit `decimal.Parse`
    - **Cause:** culture-dependent parsing on Linux CI
    - **Fix:** `decimal.Parse(value, CultureInfo.InvariantCulture)`
 
@@ -133,6 +133,6 @@ The commit skill enforces `feature/<slug>` / `feat/<id>` and Conventional Commit
 | Need | Skill |
 |------|-------|
 | EF migration after model fix | `use skill add-migrations` |
-| Small feature without PLAN | `use skill dotnet-developer` |
-| PLAN-sized work | `use skill implement — <full-plan-path> — Step N` (resolve SDD PLAN per `STORAGE.md` — repo or `~/.cursor/sdd/<repo-id>/PLAN/`) |
-| New feature / no PLAN | `use skill spec` → `plan` → `implement` (`STORAGE.md` for PRD/PLAN location) |
+| Small feature without PLAN | `use skill developer` |
+| PLAN-sized work | `use skill sdd-develop - <full-plan-path> - Step N` (resolve SDD PLAN per `STORAGE.md` - repo or `~/.cursor/sdd/<repo-id>/PLAN/`) |
+| New feature / no PLAN | `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` (`STORAGE.md` for PRD/PLAN location) |

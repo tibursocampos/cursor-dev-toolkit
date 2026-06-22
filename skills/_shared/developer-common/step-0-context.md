@@ -22,8 +22,8 @@ Do not preload entire `~/.cursor/skills/_shared/` trees.
 ## 0.2. Confirm workspace
 
 1. You are in the **target repository** (not `cursor-dev-toolkit` unless that is the subject).
-2. Note default branch (`main`, `develop`, etc.) — ask if unclear.
-3. For SDD work: confirm PRD/PLAN paths when the user provides them. For **`code-review`**, resolve artifacts via `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (repo + `~/.cursor/sdd/<repo-id>/`) — do not assume absence from an empty workspace `PRD/` folder alone.
+2. Note default branch (`main`, `develop`, etc.) - ask if unclear.
+3. For SDD work: confirm PRD/PLAN paths when the user provides them. For **`code-review`**, resolve artifacts via `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (repo + `~/.cursor/sdd/<repo-id>/`) - do not assume absence from an empty workspace `PRD/` folder alone.
 
 ---
 
@@ -31,7 +31,7 @@ Do not preload entire `~/.cursor/skills/_shared/` trees.
 
 Create a short tracked list (Cursor todos or equivalent) at the start:
 
-1. Read `AGENTS.md` / `README.md` — `in_progress`
+1. Read `AGENTS.md` / `README.md` - `in_progress`
 2. Review guidelines (step 0.5)
 3. Create or checkout feature branch (step 3)
 4. Implement change + tests
@@ -41,7 +41,7 @@ Create a short tracked list (Cursor todos or equivalent) at the start:
 
 **Rules:** update status as you go; keep one item `in_progress` at a time; max ~10 items.
 
-Detailed PLAN steps use the PLAN file as the control artifact — do not duplicate every PLAN step in this list.
+Detailed PLAN steps use the PLAN file as the control artifact - do not duplicate every PLAN step in this list.
 
 Template: `templates/todo-list.md`.
 

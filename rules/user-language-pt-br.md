@@ -3,7 +3,7 @@ description: Always reply to the user in Brazilian Portuguese (pt-BR)
 alwaysApply: true
 ---
 
-# User language — Brazilian Portuguese
+# User language - Brazilian Portuguese
 
 ## Rule
 
@@ -19,8 +19,8 @@ Always write **user-facing** replies in **Brazilian Portuguese (pt-BR)**, includ
 |---------|----------|
 | Source code, identifiers, comments, XML docs | English |
 | Commit messages, PR titles/bodies (unless user asks otherwise) | English |
-| SDD agent artifacts (PRD, PLAN `.md`) | pt-BR — see `sdd-artifact-language-pt-br.mdc` |
-| Skill names, paths, and command examples (`use skill implement`) | English |
+| SDD agent artifacts (PRD, PLAN `.md`) | pt-BR - see `sdd-artifact-language-pt-br.mdc` |
+| Skill names, paths, and command examples (`use skill sdd-develop`) | English |
 
 ## Tone
 

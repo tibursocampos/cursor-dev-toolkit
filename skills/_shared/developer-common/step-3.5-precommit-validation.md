@@ -2,9 +2,9 @@
 
 **Goal:** Validate staged work before `git commit`.
 
-**Guardrails:** Fail fast — report exact files and rules. Do not auto-fix without user consent. Detected secrets are **always** blocking.
+**Guardrails:** Fail fast - report exact files and rules. Do not auto-fix without user consent. Detected secrets are **always** blocking.
 
-Flow: `Step 3 (branching) → Step 3.5 → Step 4 (commits)`.
+Flow: `Step 3 (branching) -> Step 3.5 -> Step 4 (commits)`.
 
 ---
 
@@ -22,7 +22,7 @@ Patterns to flag:
 
 **False positives (ignore):** placeholders (`YOUR_`, `<TOKEN>`, `xxx`, `example`), test fixtures clearly fake, references to `Configuration[`, `Environment.Get`, `process.env` without literal secrets.
 
-If found → **block commit**; show file, line, pattern type.
+If found -> **block commit**; show file, line, pattern type.
 
 ---
 

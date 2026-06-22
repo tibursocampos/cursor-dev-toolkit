@@ -27,7 +27,7 @@ Find code that:
 
 ---
 
-## Blocking — Critical complexity
+## Blocking - Critical complexity
 
 ### 1. Refactor that worsens code
 
@@ -65,11 +65,11 @@ public Customer CreateCustomer(string name, string email)
 
 ---
 
-## Suggestion — Moderate complexity
+## Suggestion - Moderate complexity
 
 ### 3. Too many responsibilities in one method
 
-Validation, calculation, persistence, notification, and audit in a single method → extract focused helpers.
+Validation, calculation, persistence, notification, and audit in a single method -> extract focused helpers.
 
 **Severity:** Suggestion
 
@@ -104,8 +104,8 @@ if (a) {
 
 ## References
 
-- *Clean Code* — Robert C. Martin
-- KISS — Kelly Johnson
-- *Refactoring* — Martin Fowler
+- *Clean Code* - Robert C. Martin
+- KISS - Kelly Johnson
+- *Refactoring* - Martin Fowler
 
 **Version:** 1.1 (cursor-dev-toolkit)

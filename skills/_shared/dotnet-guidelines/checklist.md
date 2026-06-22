@@ -39,7 +39,7 @@ Use before opening a pull request.
 - [ ] **One top-level type per file** (no second `class` / `record` in the same file)
 - [ ] **Signatures and invocations:** inline only when ≤ 4 parameters and full line ≤ 180 characters; otherwise one parameter per line
 - [ ] **Follow existing project patterns** (Glob/Read similar types; no parallel validation/flow)
-- [ ] **Named constants** in production code — no magic strings/numbers; `const` names in **PascalCase**
+- [ ] **Named constants** in production code - no magic strings/numbers; `const` names in **PascalCase**
 - [ ] **Method ordering:** public methods before private; each block alphabetical by method name
 
 ---
