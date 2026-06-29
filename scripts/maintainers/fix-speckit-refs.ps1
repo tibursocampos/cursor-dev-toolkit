@@ -12,7 +12,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 if (-not $RepoRoot) {
-    $RepoRoot = Split-Path -Parent $PSScriptRoot
+    . (Join-Path (Split-Path -Parent $PSScriptRoot) '_lib\Get-ToolkitRepoRoot.ps1')
+    $RepoRoot = Get-ToolkitRepoRoot -FromPath $PSScriptRoot
 }
 
 $replacements = [ordered]@{

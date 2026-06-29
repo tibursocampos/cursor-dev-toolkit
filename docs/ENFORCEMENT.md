@@ -13,8 +13,9 @@ This document explains how cursor-dev-toolkit enforces guardrails and how that d
 
 ## Mitigation layers (this toolkit)
 
-1. **`guardrails.mdc`** - compact STOP rules (git, write, one step, tests, language)
-2. **`sdd-pipeline-guards.mdc`** - SDD order, paths, confirm-before-write
+1. **`guardrails.mdc`** - compact STOP rules (git, write, one step, tests, language, session gates)
+2. **`ai-stealth.mdc`** - no AI authorship traces in output
+3. **`sdd-pipeline-guards.mdc`** - SDD order, paths, confirm-before-write
 3. **`SESSION.md` + session-state** - verifiable gates in `~/.cursor/sdd/sessions/{repo-hash}.json`
 4. **Gate-first Step -1** on every skill
 5. **Validation scripts** - `validate-all.ps1` smoke test after sync
@@ -23,7 +24,7 @@ This document explains how cursor-dev-toolkit enforces guardrails and how that d
 
 | Layer | Antigravity | Cursor |
 |-------|-------------|--------|
-| Always-on rules | KI `global_guardrails` | `guardrails.mdc` + other rules |
+| Always-on rules | KI `global_guardrails` | 9 rules (`guardrails`, `ai-stealth`, pipeline, branch, commits, context, language, caveman) |
 | Skill discovery | KI on explicit invoke | User skills + rules |
 | Session gates | Same schema, different path | `~/.cursor/sdd/sessions/` |
 | Smoke test | `validate-all.ps1` | Same pattern, checks rules/hooks not KIs |
@@ -36,7 +37,7 @@ Without modifying consumer repositories, there is no 100% block on agent file wr
 
 ```powershell
 .\scripts\sync-cursor.ps1
-.\scripts\validate-all.ps1
+.\scripts\validation\validate-all.ps1
 ```
 
 Restart Cursor or reload hooks if `hooks.json` changed.

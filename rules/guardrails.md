@@ -105,6 +105,7 @@ Do **not** manually create `.specify/` folders without full init.
 
 See `SESSION.md`. Before Write/Shell, verify:
 
+- `storage_confirmed` - for manifest/storage path changes
 - `write_confirmed` - for new artifacts
 - `step_confirmed` - before implement
 - `tests_run` - before marking step done

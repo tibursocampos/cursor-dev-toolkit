@@ -172,7 +172,7 @@ No MCP work-item linking or mandatory corporate PR templates.
 | Situation | Next |
 |-----------|------|
 | New feature / PRD from review findings | `use skill sdd-spec` - paste or summarize review items; do **not** write PRD in this skill |
-| Coverage below threshold | `use skill test-coverage` -> then `use skill developer` or `use skill sdd-develop` |
-| Fixes needed | User or `use skill sdd-develop` / `use skill developer` |
+| Coverage below threshold | `use skill test-coverage` -> then `use skill dotnet-developer` or `use skill sdd-develop` |
+| Fixes needed | User or `use skill sdd-develop` / `use skill dotnet-developer` |
 | Commit fixes | `use skill commit` |
 | All SDD steps done + approved | User runs `gh pr create` or merges per repo policy |

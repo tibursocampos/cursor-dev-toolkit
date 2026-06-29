@@ -13,7 +13,7 @@
   Direct path to folder containing .specify/ (overrides manifest resolution).
 
 .EXAMPLE
-  .\scripts\validate-speckit-init.ps1 -RepoPath "D:\Source\Repos\MyApp"
+  .\scripts\validation\validate-speckit-init.ps1 -RepoPath "D:\Source\Repos\MyApp"
 #>
 [CmdletBinding()]
 param(

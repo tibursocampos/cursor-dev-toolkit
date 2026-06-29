@@ -145,7 +145,7 @@ If a repository entry has top-level `storage_mode` and `path` (no `classic`/`spe
 }
 ```
 
-Run `.\scripts\migrate-manifest-v2.ps1` to persist. Write back on first skill run after migration.
+Run `.\scripts\maintainers\migrate-manifest-v2.ps1` to persist. Write back on first skill run after migration.
 
 ### Resolution algorithm
 
@@ -161,7 +161,7 @@ Execute at skill load time, before any read or write. Parameter: `$Workflow` = `
    c. Write classic + speckit sections; set speckit.initialized = false.
    d. Set session gate storage_confirmed = true after user sim.
 5. If found: read repositories[$Cwd][$Workflow].storage_mode and .path.
-6. For speckit skills (except setup/init): if speckit.initialized != true, run validate-speckit-init.ps1;
+6. For speckit skills (except setup/init): if speckit.initialized != true, run `validation/validate-speckit-init.ps1`;
    if fail -> STOP - handoff to speckit-init.
 ```
 

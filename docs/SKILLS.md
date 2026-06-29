@@ -20,11 +20,21 @@ Canonical kebab-case skill folders under `skills/`. Invoke with `use skill <name
 | `speckit-plan` | Generate `plan.md` and `tasks.md` |
 | `speckit-develop` | Implement one `tasks.md` item per session |
 
-## Developer and operational
+## Developer routing and stack
 
 | Skill | Purpose |
 |-------|---------|
-| `developer` | Small/medium work without full SDD |
+| `developer` | Hybrid router: detects stack and delegates, or fallback for ad-hoc scripts |
+| `dotnet-developer` | Small/medium .NET work without full SDD |
+| `react-developer` | Small/medium React work without full SDD |
+| `angular-developer` | Small/medium Angular work without full SDD |
+| `javascript-developer` | Small/medium JavaScript/Node work without full SDD |
+| `python-developer` | Small/medium Python work without full SDD |
+
+## Operational
+
+| Skill | Purpose |
+|-------|---------|
 | `code-review` | Structured review vs PRD/PLAN |
 | `fix-build` | Diagnose/fix build and tests |
 | `test-coverage` | .NET Coverlet coverage report |
@@ -56,7 +66,7 @@ Canonical kebab-case skill folders under `skills/`. Invoke with `use skill <name
 
 ```powershell
 .\scripts\sync-cursor.ps1
-.\scripts\validate-all.ps1
+.\scripts\validation\validate-all.ps1
 ```
 
 See [ENFORCEMENT.md](ENFORCEMENT.md) and [INSTALL.md](INSTALL.md).

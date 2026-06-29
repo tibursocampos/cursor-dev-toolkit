@@ -529,6 +529,6 @@ else {
 }
 
 Write-Host ''
-Write-ToolkitMessage 'Run smoke test: .\scripts\validate-all.ps1' ([ConsoleColor]::DarkGray)
+Write-ToolkitMessage 'Run smoke test: .\scripts\validation\validate-all.ps1' ([ConsoleColor]::DarkGray)
 
 exit 0

@@ -5,7 +5,7 @@ Reference for repository layout, deploy, validation, and conventions.
 | Field | Value |
 |-------|--------|
 | **Install target** | `~/.cursor/` via `scripts/sync-cursor.ps1` |
-| **Smoke test** | `scripts/validate-all.ps1` after sync |
+| **Smoke test** | `scripts/validation/validate-all.ps1` after sync |
 | **Skills catalog** | [docs/SKILLS.md](SKILLS.md) |
 
 ## Repository layout
@@ -17,15 +17,16 @@ cursor-dev-toolkit/
 ├── docs/                    # INSTALL, SKILLS, ENFORCEMENT, guides/
 ├── rules/                   # -> ~/.cursor/rules/*.mdc (incl. guardrails.md)
 ├── hooks/
-├── scripts/                 # sync, validate-*, setup-speckit, configure-repo-sdd
+├── scripts/                 # sync, toolkit.ps1, uninstall, validation/, maintainers/
 └── skills/                  # -> ~/.cursor/skills/
     ├── sdd-spec/, sdd-plan/, sdd-develop/
     ├── speckit-setup/ … speckit-develop/
-    ├── developer/, code-review/, commit/, push/, …
-    └── _shared/             # sdd-artifacts, guidelines, validators
+    ├── developer/, dotnet-developer/, react-developer/, … stack skills
+    ├── code-review/, commit/, push/, …
+    └── _shared/             # sdd-artifacts, guidelines, git/frontend/devops, validators
 ```
 
-## Skills (25 folders)
+## Skills (30 folders)
 
 See [SKILLS.md](SKILLS.md). Naming: **kebab-case** folders and `use skill <name>`.
 
@@ -33,8 +34,10 @@ See [SKILLS.md](SKILLS.md). Naming: **kebab-case** folders and `use skill <name>
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
-.\scripts\validate-all.ps1
+.\scripts\validation\validate-all.ps1
 ```
+
+Or: `.\scripts\toolkit.ps1` (interactive menu).
 
 ## Checklist: new skill or rule
 
@@ -60,13 +63,15 @@ Path: `~/.cursor/sdd/manifest.json` - `schema_version: 2`, per-repo `classic` + 
 
 Path: `~/.cursor/sdd/sessions/{repo-hash}.json` - see `SESSION.md`.
 
-## Maintenance scripts
+## Maintenance scripts (`maintainers/`)
 
 | Script | Purpose |
 |--------|---------|
-| `rename-skill-refs.ps1` | Bulk skill name migration |
-| `fix-speckit-refs.ps1` | Fix over-aggressive speckit renames |
-| `inject-skill-gates.ps1` | Add STOP blocks |
-| `fix-skill-gates.ps1` | Remove duplicate STOP blocks |
-| `normalize-skill-encoding.ps1` | Fix encoding in skills |
-| `migrate-manifest-v2.ps1` | Upgrade legacy manifest |
+| `maintainers/rename-skill-refs.ps1` | Bulk skill name migration |
+| `maintainers/fix-speckit-refs.ps1` | Fix over-aggressive speckit renames |
+| `maintainers/inject-skill-gates.ps1` | Add STOP blocks |
+| `maintainers/fix-skill-gates.ps1` | Remove duplicate STOP blocks |
+| `maintainers/normalize-skill-encoding.ps1` | Fix encoding in skills |
+| `maintainers/migrate-manifest-v2.ps1` | Upgrade legacy manifest |
+
+See `scripts/README.md` for the full layout.

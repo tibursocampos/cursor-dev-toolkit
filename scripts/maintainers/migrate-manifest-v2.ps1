@@ -4,8 +4,8 @@
   Migrates legacy SDD manifests to schema v2 (classic + speckit sections).
 
 .EXAMPLE
-  .\scripts\migrate-manifest-v2.ps1
-  .\scripts\migrate-manifest-v2.ps1 -DryRun
+  .\scripts\maintainers\migrate-manifest-v2.ps1
+  .\scripts\maintainers\migrate-manifest-v2.ps1 -DryRun
 #>
 [CmdletBinding()]
 param(

@@ -105,7 +105,7 @@ Write prose in that language; paths and identifiers stay in English. Slug from t
 |-----------|------|
 | Break into implementation checklist | `use skill breakdown-tasks` (same content or saved path) |
 | Medium/high complexity feature | `use skill sdd-spec` -> `use skill sdd-plan` -> `use skill sdd-develop` |
-| Small isolated .NET change | `use skill developer` |
+| Small isolated .NET change | `use skill dotnet-developer` |
 | Commit saved file | `use skill commit` |
 
 ## Must not

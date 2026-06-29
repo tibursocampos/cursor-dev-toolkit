@@ -15,11 +15,9 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 if (-not $SkillsRoot) {
-    $scriptDir = $PSScriptRoot
-    if ([string]::IsNullOrWhiteSpace($scriptDir)) {
-        $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-    }
-    $SkillsRoot = Join-Path (Split-Path -Parent $scriptDir) 'skills'
+    . (Join-Path (Split-Path -Parent $PSScriptRoot) '_lib\Get-ToolkitRepoRoot.ps1')
+    $repoRoot = Get-ToolkitRepoRoot -FromPath $PSScriptRoot
+    $SkillsRoot = Join-Path $repoRoot 'skills'
 }
 
 $portuguesePatterns = @(

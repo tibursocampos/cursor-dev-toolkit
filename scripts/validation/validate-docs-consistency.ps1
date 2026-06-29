@@ -5,11 +5,11 @@
 
 .DESCRIPTION
   Called by validate-all.ps1. Fails on legacy SDD/doc skill names.
-  Expects canonical kebab-case: sdd-spec, sdd-plan, sdd-develop, developer,
+  Expects canonical kebab-case: sdd-spec, sdd-plan, sdd-develop, developer, dotnet-developer,
   document-plan, document-implement.
 
 .EXAMPLE
-  .\scripts\validate-docs-consistency.ps1
+  .\scripts\validation\validate-docs-consistency.ps1
 #>
 [CmdletBinding()]
 param(
@@ -20,11 +20,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 if (-not $RepoRoot) {
-    $scriptDir = $PSScriptRoot
-    if ([string]::IsNullOrWhiteSpace($scriptDir)) {
-        $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-    }
-    $RepoRoot = Split-Path -Parent $scriptDir
+    . (Join-Path (Split-Path -Parent $PSScriptRoot) '_lib\Get-ToolkitRepoRoot.ps1')
+    $RepoRoot = Get-ToolkitRepoRoot -FromPath $PSScriptRoot
 }
 
 $docsRoot = Join-Path $RepoRoot 'docs'
@@ -34,30 +31,28 @@ $agentsPath = Join-Path $RepoRoot 'AGENTS.md'
 
 $obsoletePatterns = @(
     'use skill implement\b',
-    'use skill dotnet-developer\b',
     'use skill plan-repo-docs\b',
     'use skill document-repo\b',
     '/implement\b',
-    '/dotnet-developer\b',
     '/plan-repo-docs\b',
     '/document-repo\b',
     'skills/spec/',
     'skills/plan/',
     'skills/implement/',
-    'skills/dotnet-developer/',
     'skills/plan-repo-docs/',
     'skills/document-repo/',
     'name: implement\b',
-    'name: dotnet-developer\b',
     'name: spec\b',
     'name: plan\b',
     '\| `spec` \|',
     '\| `plan` \|',
-    'skills/spec/',
-    'skills/plan/',
-    'skills/implement/',
     'dev_persona always active',
-    'loaded automatically'
+    'loaded automatically',
+    'dotnet_developer',
+    'react_developer',
+    'angular_developer',
+    'javascript_developer',
+    'python_developer'
 )
 
 $failures = @()
@@ -66,6 +61,7 @@ $files = @($readmePath, $agentsPath) + (Get-ChildItem -LiteralPath $docsRoot -Re
 foreach ($file in $files) {
     if (-not (Test-Path -LiteralPath $file)) { continue }
     if ($file -like '*ENFORCEMENT.md*') { continue }
+    if ($file -like '*SYNC_POLICY.md*') { continue }
     $content = Get-Content -LiteralPath $file -Raw
     foreach ($pattern in $obsoletePatterns) {
         if ($content -match $pattern) {

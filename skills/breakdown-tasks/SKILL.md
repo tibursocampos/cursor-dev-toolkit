@@ -100,7 +100,7 @@ Show group names, step ranges, output path, and suggested next skills.
 |-----------|------|
 | Full SDD for the feature | `use skill sdd-spec` -> `use skill sdd-plan` -> `use skill sdd-develop` |
 | PLAN already exists | Resolve SDD PLAN per `STORAGE.md` (repo + `~/.cursor/sdd/<repo-id>/`); then `use skill sdd-develop - <full-plan-path> - Step 1` |
-| Code-only small change | `use skill developer` |
+| Code-only small .NET change | `use skill dotnet-developer` |
 | Commit checklist file | `use skill commit` |
 
 ## Must not
