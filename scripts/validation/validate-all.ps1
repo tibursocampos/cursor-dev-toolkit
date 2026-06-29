@@ -26,10 +26,10 @@
   Suppress per-check banners; print summary only.
 
 .EXAMPLE
-  .\scripts\validate-all.ps1
+  .\scripts\validation\validate-all.ps1
 
 .EXAMPLE
-  .\scripts\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
+  .\scripts\validation\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
 #>
 [CmdletBinding()]
 param(

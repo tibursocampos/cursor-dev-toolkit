@@ -26,13 +26,17 @@ Use this tree when you start work on a change. When in doubt, prefer the SDD pat
 flowchart TD
   Start([New task]) --> Q1{Medium or high complexity?<br/>migrations, multiple areas,<br/>unclear scope?}
   Q1 -->|Yes| SDD[SDD workflow]
-  Q1 -->|No| Q2{.NET fix or refactor<br/>in one area?}
-  Q2 -->|Yes| NET[developer]
+  Q1 -->|No| Q2{Small fix in one area?<br/>know the stack?}
+  Q2 -->|Yes .NET| NET[dotnet-developer]
+  Q2 -->|Yes other stack| STACK[stack skill or developer router]
+  Q2 -->|Unsure| DEV[developer router]
   Q2 -->|No| SDD
+  DEV --> STACK
   SDD --> Spec["use skill sdd-spec"]
   Spec --> Plan["use skill sdd-plan"]
   Plan --> Impl["use skill sdd-develop<br/>(one PLAN step per chat)"]
   NET --> DoneNet[Code change]
+  STACK --> DoneNet
   Impl --> DoneSdd[Code change]
   DoneNet --> Post
   DoneSdd --> Post
@@ -45,20 +49,24 @@ flowchart TD
 
 ```
 New task
-  ├─ Medium/high complexity OR unclear scope? -> spec -> plan -> implement (1 PLAN step per session)
-  ├─ Small isolated .NET change?              -> developer
+  ├─ Medium/high complexity OR unclear scope? -> sdd-spec -> sdd-plan -> sdd-develop (1 step per session)
+  ├─ Small isolated .NET change?              -> dotnet-developer
+  ├─ Small change, other stack?               -> stack skill or developer router
   └─ After code is ready                      -> code-review -> test-coverage -> commit
 ```
 
 | Situation | Path | Guide |
 |-----------|------|--------|
 | Feature, migration, or cross-cutting design | `sdd-spec` -> `sdd-plan` -> `sdd-develop` | [01 - SDD workflow](01-sdd-workflow.md) |
-| Small .NET fix/refactor, single area, no PRD | `developer` | [02 - developer](02-developer.md) |
+| Router / unknown stack | `developer` | [02 - developer](02-developer.md) |
+| Small .NET fix, single area, no PRD | `dotnet-developer` | [02b - dotnet-developer](02b-dotnet-developer.md) |
+| React / Angular / JS / Python | stack skills | [08 - stack developers](08-stack-developers.md) |
 | Review before commit/merge | `code-review` | [03 - code-review](03-code-review.md) |
 | Coverage report (.NET, Coverlet) | `test-coverage` | [04 - test-coverage](04-test-coverage.md) |
 | Commit, fix-build, migrations, backlog, repo docs | See operational guide | [05 - operational skills](05-operational-skills.md) |
 | Structured CLI-based specification & planning | `speckit-spec` -> `speckit-plan` -> `speckit-develop` | [06 - Spec Kit workflow](06-speckit-workflow.md) |
-| Speed up chat & save token costs | Response compression | [07 - Caveman Mode](07-caveman-mode.md) |
+| Speed up chat and save token costs | Response compression | [07 - Caveman Mode](07-caveman-mode.md) |
+| Scripts, sync, validation | `toolkit.ps1`, `sync-cursor.ps1` | [09 - scripts and toolkit](09-scripts-and-toolkit.md) |
 
 ---
 
@@ -67,12 +75,15 @@ New task
 | Guide | Skills covered | Invoke examples |
 |-------|----------------|-----------------|
 | [01-sdd-workflow.md](01-sdd-workflow.md) | `sdd-spec`, `sdd-plan`, `sdd-develop` | `use skill sdd-spec` · `use skill sdd-plan - <prd-path>` · `use skill sdd-develop - <plan-path> - Step N` |
-| [02-developer.md](02-developer.md) | `developer` | `use skill developer` |
+| [02-developer.md](02-developer.md) | `developer` (router) | `use skill developer` |
+| [02b-dotnet-developer.md](02b-dotnet-developer.md) | `dotnet-developer` | `use skill dotnet-developer` |
 | [03-code-review.md](03-code-review.md) | `code-review` | `use skill code-review` |
 | [04-test-coverage.md](04-test-coverage.md) | `test-coverage` | `use skill test-coverage` |
 | [05-operational-skills.md](05-operational-skills.md) | `commit`, `fix-build`, `add-migrations`, `document-plan`, `document-implement`, `refine-backlog-item`, `breakdown-tasks`, `create-message-consumer` | `use skill <kebab-name>` |
 | [06-speckit-workflow.md](06-speckit-workflow.md) | `speckit-setup`, `speckit-init`, `speckit-spec`, `speckit-plan`, `speckit-develop` | `use skill speckit-setup` · `use skill speckit-spec` |
 | [07-caveman-mode.md](07-caveman-mode.md) | `caveman-mode` (rule) | `caveman on` · `caveman off` |
+| [08-stack-developers.md](08-stack-developers.md) | stack `*-developer` skills | `use skill react-developer` etc. |
+| [09-scripts-and-toolkit.md](09-scripts-and-toolkit.md) | sync, validate, uninstall | `.\scripts\toolkit.ps1` |
 
 ---
 
@@ -92,7 +103,12 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 | `speckit-develop` | `use skill speckit-develop` | Implement code and run tests for one tasks.md item |
 | `code-review` | `use skill code-review` | Review diff or branch vs PRD/PLAN |
 | `commit` | `use skill commit` | Conventional commit and push |
-| `developer` | `use skill developer` | Small .NET task without full SDD |
+| `developer` | `use skill developer` | Stack router for small tasks |
+| `dotnet-developer` | `use skill dotnet-developer` | Small .NET task without full SDD |
+| `react-developer` | `use skill react-developer` | Small React task |
+| `angular-developer` | `use skill angular-developer` | Small Angular task |
+| `javascript-developer` | `use skill javascript-developer` | Small Node/JS task |
+| `python-developer` | `use skill python-developer` | Small Python task |
 | `add-migrations` | `use skill add-migrations` | EF Core migration in the open repo |
 | `fix-build` | `use skill fix-build` | Fix `dotnet build` or test failures |
 | `test-coverage` | `use skill test-coverage` | .NET coverage (Coverlet; SonarQube-aligned metrics) |

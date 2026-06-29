@@ -18,10 +18,10 @@
   Report files that would change without writing.
 
 .EXAMPLE
-  .\scripts\rename-skill-refs.ps1 -DryRun
+  .\scripts\maintainers\rename-skill-refs.ps1 -DryRun
 
 .EXAMPLE
-  .\scripts\rename-skill-refs.ps1
+  .\scripts\maintainers\rename-skill-refs.ps1
 #>
 [CmdletBinding()]
 param(
@@ -33,11 +33,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 if (-not $RepoRoot) {
-    $scriptDir = $PSScriptRoot
-    if ([string]::IsNullOrWhiteSpace($scriptDir)) {
-        $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-    }
-    $RepoRoot = Split-Path -Parent $scriptDir
+    . (Join-Path (Split-Path -Parent $PSScriptRoot) '_lib\Get-ToolkitRepoRoot.ps1')
+    $RepoRoot = Get-ToolkitRepoRoot -FromPath $PSScriptRoot
 }
 
 # Order matters: more specific / longer patterns first.

@@ -8,7 +8,7 @@
     ],
     "afterFileEdit": [
       {
-        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File ./hooks/sdd-plan-after-edit.ps1"
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File ./hooks/plan-after-edit.ps1"
       }
     ],
     "preCompact": [

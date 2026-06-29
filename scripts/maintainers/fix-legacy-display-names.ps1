@@ -6,7 +6,10 @@
 [CmdletBinding()]
 param([string] $RepoRoot)
 
-if (-not $RepoRoot) { $RepoRoot = Split-Path -Parent $PSScriptRoot }
+if (-not $RepoRoot) {
+    . (Join-Path (Split-Path -Parent $PSScriptRoot) '_lib\Get-ToolkitRepoRoot.ps1')
+    $RepoRoot = Get-ToolkitRepoRoot -FromPath $PSScriptRoot
+}
 
 $replacements = [ordered]@{
     'plan-repo-docs'      = 'document-plan'

@@ -48,7 +48,7 @@ Production code and/or tests written (in **English**) for one pending task from 
 
 ### -1. Validate speckit initialization
 
-Run `scripts/validate-speckit-init.ps1` before any implementation workflow action.
+Run `scripts/validation/validate-speckit-init.ps1` before any implementation workflow action.
 - If validation fails: **STOP** and handoff to `use skill speckit-init`.
 - If validation passes: continue.
 

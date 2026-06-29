@@ -1,0 +1,19 @@
+name: Validate toolkit
+
+on:
+  pull_request:
+    branches: [master, main]
+  push:
+    branches: [master, main]
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run smoke test
+        shell: pwsh
+        run: |
+          ./scripts/validation/validate-all.ps1 -Quiet
+        working-directory: ${{ github.workspace }}

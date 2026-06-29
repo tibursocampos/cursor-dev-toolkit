@@ -13,7 +13,7 @@
   Gate name: storage_confirmed, write_confirmed, step_confirmed, tests_run
 
 .EXAMPLE
-  .\scripts\validate-session-gates.ps1 -RepoPath "D:\Source\Repos\MyApp" -RequiredGate write_confirmed
+  .\scripts\validation\validate-session-gates.ps1 -RepoPath "D:\Source\Repos\MyApp" -RequiredGate write_confirmed
 #>
 [CmdletBinding()]
 param(

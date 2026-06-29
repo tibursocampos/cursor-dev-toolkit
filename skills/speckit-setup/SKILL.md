@@ -93,7 +93,7 @@ Run: `specify --version`
    {"repositories": {}}
    ```
 3. Confirm in chat (pt-BR):
-   > *"âœ… Setup do Spec Kit concluÃ­do. Todos os prÃ©-requisitos estÃ£o instalados e o diretÃ³rio global de SDD foi inicializado."*
+   > *"Setup do Spec Kit concluído. Todos os pré-requisitos estão instalados e o diretório global de SDD foi inicializado."*
 
 ## Must not
 

@@ -133,6 +133,6 @@ The commit skill enforces `feature/<slug>` / `feat/<id>` and Conventional Commit
 | Need | Skill |
 |------|-------|
 | EF migration after model fix | `use skill add-migrations` |
-| Small feature without PLAN | `use skill developer` |
+| Small feature without PLAN | `use skill dotnet-developer` |
 | PLAN-sized work | `use skill sdd-develop - <full-plan-path> - Step N` (resolve SDD PLAN per `STORAGE.md` - repo or `~/.cursor/sdd/<repo-id>/PLAN/`) |
 | New feature / no PLAN | `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` (`STORAGE.md` for PRD/PLAN location) |

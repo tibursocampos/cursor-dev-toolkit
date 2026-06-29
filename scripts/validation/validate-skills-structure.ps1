@@ -8,7 +8,7 @@
   artifact files under skills/ and rules/, and manifest schema v2 when manifest exists.
 
 .EXAMPLE
-  .\scripts\validate-skills-structure.ps1
+  .\scripts\validation\validate-skills-structure.ps1
 #>
 [CmdletBinding()]
 param(
@@ -19,11 +19,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 if (-not $RepoRoot) {
-    $scriptDir = $PSScriptRoot
-    if ([string]::IsNullOrWhiteSpace($scriptDir)) {
-        $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-    }
-    $RepoRoot = Split-Path -Parent $scriptDir
+    . (Join-Path (Split-Path -Parent $PSScriptRoot) '_lib\Get-ToolkitRepoRoot.ps1')
+    $RepoRoot = Get-ToolkitRepoRoot -FromPath $PSScriptRoot
 }
 
 $failures = @()

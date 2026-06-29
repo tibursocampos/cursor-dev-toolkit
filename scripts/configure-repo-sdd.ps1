@@ -112,7 +112,7 @@ else {
     }
 }
 
-$validateScript = Join-Path $PSScriptRoot 'validate-speckit-init.ps1'
+$validateScript = Join-Path $PSScriptRoot 'validation\validate-speckit-init.ps1'
 & $validateScript -RepoPath $RepoPath -SpecifyRoot $targetPath
 if ($LASTEXITCODE -ne 0) {
     Write-Host 'Spec Kit validation failed after init.' -ForegroundColor Red

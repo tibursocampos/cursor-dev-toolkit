@@ -23,17 +23,26 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
 
 Preview: add `-DryRun`.
 
+Interactive menu: `.\scripts\toolkit.ps1`
+
+Uninstall (removes toolkit from `~/.cursor/`):
+
+```powershell
+.\scripts\uninstall-toolkit.ps1 -DryRun
+.\scripts\uninstall-toolkit.ps1
+```
+
 ### Post-deploy validation
 
 ```powershell
-.\scripts\validate-all.ps1
+.\scripts\validation\validate-all.ps1
 ```
 
 Optional Spec Kit / session checks:
 
 ```powershell
-.\scripts\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
-.\scripts\validate-all.ps1 -IncludeSessionGate -RepoPath "D:\Source\Repos\MyApp"
+.\scripts\validation\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
+.\scripts\validation\validate-all.ps1 -IncludeSessionGate -RepoPath "D:\Source\Repos\MyApp"
 ```
 
 ---
@@ -85,7 +94,9 @@ Open any codebase in Cursor. Manuals: **[guides/README.md](guides/README.md)**.
 
 ### Shortcut
 
-`use skill developer` - small work without full SDD.
+`use skill developer` - routes to the correct stack skill for small work without full SDD.
+
+Explicit .NET: `use skill dotnet-developer`.
 
 ### Storage
 
@@ -101,7 +112,7 @@ Configure a repo:
 Migrate legacy manifest:
 
 ```powershell
-.\scripts\migrate-manifest-v2.ps1
+.\scripts\maintainers\migrate-manifest-v2.ps1
 ```
 
 ---
@@ -111,11 +122,14 @@ Migrate legacy manifest:
 | Rule | Effect |
 |------|--------|
 | `guardrails.mdc` | Git block, confirm-before-write, session gates |
+| `ai-stealth.mdc` | No AI traces in code, docs, commits, identifiers |
 | `sdd-pipeline-guards.mdc` | SDD order and canonical paths |
 | `user-language-pt-br.mdc` | Chat in pt-BR |
 | `sdd-artifact-language-pt-br.mdc` | PRD/PLAN/spec/plan/tasks default pt-BR |
 | `branch-validation.mdc` | Valid branch before commit/push |
+| `conventional-commits.mdc` | Conventional Commits format |
 | `context-management.mdc` | Pause at 40%/80% context |
+| `caveman-mode.mdc` | Optional response compression |
 
 ---
 

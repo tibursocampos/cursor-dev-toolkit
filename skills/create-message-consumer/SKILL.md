@@ -52,7 +52,7 @@ In the **target workspace** (not `cursor-dev-toolkit` unless it is the .NET repo
 | Detection, checklist, scaffold notes | `skills/create-message-consumer/reference.md` or `~/.cursor/skills/create-message-consumer/reference.md` after sync |
 | Generating or reviewing .NET code | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
 | C# / test naming | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
-| Small follow-up without SDD | `use skill developer` |
+| Small follow-up without SDD | `use skill dotnet-developer` |
 
 ## Process
 

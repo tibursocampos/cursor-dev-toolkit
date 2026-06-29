@@ -67,7 +67,7 @@ $env:USERPROFILE\.cursor\sdd\sessions\{repo-hash}.json
 ## Validation script
 
 ```powershell
-.\scripts\validate-session-gates.ps1 -RepoPath "D:\Source\Repos\MyApp" -RequiredGate write_confirmed
+.\scripts\validation\validate-session-gates.ps1 -RepoPath "D:\Source\Repos\MyApp" -RequiredGate write_confirmed
 ```
 
 Exit 0 = gate approved; exit 1 = blocked.

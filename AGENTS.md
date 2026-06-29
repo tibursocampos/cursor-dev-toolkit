@@ -45,7 +45,9 @@ speckit-setup -> speckit-init -> speckit-spec -> speckit-plan -> speckit-develop
 
 ### Shortcut - small work
 
-`developer` - `use skill developer` for isolated fixes without full SDD.
+`developer` - `use skill developer` routes to the correct stack skill (or fallback for ad-hoc scripts).
+
+For explicit .NET work: `dotnet-developer` - `use skill dotnet-developer`.
 
 ### Optional flows
 
@@ -57,11 +59,12 @@ speckit-setup -> speckit-init -> speckit-spec -> speckit-plan -> speckit-develop
 | EF migration | `add-migrations` |
 | Message consumer | `create-message-consumer` |
 
-## Rules (always-on subset)
+## Rules (always-on)
 
 | Rule | Path |
 |------|------|
 | Guardrails (git, write, gates) | `~/.cursor/rules/guardrails.mdc` |
+| AI stealth | `~/.cursor/rules/ai-stealth.mdc` |
 | SDD pipeline | `~/.cursor/rules/sdd-pipeline-guards.mdc` |
 | Context management | `~/.cursor/rules/context-management.mdc` |
 | SDD artifact language | `~/.cursor/rules/sdd-artifact-language-pt-br.mdc` |
@@ -69,7 +72,7 @@ speckit-setup -> speckit-init -> speckit-spec -> speckit-plan -> speckit-develop
 | Branch / commits | `branch-validation.mdc`, `conventional-commits.mdc` |
 | Caveman Mode | `caveman-mode.mdc` |
 
-## Skills catalog (25)
+## Skills catalog (30)
 
 See full list: `docs/SKILLS.md` in the toolkit repo.
 
@@ -84,6 +87,11 @@ See full list: `docs/SKILLS.md` in the toolkit repo.
 | speckit-plan | `use skill speckit-plan` |
 | speckit-develop | `use skill speckit-develop` |
 | developer | `use skill developer` |
+| dotnet-developer | `use skill dotnet-developer` |
+| react-developer | `use skill react-developer` |
+| angular-developer | `use skill angular-developer` |
+| javascript-developer | `use skill javascript-developer` |
+| python-developer | `use skill python-developer` |
 | code-review | `use skill code-review` |
 | fix-build | `use skill fix-build` |
 | test-coverage | `use skill test-coverage` |
@@ -105,7 +113,9 @@ See full list: `docs/SKILLS.md` in the toolkit repo.
 
 ```powershell
 .\scripts\sync-cursor.ps1
-.\scripts\validate-all.ps1
+.\scripts\validation\validate-all.ps1
 ```
+
+Or use the interactive menu: `.\scripts\toolkit.ps1`
 
 Maintainer guide: `docs/MAINTAINER_GUIDE.md` · Install: `docs/INSTALL.md` · Enforcement: `docs/ENFORCEMENT.md`

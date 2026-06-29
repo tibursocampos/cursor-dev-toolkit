@@ -9,7 +9,7 @@ Guidelines for **using** and **extending** this toolkit without blowing context 
 | `dotnet-guidelines` (3 files) | 6.6k | Yes - core |
 | `developer-common` (Git-only) | ~12k | Yes |
 | Skills `sdd-spec` + `sdd-plan` + `sdd-develop` | 12-15k total | Yes |
-| `code-review` + `commit` + `developer` | ~8k | Yes |
+| `code-review` + `commit` + `developer` + stack skills | ~12k | Yes |
 | Ported operational skills (7 × `SKILL.md` + `reference.md`) | ~18-22k | Yes - **lazy on invoke** |
 | `_shared/backlog-item-types/` (3 templates) | ~3k | Yes - `refine-backlog-item` only |
 | `rules/` | 4.6k | Yes |
@@ -39,7 +39,8 @@ With lazy-load in `AGENTS.md`:
 
 | Work type | Typical fixed context |
 |-----------|----------------------|
-| Small .NET feature | 15-25k |
+| Small .NET feature | 15-25k (`dotnet-developer`) |
+| Small React/Angular/JS/Python | 12-22k (stack `*-developer`) |
 | SDD spec | 10-18k |
 | SDD develop (`sdd-develop`) (one step) | 12-20k |
 | Code review | 10-15k |
