@@ -2,6 +2,10 @@
 
 The `scripts/` directory contains automation, validation, and deploy tooling for cursor-dev-toolkit.
 
+Option **3** runs sync and smoke tests in the **current PowerShell session** (not a child process), prints a step banner after sync, then runs `validate-all.ps1`. A workflow summary shows `PASS` / `FAIL` / `SKIP` per step.
+
+Option **4** passes `-RepoPath` to the toolkit repo root automatically.
+
 ## Interactive menu: `toolkit.ps1`
 
 ```powershell
@@ -15,7 +19,7 @@ The `scripts/` directory contains automation, validation, and deploy tooling for
 | 3 | Sync + smoke tests |
 | 4 | Full validation (`-IncludeSpeckit -IncludeSessionGate`) |
 | 5 | Maintainer suite (encoding, gate fix/inject) |
-| 6 | SDD setup (`setup-speckit.ps1` + `configure-repo-sdd.ps1`) |
+| 6 | SDD setup for **toolkit repo** (`setup-speckit.ps1` + `configure-repo-sdd.ps1 -RepoPath <toolkit>`) |
 | 7 | Uninstall preview / uninstall |
 
 ## Sync: `sync-cursor.ps1`
