@@ -48,12 +48,14 @@ Suggested order: domain -> interfaces -> application -> infrastructure -> API ->
 - `git commit --amend` on shared/pushed history
 - `git push --force` to `main` / `master` / `develop`
 - Cursor co-author attribution: `Co-authored-by: Cursor …` in the message, or `git commit --trailer` / `--trailer=…` (or any trailer flag) for co-author lines
+- Leaving a commit with `Co-authored-by:` in `git log -1` after the agent ran commit (amend with approved message only; `--no-verify` on amend only to strip IDE-injected trailers)
 
 Stage explicit paths:
 
 ```bash
 git add path/to/changed/files
-git commit -m "feat(scope): short description"
+git commit -F path/to/approved-message.txt
+git log -1 --format=%B    # must not contain Co-authored-by:
 git push -u origin HEAD
 ```
 

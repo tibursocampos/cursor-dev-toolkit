@@ -36,6 +36,8 @@ Mutating git commands require explicit **sim** in the user's **immediately previ
 
 Use `use skill commit` / `use skill push` after confirmation.
 
+**Commit messages:** never include `Co-authored-by: Cursor`, Antigravity, or any AI agent — not in the message file, not via `--trailer`. If the IDE injects a co-author trailer after commit, amend it away per `use skill commit` §5.1 and `conventional-commits.mdc`.
+
 ---
 
 ## 2. Write / delete (confirm before write)
