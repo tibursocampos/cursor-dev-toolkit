@@ -2,6 +2,10 @@
 
 The `scripts/` directory contains automation, validation, and deploy tooling for cursor-dev-toolkit.
 
+Option **3** runs sync and smoke tests in the **current PowerShell session** (not a child process), prints a step banner after sync, then runs `validate-all.ps1`. A workflow summary shows `PASS` / `FAIL` / `SKIP` per step.
+
+Option **4** passes `-RepoPath` to the toolkit repo root automatically.
+
 ## Interactive menu: `toolkit.ps1`
 
 ```powershell
@@ -15,7 +19,7 @@ The `scripts/` directory contains automation, validation, and deploy tooling for
 | 3 | Sync + smoke tests |
 | 4 | Full validation (`-IncludeSpeckit -IncludeSessionGate`) |
 | 5 | Maintainer suite (encoding, gate fix/inject) |
-| 6 | SDD setup (`setup-speckit.ps1` + `configure-repo-sdd.ps1`) |
+| 6 | SDD setup for **toolkit repo** (`setup-speckit.ps1` + `configure-repo-sdd.ps1 -RepoPath <toolkit>`) |
 | 7 | Uninstall preview / uninstall |
 
 ## Sync: `sync-cursor.ps1`
@@ -54,6 +58,9 @@ Does **not** remove unrelated Cursor user settings.
 | `validation/validate-all.ps1` | Orchestrator (run after every sync) |
 | `validation/validate-toolkit-deploy.ps1` | 9 rules, hooks paths, AGENTS.md |
 | `validation/validate-skills-structure.ps1` | STOP gates, line limits, manifest v2 |
+| `validation/validate-impeccable-skill.ps1` | Impeccable router + reference bundle |
+| `validation/validate-blip-plugin-skill.ps1` | Blip plugin skill + `blip-guidelines/` |
+| `validation/validate-frontend-ecosystem.ps1` | Stack skills, guideline bundles, DESIGN-BRIEF markers |
 | `validation/validate-docs-consistency.ps1` | SKILLS.md catalog vs folders |
 | `validation/validate-skills-english.ps1` | Skill body language heuristic |
 | `validation/validate-session-gates.ps1` | Session gate status (optional) |

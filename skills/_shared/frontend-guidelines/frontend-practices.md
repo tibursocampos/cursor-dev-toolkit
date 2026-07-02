@@ -1,33 +1,49 @@
-# Front-end Best Practices
+# Frontend Core Guidelines
 
-When developing web applications and front-end interfaces, we adhere to modern standards prioritizing clean aesthetics, responsive design, and robust code.
+Engineering standards for web frontends. **Visual decisions** (palette, typography, layout, motion) come from `docs/DESIGN-BRIEF.md` and `use skill impeccable` - not from this file.
 
-## Technology Stack
+## Visual decisions vs engineering
 
-1. **Core**: Use standard HTML for structure and JavaScript/TypeScript for logic.
-2. **Styling (CSS)**: Use Vanilla CSS for maximum flexibility and control. Avoid utility-first frameworks like TailwindCSS unless explicitly required by the project specifications.
-3. **Frameworks**: For complex web applications, utilize modern frameworks such as Next.js or Vite (React/Vue). 
+| Source | Covers |
+|--------|--------|
+| `DESIGN-BRIEF.md` / Impeccable | Colors (OKLCH), typography scale, spacing rhythm, component states, anti-patterns |
+| This file | Semantic HTML, SEO, tooling, accessibility basics, stack matching |
 
-## Design and Aesthetics
+For **net-new UI** without a brief, recommend `use skill impeccable shape` in a new session before implementing.
 
-- **Use Rich Aesthetics**: Designs should be modern, beautiful, and dynamic. Utilize vibrant but curated color palettes (e.g., HSL tailored colors), sleek dark modes, glassmorphism, and smooth gradients.
-- **Modern Typography**: Use web fonts (like Inter, Roboto, or Outfit) instead of default browser fonts.
-- **Dynamic Interfaces**: Implement micro-animations and hover effects to make the interface feel alive and responsive to user interaction.
+## Technology stack
 
-## SEO and Semantic HTML
+1. **Match the project stack** - use the framework, bundler, and styling approach already in the repo.
+2. **Core**: HTML for structure; JavaScript/TypeScript for logic.
+3. **Styling**: Follow project conventions (vanilla CSS, SCSS, CSS modules, or framework-specific styling). Do not introduce a new styling system unless the task requires it.
+4. **Color without a design system**: Prefer OKLCH custom properties; verify contrast (4.5:1 body text, 3:1 large text).
+
+## SEO and semantic HTML
 
 Always implement SEO best practices on every page:
-- **Semantic HTML**: Use appropriate HTML5 semantic elements (`<header>`, `<main>`, `<article>`, `<section>`, `<footer>`).
-- **Title Tags & Meta Descriptions**: Ensure each page has accurate, descriptive tags.
-- **Heading Hierarchy**: Use a single `<h1>` per page, followed by logical heading hierarchies (`<h2>`, `<h3>`).
-- **Accessibility**: Ensure all interactive elements have descriptive IDs and ARIA labels where appropriate.
 
-## Code Formatting
+- **Semantic HTML**: Use appropriate HTML5 elements (`<header>`, `<main>`, `<article>`, `<section>`, `<footer>`, `<nav>`).
+- **Title tags and meta descriptions**: Each page has accurate, descriptive tags.
+- **Heading hierarchy**: One `<h1>` per page; logical `<h2>` / `<h3>` order.
+- **Accessibility**: Interactive elements have accessible names; use ARIA only when native semantics are insufficient.
 
-Similar to our backend standards, we enforce strict formatting on the frontend:
-- Use **Prettier** for automatic formatting of JavaScript, TypeScript, CSS, and HTML files.
-- Use **ESLint** for static code analysis to catch potential bugs and enforce coding standards.
-- Integrate these tools with Git pre-commit hooks (e.g., Husky) to ensure code is clean before it reaches the remote repository.
+See `html-css-guidelines/semantic-html.md` for markup detail.
+
+## Code formatting
+
+- **Prettier** for JavaScript, TypeScript, CSS, HTML, and JSON.
+- **ESLint** (or project linter) for static analysis.
+- **Pre-commit hooks** (e.g. Husky) when the project already uses them.
+
+## Lazy-load map
+
+| Task type | Guideline path |
+|-----------|----------------|
+| Markup / structure | `html-css-guidelines/semantic-html.md` |
+| CSS / layout | `html-css-guidelines/css-foundations.md` |
+| SCSS projects | `html-css-guidelines/scss-guidelines.md` |
+| Tests | `frontend-guidelines/frontend-testing.md` |
+| Stack-specific | `react-guidelines/`, `angular-guidelines/`, `vue-guidelines/`, etc. |
 
 ---
 
@@ -36,4 +52,4 @@ Similar to our backend standards, we enforce strict formatting on the frontend:
 - **Comments:** Minimal and only when strictly necessary. No AI references in HTML, CSS, or JavaScript/TypeScript comments.
 - **Identifiers:** No AI-derived names (`aiResult`, `llmOutput`, `generatedContent`, etc.).
 - **No AI traces** in any code, markup, or comments. Output must be indistinguishable from work produced without AI assistance.
-- See `GUARDRAILS.md` § 9.
+- See `guardrails.mdc` § 9.

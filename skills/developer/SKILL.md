@@ -45,18 +45,36 @@ Correct stack skill loaded and executed, or ad-hoc implementation in fallback mo
 
 Do **not** load `dev_persona` or Antigravity KI artifacts.
 
+## Frontend design routing
+
+Before UI implementation, check project context:
+
+1. If the task is **net-new UI** or a **visual redesign** and `PRODUCT.md` is missing -> recommend `use skill impeccable init` first (new session).
+2. If `docs/DESIGN-BRIEF.md` (or `docs/design/DESIGN-BRIEF.md`) exists -> treat it as acceptance source; delegate to the matching `*-developer` skill **without reinterpreting visual decisions**.
+3. One session = design (`impeccable shape`) **or** implementation (`*-developer`), not both.
+
+Premium UI without a brief -> suggest `use skill impeccable shape` before stack implementation.
+
 ## Routing Logic
 
-1. **Inspect the workspace**: Look for project files to identify the stack.
-   - `.csproj` / `.sln` -> C# / .NET
-   - `package.json` (with React) -> React
-   - `package.json` (with Angular) -> Angular
-   - `package.json` (Node.js/Generic) -> JavaScript/Node
-   - `.py`, `requirements.txt`, `pyproject.toml` -> Python
+1. **Inspect the workspace** - identify stack in this order (frameworks before generic Node):
+
+   | Signal | Route to |
+   |--------|----------|
+   | User asks for **new** Blip plugin scaffold (no existing `blip-ds` project) | `blip-plugin-developer` |
+   | `package.json` with `blip-ds` and `iframe-message-proxy` (existing Blip plugin) | `react-developer` (loads `blip-guidelines/`) |
+   | `.csproj` with `Microsoft.AspNetCore.Components`, or `_Imports.razor` / `App.razor` | `blazor-developer` |
+   | `package.json` with `electron`, `electron-builder`, or `electron-vite` | `electron-developer` |
+   | `package.json` with `vue` (and not React/Angular) | `vue-developer` |
+   | `package.json` with `react` | `react-developer` |
+   | `package.json` with `@angular/core` or `angular` | `angular-developer` |
+   | `package.json` (Node.js, no framework above) | `javascript-developer` |
+   | `.csproj` / `.sln` without Blazor markers | `dotnet-developer` |
+   | `.py`, `requirements.txt`, `pyproject.toml` | `python-developer` |
 
 2. **Invoke the specialized skill (if match found)**:
    - Silently read the `SKILL.md` of the matched stack under `~/.cursor/skills/`:
-     - `dotnet-developer`, `react-developer`, `angular-developer`, `javascript-developer`, or `python-developer`
+     - `blip-plugin-developer`, `blazor-developer`, `electron-developer`, `vue-developer`, `dotnet-developer`, `react-developer`, `angular-developer`, `javascript-developer`, or `python-developer`
    - Assume the identity and instructions of that skill immediately.
    - Do **not** ask the user for confirmation to switch skills.
 
@@ -100,3 +118,5 @@ Offer `use skill commit`. Do not commit automatically.
 | Commit | `use skill commit` |
 | .NET work (explicit) | `use skill dotnet-developer` |
 | Large scope | `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| UI design / brief | `use skill impeccable` (`shape` / `craft`) |
+| New Blip plugin scaffold | `use skill blip-plugin-developer` |

@@ -36,18 +36,34 @@ Quick checks (always apply):
 
 ---
 
-## 3. Other stacks
+## 3. Web / frontend (when UI or browser code in scope)
+
+| Need | Path |
+|------|------|
+| Engineering core (not visual design) | `~/.cursor/skills/_shared/frontend-guidelines/frontend-practices.md` |
+| Markup / CSS / SCSS | `~/.cursor/skills/_shared/html-css-guidelines/` |
+| Cross-stack tests | `~/.cursor/skills/_shared/frontend-guidelines/frontend-testing.md` |
+| React | `~/.cursor/skills/_shared/react-guidelines/` |
+| Angular | `~/.cursor/skills/_shared/angular-guidelines/` |
+| Vue | `~/.cursor/skills/_shared/vue-guidelines/` |
+| Blazor | `~/.cursor/skills/_shared/blazor-guidelines/` |
+| Electron | `~/.cursor/skills/_shared/electron-guidelines/` |
+| Vanilla / DOM | `~/.cursor/skills/_shared/javascript-guidelines/dom-patterns.md` |
+
+Visual decisions: `docs/DESIGN-BRIEF.md` or `use skill impeccable` - do not invent palette/typography from generic guidelines.
+
+## 4. Other stacks
 
 Use project `docs/` and the parent skill. Examples:
 
 | Stack | Typical docs |
 |-------|----------------|
-| Angular / Node | `README`, `eslint` / `prettier` config |
+| Node (non-UI) | `README`, `eslint` / `prettier` config |
 | Python | `pyproject.toml`, `ruff` / `mypy` config |
 
 ---
 
-## 4. Security (all stacks)
+## 5. Security (all stacks)
 
 Scan staged changes for secret patterns before commit (see step 3.5). Placeholders (`<TOKEN>`, `YOUR_API_KEY`, `example`) are allowed in docs and samples.
 

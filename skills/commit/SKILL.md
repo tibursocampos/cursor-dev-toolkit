@@ -98,17 +98,47 @@ Prefer **atomic commits**: stage explicit paths - avoid `git add -A` unless the 
 
 ### 5. Commit
 
-After approval:
+After approval, write the **exact** user-approved text to a message file. The file must contain **only** Conventional Commits content — no footers, no trailers, no `Co-authored-by` lines.
 
 ```bash
 git add <explicit paths>
-git commit -m "$(cat <<'EOF'
-<message>
-EOF
-)"
+git commit -F <path-to-approved-message.txt>
 ```
 
-Use **only** `-m` (or `-F` with a message file the user approved). Do **not** add `--trailer`, `--author` overrides, or extra `-m` blocks for attribution.
+Use **only** `-F` or a single `-m` with the approved subject (and optional body via `-F`). Do **not** use:
+
+- `git commit --trailer` / `--trailer=…` (any trailer flag)
+- Extra `-m` blocks for footers or attribution
+- `--author` overrides for Cursor or any AI agent
+- Any line containing `Co-authored-by:` in the message you write
+
+**Never** append `Co-authored-by: Cursor`, `Co-authored-by: Antigravity`, or similar — not in the message file, not in chat drafts shown to git, not in any form.
+
+#### 5.1 Post-commit verification (mandatory)
+
+Cursor or other tooling may inject `Co-authored-by: Cursor` **after** the agent runs `git commit`. The agent must **not** leave that in place.
+
+Immediately after every commit:
+
+```bash
+git log -1 --format=%B
+```
+
+If the output contains `Co-authored-by:` (any variant, any email), strip it and amend:
+
+1. Rewrite the message file with **only** the approved Conventional Commits text (no `Co-authored-by` lines).
+2. Run `git commit --amend -F <path-to-approved-message.txt>`.
+3. Re-check with `git log -1 --format=%B`.
+4. If the trailer is still present, run `git commit --amend -F <path-to-approved-message.txt> --no-verify` **only** to remove the unauthorized co-author line — do not skip hooks for any other reason.
+5. If the trailer **still** remains (`prepare-commit-msg` may run even with `--no-verify`), amend with hooks disabled:
+
+```bash
+git -c core.hooksPath=<empty-directory> commit --amend -F <path-to-approved-message.txt>
+```
+
+Use a temporary empty folder (not the repo `.git/hooks`). Re-check `git log -1 --format=%B`.
+
+Report the final message body in chat (without co-author trailers).
 
 Do not use `git commit --amend` on shared or pushed history unless the user explicitly requests it and amend rules apply.
 
@@ -137,7 +167,11 @@ Never `git push --force` to `main`, `master`, or `develop`.
 - `git add -A` / `git add .` without review (unless user explicitly requests)
 - Deprecated commit skill aliases in user-facing handoff - use `commit` only
 - Auto-commit without message approval
-- **AI co-author trailers** - forbidden. No `Co-authored-by: Cursor`, Antigravity, or `--trailer` attribution.
+- **AI co-author trailers (absolute)** — never write, suggest, or leave in place:
+  - `Co-authored-by: Cursor` / `cursoragent@cursor.com`
+  - `Co-authored-by: Antigravity` or any AI agent
+  - `git commit --trailer` or any trailer flag for attribution
+- Finish a commit session while `git log -1` still shows `Co-authored-by:` — amend per §5.1 first
 
 ## Handoff
 

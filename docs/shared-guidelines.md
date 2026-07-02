@@ -23,11 +23,16 @@ Shared guidelines live under `skills/_shared/` and are loaded lazily by skills (
 | Folder | Purpose |
 |--------|---------|
 | `dotnet-guidelines/` | Clean Architecture, C#, formatting, NuGet, checklist |
-| `react-guidelines/` | React patterns and philosophies |
-| `angular-guidelines/` | Angular styleguide and best practices |
-| `javascript-guidelines/` | JS/TS clean code |
+| `react-guidelines/` | React patterns, philosophies, performance |
+| `angular-guidelines/` | Angular styleguide, signals, best practices |
+| `javascript-guidelines/` | JS/TS clean code, strict TypeScript, DOM patterns |
+| `vue-guidelines/` | Vue 3 Composition API, routing, state, testing |
+| `blazor-guidelines/` | Blazor components, state, testing (WASM/Server/Hybrid) |
+| `electron-guidelines/` | Main/preload/renderer, security, packaging |
+| `html-css-guidelines/` | Semantic HTML, CSS foundations, SCSS |
+| `frontend-guidelines/` | Cross-stack frontend core (`frontend-practices.md`) and testing |
+| `blip-guidelines/` | Blip plugin architecture, BDS, iframe messages, auth, external API, deploy/CI |
 | `python-guidelines/` | Python style and principles |
-| `frontend-guidelines/` | Cross-stack frontend practices |
 | `git-guidelines/` | Git flow |
 | `devops-guidelines/` | Deployment and GitOps |
 

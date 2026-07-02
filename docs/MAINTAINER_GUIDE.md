@@ -21,14 +21,17 @@ cursor-dev-toolkit/
 └── skills/                  # -> ~/.cursor/skills/
     ├── sdd-spec/, sdd-plan/, sdd-develop/
     ├── speckit-setup/ … speckit-develop/
-    ├── developer/, dotnet-developer/, react-developer/, … stack skills
+    ├── developer/, dotnet-developer/, react-developer/, blip-plugin-developer/, … stack skills
+    ├── impeccable/          # Frontend design router
     ├── code-review/, commit/, push/, …
     └── _shared/             # sdd-artifacts, guidelines, git/frontend/devops, validators
 ```
 
-## Skills (30 folders)
+## Skills (35 folders)
 
 See [SKILLS.md](SKILLS.md). Naming: **kebab-case** folders and `use skill <name>`.
+
+**Frontend / Blip:** `impeccable` (design router), `blip-plugin-developer` (new Blip extension scaffold). Shared packs: `blip-guidelines/`, `react-guidelines/`, `frontend-guidelines/`. Integration docs: [impeccable-integration.md](impeccable-integration.md), [blip-plugin-integration.md](blip-plugin-integration.md).
 
 ## Deploy and validate
 
@@ -44,8 +47,9 @@ Or: `.\scripts\toolkit.ps1` (interactive menu).
 1. **English** - SKILL.md body in English; user prompts may be pt-BR.
 2. **Gate block** - copy from `skills/_shared/SKILL_TEMPLATE.md` or run `inject-skill-gates.ps1`.
 3. **Size policy** - `SKILL.md` hard limit **500 lines** (Cursor / Agent Skills standard). STOP gate (~27 lines) is fixed overhead. Soft targets by tier: speckit workflow 150-180; SDD classic 115-135; review/coverage 150-170; atomic ops (`push`) 90-110. Use `reference.md` for long templates and encyclopedic checklists; keep decision tables, must-not, and resolution gates in `SKILL.md`. See [TOKEN_BUDGET.md](TOKEN_BUDGET.md).
-4. **Catalog** - add entry to `docs/SKILLS.md`.
-5. **Sync + validate** - `sync-cursor.ps1` then `validate-all.ps1`.
+4. **Catalog** - add entry to `docs/SKILLS.md` and update [guides/README.md](guides/README.md) quick reference when user-facing.
+5. **Integration doc** - for ecosystem skills (e.g. `impeccable`, `blip-plugin-developer`), add or extend `docs/*-integration.md`.
+6. **Sync + validate** - `sync-cursor.ps1` then `validate-all.ps1`.
 
 ## SKILL.md vs reference.md
 

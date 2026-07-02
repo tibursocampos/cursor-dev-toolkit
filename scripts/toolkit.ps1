@@ -14,46 +14,94 @@ if ([string]::IsNullOrWhiteSpace($scriptDir)) {
     $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 }
 
+. (Join-Path $scriptDir '_lib\Get-ToolkitRepoRoot.ps1')
+$repoRoot = Get-ToolkitRepoRoot -FromPath $scriptDir
+
 function Show-Menu {
-    Clear-Host
+    Write-Host ''
     Write-Host '=========================================' -ForegroundColor Cyan
     Write-Host ' Cursor Toolkit - Smart Manager' -ForegroundColor Cyan
+    Write-Host " Repo: $repoRoot" -ForegroundColor DarkGray
     Write-Host '=========================================' -ForegroundColor Cyan
     Write-Host '[1] Sync toolkit (deploy to ~/.cursor/)'
     Write-Host '[2] Run smoke tests (core)'
     Write-Host '[3] Deploy and test (sync + smoke tests)'
     Write-Host '[4] Full validation (includes Spec Kit and session gates)'
     Write-Host '[5] Maintainer suite (normalize encoding, fix/inject gates)'
-    Write-Host '[6] Configure current repo for SDD (setup-speckit and config)'
+    Write-Host '[6] Configure toolkit repo for SDD (setup-speckit and config)'
     Write-Host '[7] Uninstall toolkit from ~/.cursor/ (-DryRun preview)'
     Write-Host '[0] Exit'
     Write-Host '=========================================' -ForegroundColor Cyan
 }
 
-function Run-Script {
-    param([string]$Path, [string]$ArgsStr = '')
-    Write-Host "`n>>> Running: $Path $ArgsStr" -ForegroundColor Yellow
-    $fullPath = Join-Path $scriptDir $Path
-    if (-not (Test-Path $fullPath)) {
+function Write-StepBanner {
+    param(
+        [string] $Title,
+        [ConsoleColor] $Color = [ConsoleColor]::Cyan
+    )
+    Write-Host ''
+    Write-Host "========== $Title ==========" -ForegroundColor $Color
+}
+
+function Invoke-ToolkitScript {
+    param(
+        [string] $RelativePath,
+        [string[]] $ArgumentList = @()
+    )
+
+    $fullPath = Join-Path $scriptDir $RelativePath
+    if (-not (Test-Path -LiteralPath $fullPath)) {
         Write-Host "Error: file not found ($fullPath)" -ForegroundColor Red
         return $false
     }
 
-    $pwshExe = (Get-Process -Id $PID).Path
-    $procArgs = @('-ExecutionPolicy', 'Bypass', '-File', $fullPath)
-    if (-not [string]::IsNullOrWhiteSpace($ArgsStr)) {
-        $procArgs += $ArgsStr.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)
+    $argDisplay = ($ArgumentList -join ' ').Trim()
+    if ([string]::IsNullOrWhiteSpace($argDisplay)) {
+        Write-Host "`n>>> Running: $RelativePath" -ForegroundColor Yellow
+    }
+    else {
+        Write-Host "`n>>> Running: $RelativePath $argDisplay" -ForegroundColor Yellow
     }
 
-    & $pwshExe @procArgs
+    $exitCode = 0
+    try {
+        & $fullPath @ArgumentList
+        $exitCode = $LASTEXITCODE
+        if ($null -eq $exitCode) {
+            $exitCode = 0
+        }
+    }
+    catch {
+        Write-Host ">>> Error: $($_.Exception.Message)" -ForegroundColor Red
+        return $false
+    }
 
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host ">>> Success: $Path" -ForegroundColor Green
+    if ($exitCode -eq 0) {
+        Write-Host ">>> Success: $RelativePath (exit 0)" -ForegroundColor Green
         return $true
     }
 
-    Write-Host ">>> Failed (ExitCode: $LASTEXITCODE): $Path" -ForegroundColor Red
+    Write-Host ">>> Failed: $RelativePath (exit $exitCode)" -ForegroundColor Red
     return $false
+}
+
+function Write-WorkflowSummary {
+    param(
+        [hashtable] $Steps
+    )
+
+    Write-Host ''
+    Write-Host '========== Workflow summary ==========' -ForegroundColor Cyan
+    foreach ($name in $Steps.Keys) {
+        $status = $Steps[$name]
+        $color = switch ($status) {
+            'PASS' { [ConsoleColor]::Green }
+            'FAIL' { [ConsoleColor]::Red }
+            'SKIP' { [ConsoleColor]::DarkGray }
+            default { [ConsoleColor]::Gray }
+        }
+        Write-Host ("  {0,-12} {1}" -f "${name}:", $status) -ForegroundColor $color
+    }
 }
 
 while ($true) {
@@ -62,35 +110,84 @@ while ($true) {
 
     switch ($choice) {
         '1' {
-            Run-Script 'sync-cursor.ps1'
+            Write-StepBanner 'Sync to ~/.cursor/'
+            $null = Invoke-ToolkitScript -RelativePath 'sync-cursor.ps1'
         }
         '2' {
-            Run-Script 'validation\validate-all.ps1'
+            Write-StepBanner 'Smoke tests (core)'
+            $null = Invoke-ToolkitScript -RelativePath 'validation\validate-all.ps1'
         }
         '3' {
-            if (Run-Script 'sync-cursor.ps1') {
-                Run-Script 'validation\validate-all.ps1'
+            Write-StepBanner 'Step 1/2: Sync to ~/.cursor/'
+            $syncOk = Invoke-ToolkitScript -RelativePath 'sync-cursor.ps1'
+            Write-Host ("Sync step finished: {0}" -f $(if ($syncOk) { 'OK' } else { 'FAILED' })) -ForegroundColor $(if ($syncOk) { 'Green' } else { 'Red' })
+
+            $validateOk = $false
+            if ($syncOk) {
+                Write-StepBanner 'Step 2/2: Smoke tests'
+                $validateOk = Invoke-ToolkitScript -RelativePath 'validation\validate-all.ps1'
+            }
+            else {
+                Write-Host 'Skipping smoke tests because sync failed.' -ForegroundColor Yellow
+            }
+
+            Write-WorkflowSummary @{
+                Sync  = if ($syncOk) { 'PASS' } else { 'FAIL' }
+                Smoke = if (-not $syncOk) { 'SKIP' } elseif ($validateOk) { 'PASS' } else { 'FAIL' }
             }
         }
         '4' {
-            Run-Script 'validation\validate-all.ps1' '-IncludeSpeckit -IncludeSessionGate'
+            Write-StepBanner 'Full validation (Spec Kit + session gates)'
+            $null = Invoke-ToolkitScript -RelativePath 'validation\validate-all.ps1' -ArgumentList @(
+                '-IncludeSpeckit',
+                '-IncludeSessionGate',
+                '-RepoPath',
+                $repoRoot
+            )
         }
         '5' {
-            Write-Host "`nStarting maintainer suite..." -ForegroundColor Cyan
-            Run-Script 'maintainers\normalize-skill-encoding.ps1'
-            Run-Script 'maintainers\fix-skill-gates.ps1'
-            Run-Script 'maintainers\inject-skill-gates.ps1'
+            Write-StepBanner 'Maintainer suite'
+            $normalizeOk = Invoke-ToolkitScript -RelativePath 'maintainers\normalize-skill-encoding.ps1'
+            $fixGatesOk = Invoke-ToolkitScript -RelativePath 'maintainers\fix-skill-gates.ps1'
+            $injectGatesOk = Invoke-ToolkitScript -RelativePath 'maintainers\inject-skill-gates.ps1'
+            Write-WorkflowSummary @{
+                Normalize = if ($normalizeOk) { 'PASS' } else { 'FAIL' }
+                FixGates  = if ($fixGatesOk) { 'PASS' } else { 'FAIL' }
+                Inject    = if ($injectGatesOk) { 'PASS' } else { 'FAIL' }
+            }
         }
         '6' {
-            if (Run-Script 'setup-speckit.ps1') {
-                Run-Script 'configure-repo-sdd.ps1'
+            Write-StepBanner 'SDD setup (toolkit repo)'
+            $setupOk = Invoke-ToolkitScript -RelativePath 'setup-speckit.ps1'
+            $configOk = $false
+            if ($setupOk) {
+                Write-StepBanner 'Configure manifest for toolkit repo'
+                $configOk = Invoke-ToolkitScript -RelativePath 'configure-repo-sdd.ps1' -ArgumentList @(
+                    '-StorageMode',
+                    'global',
+                    '-RepoPath',
+                    $repoRoot
+                )
+            }
+            else {
+                Write-Host 'Skipping configure-repo-sdd because setup-speckit failed or exited early.' -ForegroundColor Yellow
+            }
+
+            Write-WorkflowSummary @{
+                SetupSpeckit = if ($setupOk) { 'PASS' } else { 'FAIL' }
+                ConfigureSdd = if (-not $setupOk) { 'SKIP' } elseif ($configOk) { 'PASS' } else { 'FAIL' }
             }
         }
         '7' {
-            Run-Script 'uninstall-toolkit.ps1' '-DryRun'
+            Write-StepBanner 'Uninstall preview (-DryRun)'
+            $null = Invoke-ToolkitScript -RelativePath 'uninstall-toolkit.ps1' -ArgumentList @('-DryRun')
             $confirm = Read-Host 'Proceed with uninstall? (yes/no)'
             if ($confirm -eq 'yes') {
-                Run-Script 'uninstall-toolkit.ps1'
+                Write-StepBanner 'Uninstall toolkit from ~/.cursor/'
+                $null = Invoke-ToolkitScript -RelativePath 'uninstall-toolkit.ps1'
+            }
+            else {
+                Write-Host 'Uninstall cancelled.' -ForegroundColor DarkGray
             }
         }
         '0' {
@@ -102,6 +199,7 @@ while ($true) {
         }
     }
 
-    Write-Host "`nPress Enter to continue..." -ForegroundColor DarkGray
+    Write-Host ''
+    Write-Host 'Press Enter to continue...' -ForegroundColor DarkGray
     $null = Read-Host
 }

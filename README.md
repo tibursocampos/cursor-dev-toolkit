@@ -43,7 +43,9 @@ Re-run sync after pulling toolkit updates (idempotent).
 | [docs/README.md](docs/README.md) | Documentation index |
 | [docs/HOOKS.md](docs/HOOKS.md) | Optional hooks (behavior, limits) |
 | [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md) | Repository layout and maintainer checklist |
-| [docs/SKILLS.md](docs/SKILLS.md) | Canonical skill catalog (30 skills) |
+| [docs/SKILLS.md](docs/SKILLS.md) | Canonical skill catalog (35 skills) |
+| [docs/impeccable-integration.md](docs/impeccable-integration.md) | Impeccable design -> DESIGN-BRIEF -> stack developer handoff |
+| [docs/blip-plugin-integration.md](docs/blip-plugin-integration.md) | Blip plugin scaffold -> SDD -> `react-developer` + `blip-guidelines/` |
 | [docs/architecture.md](docs/architecture.md) | Deployment and enforcement model |
 | [docs/shared-guidelines.md](docs/shared-guidelines.md) | Index of `_shared/` packs |
 | [docs/ENFORCEMENT.md](docs/ENFORCEMENT.md) | Rules, hooks, session gates |
@@ -75,8 +77,12 @@ cursor-dev-toolkit/
     ├── code-review/
     ├── commit/
     ├── developer/         # Stack router
+    ├── impeccable/        # Frontend design (shape, audit, polish)
+    ├── blip-plugin-developer/  # Blip React extension scaffold + handoff
     ├── dotnet-developer/
-    ├── react-developer/, angular-developer/, javascript-developer/, python-developer/
+    ├── blazor-developer/
+    ├── react-developer/, angular-developer/, vue-developer/
+    ├── electron-developer/, javascript-developer/, python-developer/
     ├── add-migrations/
     ├── fix-build/
     ├── test-coverage/
@@ -88,6 +94,7 @@ cursor-dev-toolkit/
     └── _shared/
         ├── backlog-item-types/
         ├── dotnet-guidelines/
+        ├── blip-guidelines/   # Blip plugin iframe, BDS, auth, API, deploy
         ├── caveman/       # Shared Caveman Mode guideline file
         └── …
 ```
@@ -107,9 +114,14 @@ cursor-dev-toolkit/
 | `code-review` | `use skill code-review` | Review diff or branch vs PRD/PLAN |
 | `commit` | `use skill commit` | Conventional commit and push |
 | `developer` | `use skill developer` | Stack router for small tasks |
+| `impeccable` | `use skill impeccable` | UI design; shape -> DESIGN-BRIEF |
+| `blip-plugin-developer` | `use skill blip-plugin-developer` | New Blip React plugin scaffold |
 | `dotnet-developer` | `use skill dotnet-developer` | Small .NET work without full SDD |
+| `blazor-developer` | `use skill blazor-developer` | Small Blazor UI work |
 | `react-developer` | `use skill react-developer` | Small React work |
 | `angular-developer` | `use skill angular-developer` | Small Angular work |
+| `vue-developer` | `use skill vue-developer` | Small Vue 3 work |
+| `electron-developer` | `use skill electron-developer` | Small Electron desktop work |
 | `javascript-developer` | `use skill javascript-developer` | Small Node/JS work |
 | `python-developer` | `use skill python-developer` | Small Python work |
 | `add-migrations` | `use skill add-migrations` | EF Core migration in the open repo |
@@ -121,7 +133,7 @@ cursor-dev-toolkit/
 | `breakdown-tasks` | `use skill breakdown-tasks` | Implementation task checklist (local markdown) |
 | `create-message-consumer` | `use skill create-message-consumer` | Scaffold message consumer (scaffold) |
 
-Optional flows: repo docs (`document-plan` -> `document-implement`); backlog (`refine-backlog-item` -> `breakdown-tasks` -> SDD); Spec Kit (`speckit-setup` -> `speckit-init` -> `speckit-spec` -> `speckit-plan` -> `speckit-develop`). See [AGENTS.md](AGENTS.md).
+Optional flows: repo docs (`document-plan` -> `document-implement`); backlog (`refine-backlog-item` -> `breakdown-tasks` -> SDD); frontend design (`impeccable shape` -> `DESIGN-BRIEF.md` -> `*-developer`); Blip plugin (`blip-plugin-developer` -> SDD/spec -> `react-developer`); Spec Kit (`speckit-setup` -> `speckit-init` -> `speckit-spec` -> `speckit-plan` -> `speckit-develop`). See [AGENTS.md](AGENTS.md).
 
 Details and shared assets: [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md).
 

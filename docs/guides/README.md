@@ -60,7 +60,9 @@ New task
 | Feature, migration, or cross-cutting design | `sdd-spec` -> `sdd-plan` -> `sdd-develop` | [01 - SDD workflow](01-sdd-workflow.md) |
 | Router / unknown stack | `developer` | [02 - developer](02-developer.md) |
 | Small .NET fix, single area, no PRD | `dotnet-developer` | [02b - dotnet-developer](02b-dotnet-developer.md) |
-| React / Angular / JS / Python | stack skills | [08 - stack developers](08-stack-developers.md) |
+| React / Angular / Vue / Blazor / Electron / JS / Python | stack skills | [08 - stack developers](08-stack-developers.md) |
+| New Blip React plugin (scaffold) | `blip-plugin-developer` | [08 - stack developers](08-stack-developers.md) · [blip-plugin-integration.md](../blip-plugin-integration.md) |
+| Net-new UI / visual redesign | `impeccable shape` | [08 - stack developers](08-stack-developers.md) · [impeccable-integration.md](../impeccable-integration.md) |
 | Review before commit/merge | `code-review` | [03 - code-review](03-code-review.md) |
 | Coverage report (.NET, Coverlet) | `test-coverage` | [04 - test-coverage](04-test-coverage.md) |
 | Commit, fix-build, migrations, backlog, repo docs | See operational guide | [05 - operational skills](05-operational-skills.md) |
@@ -82,7 +84,7 @@ New task
 | [05-operational-skills.md](05-operational-skills.md) | `commit`, `fix-build`, `add-migrations`, `document-plan`, `document-implement`, `refine-backlog-item`, `breakdown-tasks`, `create-message-consumer` | `use skill <kebab-name>` |
 | [06-speckit-workflow.md](06-speckit-workflow.md) | `speckit-setup`, `speckit-init`, `speckit-spec`, `speckit-plan`, `speckit-develop` | `use skill speckit-setup` · `use skill speckit-spec` |
 | [07-caveman-mode.md](07-caveman-mode.md) | `caveman-mode` (rule) | `caveman on` · `caveman off` |
-| [08-stack-developers.md](08-stack-developers.md) | stack `*-developer` skills | `use skill react-developer` etc. |
+| [08-stack-developers.md](08-stack-developers.md) | stack `*-developer`, `blip-plugin-developer`, `impeccable` handoff | `use skill react-developer` · `use skill blip-plugin-developer` |
 | [09-scripts-and-toolkit.md](09-scripts-and-toolkit.md) | sync, validate, uninstall | `.\scripts\toolkit.ps1` |
 
 ---
@@ -104,9 +106,14 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 | `code-review` | `use skill code-review` | Review diff or branch vs PRD/PLAN |
 | `commit` | `use skill commit` | Conventional commit and push |
 | `developer` | `use skill developer` | Stack router for small tasks |
+| `impeccable` | `use skill impeccable` | UI design; `shape` -> `docs/DESIGN-BRIEF.md` |
+| `blip-plugin-developer` | `use skill blip-plugin-developer` | New Blip React extension scaffold |
 | `dotnet-developer` | `use skill dotnet-developer` | Small .NET task without full SDD |
-| `react-developer` | `use skill react-developer` | Small React task |
+| `blazor-developer` | `use skill blazor-developer` | Small Blazor UI task |
+| `react-developer` | `use skill react-developer` | Small React task (incl. existing Blip plugins) |
 | `angular-developer` | `use skill angular-developer` | Small Angular task |
+| `vue-developer` | `use skill vue-developer` | Small Vue 3 task |
+| `electron-developer` | `use skill electron-developer` | Small Electron desktop task |
 | `javascript-developer` | `use skill javascript-developer` | Small Node/JS task |
 | `python-developer` | `use skill python-developer` | Small Python task |
 | `add-migrations` | `use skill add-migrations` | EF Core migration in the open repo |
@@ -125,6 +132,8 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 | Repo documentation (RAG in target app) | `document-plan` -> `document-implement` |
 | Backlog -> SDD | `refine-backlog-item` -> optional `breakdown-tasks` -> `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
 | Spec Kit SDD | `speckit-setup` -> `speckit-init` -> `speckit-spec` -> `speckit-plan` -> `speckit-develop` |
+| Frontend design -> implement | `impeccable shape` -> `DESIGN-BRIEF.md` -> matching `*-developer` |
+| Blip plugin scaffold -> implement | `blip-plugin-developer` -> SDD or Spec Kit -> `react-developer` |
 | Build failure | `fix-build` -> optional `commit` |
 
 > **Note:** `document-plan` / `document-implement` document **application repositories** for RAG. They are not a substitute for these **toolkit** guides under `docs/guides/`.
@@ -171,6 +180,9 @@ Do **not** copy machine-specific absolute profile paths (Windows user folder or 
 | Doc | Purpose |
 |-----|---------|
 | [../INSTALL.md](../INSTALL.md) | Install, verify, short usage tables |
+| [../SKILLS.md](../SKILLS.md) | Full skill catalog |
+| [../impeccable-integration.md](../impeccable-integration.md) | Impeccable handoff contract |
+| [../blip-plugin-integration.md](../blip-plugin-integration.md) | Blip plugin scaffold and guidelines |
 | [../README.md](../README.md) | Documentation index for this repo |
 | [../../README.md](../../README.md) | Toolkit overview |
 | [../../AGENTS.md](../../AGENTS.md) | Agent router (synced to `~/.cursor/AGENTS.md`) |

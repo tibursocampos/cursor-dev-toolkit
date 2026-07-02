@@ -38,13 +38,23 @@ Working React components and tests in the target workspace, validated with tests
 
 Recommend `sdd-spec` -> `sdd-plan` -> `sdd-develop` if two or more apply: 3+ layers touched, new API contracts, cross-repo impact, 10+ files, or existing approved PLAN.
 
+## DESIGN-BRIEF acceptance
+
+If `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` exists, treat it as the acceptance source. Map sections to React/TSX; do **not** reinterpret visual decisions. Implement **one session scope** from section 10 only.
+
+If the task is net-new UI without a brief, recommend `use skill impeccable shape` in a **new session** before implementing.
+
 ## Lazy-load references
 
 | When | Path |
 |------|------|
+| Design brief | `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` |
 | Branch / commit | `~/.cursor/rules/branch-validation.mdc`, `~/.cursor/skills/_shared/developer-common/step-3-branching.md` |
 | React guidelines | `~/.cursor/skills/_shared/react-guidelines/` |
+| Blip plugin (when `blip-ds` in `package.json`) | `~/.cursor/skills/_shared/blip-guidelines/` - load `plugin-architecture.md` always; add `auth-and-permissions.md` if multi-route/auth; add `external-api-integration.md` if calling REST backend |
+| React performance | `~/.cursor/skills/_shared/react-guidelines/react-performance.md` |
 | Frontend practices | `~/.cursor/skills/_shared/frontend-guidelines/frontend-practices.md` |
+| Markup / styles | `~/.cursor/skills/_shared/html-css-guidelines/` |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/` |
 | Context | `~/.cursor/rules/context-management.mdc` |
 | Caveman (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
@@ -55,7 +65,7 @@ Do not preload unrelated guideline trees.
 
 ### 0. Workspace
 
-Confirm React project (`package.json` with React). Read `README.md`, summarize acceptance.
+Confirm React project (`package.json` with React). If `blip-ds` is present, load Blip guidelines from lazy-load table. Read `README.md`, summarize acceptance.
 
 ### 1. Guidelines
 
@@ -103,3 +113,4 @@ Offer `use skill commit`. Do not commit automatically.
 | Commit | `use skill commit` |
 | Review | `use skill code-review` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| Missing design brief | `use skill impeccable shape` (new session) |

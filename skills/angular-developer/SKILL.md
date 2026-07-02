@@ -38,13 +38,21 @@ Working Angular code and tests in the target workspace, validated with tests/bui
 
 Recommend `sdd-spec` -> `sdd-plan` -> `sdd-develop` if two or more apply: 3+ layers touched, new modules/services across app, cross-repo impact, 10+ files, or existing approved PLAN.
 
+## DESIGN-BRIEF acceptance
+
+If `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` exists, treat it as the acceptance source. Map sections to Angular components/templates; do **not** reinterpret visual decisions. Implement **one session scope** from section 10 only.
+
+If the task is net-new UI without a brief, recommend `use skill impeccable shape` in a **new session** before implementing.
+
 ## Lazy-load references
 
 | When | Path |
 |------|------|
+| Design brief | `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` |
 | Branch / commit | `~/.cursor/rules/branch-validation.mdc`, `~/.cursor/skills/_shared/developer-common/step-3-branching.md` |
 | Angular guidelines | `~/.cursor/skills/_shared/angular-guidelines/` |
 | Frontend practices | `~/.cursor/skills/_shared/frontend-guidelines/frontend-practices.md` |
+| Markup / styles | `~/.cursor/skills/_shared/html-css-guidelines/` |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/` |
 | Context | `~/.cursor/rules/context-management.mdc` |
 | Caveman (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
@@ -102,3 +110,4 @@ Offer `use skill commit`. Do not commit automatically.
 | Commit | `use skill commit` |
 | Review | `use skill code-review` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| Missing design brief | `use skill impeccable shape` (new session) |
