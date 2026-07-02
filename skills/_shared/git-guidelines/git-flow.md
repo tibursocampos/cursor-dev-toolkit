@@ -35,4 +35,4 @@ We heavily rely on Git pre-commit hooks to automate formatting and linting tasks
 
 - **PR descriptions and commit messages** must not reference AI, generation, or automation. Write as a developer who owns the code.
 - **No AI co-author trailers** (`Co-authored-by: GitHub Copilot` or similar).
-- Output must be indistinguishable from work produced without AI assistance. See `GUARDRAILS.md` § 9.
+- Output must be indistinguishable from work produced without AI assistance. See `guardrails.mdc` § 9.
