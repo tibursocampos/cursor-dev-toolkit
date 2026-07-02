@@ -32,6 +32,8 @@ Run from repo root:
 .\scripts\validation\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
 ```
 
+Core checks include: deploy, skills-structure, impeccable-skill, blip-plugin-skill, frontend-ecosystem, docs-consistency, skills-english.
+
 ## Maintainers
 
 Run only when fixing toolkit content (not required after normal sync):

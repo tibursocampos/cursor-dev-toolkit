@@ -1,0 +1,130 @@
+---
+name: blazor-developer
+description: >
+  Implement or fix small-to-medium Blazor UI features without full SDD. Covers Blazor WebAssembly, Server,
+  and Hybrid (MAUI). Uses Razor components, EditForm, bUnit, and Git-only developer flow.
+  For API/backend-only .NET work, use dotnet-developer. For large cross-cutting features, route to SDD.
+---
+
+## STOP - Read before ANY tool call
+
+1. Read `~/.cursor/rules/guardrails.mdc`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
+4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
+
+### Step -1 - Gate check (report in chat before continuing)
+
+```
+Gate check:
+[ ] guardrails.mdc read
+[ ] SESSION.md read; session-state loaded
+[ ] User confirmed current action (sim)
+-> If any unchecked: STOP
+```
+
+---
+
+## Trigger
+
+Use when user asks for `use skill blazor-developer`, `blazor fix`, or a small isolated Blazor UI implementation.
+
+## Outcome
+
+Working Razor components and tests in the target workspace, validated with `dotnet build` and `dotnet test`, with optional handoff to `use skill commit`.
+
+## Blazor host detection
+
+Inspect `.csproj` and project layout:
+
+| Signal | Host |
+|--------|------|
+| `Microsoft.AspNetCore.Components.WebAssembly` | **WASM** - client-side; API calls via HttpClient |
+| `InteractiveServer` / Blazor Server SDK | **Server** - SignalR circuit; avoid long-blocking UI thread |
+| `Microsoft.Maui` + BlazorWebView | **Hybrid** - native shell; note platform constraints in implementation |
+
+Also detect via `_Imports.razor`, `App.razor`, or `Routes.razor`.
+
+## When to escalate to SDD
+
+Recommend `sdd-spec` -> `sdd-plan` -> `sdd-develop` if two or more apply: 3+ layers touched, new API contracts, cross-repo impact, 10+ files, or existing approved PLAN.
+
+**Use `dotnet-developer`** for non-UI .NET (APIs, services, EF, messaging).
+
+## DESIGN-BRIEF acceptance
+
+If `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` exists, treat it as the acceptance source. Map sections to Razor components/layouts; do **not** reinterpret visual decisions. Implement **one session scope** from section 10 only.
+
+For Hybrid targets, note platform-specific constraints in section 9 of the brief.
+
+If the task is net-new UI without a brief, recommend `use skill impeccable shape` in a **new session** before implementing.
+
+## Lazy-load references
+
+| When | Path |
+|------|------|
+| Design brief | `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` |
+| Branch / commit | `~/.cursor/rules/branch-validation.mdc`, `~/.cursor/skills/_shared/developer-common/step-3-branching.md` |
+| Blazor guidelines | `~/.cursor/skills/_shared/blazor-guidelines/` |
+| Frontend core | `~/.cursor/skills/_shared/frontend-guidelines/frontend-practices.md` |
+| Markup / styles | `~/.cursor/skills/_shared/html-css-guidelines/` |
+| .NET patterns | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
+| Principles | `~/.cursor/skills/_shared/code-guidelines/principles/` |
+| Context | `~/.cursor/rules/context-management.mdc` |
+| Caveman (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
+
+Do not preload unrelated guideline trees.
+
+## Process
+
+### 0. Workspace
+
+Confirm Blazor project markers. Identify host (WASM / Server / Hybrid). Read `README.md`, summarize acceptance.
+
+### 1. Guidelines
+
+Load Blazor and frontend guidelines for this task.
+
+### 2. Branch
+
+Use `feature/<slug>` or `feat/<id>`. Never commit on `main`/`master`/`develop`.
+
+### 3. Micro-plan
+
+Define 3-7 concrete tasks; checkpoint context at >= 40%.
+
+### 4. Implement
+
+Razor components, parameters, `@bind`, lifecycle. Match existing patterns (code-behind vs inline per project).
+
+### 5. Tests
+
+bUnit for component logic; Playwright for E2E when the project has E2E setup.
+
+### 6. Validate
+
+```bash
+dotnet build
+dotnet test
+```
+
+### 7. Handoff
+
+Offer `use skill commit`. Do not commit automatically.
+
+## Must not
+
+- Auto-commit or auto-PR
+- Leave AI traces in code or identifiers
+- Block Blazor Server UI thread with long synchronous work
+
+## Handoff
+
+| Situation | Next |
+|-----------|------|
+| Commit | `use skill commit` |
+| Review | `use skill code-review` |
+| Backend / API only | `use skill dotnet-developer` |
+| Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| Missing design brief | `use skill impeccable shape` (new session) |

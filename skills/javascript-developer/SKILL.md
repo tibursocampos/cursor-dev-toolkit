@@ -38,12 +38,22 @@ Working JS/TS code and tests in the target workspace, validated with tests/build
 
 Recommend `sdd-spec` -> `sdd-plan` -> `sdd-develop` for multi-service, large API surface, or 10+ file changes.
 
+## DESIGN-BRIEF acceptance
+
+If `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` exists with `target_stack: html-css`, treat it as the acceptance source. Map to DOM/vanilla or light libs; do **not** reinterpret visual decisions.
+
+If the task is net-new UI without a brief, recommend `use skill impeccable shape` in a **new session** before implementing.
+
 ## Lazy-load references
 
 | When | Path |
 |------|------|
+| Design brief | `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` |
 | Branch / commit | `~/.cursor/rules/branch-validation.mdc`, `~/.cursor/skills/_shared/developer-common/step-3-branching.md` |
 | JavaScript guidelines | `~/.cursor/skills/_shared/javascript-guidelines/` |
+| Frontend core (`html-css` / DOM work) | `~/.cursor/skills/_shared/frontend-guidelines/frontend-practices.md` |
+| DOM patterns (`html-css` stack) | `~/.cursor/skills/_shared/javascript-guidelines/dom-patterns.md` |
+| Markup / styles (`html-css` stack) | `~/.cursor/skills/_shared/html-css-guidelines/` |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/` |
 | Context | `~/.cursor/rules/context-management.mdc` |
 | Caveman (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
@@ -99,3 +109,4 @@ Offer `use skill commit`. Do not commit automatically.
 | Commit | `use skill commit` |
 | Review | `use skill code-review` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| Missing design brief | `use skill impeccable shape` (new session) |

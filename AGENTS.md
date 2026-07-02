@@ -49,12 +49,18 @@ speckit-setup -> speckit-init -> speckit-spec -> speckit-plan -> speckit-develop
 
 For explicit .NET work: `dotnet-developer` - `use skill dotnet-developer`.
 
+For frontend UI design (shape, audit, polish): `impeccable` - `use skill impeccable`. Handoff via `docs/DESIGN-BRIEF.md` to stack `*-developer` skills (`react`, `angular`, `vue`, `blazor`, `electron`, `javascript`).
+
+For new Blip React plugins: `blip-plugin-developer` - `use skill blip-plugin-developer`. Handoff to `react-developer` + `blip-guidelines/`. See `docs/blip-plugin-integration.md`.
+
 ### Optional flows
 
 | Flow | Steps |
 |------|--------|
 | Repo documentation (RAG) | `document-plan` -> `document-implement` |
 | Backlog -> SDD | `refine-backlog-item` -> `breakdown-tasks` -> classic or Spec Kit chain |
+| Frontend design -> implement | `impeccable shape` -> `DESIGN-BRIEF.md` -> `*-developer` (one session per step) |
+| Blip plugin scaffold -> implement | `blip-plugin-developer` -> SDD/spec -> `react-developer` (one session per step) |
 | Build / test | `fix-build` -> optional `commit` / `push` |
 | EF migration | `add-migrations` |
 | Message consumer | `create-message-consumer` |
@@ -72,12 +78,14 @@ For explicit .NET work: `dotnet-developer` - `use skill dotnet-developer`.
 | Branch / commits | `branch-validation.mdc`, `conventional-commits.mdc` |
 | Caveman Mode | `caveman-mode.mdc` |
 
-## Skills catalog (30)
+## Skills catalog (35)
 
 See full list: `docs/SKILLS.md` in the toolkit repo.
 
 | Skill | Invoke |
 |-------|--------|
+| impeccable | `use skill impeccable` |
+| blip-plugin-developer | `use skill blip-plugin-developer` |
 | sdd-spec | `use skill sdd-spec` |
 | sdd-plan | `use skill sdd-plan` |
 | sdd-develop | `use skill sdd-develop` |
@@ -90,6 +98,9 @@ See full list: `docs/SKILLS.md` in the toolkit repo.
 | dotnet-developer | `use skill dotnet-developer` |
 | react-developer | `use skill react-developer` |
 | angular-developer | `use skill angular-developer` |
+| vue-developer | `use skill vue-developer` |
+| blazor-developer | `use skill blazor-developer` |
+| electron-developer | `use skill electron-developer` |
 | javascript-developer | `use skill javascript-developer` |
 | python-developer | `use skill python-developer` |
 | code-review | `use skill code-review` |
@@ -118,4 +129,4 @@ See full list: `docs/SKILLS.md` in the toolkit repo.
 
 Or use the interactive menu: `.\scripts\toolkit.ps1`
 
-Maintainer guide: `docs/MAINTAINER_GUIDE.md` · Install: `docs/INSTALL.md` · Enforcement: `docs/ENFORCEMENT.md`
+Maintainer guide: `docs/MAINTAINER_GUIDE.md` · Install: `docs/INSTALL.md` · Impeccable: `docs/impeccable-integration.md` · Blip plugins: `docs/blip-plugin-integration.md` · Enforcement: `docs/ENFORCEMENT.md`

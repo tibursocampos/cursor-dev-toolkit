@@ -51,9 +51,14 @@ Per-repo file: `~/.cursor/sdd/sessions/{repo-hash}.json`
 | Skill | Role |
 |-------|------|
 | `developer` | Router: detects stack and delegates |
+| `blip-plugin-developer` | New Blip React extension scaffold + SDD handoff |
+| `impeccable` | Frontend design router -> `DESIGN-BRIEF.md` |
 | `dotnet-developer` | .NET implementation |
-| `react-developer` | React implementation |
+| `blazor-developer` | Blazor UI implementation |
+| `react-developer` | React implementation (incl. existing Blip plugins + `blip-guidelines/`) |
 | `angular-developer` | Angular implementation |
+| `vue-developer` | Vue 3 implementation |
+| `electron-developer` | Electron desktop implementation |
 | `javascript-developer` | Node/JS implementation |
 | `python-developer` | Python implementation |
 
@@ -70,6 +75,9 @@ Persona/routing policy lives in `rules/` + `AGENTS.md` (no `dev_persona` skill).
 |--------|---------|
 | `validate-toolkit-deploy.ps1` | 9 rules, hooks paths, AGENTS.md |
 | `validate-skills-structure.ps1` | STOP gates, line limits, manifest v2 |
+| `validate-impeccable-skill.ps1` | Impeccable router + references |
+| `validate-blip-plugin-skill.ps1` | Blip plugin skill + guidelines |
+| `validate-frontend-ecosystem.ps1` | Stack skills and shared guideline bundles |
 | `validate-docs-consistency.ps1` | Catalog vs folders, obsolete names |
 | `validate-skills-english.ps1` | Skill body language heuristic |
 

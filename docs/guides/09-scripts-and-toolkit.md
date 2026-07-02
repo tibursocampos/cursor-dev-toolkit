@@ -54,6 +54,9 @@ Does **not** remove unrelated Cursor user settings.
 | `validation/validate-all.ps1` | Orchestrator (run after every sync) |
 | `validation/validate-toolkit-deploy.ps1` | 9 rules, hooks paths, AGENTS.md |
 | `validation/validate-skills-structure.ps1` | STOP gates, line limits, manifest v2 |
+| `validation/validate-impeccable-skill.ps1` | Impeccable router + reference bundle |
+| `validation/validate-blip-plugin-skill.ps1` | Blip plugin skill + `blip-guidelines/` |
+| `validation/validate-frontend-ecosystem.ps1` | Stack skills, guideline bundles, DESIGN-BRIEF markers |
 | `validation/validate-docs-consistency.ps1` | SKILLS.md catalog vs folders |
 | `validation/validate-skills-english.ps1` | Skill body language heuristic |
 | `validation/validate-session-gates.ps1` | Session gate status (optional) |

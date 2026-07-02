@@ -98,6 +98,10 @@ Open any codebase in Cursor. Manuals: **[guides/README.md](guides/README.md)**.
 
 Explicit .NET: `use skill dotnet-developer`.
 
+New Blip React plugin: `use skill blip-plugin-developer` (see [blip-plugin-integration.md](blip-plugin-integration.md)).
+
+Net-new UI: `use skill impeccable shape` -> `docs/DESIGN-BRIEF.md` (see [impeccable-integration.md](impeccable-integration.md)).
+
 ### Storage
 
 Unified manifest v2: `~/.cursor/sdd/manifest.json` with `classic` and `speckit` sections. See `STORAGE.md` and `docs/ENFORCEMENT.md`.
@@ -147,4 +151,4 @@ See [HOOKS.md](HOOKS.md). Installed by `sync-cursor.ps1`.
 | Validation fails | Run `validate-all.ps1`; fix reported paths |
 | Hooks not firing | Restart Cursor after `hooks.json` merge |
 
-Maintainer: [MAINTAINER_GUIDE.md](MAINTAINER_GUIDE.md) · Catalog: [SKILLS.md](SKILLS.md)
+Maintainer: [MAINTAINER_GUIDE.md](MAINTAINER_GUIDE.md) · Catalog: [SKILLS.md](SKILLS.md) · Impeccable: [impeccable-integration.md](impeccable-integration.md) · Blip: [blip-plugin-integration.md](blip-plugin-integration.md)

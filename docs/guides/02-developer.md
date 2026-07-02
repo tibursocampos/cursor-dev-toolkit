@@ -24,12 +24,19 @@ It does **not** replace SDD for medium/high-complexity work.
 
 ## Routing behavior
 
+Detection order (first match wins). See [08-stack-developers.md](08-stack-developers.md) for the full table.
+
 | Detected | Delegates to |
 |----------|--------------|
-| `.csproj` / `.sln` | `dotnet-developer` |
+| User asks for **new** Blip plugin (no repo yet) | `blip-plugin-developer` |
+| `blip-ds` + `iframe-message-proxy` in `package.json` | `react-developer` (+ `blip-guidelines/`) |
+| Blazor markers (`.csproj`, `App.razor`, …) | `blazor-developer` |
+| Electron in `package.json` | `electron-developer` |
+| Vue in `package.json` | `vue-developer` |
 | React in `package.json` | `react-developer` |
 | Angular in `package.json` | `angular-developer` |
-| Node/JS generic | `javascript-developer` |
+| Generic `package.json` (Node) | `javascript-developer` |
+| `.csproj` / `.sln` (no Blazor) | `dotnet-developer` |
 | Python project files | `python-developer` |
 | No framework match | Fallback: implement directly |
 

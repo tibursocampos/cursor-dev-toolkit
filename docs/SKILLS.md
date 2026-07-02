@@ -1,6 +1,6 @@
 # Skills catalog - cursor-dev-toolkit
 
-Canonical kebab-case skill folders under `skills/`. Invoke with `use skill <name>` or `/<name>`.
+Canonical kebab-case skill folders under `skills/` (**35 skills**). Invoke with `use skill <name>` or `/<name>`.
 
 ## Classic SDD
 
@@ -28,8 +28,27 @@ Canonical kebab-case skill folders under `skills/`. Invoke with `use skill <name
 | `dotnet-developer` | Small/medium .NET work without full SDD |
 | `react-developer` | Small/medium React work without full SDD |
 | `angular-developer` | Small/medium Angular work without full SDD |
+| `vue-developer` | Small/medium Vue 3 work without full SDD |
+| `blazor-developer` | Small/medium Blazor UI (WASM/Server/Hybrid) without full SDD |
+| `electron-developer` | Small/medium Electron desktop apps without full SDD |
 | `javascript-developer` | Small/medium JavaScript/Node work without full SDD |
 | `python-developer` | Small/medium Python work without full SDD |
+
+## Blip plugins
+
+| Skill | Purpose |
+|-------|---------|
+| `blip-plugin-developer` | Scaffold new Blip React extensions (`create blip-extension`), SDD setup, handoff to `react-developer` |
+
+See [blip-plugin-integration.md](blip-plugin-integration.md). Existing Blip plugin repos: use `react-developer` (auto-loads `blip-guidelines/`).
+
+## Frontend design (Impeccable)
+
+| Skill | Purpose |
+|-------|---------|
+| `impeccable` | UI/UX design router (upstream pbakaus/impeccable refs); shape -> `docs/DESIGN-BRIEF.md` |
+
+See [impeccable-integration.md](impeccable-integration.md). Do **not** use Antigravity `impeccable_*` personas.
 
 ## Operational
 
