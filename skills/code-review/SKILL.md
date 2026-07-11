@@ -28,6 +28,8 @@ Gate check:
 
 Invoke when the user asks for: `use skill code-review`, `review this PR`, `code review`, or `/code-review`.
 
+Optional opt-in flags (do **not** enable by default): `multi-angle` / `multi-ângulo`, or `ângulos: qualidade, aceite, segurança` (subset allowed).
+
 ## Outcome
 
 A structured **review report** with severity tiers (critical / important / nice-to-have) and a clear decision: **Approved**, **Approved with reservations**, or **Changes required**. Write the report in **pt-BR** in chat-aligned reviews (technical terms may stay in English). Does not modify code unless the user asks for fixes in a follow-up.
@@ -157,6 +159,21 @@ gh pr create --base <base> --head "$(git rev-parse --abbrev-ref HEAD)" \
 
 No MCP work-item linking or mandatory corporate PR templates.
 
+## Optional multi-angle mode (opt-in)
+
+Run **only** when the user explicitly requests multi-angle / multi-ângulo / named angles. Default flow (steps -1..8) stays unchanged when the flag is absent.
+
+When opt-in:
+
+1. After scoping the diff (step 1) and resolving SDD artifacts (0.5), spawn up to **3 parallel Task** subagents — one per requested angle:
+   - **quality** — correctness, architecture, tests, maintainability, performance
+   - **acceptance (aceite)** — PRD criteria / PLAN deliverables vs the diff
+   - **security** — AuthZ/AuthN, injection, secrets/PII, dangerous defaults (hints: `_shared/agents/prompts/security.md`)
+2. Parent synthesizes Task outputs into **one** report using the existing `reference.md` template (map findings to críticos / importantes / nice-to-have).
+3. Decision matrix (step 6) and coverage gates are unchanged — multi-angle does **not** change decision semantics, does **not** auto-block O3 or the SDD pipeline, and does **not** require separate blind-reviewer skills.
+
+See `reference.md` section **Multi-angle mode (opt-in)** for invoke examples and per-angle checklists.
+
 ## Must not
 
 - Write or update PRD/PLAN files (hand off to `use skill sdd-spec` / `use skill sdd-plan`)
@@ -165,12 +182,14 @@ No MCP work-item linking or mandatory corporate PR templates.
 - Block on coverage only when no target applies - when PRD, PLAN, user, or a `test-coverage` report defines a threshold (default **80%** on changed production files), treat below threshold as **Changes required**
 - Paste entire guideline files into the review output
 - Claim no PRD/PLAN or skip step 0.5 / SDD traceability without searching all locations in `STORAGE.md`
+- Force multi-angle by default, create separate mandatory blind-reviewer skills, or treat multi-angle as an automatic pipeline gate
 - **AI co-author trailers** - in any form. Under NO circumstances should you include `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-authored-by: Antigravity`, or any other AI agent attribution in commit messages or PR descriptions.
 
 ## Handoff
 
 | Situation | Next |
 |-----------|------|
+| After O3 (`orchestrate-develop`) completes | `use skill code-review` — optionally with multi-angle / multi-ângulo (suggested, never required) |
 | New feature / PRD from review findings | `use skill sdd-spec` - paste or summarize review items; do **not** write PRD in this skill |
 | Coverage below threshold | `use skill test-coverage` -> then `use skill dotnet-developer` or `use skill sdd-develop` |
 | Fixes needed | User or `use skill sdd-develop` / `use skill dotnet-developer` |
