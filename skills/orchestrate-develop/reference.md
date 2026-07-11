@@ -61,7 +61,8 @@ Parallel O3 is **supported**. Root cause of gate races is fixed by PLAN-scoped (
 |---------|-------------|
 | Two ready steps on **different** PLANs with disjoint file scopes + distinct `plan-{hash}.json` + user **sim** | Two children sharing one flat `{repo-hash}.json` for `step_confirmed` / `tests_run` |
 | Same PLAN steps marked parallel-safe + disjoint files + `plan-{hash}-step-{N}.json` each | Guessing independence without asking |
-| Serial default when unsure | Worktrees / multi-checkout for multi-US (out of MVP) |
+| Serial default when unsure; **cap 4** concurrent children (wave if more) | Worktrees / multi-checkout for multi-US (out of MVP) |
+| After any `plan-{hash}-step-*.json` exists for a PLAN, keep using PLAN+step for that PLAN | Mixing `plan-{hash}.json` and `plan-{hash}-step-N.json` on the same PLAN |
 
 Ask before parallel:
 

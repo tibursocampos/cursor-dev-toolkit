@@ -121,7 +121,7 @@ Modo de execução?
 | Choice | Behavior |
 |--------|----------|
 | **1 série** | Parent runs contracts sequentially; lower context risk |
-| **2 paralelo** | Spawn one Task per story for **drafts only**; parent aggregates, gates `sim`, then **parent** writes via `sdd-spec` / `sdd-plan` |
+| **2 paralelo** | Spawn one Task per story for **drafts only**; parent aggregates, gates `sim`, then **parent** writes via `sdd-spec` / `sdd-plan`. **Cap: 4** concurrent story Tasks; if N>4, wave in batches of ≤4 or prefer série |
 | **3** | Stop; no writes |
 
 Document the choice in `CONTINUITY.md` (decisões).
@@ -167,7 +167,8 @@ Offer **por história** vs **lote** when N > 1.
 
 | Answer | Action |
 |--------|--------|
-| **sim** | Mark story/feature deliver status; continue handoff |
+| **sim** (por história) | Set `write_confirmed` as needed per artifact write; write that story's PRD/PLAN; clear `write_confirmed` after; mark story deliver status; continue |
+| **sim** (lote) | **One** batch `sim` authorizes Write for **only** the PRD/PLAN paths listed in the approval table. Parent writes that set (serie within parent); set/clear `write_confirmed` around the batch (or per artifact if contracts require). Do **not** reuse a stale `write_confirmed=true` from an earlier story for unlisted paths |
 | **ajustar** | Revise named story via sdd-spec/sdd-plan contract; re-ask |
 | **cancelar** | Leave drafts; do not emit O3 / develop handoff as approved |
 | *(silence)* | **not** approval — wait |

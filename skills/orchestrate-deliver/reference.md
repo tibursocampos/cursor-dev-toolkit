@@ -107,7 +107,9 @@ Posso marcar como aprovados?
 | Scope | When |
 |-------|------|
 | **Por história** | User wants tight control; série default after each story |
-| **Lote** | N > 1 and user chose batch after parallel (or after all série drafts) |
+| **Lote** | N > 1 and user chose batch after parallel (or after all série drafts). One **sim** authorizes **only** paths listed in the approval table; clear/reset `write_confirmed` after the batch (do not reuse stale gate for unlisted paths) |
+
+Parallel Task cap: **4** concurrent story drafts; wave or prefer série when N>4.
 
 Silence / emoji / “ok” without **sim** is **not** approval.
 

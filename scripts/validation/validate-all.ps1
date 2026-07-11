@@ -18,6 +18,14 @@
 
 .PARAMETER RequiredGate
   Gate name when IncludeSessionGate is enabled.
+  Default write_confirmed (repo session). Develop gates require -PlanPath.
+
+.PARAMETER PlanPath
+  Forwarded to validate-session-gates.ps1. Required when RequiredGate is
+  step_confirmed or tests_run.
+
+.PARAMETER Step
+  Forwarded for PLAN+step develop sessions (0 = no step scope).
 
 .PARAMETER FailFast
   Stop on first failing check.
@@ -30,6 +38,9 @@
 
 .EXAMPLE
   .\scripts\validation\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
+
+.EXAMPLE
+  .\scripts\validation\validate-all.ps1 -IncludeSessionGate -RequiredGate step_confirmed -PlanPath "D:\...\PLAN_004_x.md"
 #>
 [CmdletBinding()]
 param(
@@ -38,6 +49,8 @@ param(
     [switch] $IncludeSessionGate,
     [ValidateSet('storage_confirmed', 'write_confirmed', 'step_confirmed', 'tests_run')]
     [string] $RequiredGate = 'write_confirmed',
+    [string] $PlanPath,
+    [int] $Step = 0,
     [switch] $FailFast,
     [switch] $Quiet
 )
@@ -124,11 +137,25 @@ if (-not ($FailFast -and ($results | Where-Object { $_.Status -eq 'FAIL' }))) {
 
 if (-not ($FailFast -and ($results | Where-Object { $_.Status -eq 'FAIL' }))) {
     if ($IncludeSessionGate) {
-        $result = Invoke-ValidationCheck `
-            -Name 'session-gate' `
-            -ScriptPath (Join-Path $scriptDir 'validate-session-gates.ps1') `
-            -Arguments @('-RepoPath', $RepoPath, '-RequiredGate', $RequiredGate)
-        $results += $result
+        $developGates = @('step_confirmed', 'tests_run')
+        if (($RequiredGate -in $developGates) -and [string]::IsNullOrWhiteSpace($PlanPath)) {
+            Write-Host "IncludeSessionGate with develop gate '$RequiredGate' requires -PlanPath. Use write_confirmed/storage_confirmed without PlanPath, or pass -PlanPath for develop gates." -ForegroundColor Red
+            $results += [PSCustomObject]@{ Name = 'session-gate'; Status = 'FAIL'; ExitCode = 1 }
+        }
+        else {
+            $gateArgs = @('-RepoPath', $RepoPath, '-RequiredGate', $RequiredGate)
+            if (-not [string]::IsNullOrWhiteSpace($PlanPath)) {
+                $gateArgs += @('-PlanPath', $PlanPath)
+            }
+            if ($Step -gt 0) {
+                $gateArgs += @('-Step', "$Step")
+            }
+            $result = Invoke-ValidationCheck `
+                -Name 'session-gate' `
+                -ScriptPath (Join-Path $scriptDir 'validate-session-gates.ps1') `
+                -Arguments $gateArgs
+            $results += $result
+        }
     }
     else {
         $results += [PSCustomObject]@{ Name = 'session-gate'; Status = 'SKIP'; ExitCode = 0 }

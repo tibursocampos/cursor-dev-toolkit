@@ -121,7 +121,7 @@ Files, tests, `N/M` (pt-BR). Handoff: new chat -> `use skill sdd-develop - <full
 - Create PRD/PLAN; skip PLAN save; modify `.gitignore`
 - Implement in Plan/Ask without Agent
 - Bypass one-step via orchestrator parent implementing code
-- Use only the flat `{repo-hash}.json` for `step_confirmed` / `tests_run` when a PLAN path is known (must use PLAN-scoped file; create scoped with gates false if missing)
+- Use the flat `{repo-hash}.json` for `step_confirmed` / `tests_run` when a PLAN path is known — always use the PLAN-scoped file (or PLAN+step); create scoped with gates false if missing
 
 ## Handoff
 

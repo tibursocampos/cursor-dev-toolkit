@@ -73,6 +73,8 @@ Load `STORAGE.md`. Run resolution with `$Workflow = classic`. Resolve feature ro
 - **repository** → `$Cwd/features/`
 - **global** → `<classic.path>/features/`
 
+**Path sanitize (required)** for any invoke / allocated feature path: normalize (`\` → `/`, trim trailing `/`, resolve `.`). Reject if it contains `..`, or if the resolved absolute path is **not** under the feature root above. Ask again in pt-BR for a canonical path — do not Read/Write outside the feature root.
+
 If first run for this repo: ask storage (pt-BR) per `STORAGE.md` and persist manifest. Confirm target workspace. Do **not** invent a feature path outside the resolved root.
 
 Repository mode: ensure SDD `.gitignore` patterns per `STORAGE.md` when writing under `features/` (do not weaken toolkit patterns; never ignore `skills/`).
@@ -124,7 +126,7 @@ Only continue to step 5+ if the user explicitly chooses **2**.
 
 ### 6. Spawn Task specialists (conditional, parallel)
 
-Spawn a Task subagent **only** when `ROSTER.md` canonical `needs_*` / brownfield rules say so. Load prompt from `skills/_shared/agents/prompts/`. When multiple specialists apply, spawn **in parallel**.
+Spawn a Task subagent **only** when `ROSTER.md` canonical `needs_*` / brownfield rules say so. Load prompt from `skills/_shared/agents/prompts/`. When multiple specialists apply, spawn **in parallel** — **cap: 4** concurrent Tasks; if more flags apply, batch in waves of ≤4 or ask (pt-BR) to run série.
 
 | Signal (see ROSTER) | Specialist | Prompt |
 |---------------------|------------|--------|
@@ -211,6 +213,7 @@ Do **not** paste full specialist dumps into the parent chat.
 - Modify toolkit `.gitignore` as part of porting this skill into the toolkit repo; at runtime follow `STORAGE.md` only for consumer repo SDD patterns
 - Change the `sdd-develop` one-step-per-session contract
 - Create `REFINE/` / `ANALYSIS/` / `ARCH/` / `SEC/` / `PRD/` / `PLAN/` at **repo root**
+- Resolve feature paths outside `$Cwd/features/` or `<classic.path>/features/`, or accept `..` segments
 
 ## Handoff
 

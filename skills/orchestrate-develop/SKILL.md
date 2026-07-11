@@ -153,7 +153,9 @@ Steps {A} e {B} parecem independentes. Executar em paralelo?
 
 Child prompt **must** include: `planPath`, `step`, and “load develop SESSION scoped per SESSION.md (PLAN or PLAN+step)”.
 
-If unsure about file independence → **série**. No git worktrees multi-US in MVP (RNF04). Parallelism is supported via scoped sessions — do **not** disable parallel as the only safe path.
+If unsure about file independence → **série**. **Cap: 4** concurrent parallel children; if more steps qualify, wave ≤4 or stay serial. No git worktrees multi-US in MVP (RNF04). Parallelism is supported via scoped sessions — do **not** disable parallel as the only safe path.
+
+**Same-PLAN scope rule:** if any `plan-{planHash}-step-*.json` exists for the PLAN, every spawn for that PLAN (including later serial ones) **must** use PLAN+step session files — do not mix with `plan-{planHash}.json`.
 
 ### 6. Stop conditions
 

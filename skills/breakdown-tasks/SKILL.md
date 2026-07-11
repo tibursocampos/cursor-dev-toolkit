@@ -47,8 +47,11 @@ In the **target workspace**, a grouped checklist (backend / frontend / tests) wi
 
 **Persistence (prefer in order):**
 
-1. `features/NNN-slug/USnn/REFINE/tasks.md` (or beside `STORY.md` as `TASKS.md` if user prefers flat)
-2. Shortcut: `docs/implementation-tasks/<slug>.md` (legacy alias `docs/sdd-developation-tasks/` still accepted)
+1. `features/NNN-slug/USnn/REFINE/tasks.md` — **default** when story folder exists
+2. `features/NNN-slug/USnn/TASKS.md` — only if user explicitly asks for flat beside `STORY.md` (do not invent both)
+3. Shortcut: `docs/implementation-tasks/<slug>.md` (legacy alias `docs/sdd-developation-tasks/` still accepted)
+
+If both `REFINE/tasks.md` and `TASKS.md` already exist: update **`REFINE/tasks.md`** and note the duplicate in chat (do not fork content into both).
 
 **No** creation of external work items; **no** mandatory DeskCheck, Datadog, or SDD-tag workflow tasks.
 
@@ -90,7 +93,7 @@ Apply `reference.md` § Grouping and § Topological order:
 
 ### 3. Build checklist file
 
-Write preferred path under the story folder (or shortcut) using `reference.md` § Output template:
+Write preferred path under the story folder (or shortcut) using `reference.md` § Output template — honor Persistence order above (`REFINE/tasks.md` default):
 
 - Implementation groups with `- [ ]` per original step (preserve titles and dependencies)
 - Separate **Tests** section when test steps exist

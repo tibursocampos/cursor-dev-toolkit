@@ -20,9 +20,17 @@ $env:USERPROFILE\.cursor\sdd\sessions\
 
 `{repo-hash}` = first 16 hex chars of SHA256 of normalized `$Cwd` (forward slashes, no trailing slash).
 
-`{plan-hash}` = first 16 hex chars of SHA256 of normalized **full PLAN path** (or Spec Kit `tasks.md` path) — forward slashes, no trailing slash.
+`{plan-hash}` = first 16 hex chars of SHA256 of normalized **full plan path** — forward slashes, no trailing slash. Allowed plan paths:
+
+| Consumer | Path hashed |
+|----------|-------------|
+| `sdd-develop` / O3 child | Classic `.../PLAN/PLAN_*.md` under `features/` |
+| `speckit-develop` | Spec Kit `tasks.md` |
+| `document-implement` | `$Cwd/docs/documentation-plan/plan.md` (or user-given alternate doc plan path) |
 
 Use **PLAN+step** files when `orchestrate-develop` spawns parallel children on the **same** PLAN (steps marked parallel-safe). Default Forma A / O3 série: one `plan-{plan-hash}.json` per PLAN.
+
+**Do not mix scopes on the same PLAN:** if any `plan-{planHash}-step-*.json` exists for that PLAN, serial spawns for that PLAN **must** also use PLAN+step files (never fall back to `plan-{planHash}.json` mid-feature).
 
 ## Repo session schema
 
@@ -76,14 +84,15 @@ Legacy repo files may still contain unused `step_confirmed` / `tests_run` keys. 
 6. Read session; use storage_confirmed / write_confirmed before Write/Shell that needs them.
 ```
 
-### Develop session (sdd-develop / speckit-develop / O3 child)
+### Develop session (sdd-develop / speckit-develop / document-implement / O3 child)
 
 ```
-1. Resolve full PLAN path (or tasks.md path). Normalize (\ -> /, trim trailing /).
-2. plan-hash = SHA256(normalized PLAN path)[0:16].
+1. Resolve full plan path (Classic PLAN, Spec Kit tasks.md, or docs/documentation-plan/plan.md).
+   Normalize (\ -> /, trim trailing /). Prefer absolute path.
+2. plan-hash = SHA256(normalized plan path)[0:16].
 3. repo-hash as above from $Cwd.
 4. Ensure sessionsDir\{repo-hash}\ exists.
-5. If parallel same-PLAN step N:
+5. If parallel same-PLAN step N, OR any plan-{plan-hash}-step-*.json already exists for this plan:
      sessionPath = sessionsDir\{repo-hash}\plan-{plan-hash}-step-{N}.json
    Else:
      sessionPath = sessionsDir\{repo-hash}\plan-{plan-hash}.json
@@ -94,14 +103,16 @@ Legacy repo files may still contain unused `step_confirmed` / `tests_run` keys. 
 8. Always read repo session separately for storage_confirmed / write_confirmed when those gates apply.
 ```
 
+**Windows:** always hash the **absolute** path with forward slashes. Agents and `validate-session-gates.ps1` must use the same absolute form (avoid relative `$Cwd` vs absolute mismatch).
+
 ## Gate rules
 
 | Gate | File | Set `true` when | Required for |
 |------|------|-----------------|--------------|
 | `storage_confirmed` | Repo | User chose local/global storage (first SDD run) | First PRD/sdd-spec write |
 | `write_confirmed` | Repo | User said **sim** to confirm-before-write | New PRD/PLAN/sdd-spec/sdd-plan/tasks |
-| `step_confirmed` | Develop (PLAN or PLAN+step) | User said **sim** to implement current step/task | `sdd-develop`, `speckit-develop`, `document-implement` |
-| `tests_run` | Develop (PLAN or PLAN+step) | Tests executed and reported | Before marking step/task done |
+| `step_confirmed` | Develop (PLAN or PLAN+step) | User said **sim** to implement current step/task | `sdd-develop`, `speckit-develop`, `document-implement` (hash `docs/documentation-plan/plan.md`) |
+| `tests_run` | Develop (PLAN or PLAN+step) | Tests executed and reported | Before marking step/task done (`document-implement`: doc write verified / reported — no `dotnet test` required) |
 
 ## Before Write or mutating Shell
 
@@ -133,7 +144,10 @@ Also require disjoint file scopes in the working tree (see `orchestrate-develop`
 .\scripts\validation\validate-session-gates.ps1 -RepoPath "D:\Source\Repos\MyApp" -RequiredGate write_confirmed
 .\scripts\validation\validate-session-gates.ps1 -RepoPath "D:\Source\Repos\MyApp" -PlanPath "D:\...\PLAN_004_x.md" -RequiredGate step_confirmed
 .\scripts\validation\validate-session-gates.ps1 -RepoPath "D:\Source\Repos\MyApp" -PlanPath "D:\...\PLAN_004_x.md" -Step 2 -RequiredGate tests_run
+.\scripts\validation\validate-session-gates.ps1 -RepoPath "D:\Source\Repos\MyApp" -PlanPath "D:\...\docs\documentation-plan\plan.md" -RequiredGate step_confirmed
 ```
+
+`-PlanPath` must exist and resolve under `-RepoPath` or under `~/.cursor/sdd/` (global classic).
 
 Exit 0 = gate approved; exit 1 = blocked.
 
@@ -142,6 +156,6 @@ Exit 0 = gate approved; exit 1 = blocked.
 | Consumer | Use |
 |----------|-----|
 | All skills | Step -1 gate check before Write/Shell |
-| `sdd-develop` / `speckit-develop` / O3 children | Develop session scoped by PLAN (or PLAN+step) |
+| `sdd-develop` / `speckit-develop` / `document-implement` / O3 children | Develop session scoped by plan path (or PLAN+step) |
 | `rules/guardrails.mdc` | References this file |
 | `rules/context-management.mdc` | Complements session gates |
