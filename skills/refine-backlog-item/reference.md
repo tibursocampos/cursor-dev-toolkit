@@ -4,33 +4,40 @@ Scorecard, guardrails, and boundaries for `skills/refine-backlog-item/SKILL.md`.
 
 ---
 
-## Boundary: refine-backlog-item vs spec
+## Boundary: refine vs O1 vs sdd-spec
 
-| Aspect | `refine-backlog-item` | `spec` |
-|--------|----------------------|--------|
-| Purpose | Fast intake - clarify a single backlog item | Full PRD for medium/high complexity features |
-| Output | Structured markdown + scorecard in chat | PRD with manifest, storage rules, traceability |
-| Persistence | Optional `docs/backlog/<slug>.md` - **not** a substitute for SDD PRD | `PRD/` or `docs/PRD/` or `~/.cursor/sdd/<repo-id>/PRD/` (see `STORAGE.md`, `PIPELINE.md`) |
-| Acceptance | BDD in item template; scorecard rubric | PRD acceptance criteria + SDD PLAN linkage |
-| When to escalate | User confirms feature spans multiple areas, migrations, or unclear scope | Invoke `use skill sdd-spec` - do not expand refine into a PRD inline |
+| Aspect | `refine-backlog-item` (Forma B) | `orchestrate-analyze` (O1) | `sdd-spec` (Forma A) |
+|--------|----------------------------------|----------------------------|----------------------|
+| Purpose | Fast intake - one backlog item + scorecard | Multi-agent triage + US/TS backlog for a feature | Full PRD for one story/feature |
+| Output | Structured markdown + scorecard | `FEATURE.md`, `CONTINUITY.md`, `STORY.md` × N | PRD under `features/.../PRD/` |
+| Persistence | Prefer `features/.../STORY.md`; shortcut `docs/backlog/` | Feature tree only | Canonical PRD path |
+| Specialists | None | Conditional Task (`needs_*`) | None (consumes Prior context) |
+| When to use | Informal idea, bug, single TS/US | Complex / multi-story / brownfield package | Ready to write PRD for one path |
+| Tracker | Never (no ADO/`az`) | Never | Never |
 
-`spec` does **not** replace refine for a one-line idea - refine first, then spec if needed.
+Escalate to **O1** when: multiple stories, unclear flags (`needs_*`), brownfield impact needs parallel specialists.
+
+Escalate to **sdd-spec** when: single story is clear enough for a PRD (or after refine approval).
+
+Do **not** expand refine into a full PRD inline.
 
 Handoff wording:
 
 ```
-This item is large enough for SDD. Next: use skill sdd-spec - then use skill sdd-plan.
+Item grande / multi-história: use skill orchestrate-analyze
+Item único pronto para PRD: use skill sdd-spec
+Checklist local: use skill breakdown-tasks
 ```
 
-Before suggesting `spec`, optionally Glob existing PRDs in **both** workspace (`PRD/*.md`, `docs/PRD/*.md`) and global (`~/.cursor/sdd/<repo-id>/PRD/*.md`) per `STORAGE.md` - mention if a related PRD already exists so the user can extend it instead of duplicating scope.
+Before suggesting `sdd-spec`, optionally Glob `features/**/PRD/` and legacy/global PRDs per `STORAGE.md`.
 
-`spec` owns storage choice (repository vs global), manifest, `.gitignore`, and confirm-before-write (`PIPELINE.md`); refine does **not** write PRD/PLAN files. `docs/backlog/` items must be promoted via `use skill sdd-spec`, not treated as PRD.
+`sdd-spec` owns storage choice, manifest, `.gitignore`, and confirm-before-write. Refine does **not** write PRD/PLAN. Promote `docs/backlog/` via `sdd-spec` or O1 - never treat backlog files as PRD.
 
 ---
 
 ## Scorecard rubric
 
-Score immediately after generating the markdown. Maximum **100** points.
+Score immediately after generating the markdown. Maximum **100** points. Portable document-task style (no corporate ADO fields).
 
 ### Universal criteria (all types)
 
@@ -75,7 +82,7 @@ Score immediately after generating the markdown. Maximum **100** points.
 ```markdown
 ---
 
-## 📊 Quality scorecard
+## Quality scorecard
 
 | Criterion | Score | Max | Note |
 |-----------|-------|-----|------|
@@ -88,18 +95,20 @@ Score immediately after generating the markdown. Maximum **100** points.
 | [type-specific 3] | [x] | [max] | [specific note] |
 | [type-specific 4] | [x] | [max] | [specific note] |
 
-### 🏆 Total: [sum] / 100
+### Total: [sum] / 100
 
-### ✅ Strengths
+### Strengths
 - [specific]
 
-### ⚠️ Improvements
+### Improvements
 - **[Criterion]**: [what is missing and how to fix]
 
 ---
 ```
 
 Rules: notes must be specific (not "OK"); improvements name exact gaps; incomplete user input reflected honestly.
+
+When persisting as `STORY.md`, copy a short scorecard summary into the template `Scorecard (resumo)` table (1-5 scale mapped from /100 bands: 80+ = 5, 60-79 = 4, 40-59 = 3, else ≤2).
 
 ---
 
@@ -112,12 +121,13 @@ Rules: notes must be specific (not "OK"); improvements name exact gaps; incomple
 - [ ] BDD uses **Given / When / Then / And**
 - [ ] No unit-test scenarios in acceptance criteria
 - [ ] No "verify environment variable X" as acceptance criteria
-- [ ] Section icons/headings match the type template when saving
+- [ ] Section icons/headings match the type template when saving chat form
 
 **Technical Story / User Story:**
 
 - [ ] Steps ordered by layer when applicable
 - [ ] Dependencies section omitted when none (not "N/A" filler)
+- [ ] Each step has explicit `Depends on:` for topological breakdown
 
 **User Story:**
 
@@ -133,7 +143,20 @@ If guardrails fail, ask for missing detail - do not publish incomplete docs.
 
 ---
 
-## Optional save: `docs/backlog/<slug>.md`
+## Optional save: feature STORY (preferred)
+
+```markdown
+# STORY: US01 — [title]
+...
+```
+
+Use `skills/_shared/templates/features/story/STORY.md`. Place under `features/NNN-slug/USnn/STORY.md`. Optional raw refine dump: `features/NNN-slug/USnn/REFINE/refine.md`.
+
+Do **not** create `REFINE/` at repo root.
+
+---
+
+## Optional save: `docs/backlog/<slug>.md` (shortcut)
 
 Prefix file with metadata:
 
@@ -146,6 +169,7 @@ Prefix file with metadata:
 | **Doc language** | pt-BR \| English |
 | **Refined** | YYYY-MM-DD |
 | **Repository** | [folder or remote name] |
+| **Preferred promote** | features/NNN-slug/USnn/STORY.md |
 
 [generated body]
 ```
@@ -157,14 +181,22 @@ Do not create `docs/backlog/` in **cursor-dev-toolkit** during toolkit porting -
 ## Relationship to breakdown-tasks
 
 | Skill | Use |
-|-------|-----|
-| `refine-backlog-item` | Produces steps under `### 🧩 Steps` (or Bug suggested fix) |
-| `breakdown-tasks` | Groups those steps into an implementation task checklist file |
+|-------|------|
+| `refine-backlog-item` | Produces steps under `### Steps` (or Bug suggested fix) with deps |
+| `breakdown-tasks` | Groups those steps with topological / layer grouping into a checklist |
 
 After refine, offer:
 
 ```
-use skill breakdown-tasks
+use skill breakdown-tasks - <story-or-backlog-path>
 ```
 
-Pass the saved path or ask the user to confirm the chat content is the source.
+---
+
+## Explicit exclusions
+
+Do **not** introduce:
+
+- `az` boards / ADO work item commands
+- Celebration, Keycloak, mandatory Sonar corp fields
+- Remote PATCH of work items

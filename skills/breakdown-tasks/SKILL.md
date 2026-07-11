@@ -1,6 +1,6 @@
 ---
 name: breakdown-tasks
-description: Break refined backlog steps into a grouped implementation task checklist saved locally (backend, frontend, tests). No tracker API or fixed corporate workflow tasks. Use when the user says "use skill breakdown-tasks", "break down tasks", or "/breakdown-tasks".
+description: Break refined backlog steps into a grouped implementation task checklist with dependency-aware (topological) grouping. Prefer features/... story folder; docs/ paths as shortcut. No tracker API. Use when the user says "use skill breakdown-tasks", "break down tasks", or "/breakdown-tasks".
 ---
 
 ## STOP - Read before ANY tool call
@@ -34,22 +34,30 @@ Invoke when the user asks for: `use skill breakdown-tasks`, `break down tasks`, 
 
 | Source | Example |
 |--------|---------|
+| Feature story | `features/004-export/US01/STORY.md` |
 | Path | `docs/backlog/my-feature.md` |
 | Chat | User confirms refined markdown from current session |
-| Pasted | User pastes the `### [Steps] Steps` section |
+| Pasted | User pastes the Steps section |
 
 Prerequisite: content includes structured **Steps** (or Bug **Suggested fix**). If missing, hand off to `use skill refine-backlog-item`.
 
 ## Outcome
 
-In the **target workspace**: `docs/sdd-developation-tasks/<slug>.md` - grouped checklists for implementation and tests. **No** creation of external work items; **no** mandatory DeskCheck, Datadog, or SDD-tag workflow tasks.
+In the **target workspace**, a grouped checklist (backend / frontend / tests) with **dependency-aware order** (portable plan-task style - no fixed corporate ADO tasks).
+
+**Persistence (prefer in order):**
+
+1. `features/NNN-slug/USnn/REFINE/tasks.md` (or beside `STORY.md` as `TASKS.md` if user prefers flat)
+2. Shortcut: `docs/implementation-tasks/<slug>.md` (legacy alias `docs/sdd-developation-tasks/` still accepted)
+
+**No** creation of external work items; **no** mandatory DeskCheck, Datadog, or SDD-tag workflow tasks.
 
 ## Lazy-load
 
 | When | Path |
 |------|------|
-| Grouping rules, output template, optional QA/PR hints | `skills/breakdown-tasks/reference.md` |
-| Resolve existing SDD PLAN path (handoff) | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` + `reference.md` section SDD PLAN resolution |
+| Grouping, topology, output template | `skills/breakdown-tasks/reference.md` |
+| Resolve SDD PLAN path (handoff) | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` + `reference.md` § SDD PLAN resolution |
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
 
 ## Process
@@ -57,8 +65,8 @@ In the **target workspace**: `docs/sdd-developation-tasks/<slug>.md` - grouped c
 ### 0. Workspace and source
 
 1. Confirm target repository.
-2. Load refined content from path, chat, or paste.
-3. Extract steps from `### [Steps] Steps` or Bug `### [Steps] Suggested fix` (see `reference.md` section Parsing).
+2. Load refined content from feature story, path, chat, or paste.
+3. Extract steps from Steps / Suggested fix (`reference.md` § Parsing).
 
 If no steps found, stop and suggest `use skill refine-backlog-item`.
 
@@ -66,48 +74,50 @@ If no steps found, stop and suggest `use skill refine-backlog-item`.
 
 Ask once:
 
-> Language for `docs/sdd-developation-tasks/` - **pt-BR** or **English**?
+> Language for the tasks file - **pt-BR** or **English**?
 
 Record in the output file header. Paths stay English.
 
-### 2. Group steps
+### 2. Group steps (deps + topology)
 
-Apply heuristics in `reference.md` section Grouping:
+Apply `reference.md` § Grouping and § Topological order:
 
-- Prefer `####` sub-headings when present
-- Else by repository / service name in step text
-- Else by layer (backend vs frontend vs tests)
-- Max **5** implementation groups - merge adjacent groups if needed
-- **Test steps** (layer Tests / integration / i18n tests) go to dedicated test groups, not mixed into feature implementation groups
+- Honor explicit `Depends on:` edges first (Kahn / levels)
+- Then layer / repo heuristics
+- Mark steps safe to run in parallel when no edge between them
+- Max **5** implementation groups - merge adjacent if needed
+- **Test steps** go to dedicated test groups
 
 ### 3. Build checklist file
 
-Write `docs/sdd-developation-tasks/<slug>.md` using `reference.md` section Output template:
+Write preferred path under the story folder (or shortcut) using `reference.md` § Output template:
 
 - Implementation groups with `- [ ]` per original step (preserve titles and dependencies)
 - Separate **Tests** section when test steps exist
-- Optional **Before PR** section from neutral checklist in reference (user may omit)
+- **Execution order** with critical path + parallel waves
+- Optional **Before PR** neutral checklist (user may omit)
 
-Do **not** inject fixed corporate tasks (AI tags, manual test evidence templates tied to org tools, DeskCheck, Sonar boilerplate as mandatory rows).
+Do **not** inject fixed corporate tasks (AI tags, DeskCheck, Sonar boilerplate as mandatory rows).
 
 ### 4. Summarize in chat
 
-Show group names, step ranges, output path, and suggested next skills.
+Show group names, dependency waves, output path, and suggested next skills.
 
 ### 5. Handoff
 
 | Situation | Next |
 |-----------|------|
-| Full SDD for the feature | `use skill sdd-spec` -> `use skill sdd-plan` -> `use skill sdd-develop` |
-| PLAN already exists | Resolve SDD PLAN per `STORAGE.md` (repo + `~/.cursor/sdd/<repo-id>/`); then `use skill sdd-develop - <full-plan-path> - Step 1` |
-| Code-only small .NET change | `use skill dotnet-developer` |
+| Multi-story / needs O1 | `use skill orchestrate-analyze` |
+| Full SDD for the story | `use skill sdd-spec` -> `use skill sdd-plan` -> `use skill sdd-develop` |
+| PLAN already exists | Resolve under `features/**/PLAN/` (then legacy); `use skill sdd-develop - <full-plan-path> - Step 1` |
+| Small code-only change | `use skill developer` / stack `*-developer` |
 | Commit checklist file | `use skill commit` |
 
 ## Must not
 
-- Create or update external tracker cards via API
-- Add fixed "workflow" tasks (DeskCheck, Datadog log links, SDD/DevAI tags) unless the user explicitly requests a custom section
-- Assume `docs/sdd-developation-tasks/` in cursor-dev-toolkit during porting
+- Create or update external tracker cards via API (`az`, ADO)
+- Add fixed "workflow" tasks (DeskCheck, Datadog, SDD/DevAI tags) unless the user explicitly requests a custom section
+- Assume toolkit repo paths during consumer runs
 - Write the file before the language question
 
 ## Handoff examples
@@ -117,5 +127,9 @@ use skill sdd-spec
 ```
 
 ```
-use skill sdd-plan
+use skill orchestrate-analyze
+```
+
+```
+use skill sdd-develop - features/004-export/US01/PLAN/PLAN_004_export.md - Step 1
 ```
