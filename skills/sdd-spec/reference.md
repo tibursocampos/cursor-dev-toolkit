@@ -10,15 +10,16 @@ Storage: `STORAGE.md`. Pipeline (confirm-before-write, canonical paths, modes): 
 
 | Part | Rule |
 |------|------|
-| Folder | From manifest: `PRD/`, `docs/PRD/`, or `~/.cursor/sdd/<repo-id>/PRD/` |
-| Sequence | Next `NNN` (3 digits) after listing PRDs in workspace **and** global folder for `<repo-id>` |
+| Folder | From manifest: `features/NNN-slug/USnn/PRD/` (Forma A default `US01`) or global under `<classic.path>/features/...` |
+| Sequence | Next `NNN` (3 digits) after listing PRDs under `features/**/PRD/` **and** legacy/global folders for `<repo-id>` |
 | Slug | Short ASCII summary (kebab-case or snake_case; Portuguese words allowed) |
-| Example (repo) | `PRD/002_exportacao_perfil_usuario.md` |
-| Example (global) | `~/.cursor/sdd/acme-payments-api/PRD/002_exportacao_perfil_usuario.md` |
+| Example (repo) | `features/002-exportacao-perfil/US01/PRD/002_exportacao_perfil_usuario.md` |
+| Example (global) | `~/.cursor/sdd/acme-payments-api/features/002-exportacao-perfil/US01/PRD/002_exportacao_perfil_usuario.md` |
+| Legacy (read only) | `PRD/002_....md` - migrate notice; do not write new files there |
 
 ## Storage and `.gitignore` (spec skill)
 
-Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (append the full four-line SDD block if any is missing). Run this on first SDD write in a repo even when creating only `PRD/` or `docs/PRD/`.
+Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure SDD block includes **`/features/`** plus legacy `/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` as documented. Run this on first SDD write in a repo.
 
 **Global** mode: no `.gitignore` changes.
 

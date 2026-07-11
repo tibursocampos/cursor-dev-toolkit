@@ -33,13 +33,51 @@ $centralArtifacts = @(
     'skills\_shared\sdd-artifacts\SESSION.md',
     'skills\_shared\sdd-artifacts\PIPELINE.md',
     'skills\_shared\sdd-artifacts\STORAGE.md',
-    'skills\_shared\SKILL_TEMPLATE.md'
+    'skills\_shared\SKILL_TEMPLATE.md',
+    'skills\_shared\templates\features\FEATURE.md',
+    'skills\_shared\templates\features\CONTINUITY.md',
+    'skills\_shared\templates\features\TREE.md',
+    'skills\_shared\templates\features\story\STORY.md',
+    'skills\_shared\agents\ROSTER.md',
+    'skills\_shared\agents\ROUTING.md'
 )
 
 foreach ($relative in $centralArtifacts) {
     $path = Join-Path $RepoRoot $relative
     if (-not (Test-Path -LiteralPath $path)) {
         $failures += "Missing central artifact: $relative"
+    }
+}
+
+$requiredFormaCSkills = @(
+    'orchestrate-analyze',
+    'orchestrate-deliver',
+    'orchestrate-develop'
+)
+foreach ($skillName in $requiredFormaCSkills) {
+    $skillPath = Join-Path $skillsRoot $skillName
+    if (-not (Test-Path -LiteralPath (Join-Path $skillPath 'SKILL.md'))) {
+        $failures += "Missing Forma C skill: skills/$skillName/SKILL.md"
+    }
+    if (-not (Test-Path -LiteralPath (Join-Path $skillPath 'reference.md'))) {
+        $failures += "Missing Forma C reference: skills/$skillName/reference.md"
+    }
+}
+
+$rosterPromptFiles = @(
+    'repo_analyst.md',
+    'architect.md',
+    'security.md',
+    'database.md',
+    'impact.md',
+    'risk.md',
+    'generate-story.md'
+)
+$promptsDir = Join-Path $RepoRoot 'skills\_shared\agents\prompts'
+foreach ($promptFile in $rosterPromptFiles) {
+    $promptPath = Join-Path $promptsDir $promptFile
+    if (-not (Test-Path -LiteralPath $promptPath)) {
+        $failures += "Missing roster prompt: skills/_shared/agents/prompts/$promptFile"
     }
 }
 
@@ -86,6 +124,7 @@ foreach ($dir in $skillDirs) {
 
     $workflowSkills = @(
         'speckit-plan', 'speckit-spec', 'speckit-develop', 'sdd-spec', 'sdd-plan', 'sdd-develop',
+        'orchestrate-analyze', 'orchestrate-deliver', 'orchestrate-develop',
         'code-review', 'test-coverage', 'developer', 'document-plan', 'document-implement'
     )
     if ($dir.Name -in $workflowSkills -and $lineCount -lt 100) {

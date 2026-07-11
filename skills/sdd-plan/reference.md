@@ -10,16 +10,17 @@ Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`. Pipeline gua
 
 | Part | Rule |
 |------|------|
-| Folder | From manifest: `PLAN/` at repo root or `~/.cursor/sdd/<repo-id>/PLAN/` |
+| Folder | Same story as PRD: `features/NNN-slug/USnn/PLAN/` (or global under `<classic.path>/features/...`) |
 | Sequence | Same `NNN` (3 digits) as the source PRD |
 | Slug | Short ASCII summary (kebab-case or snake_case; Portuguese allowed) |
-| Example (repo) | `PLAN/PLAN_002_exportacao_perfil_usuario.md` |
-| Example (global) | `~/.cursor/sdd/acme-payments-api/PLAN/PLAN_002_exportacao_perfil_usuario.md` |
-| PRD link | Full path to PRD on disk (repo or global) |
+| Example (repo) | `features/002-exportacao-perfil/US01/PLAN/PLAN_002_exportacao_perfil_usuario.md` |
+| Example (global) | `~/.cursor/sdd/acme-payments-api/features/002-exportacao-perfil/US01/PLAN/PLAN_002_exportacao_perfil_usuario.md` |
+| PRD link | Full path to PRD on disk (prefer `features/...`) |
+| Legacy (read only) | `PLAN/PLAN_002_....md` - migrate notice |
 
 ## Storage and `.gitignore` (plan skill)
 
-If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (same four-line block as `spec`; run even if only `PLAN/` will receive files). Update manifest (`artifact_language`, folders).
+If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore` (include `/features/`). Update manifest (`artifact_language`, folders). Do **not** write new PLANs at repo-root `PLAN/`.
 
 ## Product documentation language
 

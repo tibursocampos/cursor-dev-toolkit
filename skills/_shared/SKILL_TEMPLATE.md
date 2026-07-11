@@ -25,6 +25,8 @@ Gate check:
 -> If any unchecked: STOP
 ```
 
+For **`orchestrate-analyze` / `orchestrate-deliver` / `orchestrate-develop`**, change the PIPELINE line to: `PIPELINE.md read (required for orchestrate-*)`.
+
 ---
 
 ## Skill-specific sections (below the header)

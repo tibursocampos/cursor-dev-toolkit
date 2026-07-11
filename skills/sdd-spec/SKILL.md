@@ -32,7 +32,7 @@ Invoke when the user asks for: `use skill sdd-spec`, `create spec`, `new feature
 
 ## Outcome
 
-A complete **PRD** (agent `.md` artifact) in **Brazilian Portuguese (pt-BR)** at a **canonical** path (`PRD/`, `docs/PRD/`, or `~/.cursor/sdd/<repo-id>/PRD/`). English only if the user overrides in this invocation. Mandatory input for **sdd-plan**.
+A complete **PRD** (agent `.md` artifact) in **Brazilian Portuguese (pt-BR)** at a **canonical** path under `features/NNN-slug/USnn/PRD/` (Forma A default story `US01`; or `TSnn`). Global: `~/.cursor/sdd/<repo-id>/features/...`. Legacy root `PRD/` is **compat read only**. English only if the user overrides in this invocation. Mandatory input for **sdd-plan**.
 
 ## PRD boundaries
 
@@ -65,11 +65,11 @@ Check `~/.cursor/sdd/preferences.json`:
 
 ### 0. Workspace
 
-Target repo (not `cursor-dev-toolkit` unless subject). Read `AGENTS.md` / `README.md`. Detect stack. Resolve `<repo-id>`; glob PRDs (workspace + global) for `NNN`.
+Target repo (not `cursor-dev-toolkit` unless subject). Read `AGENTS.md` / `README.md`. Detect stack. Resolve `<repo-id>` and classic feature root (`STORAGE.md`). Glob PRDs under `features/**/PRD/` (workspace + global) for `NNN`; compat-read legacy `PRD/` if needed. Forma A default story folder = `US01` when unspecified.
 
 ### 1. Requirements
 
-**Prior context** (chat, code-review, backlog): structured summary + max **3** gap questions - skip full questionnaire (`PIPELINE.md` section Prior context).
+**Prior context** (chat, code-review, backlog, **feature siblings**): structured summary + max **3** gap questions - skip full questionnaire (`PIPELINE.md` section Prior context + Feature / story siblings). When under `features/NNN-slug/`, load `FEATURE.md`, `CONTINUITY.md`, and story `STORY.md` / optional `REFINE|ANALYSIS|ARCH|SEC` before asking.
 
 **Otherwise** ask (pt-BR):
 
@@ -100,17 +100,21 @@ Record `artifact_language` (default pt-BR) from manifest or user override.
 
 ### 7. Write PRD (Agent + sim only)
 
-1. Validate path per `PIPELINE.md` section Path validation - abort if non-canonical.
-2. Repository mode: `.gitignore` per `STORAGE.md` (all four patterns).
-3. `NNN_short_feature_slug.md`; body from `reference.md`.
+1. Validate path per `PIPELINE.md` section Path validation - abort if non-canonical (**new writes** only under `features/.../PRD/`).
+2. Repository mode: `.gitignore` per `STORAGE.md` (include `/features/`).
+3. Path: `features/NNN-slug/US01/PRD/NNN_short_feature_slug.md` (adjust story id); body from `reference.md`.
 4. Product `docs/` in scope: ask doc language first.
 
-Report path, storage, language, `.gitignore` changes. Handoff: `use skill sdd-plan - <full-prd-path>`.
+Report path, storage, language, `.gitignore` changes. Handoff with **full** feature path:
+
+```
+use skill sdd-plan - features/NNN-slug/US01/PRD/NNN_short_feature_slug.md
+```
 
 ## Must not
 
 - English PRD body by default; implementation code in PRD
-- `Write` outside canonical PRD folders; skip confirm-before-write
+- `Write` outside canonical feature PRD folders (no new root `PRD/`); skip confirm-before-write
 - `Edit`/`Write` production or test code; create PLAN in this session
 - Claim "PRD saved" without successful `Write`
 - External trackers; paste full guideline bodies into PRD
@@ -118,5 +122,5 @@ Report path, storage, language, `.gitignore` changes. Handoff: `use skill sdd-pl
 ## Handoff
 
 ```
-use skill sdd-plan - <full-prd-path>
+use skill sdd-plan - <full-prd-path-under-features>
 ```

@@ -32,7 +32,7 @@ Invoke when the user asks for: `use skill sdd-plan`, `create plan`, `execution p
 
 ## Outcome
 
-A **PLAN** in **pt-BR** at a **canonical** path (`PLAN/PLAN_NNN_*.md` or global). Same `NNN` as PRD. Each step = one `sdd-develop` session. Paths and test names in **English**; no code blocks.
+A **PLAN** in **pt-BR** at a **canonical** path under `features/NNN-slug/USnn/PLAN/PLAN_NNN_*.md` (same story as the PRD; global under `~/.cursor/sdd/<repo-id>/features/...`). Legacy root `PLAN/` is **compat read only**. Same `NNN` as PRD. Each step = one `sdd-develop` session. Paths and test names in **English**; no code blocks.
 
 ## Lazy-load (only when needed)
 
@@ -63,14 +63,15 @@ Target repo. Read `AGENTS.md` / `README.md` if present.
 
 ### 1. Resolve PRD
 
-Glob canonical PRDs (workspace + `~/.cursor/sdd/<repo-id>/PRD/`).
+Glob canonical PRDs under `features/**/PRD/` (workspace + global feature root). Compat-read legacy `PRD/` / `docs/PRD/` with migration notice.
 
 | Situation | Action |
 |-----------|--------|
-| User gave canonical PRD path | `Read`; validate status **Pronto para planejamento** / **Ready for planning** |
+| User gave canonical PRD path (prefer `features/.../PRD/`) | `Read`; validate status **Pronto para planejamento** / **Ready for planning** |
 | No canonical PRD | `PIPELINE.md` section `sdd-plan` without PRD - options 1 or 2; then collect text or file path |
 | "Criar PRD" | Choice **1** -> hand off to `sdd-spec` inputs; do not write PLAN until PRD exists (unless user chose **2**) |
-| Non-canonical `.md` | Promote per `PIPELINE.md` or ask for file |
+| Non-canonical `.md` | Promote per `PIPELINE.md` under `features/...` or ask for file |
+| PRD under feature story | Load Prior context siblings (`PIPELINE.md` § Feature / story siblings) |
 
 Summarize PRD; ask to proceed.
 
@@ -92,8 +93,8 @@ Glob/Grep/Read. Steps ~20-45 min each. Doc-update steps: **sdd-develop** asks do
 
 ### 6. Write PLAN (Agent + sim only)
 
-1. Validate canonical PLAN path; `NNN` **equals** PRD `NNN`.
-2. Repository mode: `.gitignore` per `STORAGE.md`.
+1. Validate canonical PLAN path under same story as PRD (`features/.../PLAN/`); `NNN` **equals** PRD `NNN`. Do **not** write new PLANs at repo-root `PLAN/`.
+2. Repository mode: `.gitignore` per `STORAGE.md` (include `/features/`).
 3. Template `reference.md`; PRD header = full PRD path; steps **Pendente**; `0/N`.
 4. Warn if overwriting PLAN with completed steps.
 
@@ -107,12 +108,12 @@ Present steps, deps, risks. Confirm first sdd-develop step.
 - Create or overwrite PRD; sdd-develop or commit here
 - Write PLAN without canonical PRD (except explicit user choice **2** with specs)
 - Skip confirm-before-write; claim PLAN saved without `Write`
-- `NNN` mismatch vs PRD
+- `NNN` mismatch vs PRD; new writes outside `features/.../PLAN/`
 
 ## Handoff
 
 ```
-use skill sdd-develop - <full-plan-path> - Step 1
+use skill sdd-develop - features/NNN-slug/US01/PLAN/PLAN_NNN_slug.md - Step 1
 ```
 
 One session = one PLAN step.

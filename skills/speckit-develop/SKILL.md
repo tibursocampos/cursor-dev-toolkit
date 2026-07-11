@@ -8,9 +8,9 @@ description: >
 ## STOP - Read before ANY tool call
 
 1. Read `~/.cursor/rules/guardrails.mdc`
-2. Read `_shared/sdd-artifacts/SESSION.md`; load session-state for `$Cwd`
+2. Read `_shared/sdd-artifacts/SESSION.md`; load **repo** session for `$Cwd`, then after `tasks.md` path is known load **develop** session scoped by that path (hash like PLAN — see `SESSION.md`)
 3. If the relevant gate is not approved: **STOP** - ask user **(pt-BR)** - do **NOT** Write/Shell
-4. SDD/develop skills: after **ONE** step/task, **STOP** session - handoff only
+4. SDD/develop skills: after **ONE** step/task, **STOP** that develop scope - handoff only
 5. This skill body is **English**; user-facing prompts may be **(pt-BR)**
 
 ### Step -1 - Gate check (report in chat before continuing)
@@ -18,7 +18,7 @@ description: >
 ```
 Gate check:
 [ ] guardrails.mdc read
-[ ] SESSION.md read; session-state loaded
+[ ] SESSION.md read; repo + develop (tasks.md-scoped) session loaded
 [ ] PIPELINE.md read (SDD/speckit skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
@@ -75,6 +75,8 @@ Glob: {destination}/.specify/specs/*/tasks.md
 | Path provided in handoff | `Read` directly |
 | Multiple tasks.md found | List them and ask which one (pt-BR) |
 | None found | Redirect to `speckit-plan` |
+
+After `tasks.md` path is known: load/create develop session scoped by that path per `SESSION.md` (same hashing rules as PLAN; gates `step_confirmed` / `tests_run` on the scoped file only).
 
 ### 2. Identify next task
 
