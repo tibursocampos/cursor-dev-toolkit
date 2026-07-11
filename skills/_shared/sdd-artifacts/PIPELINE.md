@@ -1,6 +1,6 @@
 # SDD pipeline guards (spec / plan / implement)
 
-Execution order, Cursor mode behavior, canonical paths, confirmation gates, and missing-artifact dialogs. Load at **step -1** of `sdd-spec`, `sdd-plan`, and `sdd-develop` - do not paste into PRD/PLAN bodies.
+Execution order, Cursor mode behavior, canonical paths, confirmation gates, and missing-artifact dialogs. Load at **step -1** of `sdd-spec`, `sdd-plan`, `sdd-develop`, and Forma C `orchestrate-*` - do not paste into PRD/PLAN bodies.
 
 Install path after sync: `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md`
 
@@ -54,20 +54,14 @@ Forma A when story unspecified: use **`US01`**.
 
 PLAN `NNN` **must match** source PRD `NNN`.
 
-### Compat read (legacy - one migration cycle)
+### Forbidden paths (not used)
 
-Still valid for **read** / continue develop only (emit migration notice; do not write new files here):
+Do **not** read, write, or continue Classic SDD from:
 
-- `PRD/NNN_*.md`, `docs/PRD/NNN_*.md`, `PLAN/PLAN_NNN_*.md`
-- Global: `~/.cursor/sdd/<repo-id>/PRD/`, `.../PLAN/`
-
-### Forbidden final destinations (new writes)
-
-Do **not** treat these as SDD PRD/PLAN for **new** writes:
-
-- Repo-root `PRD/` / `PLAN/` / `docs/PRD/` / `docs/PLAN/` (legacy only)
+- Repo-root `PRD/` / `PLAN/` / `docs/PRD/` / `docs/PLAN/` (gitignore safety net only — not an active flow)
+- Global-flat `~/.cursor/sdd/<repo-id>/PRD/` or `.../PLAN/` outside `features/`
 - Loose `REFINE/`, `ANALYSIS/`, `ARCH/`, `SEC/` at repo root
-- `~/.cursor/` outside `sdd/<repo-id>/features/` (or legacy global PRD/PLAN during compat)
+- `~/.cursor/` outside `sdd/<repo-id>/features/` (classic) or Spec Kit paths
 - `docs/backlog/*.md`, arbitrary `docs/*.md`, repo-root `*.md` without feature tree
 
 ### Promote non-canonical `.md`
@@ -138,7 +132,7 @@ When the working path is under `features/NNN-slug/` (or the user names that feat
 3. Prefer sibling content over re-asking; still max **3** gap questions.
 4. Keep parent chat lean: summarize + paths; do not paste full guideline bodies.
 
-Legacy: if only root `PRD/`/`PLAN/` exist, compat-read and note migration to `features/`.
+If no `features/` artifacts exist, do **not** fall back to root `PRD/`/`PLAN/` — ask the user to create via `sdd-spec` / Forma C.
 
 ## Missing canonical artifact - ask before handoff
 
@@ -147,7 +141,7 @@ Use **one** structured question (pt-BR). Do not invent PRD/PLAN or write code in
 ### `plan` without PRD on disk
 
 ```text
-Não encontrei um PRD em features/**/PRD/NNN_*.md (nem legado PRD/, nem ~/.cursor/sdd/<repo-id>/...).
+Não encontrei um PRD em features/**/PRD/NNN_*.md (nem sob ~/.cursor/sdd/<repo-id>/features/...).
 
 Como prefere continuar?
 
@@ -165,11 +159,11 @@ Explicit “criar PRD” while invoking `plan` -> treat as choice **1**; do not 
 ### `sdd-develop` without PLAN on disk
 
 ```text
-Não encontrei um PLAN em features/**/PLAN/PLAN_NNN_*.md (nem legado PLAN/, nem global).
+Não encontrei um PLAN em features/**/PLAN/PLAN_NNN_*.md (nem sob ~/.cursor/sdd/<repo-id>/features/...).
 
 1) Criar PRD + PLAN antes (spec -> plan)
 2) Só criar o PLAN - você envia PRD ou especificações na próxima mensagem
-3) Você já tem um arquivo de plano - informe o caminho (será validado/promovido se necessário)
+3) Você já tem um arquivo de plano - informe o caminho sob features/ (será validado/promovido se necessário)
 ```
 
 | Choice | Action |
@@ -185,7 +179,7 @@ Before `Write`, confirm the target matches **new-write** patterns:
 - PRD: `features/[^/]+/(US|TS)\d+/PRD/\d{3}_.+\.md` (workspace-relative) or same under `.../sdd/<repo-id>/features/`
 - PLAN: `features/[^/]+/(US|TS)\d+/PLAN/PLAN_\d{3}_.+\.md` or global equivalent
 
-**Compat:** reading legacy `(PRD|docs/PRD)/\d{3}_.+\.md` and `PLAN/PLAN_\d{3}_.+\.md` is allowed; writing there for **new** artifacts is not.
+Root or flat `PRD/` / `PLAN/` paths are **invalid** for Classic SDD — promote under `features/` before write/develop.
 
 ### Forma A path example (full)
 

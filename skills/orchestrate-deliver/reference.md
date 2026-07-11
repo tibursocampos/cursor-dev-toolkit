@@ -8,7 +8,7 @@ Modes, approval gates, path layout, CONTINUITY checklist, handoff examples, and 
 
 Before any PRD/PLAN write:
 
-- [ ] Gate check reported; `step_confirmed` / user **sim** for this O2 run
+- [ ] Gate check reported; `write_confirmed` / user **sim** for this O2 run (O2 writes PRD/PLAN — not develop `step_confirmed`)
 - [ ] Feature path resolved (`STORAGE.md`, `$Workflow = classic`)
 - [ ] `FEATURE.md` + `CONTINUITY.md` exist
 - [ ] Backlog human-approved (FEATURE/stories `approved`, or explicit **sim** in this session recorded)
@@ -89,7 +89,7 @@ O2 em `{feature-path}` — {N} histórias.
 Modo de execução?
 
 1) série — uma história por vez (spec → plan → aprovação)
-2) paralelo — Task por história (spec+plan no filho); agregação e aprovação no pai
+2) paralelo — Task por história (filho só rascunha PRD/PLAN; Write só no pai após sim); agregação e aprovação no pai
 3) cancelar
 ```
 

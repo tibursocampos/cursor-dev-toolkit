@@ -11,15 +11,14 @@ Storage: `STORAGE.md`. Pipeline (confirm-before-write, canonical paths, modes): 
 | Part | Rule |
 |------|------|
 | Folder | From manifest: `features/NNN-slug/USnn/PRD/` (Forma A default `US01`) or global under `<classic.path>/features/...` |
-| Sequence | Next `NNN` (3 digits) after listing PRDs under `features/**/PRD/` **and** legacy/global folders for `<repo-id>` |
+| Sequence | Next `NNN` (3 digits) after listing PRDs under `features/**/PRD/` only (workspace + global feature root for `<repo-id>`) |
 | Slug | Short ASCII summary (kebab-case or snake_case; Portuguese words allowed) |
 | Example (repo) | `features/002-exportacao-perfil/US01/PRD/002_exportacao_perfil_usuario.md` |
 | Example (global) | `~/.cursor/sdd/acme-payments-api/features/002-exportacao-perfil/US01/PRD/002_exportacao_perfil_usuario.md` |
-| Legacy (read only) | `PRD/002_....md` - migrate notice; do not write new files there |
 
 ## Storage and `.gitignore` (spec skill)
 
-Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure SDD block includes **`/features/`** plus legacy `/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` as documented. Run this on first SDD write in a repo.
+Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure SDD block includes **`/features/`**. Keep `/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` in `.gitignore` **only as a safety net** (not active Classic SDD paths). Run this on first SDD write in a repo.
 
 **Global** mode: no `.gitignore` changes.
 
@@ -252,7 +251,7 @@ Use only when the user requests English in the skill invocation. Same structure;
 ## Quality checklist (before handoff)
 
 - [ ] User confirmed **sim** on canonical path (`PIPELINE.md` § Confirm before write)
-- [ ] Path matches `PRD/NNN_*.md`, `docs/PRD/NNN_*.md`, or global `.../PRD/NNN_*.md`
+- [ ] Path matches `features/**/PRD/NNN_*.md` or global `.../features/**/PRD/NNN_*.md` only
 - [ ] No implementation code in the PRD; no production/test code edited in `spec` session
 - [ ] Every acceptance criterion is testable
 - [ ] Complexity and risks documented

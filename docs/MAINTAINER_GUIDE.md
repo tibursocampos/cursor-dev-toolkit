@@ -70,7 +70,15 @@ Path: `~/.cursor/sdd/manifest.json` - `schema_version: 2`, per-repo `classic` + 
 
 ## Session gates
 
-Path: `~/.cursor/sdd/sessions/{repo-hash}.json` - see `SESSION.md`.
+See `skills/_shared/sdd-artifacts/SESSION.md`.
+
+| Scope | Path | Gates |
+|-------|------|-------|
+| Repo | `~/.cursor/sdd/sessions/{repo-hash}.json` | `storage_confirmed`, `write_confirmed` |
+| Develop (PLAN) | `~/.cursor/sdd/sessions/{repo-hash}/plan-{plan-hash}.json` | `step_confirmed`, `tests_run` |
+| Develop (PLAN+step) | `~/.cursor/sdd/sessions/{repo-hash}/plan-{plan-hash}-step-{N}.json` | same (parallel O3 on one PLAN) |
+
+Develop gates always require `-PlanPath` in `validate-session-gates.ps1`. New scoped files start with gates `false` — never copy develop gates from the flat repo JSON.
 
 ## Maintenance scripts (`maintainers/`)
 

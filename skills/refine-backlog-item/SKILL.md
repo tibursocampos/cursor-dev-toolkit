@@ -59,7 +59,7 @@ Does **not** create or update cards in external work-item trackers.
 
 Confirm **target repository**. Summarize detected stack via Glob if useful.
 
-Do **not** assume there is no PRD because root `PRD/` is missing - check `features/**/PRD/` and global per `STORAGE.md`.
+Do **not** assume there is no PRD because root `PRD/` is missing - check `features/**/PRD/` (and global `.../features/**/PRD/`) per `STORAGE.md`. Root/flat `PRD/` is not a Classic SDD path.
 
 ### 1. Select item type
 

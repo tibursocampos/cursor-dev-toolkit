@@ -72,7 +72,7 @@ See [impeccable-integration.md](impeccable-integration.md). Do **not** use Antig
 
 | Skill | Purpose |
 |-------|---------|
-| `code-review` | Structured review vs PRD/PLAN; optional multi-angle (quality / acceptance / security) |
+| `code-review` | Structured review vs PRD/PLAN; asks single vs multi-angle if not specified (quality / acceptance / security) |
 | `fix-build` | Diagnose/fix build and tests |
 | `test-coverage` | .NET Coverlet coverage report |
 | `commit` | Conventional commit on valid branch |

@@ -7,7 +7,7 @@ Context and PLAN checkpoint helpers. Installed under `~/.cursor/` by `scripts/sy
 | Hook | Script | Purpose |
 |------|--------|---------|
 | `beforeSubmitPrompt` | `hooks/context-before-prompt.ps1` | Detect SDD/speckit skill invocations and record session state |
-| `afterFileEdit` | `hooks/plan-after-edit.ps1` | Record edits to `PLAN/PLAN_*.md` (repo or `~/.cursor/sdd/<repo-id>/PLAN/`) |
+| `afterFileEdit` | `hooks/plan-after-edit.ps1` | Record edits to `features/**/PLAN/PLAN_*.md` (repo or `~/.cursor/sdd/<repo-id>/features/**/PLAN/`) |
 | `preCompact` | `hooks/context-pre-compact.ps1` | Show user message before context compaction (40%/80% thresholds) |
 
 ## What hooks do not do
@@ -54,10 +54,10 @@ Written under `~/.cursor/hooks-state/`:
 ```powershell
 cd path\to\cursor-dev-toolkit
 
-'{"prompt":"use skill sdd-develop - PLAN/PLAN_003_feature.md - Step 1","attachments":[]}' |
+'{"prompt":"use skill sdd-develop - features/003-feature/US01/PLAN/PLAN_003_feature.md - Step 1","attachments":[]}' |
   powershell -NoProfile -File hooks\context-before-prompt.ps1
 
-'{"file_path":"D:/proj/PLAN/PLAN_003_feature.md","edits":[]}' |
+'{"file_path":"D:/proj/features/003-feature/US01/PLAN/PLAN_003_feature.md","edits":[]}' |
   powershell -NoProfile -File hooks\plan-after-edit.ps1
 
 '{"trigger":"auto","context_usage_percent":85,"context_tokens":120000,"context_window_size":200000,"message_count":10,"messages_to_compact":5,"is_first_compaction":false}' |

@@ -77,7 +77,7 @@ Sem sync, `use skill orchestrate-*` pode falhar (skills só existem em `~/.curso
 | O2 Spec/Plan | `use skill orchestrate-deliver - <full-feature-path>` |
 | O3 Develop | `use skill orchestrate-develop - <full-feature-path>` |
 | Develop manual | `use skill sdd-develop - <full-plan-path> - Step N` |
-| Review | `use skill code-review` (opcional: `multi-angle` / `ângulos: qualidade, aceite, segurança`) |
+| Review | `use skill code-review` (passe `single` ou `multi-angle`; se omitir, a skill pergunta) |
 
 `<full-feature-path>` — exemplo: `features/004-nuget-extract/`
 
@@ -97,7 +97,7 @@ Sem sync, `use skill orchestrate-*` pode falhar (skills só existem em `~/.curso
 ### O2 — `orchestrate-deliver`
 
 1. Informe o path da feature aprovada.
-2. Escolha modo **série** ou **paralelo** (um filho por história).
+2. Escolha modo **série** ou **paralelo**. Em paralelo: cada filho **só rascunha** PRD/PLAN; o pai agrega, pede **sim** e grava.
 3. Cada história recebe `PRD/` + `PLAN/` (contratos sdd-spec / sdd-plan).
 4. Aprove PRD/PLAN por história ou em lote.
 5. Receba a tabela de paths + invokes para develop / O3.
@@ -106,7 +106,7 @@ Sem sync, `use skill orchestrate-*` pode falhar (skills só existem em `~/.curso
 
 1. O3: pai atualiza CONTINUITY e dispara **um** subagente por passo pendente (deps respeitadas).
 2. Manual: nova sessão por passo — `use skill sdd-develop - <plan> - Step N`.
-3. Ao concluir a história: `use skill code-review` (multi-ângulo opt-in).
+3. Ao concluir a história: `use skill code-review` (single ou multi-ângulo; se omitir, a skill pergunta).
 
 ---
 
@@ -126,7 +126,7 @@ features/NNN-slug/
     └── PLAN/
 ```
 
-Leitura de `PRD/` / `PLAN/` legados na raiz ainda funciona por um ciclo; **novos writes** sob `features/`. Detalhes: `STORAGE.md` / `PIPELINE.md` após sync.
+Leitura e gravação Classic SDD **somente** sob `features/NNN-slug/...` (repo ou global). Pastas `PRD/` / `PLAN/` na raiz **não** fazem parte do fluxo ativo (só safety-net no `.gitignore`). Detalhes: `STORAGE.md` / `PIPELINE.md` após sync.
 
 ---
 
@@ -192,7 +192,7 @@ use skill orchestrate-deliver - features/004-nuget-extract/
 
 ### Chat 2 — O2 (paralelo)
 
-Modo paralelo: um Task por história para contratos sdd-spec → sdd-plan. Após aprovação, handoff típico:
+Modo paralelo: um Task por história **rascunha** PRD/PLAN (sem Write em disco). Pai agrega → aprovação humana → pai grava via contratos `sdd-spec` / `sdd-plan`. Após aprovação, handoff típico:
 
 ```text
 ## Handoff O2 → develop
@@ -214,7 +214,7 @@ use skill orchestrate-develop - features/004-nuget-extract/
 ### Chat 3+ — develop e review
 
 - Preferir **uma história por vez** (ex.: TS01 até 100%, depois TS02).
-- Após código: `use skill code-review` — opcionalmente com multi-ângulo.
+- Após código: `use skill code-review` — passe `single`/`multi-angle` ou deixe a skill perguntar.
 - Commit: `use skill commit` (após **sim**).
 
 ---

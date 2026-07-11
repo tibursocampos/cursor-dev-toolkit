@@ -40,7 +40,7 @@ Use **PLAN+step** files when `orchestrate-develop` spawns parallel children on t
 }
 ```
 
-Legacy repo files may still contain `step_confirmed` / `tests_run`. On first develop load with a PLAN path, **migrate** those two gates into the scoped develop file (read legacy, write scoped, then clear develop gates on the repo file or leave them unused). Do not delete the legacy file without reading it.
+Legacy repo files may still contain unused `step_confirmed` / `tests_run` keys. On first develop load with a PLAN path, create a **new** scoped develop file with those gates **always `false`**. Do **not** copy develop-gate values from the flat repo JSON (that would inherit another PLAN's approval). Optionally clear `step_confirmed` / `tests_run` on the flat repo file after the scoped file exists so they are unused.
 
 ## Develop session schema
 
@@ -87,9 +87,9 @@ Legacy repo files may still contain `step_confirmed` / `tests_run`. On first dev
      sessionPath = sessionsDir\{repo-hash}\plan-{plan-hash}-step-{N}.json
    Else:
      sessionPath = sessionsDir\{repo-hash}\plan-{plan-hash}.json
-6. If scoped file missing:
-   a. If legacy sessionsDir\{repo-hash}.json has step_confirmed/tests_run, copy them into a new scoped file (migration).
-   b. Else create default develop schema (gates false).
+6. If scoped file missing: create default develop schema with step_confirmed / tests_run = false
+   (never copy develop gates from the flat repo JSON). Optionally remove step_confirmed / tests_run
+   from the flat repo file so they cannot be read by mistake.
 7. Read scoped session for step_confirmed / tests_run.
 8. Always read repo session separately for storage_confirmed / write_confirmed when those gates apply.
 ```

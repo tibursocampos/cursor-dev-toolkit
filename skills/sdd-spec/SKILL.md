@@ -32,7 +32,7 @@ Invoke when the user asks for: `use skill sdd-spec`, `create spec`, `new feature
 
 ## Outcome
 
-A complete **PRD** (agent `.md` artifact) in **Brazilian Portuguese (pt-BR)** at a **canonical** path under `features/NNN-slug/USnn/PRD/` (Forma A default story `US01`; or `TSnn`). Global: `~/.cursor/sdd/<repo-id>/features/...`. Legacy root `PRD/` is **compat read only**. English only if the user overrides in this invocation. Mandatory input for **sdd-plan**.
+A complete **PRD** (agent `.md` artifact) in **Brazilian Portuguese (pt-BR)** at a **canonical** path under `features/NNN-slug/USnn/PRD/` (Forma A default story `US01`; or `TSnn`). Global: `~/.cursor/sdd/<repo-id>/features/...`. Root/flat `PRD/` is **not** a valid Classic SDD path. English only if the user overrides in this invocation. Mandatory input for **sdd-plan**.
 
 ## PRD boundaries
 
@@ -65,7 +65,7 @@ Check `~/.cursor/sdd/preferences.json`:
 
 ### 0. Workspace
 
-Target repo (not `cursor-dev-toolkit` unless subject). Read `AGENTS.md` / `README.md`. Detect stack. Resolve `<repo-id>` and classic feature root (`STORAGE.md`). Glob PRDs under `features/**/PRD/` (workspace + global) for `NNN`; compat-read legacy `PRD/` if needed. Forma A default story folder = `US01` when unspecified.
+Target repo (not `cursor-dev-toolkit` unless subject). Read `AGENTS.md` / `README.md`. Detect stack. Resolve `<repo-id>` and classic feature root (`STORAGE.md`). Glob PRDs under `features/**/PRD/` only (workspace + global feature root) for `NNN`. Forma A default story folder = `US01` when unspecified.
 
 ### 1. Requirements
 
@@ -100,8 +100,8 @@ Record `artifact_language` (default pt-BR) from manifest or user override.
 
 ### 7. Write PRD (Agent + sim only)
 
-1. Validate path per `PIPELINE.md` section Path validation - abort if non-canonical (**new writes** only under `features/.../PRD/`).
-2. Repository mode: `.gitignore` per `STORAGE.md` (include `/features/`).
+1. Validate path per `PIPELINE.md` section Path validation - abort if non-canonical (**writes** only under `features/.../PRD/`).
+2. Repository mode: `.gitignore` per `STORAGE.md` (include `/features/`; keep `/PRD/` `/PLAN/` as safety net only).
 3. Path: `features/NNN-slug/US01/PRD/NNN_short_feature_slug.md` (adjust story id); body from `reference.md`.
 4. Product `docs/` in scope: ask doc language first.
 
@@ -114,7 +114,7 @@ use skill sdd-plan - features/NNN-slug/US01/PRD/NNN_short_feature_slug.md
 ## Must not
 
 - English PRD body by default; implementation code in PRD
-- `Write` outside canonical feature PRD folders (no new root `PRD/`); skip confirm-before-write
+- `Write` outside canonical feature PRD folders (never root/flat `PRD/`); skip confirm-before-write
 - `Edit`/`Write` production or test code; create PLAN in this session
 - Claim "PRD saved" without successful `Write`
 - External trackers; paste full guideline bodies into PRD

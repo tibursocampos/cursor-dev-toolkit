@@ -29,7 +29,7 @@ Item único pronto para PRD: use skill sdd-spec
 Checklist local: use skill breakdown-tasks
 ```
 
-Before suggesting `sdd-spec`, optionally Glob `features/**/PRD/` and legacy/global PRDs per `STORAGE.md`.
+Before suggesting `sdd-spec`, optionally Glob `features/**/PRD/` (workspace + global feature root) per `STORAGE.md`. Do **not** glob root/flat `PRD/` for execution.
 
 `sdd-spec` owns storage choice, manifest, `.gitignore`, and confirm-before-write. Refine does **not** write PRD/PLAN. Promote `docs/backlog/` via `sdd-spec` or O1 - never treat backlog files as PRD.
 

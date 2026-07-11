@@ -26,4 +26,4 @@ Orchestrators and specialists **do not** reimplement stack work. Point implement
 
 ## Review
 
-After O3 or manual develop: `use skill code-review` (multi-angle opt-in is separate step).
+After O3 or manual develop: `use skill code-review` (name `- single` or `- multi-angle`, or let the skill ask — no silent default).

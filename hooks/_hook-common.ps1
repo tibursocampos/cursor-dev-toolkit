@@ -74,5 +74,5 @@ function Test-SddSkillPrompt([string] $Prompt) {
     if ([string]::IsNullOrWhiteSpace($Prompt)) {
         return $false
     }
-    return $Prompt -match '(?i)use\s+skill\s+(sdd-spec|sdd-plan|sdd-develop|speckit-[a-z-]+|commit|push|code-review|developer|document-plan|document-implement|refine-backlog-item|breakdown-tasks|fix-build|test-coverage|add-migrations|create-message-consumer|refactor|api-integrate|performance-profile|containerize|i18n-manager)'
+    return $Prompt -match '(?i)use\s+skill\s+(sdd-spec|sdd-plan|sdd-develop|orchestrate-analyze|orchestrate-deliver|orchestrate-develop|speckit-[a-z-]+|commit|push|code-review|developer|document-plan|document-implement|refine-backlog-item|breakdown-tasks|fix-build|test-coverage|add-migrations|create-message-consumer|refactor|api-integrate|performance-profile|containerize|i18n-manager)'
 }

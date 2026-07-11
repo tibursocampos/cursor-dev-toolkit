@@ -9,9 +9,10 @@ alwaysApply: true
 
 | In scope | Out of scope |
 |----------|--------------|
-| `PRD/*.md`, `docs/PRD/*.md`, global PRD paths | `.specify/specs/**/spec.md`, `plan.md`, `tasks.md` |
-| `PLAN/PLAN_*.md`, global PLAN paths | Source code, tests, configs |
+| `features/**/PRD/*.md`, global `.../features/**/PRD/` | `.specify/specs/**/spec.md`, `plan.md`, `tasks.md` |
+| `features/**/PLAN/PLAN_*.md`, global `.../features/**/PLAN/` | Source code, tests, configs |
 | Progress, step notes, checkboxes inside those PLAN files | Project `docs/`, README, ADRs (ask user) |
+| | Root/flat `PRD/` / `PLAN/` (not valid Classic SDD paths) |
 
 This rule does **not** change code language. It does **not** default project documentation to pt-BR.
 

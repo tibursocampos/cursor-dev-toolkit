@@ -117,7 +117,7 @@ Only continue to step 5+ if the user explicitly chooses **2**.
 
 ### 5. Allocate NNN-slug and scaffold tree
 
-1. Glob existing `NNN` under features + legacy PRD/PLAN (workspace + global) per `STORAGE.md`. Next = max + 1.
+1. Glob existing `NNN` under `features/*/` only (workspace + global feature root) per `STORAGE.md`. Next = max + 1. Do **not** number from root/flat `PRD/` or `PLAN/`.
 2. Propose `NNN-slug` (kebab-case) and **full path**.
 3. Confirm before first Write (pt-BR): **“Posso gravar a árvore em `{path}`? (sim / ajustar / cancelar)”** — silence ≠ approval.
 4. Create from templates: `FEATURE.md`, `CONTINUITY.md`, story folders `USnn`/`TSnn` as needed. Optional subfolders (`ANALYSIS/`, `ARCH/`, `SEC/`, `REFINE/`) **on demand** under the story — never at repo root. Do **not** create `PRD/` / `PLAN/` yet (O2).

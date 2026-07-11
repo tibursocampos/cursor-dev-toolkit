@@ -86,6 +86,27 @@ else {
     $failures += 'docs/SKILLS.md missing (required catalog)'
 }
 
+# Anti-regression: Forma A guide must teach features/ storage
+$guide01 = Join-Path $docsRoot 'guides\01-sdd-workflow.md'
+if (-not (Test-Path -LiteralPath $guide01)) {
+    $failures += 'docs/guides/01-sdd-workflow.md missing'
+}
+else {
+    $guide01Content = Get-Content -LiteralPath $guide01 -Raw
+    if ($guide01Content -notmatch 'features/') {
+        $failures += 'docs/guides/01-sdd-workflow.md must mention features/ (canonical Classic SDD storage)'
+    }
+}
+
+# Anti-regression: O3 must not advertise silent multi-angle opt-in
+$o3Skill = Join-Path $skillsRoot 'orchestrate-develop\SKILL.md'
+if (Test-Path -LiteralPath $o3Skill) {
+    $o3Head = (Get-Content -LiteralPath $o3Skill -TotalCount 5) -join "`n"
+    if ($o3Head -match 'multi-angle opt-in') {
+        $failures += 'skills/orchestrate-develop/SKILL.md description must not say multi-angle opt-in (ask mode)'
+    }
+}
+
 if ($failures.Count -gt 0) {
     Write-Host 'Docs consistency validation FAILED:' -ForegroundColor Red
     $failures | ForEach-Object { Write-Host "  $_" -ForegroundColor Red }

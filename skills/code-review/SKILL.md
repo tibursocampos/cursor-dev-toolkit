@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Review a branch or diff against PRD/PLAN acceptance, project standards, and shared guidelines. Produces a structured report (critical, important, nice-to-have). Use when the user says "use skill code-review", "review this PR", or "/code-review". Git-only - optional GitHub PR via gh CLI.
+description: Review a branch or diff against PRD/PLAN acceptance, project standards, and shared guidelines. Asks single vs multi-angle when not specified. Produces a structured report (critical, important, nice-to-have). Use when the user says "use skill code-review", "review this PR", or "/code-review". Git-only - optional GitHub PR via gh CLI.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,20 @@ Gate check:
 
 Invoke when the user asks for: `use skill code-review`, `review this PR`, `code review`, or `/code-review`.
 
-Optional opt-in flags (do **not** enable by default): `multi-angle` / `multi-ângulo`, or `ângulos: qualidade, aceite, segurança` (subset allowed).
+**Review mode (mandatory choice - no silent default):**
+
+| Mode | Explicit invoke examples |
+|------|--------------------------|
+| **Single** | `single`, `single-angle`, `simples` |
+| **Multi-angle** | `multi-angle`, `multi-ângulo`, or `ângulos: qualidade, aceite, segurança` (subset allowed) |
+
+If the invocation does **not** name single **or** multi-angle: **STOP** after gate check (-1) / before deep diff analysis - ask once **(pt-BR)** and wait. Do **not** assume single. Do **not** assume multi.
+
+```text
+Modo de code-review?
+1) single - um revisor (passos -1..8)
+2) multi-ângulo - qualidade + aceite + segurança (ou diga o subset)
+```
 
 ## Outcome
 
@@ -41,6 +54,7 @@ A structured **review report** with severity tiers (critical / important / nice-
 | Base branch | `main`, `develop` - ask once if missing |
 | Feature branch | Current branch or named branch |
 | PRD / PLAN (SDD) | Optional in invocation; **resolve in step 0.5** if omitted (see `reference.md` section SDD artifact resolution) |
+| Review mode | Explicit in invoke **or** answer to step 0.25 - never silent default |
 
 Ask the user **only after** step 0.5 if zero or multiple PRD/PLAN pairs remain ambiguous. For a quick review without SDD artifacts, base branch + changed paths suffice after 0.5 reports no artifacts.
 
@@ -75,6 +89,17 @@ Check `~/.cursor/sdd/preferences.json`:
 ### 0. Workspace
 
 Confirm target repo (not `cursor-dev-toolkit` unless that is the subject). Detect stack (`*.sln` -> .NET; `angular.json` -> Angular). Read `AGENTS.md` / `README.md`. Load dotnet-guidelines only for .NET reviews.
+
+### 0.25 Review mode (single vs multi-angle)
+
+Resolve mode from the invocation **or** from the user's answer to the Trigger prompt.
+
+| Signal in invoke / reply | Mode |
+|--------------------------|------|
+| `single` / `single-angle` / `simples` / `1` | Single reviewer (steps -1..8 only) |
+| `multi-angle` / `multi-ângulo` / `2` / named `ângulos: …` | Multi-angle (see section below) |
+
+If still unset: **STOP** - ask the Trigger prompt **(pt-BR)** - do not continue to 0.5/1 until answered. Novice-friendly: never pick a default for them.
 
 ### 0.5 Resolve SDD artifacts
 
@@ -159,20 +184,20 @@ gh pr create --base <base> --head "$(git rev-parse --abbrev-ref HEAD)" \
 
 No MCP work-item linking or mandatory corporate PR templates.
 
-## Optional multi-angle mode (opt-in)
+## Multi-angle mode (when chosen)
 
-Run **only** when the user explicitly requests multi-angle / multi-ângulo / named angles. Default flow (steps -1..8) stays unchanged when the flag is absent.
+Run **only** after step **0.25** resolved to multi-angle (explicit flag **or** user chose option 2 / named angles). Single mode = steps -1..8 as one reviewer - never implied by silence.
 
-When opt-in:
+When multi-angle:
 
-1. After scoping the diff (step 1) and resolving SDD artifacts (0.5), spawn up to **3 parallel Task** subagents — one per requested angle:
-   - **quality** — correctness, architecture, tests, maintainability, performance
-   - **acceptance (aceite)** — PRD criteria / PLAN deliverables vs the diff
-   - **security** — AuthZ/AuthN, injection, secrets/PII, dangerous defaults (hints: `_shared/agents/prompts/security.md`)
+1. After scoping the diff (step 1) and resolving SDD artifacts (0.5), spawn up to **3 parallel Task** subagents - one per requested angle (default all three if user said multi without subset):
+   - **quality** - correctness, architecture, tests, maintainability, performance
+   - **acceptance (aceite)** - PRD criteria / PLAN deliverables vs the diff
+   - **security** - AuthZ/AuthN, injection, secrets/PII, dangerous defaults (hints: `_shared/agents/prompts/security.md`)
 2. Parent synthesizes Task outputs into **one** report using the existing `reference.md` template (map findings to críticos / importantes / nice-to-have).
-3. Decision matrix (step 6) and coverage gates are unchanged — multi-angle does **not** change decision semantics, does **not** auto-block O3 or the SDD pipeline, and does **not** require separate blind-reviewer skills.
+3. Decision matrix (step 6) and coverage gates are unchanged - multi-angle does **not** change decision semantics, does **not** auto-block O3 or the SDD pipeline, and does **not** require separate blind-reviewer skills.
 
-See `reference.md` section **Multi-angle mode (opt-in)** for invoke examples and per-angle checklists.
+See `reference.md` section **Multi-angle mode** for invoke examples and per-angle checklists.
 
 ## Must not
 
@@ -182,14 +207,15 @@ See `reference.md` section **Multi-angle mode (opt-in)** for invoke examples and
 - Block on coverage only when no target applies - when PRD, PLAN, user, or a `test-coverage` report defines a threshold (default **80%** on changed production files), treat below threshold as **Changes required**
 - Paste entire guideline files into the review output
 - Claim no PRD/PLAN or skip step 0.5 / SDD traceability without searching all locations in `STORAGE.md`
-- Force multi-angle by default, create separate mandatory blind-reviewer skills, or treat multi-angle as an automatic pipeline gate
+- Assume **single** or **multi-angle** when the user did not name either (always ask - step 0.25)
+- Force multi-angle as a pipeline gate, or create separate mandatory blind-reviewer skills
 - **AI co-author trailers** - in any form. Under NO circumstances should you include `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-authored-by: Antigravity`, or any other AI agent attribution in commit messages or PR descriptions.
 
 ## Handoff
 
 | Situation | Next |
 |-----------|------|
-| After O3 (`orchestrate-develop`) completes | `use skill code-review` — optionally with multi-angle / multi-ângulo (suggested, never required) |
+| After O3 (`orchestrate-develop`) completes | `use skill code-review` - skill asks single vs multi if not specified; never required as pipeline gate |
 | New feature / PRD from review findings | `use skill sdd-spec` - paste or summarize review items; do **not** write PRD in this skill |
 | Coverage below threshold | `use skill test-coverage` -> then `use skill dotnet-developer` or `use skill sdd-develop` |
 | Fixes needed | User or `use skill sdd-develop` / `use skill dotnet-developer` |

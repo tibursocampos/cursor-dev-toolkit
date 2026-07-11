@@ -4,7 +4,7 @@ Validates PRD markdown against the **spec** skill template (`skills/sdd-spec/ref
 
 **Default language:** pt-BR section titles and metadata labels. If manifest or invocation sets `artifact_language: en`, use the **English override** checklist below instead.
 
-**Output paths:** `PRD/`, `docs/PRD/`, or `~/.cursor/sdd/<repo-id>/PRD/` (see `sdd-artifacts/STORAGE.md`)
+**Output paths:** `features/**/PRD/` or `~/.cursor/sdd/<repo-id>/features/**/PRD/` only (see `sdd-artifacts/STORAGE.md`). Root/flat `PRD/` and `docs/PRD/` are not valid Classic SDD paths.
 
 ## Validation levels
 

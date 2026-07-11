@@ -56,12 +56,12 @@ use skill dotnet-developer - CreateUserValidator allows empty email; reject empt
 
 ## SDD escalation
 
-If scope grows during work:
+If scope grows during work (Forma A writes under `features/NNN-slug/US01/`):
 
 ```
 use skill sdd-spec - [feature description]
-use skill sdd-plan - PRD/...
-use skill sdd-develop - PLAN/... - Step 1
+use skill sdd-plan - features/NNN-slug/US01/PRD/...
+use skill sdd-develop - features/NNN-slug/US01/PLAN/... - Step 1
 ```
 
 ---

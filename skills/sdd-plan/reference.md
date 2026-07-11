@@ -15,12 +15,11 @@ Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`. Pipeline gua
 | Slug | Short ASCII summary (kebab-case or snake_case; Portuguese allowed) |
 | Example (repo) | `features/002-exportacao-perfil/US01/PLAN/PLAN_002_exportacao_perfil_usuario.md` |
 | Example (global) | `~/.cursor/sdd/acme-payments-api/features/002-exportacao-perfil/US01/PLAN/PLAN_002_exportacao_perfil_usuario.md` |
-| PRD link | Full path to PRD on disk (prefer `features/...`) |
-| Legacy (read only) | `PLAN/PLAN_002_....md` - migrate notice |
+| PRD link | Full path to PRD on disk (must be under `features/.../PRD/`) |
 
 ## Storage and `.gitignore` (plan skill)
 
-If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore` (include `/features/`). Update manifest (`artifact_language`, folders). Do **not** write new PLANs at repo-root `PLAN/`.
+If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore` (include `/features/`; keep `/PRD/` `/PLAN/` as safety net only). Update manifest (`artifact_language`, folders). Do **not** write or update PLANs at repo-root `PLAN/`.
 
 ## Product documentation language
 
@@ -250,6 +249,6 @@ Use **Pendente** / **Concluído** / **Bloqueado** (or English equivalents) on th
 - [ ] Every PRD acceptance criterion appears in some step
 - [ ] Step prose in pt-BR (unless English override)
 - [ ] No full implementation code blocks in the PLAN
-- [ ] Output path: `PLAN/PLAN_NNN_*.md` or global (not ad-hoc `docs/` or `~/.cursor/` outside `sdd/`)
+- [ ] Output path: `features/**/PLAN/PLAN_NNN_*.md` or global `.../features/**/PLAN/` only (not root `PLAN/`, ad-hoc `docs/`, or `~/.cursor/` outside `sdd/.../features/`)
 - [ ] Handoff: `use skill sdd-develop - <full-plan-path> - Step 1`
 - [ ] Initial progress `0/N`

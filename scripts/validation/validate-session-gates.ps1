@@ -75,18 +75,13 @@ $isDevelopGate = $RequiredGate -in $developGates
 $sessionPath = $repoSessionPath
 if ($isDevelopGate) {
     if ([string]::IsNullOrWhiteSpace($PlanPath)) {
-        # Compat: fall back to legacy flat repo session if PlanPath omitted
-        $sessionPath = $repoSessionPath
+        Write-Error "Gate '$RequiredGate' requires -PlanPath (PLAN-scoped develop session). Flat repo session is not valid for develop gates."
+        exit 1
     }
-    else {
-        $planNorm = $PlanPath.Replace('\', '/').TrimEnd('/')
-        $sessionPath = Get-DevelopSessionPath -SessionsDir $sessionsDir -RepoHash $repoHash -PlanPathNormalized $planNorm -StepNumber $Step
 
-        if (-not (Test-Path -LiteralPath $sessionPath) -and (Test-Path -LiteralPath $repoSessionPath)) {
-            # Allow reading legacy flat file when scoped file not yet migrated
-            $sessionPath = $repoSessionPath
-        }
-    }
+    $planNorm = $PlanPath.Replace('\', '/').TrimEnd('/')
+    $sessionPath = Get-DevelopSessionPath -SessionsDir $sessionsDir -RepoHash $repoHash -PlanPathNormalized $planNorm -StepNumber $Step
+    # Fail closed: never fall back to flat {repo-hash}.json for develop gates
 }
 
 if (-not (Test-Path -LiteralPath $sessionPath)) {

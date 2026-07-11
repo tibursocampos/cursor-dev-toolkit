@@ -138,4 +138,4 @@ use skill fix-build
 use skill sdd-develop - <full-plan-path> - Step N
 ```
 
-SDD `PLAN` paths: resolve per `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (workspace `PLAN/PLAN_*.md` or global `~/.cursor/sdd/<repo-id>/PLAN/`). Not `docs/documentation-plan/plan.md`.
+SDD `PLAN` paths: resolve per `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (`features/**/PLAN/PLAN_*.md` or global `~/.cursor/sdd/<repo-id>/features/**/PLAN/` only). Not root/flat `PLAN/` and not `docs/documentation-plan/plan.md`.

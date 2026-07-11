@@ -17,7 +17,7 @@ Use `$HOME/.cursor/sdd/...` on macOS/Linux when expanding paths in tools.
 
 **New writes (Classic Forma A / Forma B preferred / Forma C):** only under `features/NNN-slug/` (never loose `REFINE/`, `ANALYSIS/`, `ARCH/`, `SEC/`, `PRD/`, or `PLAN/` at repo root).
 
-**Legacy read (compat):** `PRD/` and `PLAN/` at repo root or under the global path remain readable for one migration cycle. See section Legacy layout.
+**No legacy root flow:** do **not** read, write, glob, or continue develop from repo-root / global-flat `PRD/` or `PLAN/`. Those patterns remain in `.gitignore` only as a safety net against accidental files.
 
 ## Feature tree schema
 
@@ -59,10 +59,10 @@ Run **before** the first `Write` under any SDD folder in the workspace (`sdd-spe
    |---------|-----------|
    | `/features/` | Canonical Classic / Forma C artifacts (repo root only) |
    | `/docs/features/` | Reserved alternate under docs |
-   | `/PRD/` | Legacy PRD location (compat read) |
-   | `/PLAN/` | Legacy PLAN location (compat read) |
-   | `/docs/PRD/` | Legacy alternate PRD |
-   | `/docs/PLAN/` | Legacy alternate PLAN |
+   | `/PRD/` | Safety net — ignore accidental root PRD (not a write destination) |
+   | `/PLAN/` | Safety net — ignore accidental root PLAN (not a write destination) |
+   | `/docs/PRD/` | Safety net |
+   | `/docs/PLAN/` | Safety net |
 
    Use leading `/` so `skills/sdd-plan/`, `skills/_shared/templates/features/`, and other non-root paths are **not** ignored.
 
@@ -84,16 +84,16 @@ Run **before** the first `Write` under any SDD folder in the workspace (`sdd-spe
 
 ## Numbering (`NNN`)
 
-Collect existing sequence numbers from **canonical and legacy** locations before assigning `NNN`:
+Collect existing sequence numbers from **features** locations before assigning `NNN`:
 
 | Location | Glob |
 |----------|------|
 | Workspace features | `features/*/`, `docs/features/*/` (folder names `NNN-slug`) |
-| Workspace legacy | `PRD/*.md`, `docs/PRD/*.md`, `PLAN/PLAN_*.md` |
 | Global features | `<classic.path>/features/*/` |
-| Global legacy | `<classic.path>/PRD/*.md`, `<classic.path>/PLAN/PLAN_*.md` |
 
 Use the highest `NNN` across all matches, then +1. PLAN `NNN` **must match** its feature folder and source PRD sequence.
+
+Do **not** scan repo-root `PRD/` / `PLAN/` or global-flat `PRD/` / `PLAN/` for numbering.
 
 ## Filenames
 
@@ -116,26 +116,18 @@ use skill speckit-plan - .specify/specs/003-feature/spec.md
 use skill speckit-develop - .specify/specs/003-feature/tasks.md
 ```
 
-## Legacy layout (compat read + migration)
+## Forbidden paths (not used)
 
-**Canonical for new writes:** `features/NNN-slug/...` only.
+Do **not** read, write, or continue Classic SDD from:
 
-**Compat read (one migration cycle):**
-
-| Legacy path | Behavior |
-|-------------|----------|
-| `$Cwd/PRD/`, `$Cwd/PLAN/` | Read if present; warn user to migrate under `features/` |
+| Path | Reason |
+|------|--------|
+| `$Cwd/PRD/`, `$Cwd/PLAN/` | Not part of the active flow (gitignore safety net only) |
 | `$Cwd/docs/PRD/`, `$Cwd/docs/PLAN/` | Same |
-| `<global>/PRD/`, `<global>/PLAN/` | Same under global classic path |
-
-When a skill finds only legacy artifacts:
-
-1. Prefer reading them for Prior context / continue develop.
-2. Show a short migration notice (pt-BR in chat): new writes go under `features/NNN-slug/`.
-3. Do **not** auto-move or delete legacy folders unless the user asks.
-4. Do **not** write new PRD/PLAN at repo-root `PRD/` or `PLAN/`.
-
-**Forbidden as final destinations for new SDD writes:** `docs/backlog/` (shortcut only for Forma B drafts), generic `docs/*.md`, repo-root markdown without feature tree, loose `REFINE/` / `ANALYSIS/` / `ARCH/` / `SEC/` at repo root.
+| `<global>/PRD/`, `<global>/PLAN/` (flat, outside `features/`) | Same |
+| Loose `REFINE/` / `ANALYSIS/` / `ARCH/` / `SEC/` at repo root | Must live under `features/NNN-slug/USnn/` |
+| `docs/backlog/` | Forma B shortcut drafts only — not canonical PRD/PLAN |
+| Generic `docs/*.md`, repo-root markdown without feature tree | Not SDD storage |
 
 When the user cites a non-canonical `.md`: read it, build the artifact per skill templates, confirm path (`PIPELINE.md` § Confirm before write), then `Write` only under `features/NNN-slug/...`.
 
@@ -224,21 +216,20 @@ Execute at skill load time, before any read or write. Parameter: `$Workflow` = `
 6. Derive classic feature root:
    - repository -> $Cwd/features/
    - global     -> <classic.path>/features/
-7. For classic writes: resolve target as
+7. For classic writes and reads: resolve only under
    features/NNN-slug/[USnn|TSnn]/{PRD|PLAN|...}
    (Forma A default story = US01 when unspecified).
-8. For classic reads: try canonical features/ first; if missing, compat-read legacy
-   PRD/ and PLAN/ (repo or global) and emit migration notice.
-9. For speckit skills (except setup/init): if speckit.initialized != true, run
+   Never use repo-root or global-flat PRD/ / PLAN/.
+8. For speckit skills (except setup/init): if speckit.initialized != true, run
    `validation/validate-speckit-init.ps1`; if fail -> STOP - handoff to speckit-init.
 ```
 
 ### Physical path mapping
 
-| storage_mode | Spec Kit | Classic feature root | Classic PRD (new write) | Classic PLAN (new write) | Classic legacy read |
-|---|---|---|---|---|---|
-| `repository` | `$Cwd/.specify/` | `$Cwd/features/` | `$Cwd/features/NNN-slug/USnn/PRD/` | `$Cwd/features/NNN-slug/USnn/PLAN/` | `$Cwd/PRD/`, `$Cwd/PLAN/` (and `docs/` variants) |
-| `global` | `<path>/.specify/` | `<path>/features/` | `<path>/features/NNN-slug/USnn/PRD/` | `<path>/features/NNN-slug/USnn/PLAN/` | `<path>/PRD/`, `<path>/PLAN/` |
+| storage_mode | Spec Kit | Classic feature root | Classic PRD | Classic PLAN |
+|---|---|---|---|---|
+| `repository` | `$Cwd/.specify/` | `$Cwd/features/` | `$Cwd/features/NNN-slug/USnn/PRD/` | `$Cwd/features/NNN-slug/USnn/PLAN/` |
+| `global` | `<path>/.specify/` | `<path>/features/` | `<path>/features/NNN-slug/USnn/PRD/` | `<path>/features/NNN-slug/USnn/PLAN/` |
 
 `<path>` = `repositories[$Cwd][$Workflow].path`
 
@@ -247,9 +238,9 @@ Execute at skill load time, before any read or write. Parameter: `$Workflow` = `
 | Check | repository | global |
 |-------|------------|--------|
 | Feature root | `$Cwd/features/NNN-slug/` | `~/.cursor/sdd/<repo-id>/features/NNN-slug/` (or manifest path) |
-| New PRD/PLAN | Under story `PRD/` / `PLAN/` | Same under global feature root |
-| `.gitignore` SDD block | Required (incl. `/features/`) | Do not edit project `.gitignore` |
-| Legacy `PRD/`/`PLAN/` at root | Compat read + migrate notice | Compat read under `<path>` |
+| PRD/PLAN | Under story `PRD/` / `PLAN/` only | Same under global feature root |
+| `.gitignore` SDD block | Required (incl. `/features/` + safety-net `/PRD/` `/PLAN/`) | Do not edit project `.gitignore` |
+| Root / flat `PRD/`/`PLAN/` | Not used (ignored if present) | Not used |
 | Leading `/` on ignore patterns | Must not ignore `skills/sdd-plan/` | N/A |
 
 ### User storage prompt (chat only - pt-BR)
@@ -259,7 +250,7 @@ Ask before the first write of Classic artifacts in the session (unless manifest 
 ```text
 Onde gravar artefatos SDD (features/) deste projeto?
 
-1) Repositório - features/ na raiz (e /docs/features/, legado /PRD/, /PLAN/ no .gitignore se faltarem)
+1) Repositório - features/ na raiz (/features/, /docs/features/, e safety-net /PRD/, /PLAN/ no .gitignore se faltarem)
 2) Global - ~/.cursor/sdd/<RepositoryName>/features/ (fora do git do projeto)
 ```
 

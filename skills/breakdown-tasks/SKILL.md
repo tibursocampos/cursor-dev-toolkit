@@ -109,7 +109,7 @@ Show group names, dependency waves, output path, and suggested next skills.
 |-----------|------|
 | Multi-story / needs O1 | `use skill orchestrate-analyze` |
 | Full SDD for the story | `use skill sdd-spec` -> `use skill sdd-plan` -> `use skill sdd-develop` |
-| PLAN already exists | Resolve under `features/**/PLAN/` (then legacy); `use skill sdd-develop - <full-plan-path> - Step 1` |
+| PLAN already exists | Resolve under `features/**/PLAN/` only (workspace + global feature root); `use skill sdd-develop - <full-plan-path> - Step 1` |
 | Small code-only change | `use skill developer` / stack `*-developer` |
 | Commit checklist file | `use skill commit` |
 

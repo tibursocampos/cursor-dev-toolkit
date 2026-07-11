@@ -1,6 +1,6 @@
 ---
 name: orchestrate-develop
-description: Forma C O3 - for approved PLANs under features/NNN-slug/, spawn one Task subagent per PLAN step using the sdd-develop contract (deps + SESSION gates). Parent never implements app code or merges N steps in one child. Updates CONTINUITY; handoff to code-review (multi-angle opt-in) or manual sdd-develop. Use when the user says "use skill orchestrate-develop", "orchestrate develop", or "/orchestrate-develop".
+description: Forma C O3 - for approved PLANs under features/NNN-slug/, spawn one Task subagent per PLAN step using the sdd-develop contract (deps + SESSION gates). Parent never implements app code or merges N steps in one child. Updates CONTINUITY; handoff to code-review (ask single vs multi-angle if omitted) or manual sdd-develop. Use when the user says "use skill orchestrate-develop", "orchestrate develop", or "/orchestrate-develop".
 ---
 
 ## STOP - Read before ANY tool call
@@ -36,7 +36,7 @@ Required: full feature path **or** a specific `PLAN/PLAN_NNN_*.md` path under a 
 
 1. Pending PLAN step(s) executed **only** via Task children that follow the **`sdd-develop` contract** (one PLAN step per child / session)
 2. Feature `CONTINUITY.md` updated (phase `develop`, progress, typed next invoke)
-3. Handoff to `code-review` (optional `multi-angle`) and/or next step / next story
+3. Handoff to `code-review` (`- single` or `- multi-angle`; skill asks if omitted) and/or next step / next story
 
 **Parent orchestrator never** writes application code, never marks multiple PLAN steps done in one child, and never bypasses `sdd-develop` gates (`step_confirmed`, tests before complete).
 
@@ -52,7 +52,7 @@ Required: full feature path **or** a specific `PLAN/PLAN_NNN_*.md` path under a 
 | SESSION gates | `~/.cursor/skills/_shared/sdd-artifacts/SESSION.md` |
 | CONTINUITY template | `~/.cursor/skills/_shared/templates/features/CONTINUITY.md` |
 | Anti-bypass, parallelism, handoffs | `skills/orchestrate-develop/reference.md` |
-| Code review opt-in | `~/.cursor/skills/code-review/SKILL.md` |
+| Code review (ask mode) | `~/.cursor/skills/code-review/SKILL.md` |
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
 
 ## Process
@@ -201,6 +201,7 @@ When a story or feature develop pass completes (or user asks to review mid-way):
 ## Handoff O3 → review
 
 use skill code-review
+use skill code-review - single
 use skill code-review - multi-angle
 
 ## Continuar develop manual (alternativa a O3)
@@ -210,7 +211,7 @@ use skill sdd-develop - <full-plan-path> - Step {N}
 use skill orchestrate-develop - <full-feature-path>
 ```
 
-Multi-angle is **opt-in** — suggest, never require. Default `code-review` remains valid. O3 does **not** auto-block the pipeline on review.
+Suggest `use skill code-review` (user may pass `- single` or `- multi-angle`; if omitted, **code-review asks**). Never require a mode. O3 does **not** auto-block the pipeline on review.
 
 ## Anti-bypass checklist (must enforce)
 
@@ -243,7 +244,7 @@ Full copy in `reference.md`.
 | Situation | Next |
 |-----------|------|
 | Next PLAN step | New chat → `orchestrate-develop` **or** `sdd-develop - <plan> - Step N` |
-| Story/feature done | `use skill code-review` (optional `- multi-angle`) |
+| Story/feature done | `use skill code-review` (pass `- single` / `- multi-angle`, or let skill ask) |
 | Missing PLAN | `orchestrate-deliver` / `sdd-plan` |
 | Prefer no orchestrator | Manual `sdd-develop` only |
 

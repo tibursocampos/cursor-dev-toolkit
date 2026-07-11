@@ -6,7 +6,7 @@ Lean router for agents when this toolkit is installed under `~/.cursor/`. Pointe
 
 | Context | Rule |
 |---------|------|
-| SDD agent artifacts (`PRD/*.md`, `PLAN/PLAN_*.md`, `.specify/specs/**`) | Brazilian Portuguese (pt-BR) - `sdd-artifact-language-pt-br.mdc` |
+| SDD agent artifacts (`features/**` — FEATURE/STORY/PRD/PLAN/CONTINUITY; `.specify/specs/**`) | Brazilian Portuguese (pt-BR) - `sdd-artifact-language-pt-br.mdc` |
 | Source code, tests, commits, identifiers | English always |
 | Project docs (`docs/`, README deliverables) | Ask pt-BR or English in skill before writing |
 | User-facing chat replies | Brazilian Portuguese (pt-BR) - `user-language-pt-br.mdc` |
@@ -31,7 +31,7 @@ sdd-spec -> sdd-plan -> sdd-develop (one PLAN step per session)
 
 | Skill | Invoke | Typical output |
 |-------|--------|----------------|
-| sdd-spec | `use skill sdd-spec` | `features/NNN-slug/.../PRD/` (or legacy `PRD/`) |
+| sdd-spec | `use skill sdd-spec` | `features/NNN-slug/USnn/PRD/` |
 | sdd-plan | `use skill sdd-plan` | `features/.../PLAN/PLAN_XXX.md` |
 | sdd-develop | `use skill sdd-develop` | Code + PLAN checkbox |
 
@@ -41,7 +41,7 @@ sdd-spec -> sdd-plan -> sdd-develop (one PLAN step per session)
 orchestrate-analyze (O1) -> human approve backlog
   -> orchestrate-deliver (O2) -> human approve PRD/PLAN per story
   -> orchestrate-develop (O3) OR manual sdd-develop
-  -> optional code-review (multi-angle)
+  -> optional code-review (asks single vs multi-angle if omitted)
 ```
 
 | Skill | Invoke | Typical output |

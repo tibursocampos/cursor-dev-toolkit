@@ -114,4 +114,4 @@ When a PLAN step says “add EF migration”, the **implement** skill hands off 
 use skill sdd-develop - <full-plan-path> - Step N
 ```
 
-Use the **same** SDD PLAN path `sdd-develop` passed in (workspace `PLAN/PLAN_*.md` or `~/.cursor/sdd/<repo-id>/PLAN/` per `STORAGE.md`). Do not use `docs/documentation-plan/plan.md`.
+Use the **same** SDD PLAN path `sdd-develop` passed in (`features/**/PLAN/PLAN_*.md` or global `~/.cursor/sdd/<repo-id>/features/**/PLAN/` per `STORAGE.md`). Do not use root/flat `PLAN/` or `docs/documentation-plan/plan.md`.

@@ -81,6 +81,8 @@ New task
 
 ## Guide index
 
+Guide [01 - SDD workflow](01-sdd-workflow.md) uses canonical `features/NNN-slug/USnn/PRD|PLAN/` paths (see [SDD storage reminder](#sdd-storage-reminder)).
+
 | Guide | Skills covered | Invoke examples |
 |-------|----------------|-----------------|
 | [01-sdd-workflow.md](01-sdd-workflow.md) | `sdd-spec`, `sdd-plan`, `sdd-develop` | `use skill sdd-spec` · `use skill sdd-plan - <prd-path>` · `use skill sdd-develop - <plan-path> - Step N` |
@@ -99,7 +101,7 @@ New task
 
 ## Skills catalog (quick reference)
 
-Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
+Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list of **38** skills: [docs/SKILLS.md](../SKILLS.md).
 
 | Skill | Invoke | Use for |
 |-------|--------|---------|
@@ -114,8 +116,9 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 | `speckit-spec` | `use skill speckit-spec` | Create spec.md under `.specify/specs/` |
 | `speckit-plan` | `use skill speckit-plan` | Generate plan.md and tasks.md from spec |
 | `speckit-develop` | `use skill speckit-develop` | Implement code and run tests for one tasks.md item |
-| `code-review` | `use skill code-review` | Review diff or branch vs PRD/PLAN |
-| `commit` | `use skill commit` | Conventional commit and push |
+| `code-review` | `use skill code-review` | Review diff/branch vs PRD/PLAN; asks single vs multi-angle if omitted |
+| `commit` | `use skill commit` | Conventional commit (optional push handoff) |
+| `push` | `use skill push` | `git push` on current feature branch |
 | `developer` | `use skill developer` | Stack router for small tasks |
 | `impeccable` | `use skill impeccable` | UI design; `shape` -> `docs/DESIGN-BRIEF.md` |
 | `blip-plugin-developer` | `use skill blip-plugin-developer` | New Blip React extension scaffold |
@@ -130,6 +133,11 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 | `add-migrations` | `use skill add-migrations` | EF Core migration in the open repo |
 | `fix-build` | `use skill fix-build` | Fix `dotnet build` or test failures |
 | `test-coverage` | `use skill test-coverage` | .NET coverage (Coverlet; SonarQube-aligned metrics) |
+| `refactor` | `use skill refactor` | Safe step-by-step refactor with test checkpoints |
+| `api-integrate` | `use skill api-integrate` | Typed clients/DTOs from OpenAPI/Swagger |
+| `performance-profile` | `use skill performance-profile` | Bottlenecks, benchmarks, optimize |
+| `containerize` | `use skill containerize` | Dockerfile / compose for the open repo |
+| `i18n-manager` | `use skill i18n-manager` | Extract hardcoded strings to resources |
 | `document-plan` | `use skill document-plan` | Documentation plan for a **consumer** repo (RAG) |
 | `document-implement` | `use skill document-implement` | One step of a consumer repo doc plan |
 | `refine-backlog-item` | `use skill refine-backlog-item` | Refine bug/story + scorecard (local markdown) |
@@ -156,7 +164,7 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 
 After implementation (SDD or `developer`), run this sequence on a valid feature branch (`feature/<slug>` or `feat/<id>`-not `main` / `master` / `develop`):
 
-1. **`use skill code-review`** - structured report (critical / important / nice-to-have); can use PRD/PLAN from repo or `~/.cursor/sdd/<repo-id>/`.
+1. **`use skill code-review`** - structured report (critical / important / nice-to-have); asks single vs multi-angle if omitted; resolves PRD/PLAN under `features/` (repo or `~/.cursor/sdd/<repo-id>/features/`).
 2. **`use skill test-coverage`** - for .NET projects with tests; default threshold 80% (see guide 04).
 3. **`use skill commit`** - conventional commit; optional push.
 
@@ -168,11 +176,11 @@ Details: [03-code-review.md](03-code-review.md), [04-test-coverage.md](04-test-c
 
 | Artifact | Typical location | Committed to git? |
 |----------|------------------|-------------------|
-| Feature tree (Forma A/C) | `features/NNN-slug/` **or** `~/.cursor/sdd/<repo-id>/features/NNN-slug/` | Usually **no** (gitignored when stored in repo) |
-| PRD / PLAN (legacy root) | `PRD/`, `PLAN/` at repo root **or** global legacy | Usually **no**; new writes prefer `features/` |
+| Feature tree (Forma A/C) | `features/NNN-slug/` **or** `~/.cursor/sdd/<repo-id>/features/NNN-slug/` | Usually **no** (gitignored via `/features/` when stored in repo) |
+| PRD / PLAN | Under story: `features/.../USnn/PRD/`, `features/.../USnn/PLAN/` | Usually **no**; root `PRD/` / `PLAN/` are **not** active destinations (gitignore safety net only) |
 | User guides (this folder) | `docs/guides/` in **cursor-dev-toolkit** | **Yes** |
 
-Full rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (after sync). Explained in depth in [01-sdd-workflow.md](01-sdd-workflow.md).
+Full rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (after sync). Explained in depth in [01-sdd-workflow.md](01-sdd-workflow.md) (all examples use `features/`).
 
 ---
 

@@ -15,11 +15,12 @@ Full detail: `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` (load when run
 
 ## Canonical paths only
 
-### Classic SDD (new writes)
+### Classic SDD (writes and execution)
 
 - PRD: `features/NNN-slug/USnn/PRD/NNN_*.md` (default story `US01`) or global under `~/.cursor/sdd/<repo-id>/features/...`.
 - PLAN: `features/NNN-slug/USnn/PLAN/PLAN_NNN_*.md` or global equivalent. PLAN `NNN` matches PRD.
-- Legacy root `PRD/` / `PLAN/` / `docs/PRD/`: **compat read only** (migration notice).
+- Numbering (`NNN`): from `features/*/` only (workspace + global feature root).
+- Root/flat `PRD/` / `PLAN/` / `docs/PRD/` / `docs/PLAN/`: **not** valid Classic SDD paths — do not read, write, or update-in-place for execution. Keep those patterns in `.gitignore` **only as a safety net** (`STORAGE.md`).
 
 ### Spec Kit
 

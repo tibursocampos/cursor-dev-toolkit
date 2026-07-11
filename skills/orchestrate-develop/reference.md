@@ -8,7 +8,7 @@ Anti-bypass checklist, step queue, safe parallelism, CONTINUITY, Task child prom
 
 - [ ] Gate check reported; user **sim** for this O3 run / next spawn
 - [ ] Feature and/or PLAN path resolved (`STORAGE.md`, classic)
-- [ ] At least one `PLAN/PLAN_*.md` under story folders (or legacy PLAN during migration)
+- [ ] At least one `features/**/PLAN/PLAN_*.md` under story folders (or global `.../features/**/PLAN/`)
 - [ ] Next step deps **Completed** / **Concluídos**
 - [ ] Parent will **not** implement app code
 
@@ -136,6 +136,7 @@ PLAN: `features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md`
 3) TS01 complete → handoff:
 
 use skill code-review
+use skill code-review - single
 use skill code-review - multi-angle
 
 # Manual alternative anytime:
@@ -150,6 +151,7 @@ use skill sdd-develop - features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_pack
 ## Handoff O3 → review
 
 use skill code-review
+use skill code-review - single
 use skill code-review - multi-angle
 
 ## Continuar develop manual (alternativa a O3)
@@ -159,7 +161,7 @@ use skill sdd-develop - <full-plan-path> - Step {N}
 use skill orchestrate-develop - <full-feature-path>
 ```
 
-Multi-angle: suggested, never required; does not auto-block pipeline (`code-review` skill).
+Handoff `use skill code-review` (user may pass `- single` / `- multi-angle`; if omitted, skill asks). Never required; does not auto-block pipeline.
 
 ---
 
@@ -190,6 +192,7 @@ use skill sdd-develop - <full-plan-path> - Step N
 
 ```text
 use skill code-review
+use skill code-review - single
 use skill code-review - multi-angle
 ```
 

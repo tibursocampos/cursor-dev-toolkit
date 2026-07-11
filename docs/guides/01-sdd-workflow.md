@@ -14,6 +14,8 @@
 
 PRD and PLAN are **agent artifacts** (usually pt-BR). Application code and tests stay **English**. User guides like this file live under `docs/guides/` and **are** versioned in git.
 
+**Canonical layout (Forma A):** under `features/NNN-slug/USnn/` (default story `US01`) — see `STORAGE.md`. New writes never land in root `PRD/` or `PLAN/`.
+
 ---
 
 ## When to use / when not to use
@@ -40,7 +42,7 @@ When in doubt, prefer SDD. You can always stop after `spec` if the PRD reveals t
 2. **Target project open in Cursor** - the repo you are building (not necessarily `cursor-dev-toolkit`).
 3. **Agent mode** - SDD writes files (PRD, PLAN, code). Plan or Ask mode drafts in chat only until you confirm **sim** (yes) for the write.
 4. **Feature branch** - before `sdd-develop`, work on `feature/<slug>` or `feat/<id>`, not `main`, `master`, or `develop`.
-5. **Storage choice understood** - PRD/PLAN go to repo `PRD/` and `PLAN/` **or** global `~/.cursor/sdd/<repo-id>/`. Both are typically **gitignored** when stored in the repo. Do not expect them in pull requests.
+5. **Storage choice understood** - Classic artifacts go under repo `features/NNN-slug/` **or** global `~/.cursor/sdd/<repo-id>/features/NNN-slug/`. In repository mode, `.gitignore` must include `/features/` (canonical). `/PRD/` and `/PLAN/` remain only as a **safety net** against accidental root files — they are **not** write destinations.
 
 Full storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (after sync).
 
@@ -58,8 +60,8 @@ Use these exact phrases in chat (English trigger, as in [AGENTS.md](../../AGENTS
 
 **Path placeholders:**
 
-- `<prd-path>` - e.g. `PRD/001_my_feature.md` or `~/.cursor/sdd/<repo-id>/PRD/001_my_feature.md`
-- `<plan-path>` - e.g. `PLAN/PLAN_001_my_feature.md` or global equivalent under `~/.cursor/sdd/<repo-id>/PLAN/`
+- `<prd-path>` - e.g. `features/001-signup-email-validation/US01/PRD/001_signup_email_validation.md` or `~/.cursor/sdd/<repo-id>/features/001-signup-email-validation/US01/PRD/001_signup_email_validation.md`
+- `<plan-path>` - e.g. `features/001-signup-email-validation/US01/PLAN/PLAN_001_signup_email_validation.md` or global equivalent under `~/.cursor/sdd/<repo-id>/features/.../PLAN/`
 - `<repo-id>` - stable id for your project (from SDD manifest after first `spec`)
 
 **Checkpoint rule:** one `sdd-develop` invocation = **one** PLAN step. Start a **new chat** for the next step.
@@ -75,7 +77,7 @@ Use these exact phrases in chat (English trigger, as in [AGENTS.md](../../AGENTS
 3. Type: `use skill sdd-spec`
 4. Answer the agent’s questions (feature, current vs expected behavior, optional tracking id).
 5. Review the draft summary. When the agent asks to confirm the path and storage, reply **sim** to save (or **ajustar** / **cancelar**).
-6. **Output:** `PRD/NNN_short_slug.md` (or global path). Status should be ready for planning.
+6. **Output:** `features/NNN-slug/US01/PRD/NNN_short_slug.md` (or global `~/.cursor/sdd/<repo-id>/features/...`). Status should be ready for planning.
 7. **Handoff:** `use skill sdd-plan - <full-prd-path>`
 
 **What the agent will not do in `spec`:** write PLAN, implementation code, or commits.
@@ -85,7 +87,7 @@ Use these exact phrases in chat (English trigger, as in [AGENTS.md](../../AGENTS
 1. Ensure the PRD exists and status is **Pronto para planejamento** / **Ready for planning**.
 2. Type: `use skill sdd-plan - <prd-path>` (use the **full** path from the `spec` handoff).
 3. Review proposed steps (~20-45 minutes each). Confirm **sim** before the PLAN file is written.
-4. **Output:** `PLAN/PLAN_NNN_*.md` with steps marked **Pendente** / pending and progress `0/N`.
+4. **Output:** `features/NNN-slug/US01/PLAN/PLAN_NNN_*.md` with steps marked **Pendente** / pending and progress `0/N`.
 5. Note **Step 1** as your first implement target.
 6. **Handoff:** `use skill sdd-develop - <full-plan-path> - Step 1`
 
@@ -111,7 +113,7 @@ If the chat is long or the agent warns about context pressure (~40% of the windo
 
 ## Minimal example
 
-Scenario: add email validation to a signup API in your app repo (`my-app`). Three invocations, three chats.
+Scenario: add email validation to a signup API in your app repo (`my-app`). Three invocations, three chats. Forma A uses story folder `US01` by default.
 
 **Chat 1 - spec**
 
@@ -124,35 +126,42 @@ You: Add server-side email format validation on POST /signup.
      Reject invalid emails with 400 and a clear message.
      Today invalid emails are accepted.
 
-Agent: [summary, proposed path PRD/001_signup_email_validation.md, storage repo]
+Agent: [summary, proposed path
+       features/001-signup-email-validation/US01/PRD/001_signup_email_validation.md,
+       storage repo]
        Confirm write? (sim / ajustar / cancelar)
 
 You: sim
 
-Agent: PRD saved. Handoff: use skill sdd-plan - PRD/001_signup_email_validation.md
+Agent: PRD saved. Handoff:
+       use skill sdd-plan - features/001-signup-email-validation/US01/PRD/001_signup_email_validation.md
 ```
 
 **Chat 2 - plan**
 
 ```
-You: use skill sdd-plan - PRD/001_signup_email_validation.md
+You: use skill sdd-plan - features/001-signup-email-validation/US01/PRD/001_signup_email_validation.md
 
 Agent: [summarizes PRD, proposes 4 baby steps]
-       Confirm PLAN at PLAN/PLAN_001_signup_email_validation.md? (sim / ajustar / cancelar)
+       Confirm PLAN at
+       features/001-signup-email-validation/US01/PLAN/PLAN_001_signup_email_validation.md?
+       (sim / ajustar / cancelar)
 
 You: sim
 
 Agent: PLAN saved (0/4). First step: domain validator + unit tests.
-       Handoff: use skill sdd-develop - PLAN/PLAN_001_signup_email_validation.md - Step 1
+       Handoff: use skill sdd-develop -
+       features/001-signup-email-validation/US01/PLAN/PLAN_001_signup_email_validation.md - Step 1
 ```
 
 **Chat 3 - implement (Step 1 only)**
 
 ```
-You: use skill sdd-develop - PLAN/PLAN_001_signup_email_validation.md - Step 1
+You: use skill sdd-develop - features/001-signup-email-validation/US01/PLAN/PLAN_001_signup_email_validation.md - Step 1
 
 Agent: [implements Step 1, updates PLAN to 1/4, marks Step 1 complete]
-       Handoff: new chat -> use skill sdd-develop - PLAN/PLAN_001_signup_email_validation.md - Step 2
+       Handoff: new chat -> use skill sdd-develop -
+       features/001-signup-email-validation/US01/PLAN/PLAN_001_signup_email_validation.md - Step 2
 ```
 
 After all PLAN steps: run post-code flow ([code-review](03-code-review.md) -> [test-coverage](04-test-coverage.md) -> `commit` in [05 - operational skills](05-operational-skills.md)).
@@ -161,13 +170,13 @@ After all PLAN steps: run post-code flow ([code-review](03-code-review.md) -> [t
 
 ## Common mistakes
 
-1. **Expecting PRD/PLAN in git history** - Agent artifacts under `PRD/` and `PLAN/` are **gitignored** in repository storage mode. They are workflow files on your machine (or under `~/.cursor/sdd/<repo-id>/`), not product deliverables. Versioned documentation for **this toolkit** lives in `docs/guides/`, which **is** committed. Do not confuse the two (TE01).
+1. **Expecting features/PRD/PLAN in git history** - Agent artifacts under `features/` are **gitignored** in repository storage mode (`/features/` is canonical). `/PRD/` and `/PLAN/` in `.gitignore` are a **safety net** only — not active destinations. Artifacts live on your machine (or under `~/.cursor/sdd/<repo-id>/features/`), not as product deliverables. Versioned documentation for **this toolkit** lives in `docs/guides/`, which **is** committed. Do not confuse the two (TE01).
 
 2. **Multiple PLAN steps in one `sdd-develop` session** - Each step is sized for one session. Asking for Step 2 in the same chat as Step 1 skips checkpoints, overloads context, and often leaves the PLAN file out of sync. Always open a **new chat** per step (TE02).
 
 3. **Staying in Plan/Ask mode and never confirming `sim`** - `spec` and `plan` only **write files in Agent mode** after you confirm **sim**. Drafts in Plan/Ask stay in chat and are lost if you assume they were saved.
 
-4. **Wrong storage or path** - Mixing repo `PRD/` with global `~/.cursor/sdd/<repo-id>/PRD/` causes “file not found” on handoff. Use the **full path** the previous skill reported; keep PRD and PLAN in the same storage mode.
+4. **Wrong storage or path** - Mixing repo `features/...` with global `~/.cursor/sdd/<repo-id>/features/...` causes “file not found” on handoff. Use the **full path** the previous skill reported; keep the feature tree in the same storage mode. Do not write to root `PRD/` or `PLAN/`.
 
 5. **Ignoring the ~40% context warning** - Long explorations in one chat degrade quality. Save the PLAN update, start fresh, then invoke `sdd-develop` with the same plan path and next step number.
 

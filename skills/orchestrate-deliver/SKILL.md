@@ -114,7 +114,7 @@ O2 em `{feature-path}` — {N} histórias.
 Modo de execução?
 
 1) série — uma história por vez (spec → plan → aprovação)
-2) paralelo — Task por história (spec+plan no filho); agregação e aprovação no pai
+2) paralelo — Task por história (filho só rascunha PRD/PLAN; Write só no pai após sim); agregação e aprovação no pai
 3) cancelar
 ```
 
