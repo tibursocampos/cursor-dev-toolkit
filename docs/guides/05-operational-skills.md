@@ -122,7 +122,7 @@ Optional: path to an existing overview file after review.
 
 **When to use:** You have a rough bug, user story, or technical story and want structured markdown with BDD acceptance criteria and a quality scorecard (saved locally, optional under `docs/backlog/`).
 
-**Typical handoff:** `use skill breakdown-tasks` or `use skill sdd-spec` to start SDD.
+**Typical handoff:** `use skill breakdown-tasks`, `use skill sdd-spec` (Forma A), or `use skill orchestrate-analyze` (Forma C multi-story). Prefer story under `features/NNN-slug/USnn/` when using the new layout.
 
 **Notes:** No external tracker API; output stays in your repo or chat until you commit.
 
@@ -132,11 +132,11 @@ Optional: path to an existing overview file after review.
 
 **Invoke:** `use skill breakdown-tasks`
 
-**When to use:** After `refine-backlog-item` (or similar input); group implementation steps into `docs/sdd-developation-tasks/<slug>.md` (backend / frontend / tests).
+**When to use:** After `refine-backlog-item` (or similar input); group implementation steps into a checklist. Preferred path: under the story folder (`features/.../USnn/` or `TSnn/`). Shortcut: `docs/implementation-tasks/<slug>.md` (legacy alias `docs/sdd-developation-tasks/` still accepted).
 
-**Typical handoff:** `use skill sdd-spec` - paste or reference the refined item and task file.
+**Typical handoff:** `use skill sdd-spec` / `use skill orchestrate-analyze` (complex / multi-story) — paste or reference the refined item and task file; or `use skill developer` for small scope.
 
-**Notes:** Complements SDD; does not replace PRD/PLAN for complex features.
+**Notes:** Complements SDD / Forma C; does not replace PRD/PLAN for complex features. See [10-forma-c-orquestracao](10-forma-c-orquestracao.md).
 
 ---
 

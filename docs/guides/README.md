@@ -4,7 +4,7 @@ Step-by-step manuals for the most common skills in **cursor-dev-toolkit**. Each 
 
 **Audience:** developers new to SDD in Cursor or to this toolkit.
 
-**Language:** these guides are in English. Agent chat replies may still follow your `user-language-pt-br` rule (Brazilian Portuguese). SDD artifacts (`PRD/`, `PLAN/`) stay in pt-BR by default; application code stays English.
+**Language:** guides 01–09 are in English. Guide [10 - Forma C](10-forma-c-orquestracao.md) is in **pt-BR** (agent orchestration guide). Agent chat replies may still follow your `user-language-pt-br` rule (Brazilian Portuguese). SDD artifacts stay in pt-BR by default; application code stays English.
 
 ---
 
@@ -25,19 +25,24 @@ Use this tree when you start work on a change. When in doubt, prefer the SDD pat
 ```mermaid
 flowchart TD
   Start([New task]) --> Q1{Medium or high complexity?<br/>migrations, multiple areas,<br/>unclear scope?}
-  Q1 -->|Yes| SDD[SDD workflow]
+  Q1 -->|Yes multi-story / brownfield| FC[Forma C orchestration]
+  Q1 -->|Yes single feature| SDD[Forma A SDD]
   Q1 -->|No| Q2{Small fix in one area?<br/>know the stack?}
   Q2 -->|Yes .NET| NET[dotnet-developer]
   Q2 -->|Yes other stack| STACK[stack skill or developer router]
   Q2 -->|Unsure| DEV[developer router]
   Q2 -->|No| SDD
   DEV --> STACK
+  FC --> O1["use skill orchestrate-analyze"]
+  O1 --> O2["use skill orchestrate-deliver"]
+  O2 --> O3["orchestrate-develop or sdd-develop"]
   SDD --> Spec["use skill sdd-spec"]
   Spec --> Plan["use skill sdd-plan"]
   Plan --> Impl["use skill sdd-develop<br/>(one PLAN step per chat)"]
   NET --> DoneNet[Code change]
   STACK --> DoneNet
   Impl --> DoneSdd[Code change]
+  O3 --> DoneSdd
   DoneNet --> Post
   DoneSdd --> Post
   Post[After code is ready] --> CR["use skill code-review"]
@@ -49,7 +54,8 @@ flowchart TD
 
 ```
 New task
-  ├─ Medium/high complexity OR unclear scope? -> sdd-spec -> sdd-plan -> sdd-develop (1 step per session)
+  ├─ Multi-story / brownfield / specialists?  -> Forma C: orchestrate-analyze -> deliver -> develop
+  ├─ Medium/high complexity (single feature)? -> sdd-spec -> sdd-plan -> sdd-develop (1 step/session)
   ├─ Small isolated .NET change?              -> dotnet-developer
   ├─ Small change, other stack?               -> stack skill or developer router
   └─ After code is ready                      -> code-review -> test-coverage -> commit
@@ -57,7 +63,8 @@ New task
 
 | Situation | Path | Guide |
 |-----------|------|--------|
-| Feature, migration, or cross-cutting design | `sdd-spec` -> `sdd-plan` -> `sdd-develop` | [01 - SDD workflow](01-sdd-workflow.md) |
+| Feature, migration, or cross-cutting design (Forma A) | `sdd-spec` -> `sdd-plan` -> `sdd-develop` | [01 - SDD workflow](01-sdd-workflow.md) |
+| Multi-story / brownfield / specialists (Forma C) | `orchestrate-analyze` -> `orchestrate-deliver` -> O3 \| `sdd-develop` | [10 - Forma C](10-forma-c-orquestracao.md) |
 | Router / unknown stack | `developer` | [02 - developer](02-developer.md) |
 | Small .NET fix, single area, no PRD | `dotnet-developer` | [02b - dotnet-developer](02b-dotnet-developer.md) |
 | React / Angular / Vue / Blazor / Electron / JS / Python | stack skills | [08 - stack developers](08-stack-developers.md) |
@@ -86,6 +93,7 @@ New task
 | [07-caveman-mode.md](07-caveman-mode.md) | `caveman-mode` (rule) | `caveman on` · `caveman off` |
 | [08-stack-developers.md](08-stack-developers.md) | stack `*-developer`, `blip-plugin-developer`, `impeccable` handoff | `use skill react-developer` · `use skill blip-plugin-developer` |
 | [09-scripts-and-toolkit.md](09-scripts-and-toolkit.md) | sync, validate, uninstall | `.\scripts\toolkit.ps1` |
+| [10-forma-c-orquestracao.md](10-forma-c-orquestracao.md) | `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` (pt-BR) | `use skill orchestrate-analyze` · `use skill orchestrate-deliver - <feature-path>` · `use skill orchestrate-develop - <feature-path>` |
 
 ---
 
@@ -98,6 +106,9 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 | `sdd-spec` | `use skill sdd-spec` | PRD from a feature request |
 | `sdd-plan` | `use skill sdd-plan` | Baby-step PLAN from PRD |
 | `sdd-develop` | `use skill sdd-develop` | Execute **one** PLAN step per session |
+| `orchestrate-analyze` | `use skill orchestrate-analyze` | Forma C O1 — triage + US/TS + CONTINUITY |
+| `orchestrate-deliver` | `use skill orchestrate-deliver` | Forma C O2 — PRD/PLAN per story |
+| `orchestrate-develop` | `use skill orchestrate-develop` | Forma C O3 — one subagent per PLAN step |
 | `speckit-setup` | `use skill speckit-setup` | Verify and install Spec Kit CLI prerequisites |
 | `speckit-init` | `use skill speckit-init` | Initialize `.specify/` and constitution.md in target repo |
 | `speckit-spec` | `use skill speckit-spec` | Create spec.md under `.specify/specs/` |
@@ -129,8 +140,9 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`.
 
 | Flow | Steps |
 |------|--------|
+| Forma C (multi-story / brownfield) | `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop` |
 | Repo documentation (RAG in target app) | `document-plan` -> `document-implement` |
-| Backlog -> SDD | `refine-backlog-item` -> optional `breakdown-tasks` -> `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| Backlog -> SDD (Forma B) | `refine-backlog-item` -> optional `breakdown-tasks` -> Forma A, Spec Kit, or Forma C |
 | Spec Kit SDD | `speckit-setup` -> `speckit-init` -> `speckit-spec` -> `speckit-plan` -> `speckit-develop` |
 | Frontend design -> implement | `impeccable shape` -> `DESIGN-BRIEF.md` -> matching `*-developer` |
 | Blip plugin scaffold -> implement | `blip-plugin-developer` -> SDD or Spec Kit -> `react-developer` |
@@ -156,7 +168,8 @@ Details: [03-code-review.md](03-code-review.md), [04-test-coverage.md](04-test-c
 
 | Artifact | Typical location | Committed to git? |
 |----------|------------------|-------------------|
-| PRD / PLAN (agent workflow) | `PRD/`, `PLAN/` at repo root **or** `~/.cursor/sdd/<repo-id>/` | Usually **no** (gitignored when stored in repo) |
+| Feature tree (Forma A/C) | `features/NNN-slug/` **or** `~/.cursor/sdd/<repo-id>/features/NNN-slug/` | Usually **no** (gitignored when stored in repo) |
+| PRD / PLAN (legacy root) | `PRD/`, `PLAN/` at repo root **or** global legacy | Usually **no**; new writes prefer `features/` |
 | User guides (this folder) | `docs/guides/` in **cursor-dev-toolkit** | **Yes** |
 
 Full rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (after sync). Explained in depth in [01-sdd-workflow.md](01-sdd-workflow.md).

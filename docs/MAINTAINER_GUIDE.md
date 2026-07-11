@@ -20,27 +20,32 @@ cursor-dev-toolkit/
 ├── scripts/                 # sync, toolkit.ps1, uninstall, validation/, maintainers/
 └── skills/                  # -> ~/.cursor/skills/
     ├── sdd-spec/, sdd-plan/, sdd-develop/
+    ├── orchestrate-analyze/, orchestrate-deliver/, orchestrate-develop/  # Forma C
     ├── speckit-setup/ … speckit-develop/
     ├── developer/, dotnet-developer/, react-developer/, blip-plugin-developer/, … stack skills
     ├── impeccable/          # Frontend design router
     ├── code-review/, commit/, push/, …
-    └── _shared/             # sdd-artifacts, guidelines, git/frontend/devops, validators
+    └── _shared/             # sdd-artifacts, agents/, templates/features/, guidelines, …
 ```
 
-## Skills (35 folders)
+## Skills (38 folders)
 
 See [SKILLS.md](SKILLS.md). Naming: **kebab-case** folders and `use skill <name>`.
+
+**Forma C (O1/O2/O3):** `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop`. Guide: [guides/10-forma-c-orquestracao.md](guides/10-forma-c-orquestracao.md). Classic layout: `features/NNN-slug/` (templates under `skills/_shared/templates/features/`).
 
 **Frontend / Blip:** `impeccable` (design router), `blip-plugin-developer` (new Blip extension scaffold). Shared packs: `blip-guidelines/`, `react-guidelines/`, `frontend-guidelines/`. Integration docs: [impeccable-integration.md](impeccable-integration.md), [blip-plugin-integration.md](blip-plugin-integration.md).
 
 ## Deploy and validate
+
+After changing skills, rules, or Forma C templates:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
 .\scripts\validation\validate-all.ps1
 ```
 
-Or: `.\scripts\toolkit.ps1` (interactive menu).
+Or: `.\scripts\toolkit.ps1` (interactive menu). `validate-skills-structure.ps1` asserts O1/O2/O3 folders and `templates/features/` + `agents/` artifacts.
 
 ## Checklist: new skill or rule
 

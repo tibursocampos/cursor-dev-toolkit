@@ -38,12 +38,12 @@ Re-run sync after pulling toolkit updates (idempotent).
 
 | Doc | Content |
 |-----|---------|
-| [docs/guides/README.md](docs/guides/README.md) | **Daily usage** - decision tree, skill manuals (guides 01-09) |
+| [docs/guides/README.md](docs/guides/README.md) | **Daily usage** - decision tree, skill manuals (guides 01-10) |
 | [docs/INSTALL.md](docs/INSTALL.md) | Install, sync, short usage index |
 | [docs/README.md](docs/README.md) | Documentation index |
 | [docs/HOOKS.md](docs/HOOKS.md) | Optional hooks (behavior, limits) |
 | [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md) | Repository layout and maintainer checklist |
-| [docs/SKILLS.md](docs/SKILLS.md) | Canonical skill catalog (35 skills) |
+| [docs/SKILLS.md](docs/SKILLS.md) | Canonical skill catalog (38 skills) |
 | [docs/impeccable-integration.md](docs/impeccable-integration.md) | Impeccable design -> DESIGN-BRIEF -> stack developer handoff |
 | [docs/blip-plugin-integration.md](docs/blip-plugin-integration.md) | Blip plugin scaffold -> SDD -> `react-developer` + `blip-guidelines/` |
 | [docs/architecture.md](docs/architecture.md) | Deployment and enforcement model |
@@ -106,6 +106,9 @@ cursor-dev-toolkit/
 | `sdd-spec` | `use skill sdd-spec` | PRD from a feature request |
 | `sdd-plan` | `use skill sdd-plan` | Baby-step PLAN from PRD |
 | `sdd-develop` | `use skill sdd-develop` | One PLAN step per session |
+| `orchestrate-analyze` | `use skill orchestrate-analyze` | Forma C O1 — multi-story analyze / backlog |
+| `orchestrate-deliver` | `use skill orchestrate-deliver` | Forma C O2 — PRD/PLAN per story |
+| `orchestrate-develop` | `use skill orchestrate-develop` | Forma C O3 — one PLAN step per subagent |
 | `speckit-setup` | `use skill speckit-setup` | Install Spec Kit CLI dependencies (Python, uv, specify-cli) |
 | `speckit-init` | `use skill speckit-init` | Initialize `.specify/` with stack-based `constitution.md` |
 | `speckit-spec` | `use skill speckit-spec` | Create technical specification `spec.md` |
@@ -133,7 +136,7 @@ cursor-dev-toolkit/
 | `breakdown-tasks` | `use skill breakdown-tasks` | Implementation task checklist (local markdown) |
 | `create-message-consumer` | `use skill create-message-consumer` | Scaffold message consumer (scaffold) |
 
-Optional flows: repo docs (`document-plan` -> `document-implement`); backlog (`refine-backlog-item` -> `breakdown-tasks` -> SDD); frontend design (`impeccable shape` -> `DESIGN-BRIEF.md` -> `*-developer`); Blip plugin (`blip-plugin-developer` -> SDD/spec -> `react-developer`); Spec Kit (`speckit-setup` -> `speckit-init` -> `speckit-spec` -> `speckit-plan` -> `speckit-develop`). See [AGENTS.md](AGENTS.md).
+Optional flows: Forma C (`orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop`); repo docs (`document-plan` -> `document-implement`); backlog (`refine-backlog-item` -> `breakdown-tasks` -> SDD); frontend design (`impeccable shape` -> `DESIGN-BRIEF.md` -> `*-developer`); Blip plugin (`blip-plugin-developer` -> SDD/spec -> `react-developer`); Spec Kit (`speckit-setup` -> `speckit-init` -> `speckit-spec` -> `speckit-plan` -> `speckit-develop`). See [AGENTS.md](AGENTS.md).
 
 Details and shared assets: [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md).
 
