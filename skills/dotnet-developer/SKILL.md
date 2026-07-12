@@ -1,4 +1,4 @@
----
+﻿---
 name: dotnet-developer
 description: Implement or fix small-to-medium .NET features without full SDD (Clean Architecture, xUnit). Use for isolated C# work or when invoking /dotnet-developer.
 ---
@@ -17,7 +17,7 @@ description: Implement or fix small-to-medium .NET features without full SDD (Cl
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```

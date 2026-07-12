@@ -1,4 +1,4 @@
----
+﻿---
 name: i18n-manager
 description: Extract hardcoded strings into .resx or .json localization files and replace with translation keys. Use when localizing code or invoking /i18n-manager.
 ---
@@ -18,7 +18,7 @@ description: Extract hardcoded strings into .resx or .json localization files an
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -89,7 +89,6 @@ Check `~/.cursor/sdd/preferences.json`:
 * Stop and ask the user to choose the workflow execution path to refactor and localize these strings:
   * **Option A - Direct Developer Skill (`/developer`):** For straightforward local string extraction and key replacements.
   * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For massive application-wide localization tasks requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`/speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 

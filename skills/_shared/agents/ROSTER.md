@@ -16,9 +16,9 @@ Install path after sync: `~/.cursor/skills/_shared/agents/`
 
 Stacks (`react`, `dotnet`, …) are **not** duplicated here - route via existing `*-developer` skills (`ROUTING.md`).
 
-## Flags (`needs_*`) — canonical spawn map (O1 source of truth)
+## Flags (`needs_*`) - canonical spawn map (O1 source of truth)
 
-Set on `FEATURE.md` during O1 triage. Spawn a Task specialist **only** when the flag is **true**. `orchestrate-analyze` SKILL must point here — do not maintain a divergent table in the SKILL body.
+Set on `FEATURE.md` during O1 triage. Spawn a Task specialist **only** when the flag is **true**. `orchestrate-analyze` SKILL must point here - do not maintain a divergent table in the SKILL body.
 
 | Flag | Spawn when true | Specialist / action | Prompt |
 |------|-----------------|---------------------|--------|
@@ -26,11 +26,11 @@ Set on `FEATURE.md` during O1 triage. Spawn a Task specialist **only** when the 
 | (brownfield / impact unclear) | Nature `brownfield` or impact unclear | `repo_analyst` | `prompts/repo_analyst.md` |
 | `needs_domain` | Domain / cross-cutting design | `architect` | `prompts/architect.md` |
 | `needs_database` | Persistence / schema | `database` | `prompts/database.md` |
-| `needs_frontend` | UI work | No O1 Task — note in CONTINUITY; route via `ROUTING.md` at implement | — |
+| `needs_frontend` | UI work | No O1 Task - note in CONTINUITY; route via `ROUTING.md` at implement | - |
 | `needs_security` | Auth, secrets, PII, supply-chain, threat surface | `security` | `prompts/security.md` |
-| `needs_devops` | Deploy / pipeline notes | Short CONTINUITY note only | — |
+| `needs_devops` | Deploy / pipeline notes | Short CONTINUITY note only | - |
 
-**TE01 / security signals:** Prefer `false` for ambiguous flags **except** when auth, secrets, PII, feed tokens, or supply-chain appear in the description — then ask explicitly or set `needs_security=true` (do not default those signals to `false`).
+**TE01 / security signals:** Prefer `false` for ambiguous flags **except** when auth, secrets, PII, feed tokens, or supply-chain appear in the description - then ask explicitly or set `needs_security=true` (do not default those signals to `false`).
 
 ## Triage
 
@@ -58,7 +58,7 @@ Set on `FEATURE.md` during O1 triage. Spawn a Task specialist **only** when the 
 | `prompts/risk.md` | Stage: risk register |
 | `prompts/generate-story.md` | Stage: draft US/TS STORY.md |
 
-`qa_checklist` has **no** prompt file — it is a CONTINUITY/STORY checklist role only (validators must not require `prompts/qa*.md`).
+`qa_checklist` has **no** prompt file - it is a CONTINUITY/STORY checklist role only (validators must not require `prompts/qa*.md`).
 
 ## Must not
 

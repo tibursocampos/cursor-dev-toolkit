@@ -8,10 +8,10 @@ Install path after sync: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`
 
 ## Storage modes
 
-| Mode | Feature root | Spec Kit (unchanged) |
-|------|--------------|----------------------|
-| **repository** | `$Cwd/features/NNN-slug/` | `$Cwd/.specify/` |
-| **global** | `<path>/features/NNN-slug/` where `<path>` = `~/.cursor/sdd/<repo-id>/` (or manifest `classic.path`) | `<path>/.specify/` |
+| Mode | Feature root |
+|------|--------------|
+| **repository** | `$Cwd/features/NNN-slug/` |
+| **global** | `<path>/features/NNN-slug/` where `<path>` = `~/.cursor/sdd/<repo-id>/` (or manifest `classic.path`) |
 
 Use `$HOME/.cursor/sdd/...` on macOS/Linux when expanding paths in tools.
 
@@ -59,8 +59,8 @@ Run **before** the first `Write` under any SDD folder in the workspace (`sdd-spe
    |---------|-----------|
    | `/features/` | Canonical Classic / Forma C artifacts (repo root only) |
    | `/docs/features/` | Reserved alternate under docs |
-   | `/PRD/` | Safety net — ignore accidental root PRD (not a write destination) |
-   | `/PLAN/` | Safety net — ignore accidental root PLAN (not a write destination) |
+   | `/PRD/` | Safety net - ignore accidental root PRD (not a write destination) |
+   | `/PLAN/` | Safety net - ignore accidental root PLAN (not a write destination) |
    | `/docs/PRD/` | Safety net |
    | `/docs/PLAN/` | Safety net |
 
@@ -112,8 +112,6 @@ Always pass the **full path** used on disk:
 ```text
 /sdd-plan - features/003-feature/US01/PRD/003_feature.md
 /sdd-develop - features/003-feature/US01/PLAN/PLAN_003_feature.md - Step 1
-/speckit-plan - .specify/specs/003-feature/spec.md
-/speckit-develop - .specify/specs/003-feature/tasks.md
 ```
 
 ## Forbidden paths (not used)
@@ -126,7 +124,7 @@ Do **not** read, write, or continue Classic SDD from:
 | `$Cwd/docs/PRD/`, `$Cwd/docs/PLAN/` | Same |
 | `<global>/PRD/`, `<global>/PLAN/` (flat, outside `features/`) | Same |
 | Loose `REFINE/` / `ANALYSIS/` / `ARCH/` / `SEC/` at repo root | Must live under `features/NNN-slug/USnn/` |
-| `docs/backlog/` | Forma B shortcut drafts only — not canonical PRD/PLAN |
+| `docs/backlog/` | Forma B shortcut drafts only - not canonical PRD/PLAN |
 | Generic `docs/*.md`, repo-root markdown without feature tree | Not SDD storage |
 
 When the user cites a non-canonical `.md`: read it, build the artifact per skill templates, confirm path (`PIPELINE.md` § Confirm before write), then `Write` only under `features/NNN-slug/...`.
@@ -141,11 +139,6 @@ When the user cites a non-canonical `.md`: read it, build the artifact per skill
 | orchestrate-* (Forma C) | Yes if first run | Repository mode only | Feature tree + stories |
 | refine-backlog-item | Prefer feature `STORY.md` | No (unless first SDD write) | Optional `docs/backlog/` shortcut |
 | breakdown-tasks | Prefer feature story folder | No | Task checklist under story / backlog |
-| speckit-setup | No | No | Global manifest directories |
-| speckit-init | Yes (resolves storage) | Repository mode only | `.specify/` + manifest |
-| speckit-spec | No - uses resolved storage | Repository mode only | `spec.md` |
-| speckit-plan | No - uses resolved storage | Repository mode only | `plan.md` + `tasks.md` |
-| speckit-develop | No - uses resolved storage | No | Updates `tasks.md` |
 | code-review | No | No | Read-only |
 | fix-build | No | No | Read-only |
 | document-plan / document-implement | No | No | **Do not** use this file for `docs/documentation-plan/plan.md` |
@@ -154,7 +147,7 @@ When the user cites a non-canonical `.md`: read it, build the artifact per skill
 
 ## Global manifest and dynamic storage resolution (schema v2)
 
-> **Used by:** all `sdd-*`, `speckit-*`, `refine-backlog-item`, `breakdown-tasks`, and Forma C `orchestrate-*` skills.
+> **Used by:** all `sdd-*`, `refine-backlog-item`, `breakdown-tasks`, and Forma C `orchestrate-*` skills.
 
 ### Manifest location
 
@@ -172,12 +165,6 @@ $env:USERPROFILE\.cursor\sdd\manifest.json
       "classic": {
         "storage_mode": "global",
         "path": "$HOME/.cursor/sdd/MyApp"
-      },
-      "speckit": {
-        "storage_mode": "global",
-        "path": "$HOME/.cursor/sdd/MyApp",
-        "initialized": true,
-        "init_validated_at": "2026-06-21T12:00:00Z"
       }
     }
   }
@@ -186,14 +173,15 @@ $env:USERPROFILE\.cursor\sdd\manifest.json
 
 Use placeholder paths in docs; never hardcode `C:/Users/<name>/...`.
 
+**Legacy:** older manifests may still contain a `speckit` section. Ignore it; do not require or rewrite it automatically (optional cleanup documented at end of feature 004).
+
 ### Legacy migration (v1 -> v2)
 
-If a repository entry has top-level `storage_mode` and `path` (no `classic`/`speckit`), migrate in memory:
+If a repository entry has top-level `storage_mode` and `path` (no `classic`), migrate in memory:
 
 ```json
 {
-  "classic": { "storage_mode": "repository", "path": "D:/Source/Repos/MyApp" },
-  "speckit": { "storage_mode": "repository", "path": "D:/Source/Repos/MyApp", "initialized": false }
+  "classic": { "storage_mode": "repository", "path": "D:/Source/Repos/MyApp" }
 }
 ```
 
@@ -201,7 +189,7 @@ Run `.\scripts\maintainers\migrate-manifest-v2.ps1` to persist. Write back on fi
 
 ### Resolution algorithm
 
-Execute at skill load time, before any read or write. Parameter: `$Workflow` = `classic` | `speckit`.
+Execute at skill load time, before any read or write. Parameter: `$Workflow` = `classic` (only supported workflow).
 
 ```
 1. Normalize $Cwd (replace \ with /, trim trailing /).
@@ -209,10 +197,10 @@ Execute at skill load time, before any read or write. Parameter: `$Workflow` = `
 3. Look up repositories[$Cwd].
 4. If NOT found (first run):
    a. Ask user (pt-BR) storage for classic SDD (local vs global).
-   b. Ask user (pt-BR) storage for Spec Kit (local vs global - may match classic path).
-   c. Write classic + speckit sections; set speckit.initialized = false.
-   d. Set session gate storage_confirmed = true after user sim.
-5. If found: read repositories[$Cwd][$Workflow].storage_mode and .path.
+   b. Write classic section only.
+   c. Set session gate storage_confirmed = true after user sim.
+5. If found: read repositories[$Cwd].classic.storage_mode and .path
+   (ignore any legacy speckit key).
 6. Derive classic feature root:
    - repository -> $Cwd/features/
    - global     -> <classic.path>/features/
@@ -220,18 +208,16 @@ Execute at skill load time, before any read or write. Parameter: `$Workflow` = `
    features/NNN-slug/[USnn|TSnn]/{PRD|PLAN|...}
    (Forma A default story = US01 when unspecified).
    Never use repo-root or global-flat PRD/ / PLAN/.
-8. For speckit skills (except setup/init): if speckit.initialized != true, run
-   `validation/validate-speckit-init.ps1`; if fail -> STOP - handoff to speckit-init.
 ```
 
 ### Physical path mapping
 
-| storage_mode | Spec Kit | Classic feature root | Classic PRD | Classic PLAN |
-|---|---|---|---|---|
-| `repository` | `$Cwd/.specify/` | `$Cwd/features/` | `$Cwd/features/NNN-slug/USnn/PRD/` | `$Cwd/features/NNN-slug/USnn/PLAN/` |
-| `global` | `<path>/.specify/` | `<path>/features/` | `<path>/features/NNN-slug/USnn/PRD/` | `<path>/features/NNN-slug/USnn/PLAN/` |
+| storage_mode | Classic feature root | Classic PRD | Classic PLAN |
+|---|---|---|---|
+| `repository` | `$Cwd/features/` | `$Cwd/features/NNN-slug/USnn/PRD/` | `$Cwd/features/NNN-slug/USnn/PLAN/` |
+| `global` | `<path>/features/` | `<path>/features/NNN-slug/USnn/PRD/` | `<path>/features/NNN-slug/USnn/PLAN/` |
 
-`<path>` = `repositories[$Cwd][$Workflow].path`
+`<path>` = `repositories[$Cwd].classic.path`
 
 ### Resolution checklist (repository vs global)
 

@@ -19,7 +19,7 @@ description: >-
 | Field | Rules |
 |-------|--------|
 | `name` | kebab-case; max 64 chars; equals folder name |
-| `description` | English, third person; **WHAT + WHEN**; soft target **~180–280** chars; hard max **1024** (Cursor). Always include `"/<name>"` matching `name`. Prefer slash-menu readability over listing every stack detail. |
+| `description` | English, third person; **WHAT + WHEN**; soft target **~180-280** chars; hard max **1024** (Cursor). Always include `"/<name>"` matching `name`. Prefer slash-menu readability over listing every stack detail. |
 
 **Invoke (canonical in docs / handoffs / Trigger):** `` `/<name> - <args>` ``  
 **Compat:** `use skill <name>` still works (hooks / muscle memory); do not make it the primary example.
@@ -40,7 +40,7 @@ description: >-
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -55,12 +55,12 @@ The STOP block above is ~27 lines and does not count toward editorial budget.
 
 **Size:** hard limit **500 lines** total per `SKILL.md` (Cursor / Agent Skills). Soft targets: workflow skills 150-300 lines after the gate; atomic skills (`push`) may be shorter. Put long templates in `reference.md` but keep decision tables and must-not inline.
 
-- **Trigger** — lead with `/<name>`; optional one-line note that `use skill <name>` still works
+- **Trigger** - lead with `/<name>`; optional one-line note that `use skill <name>` still works
 - **Outcome**
 - **Lazy-load**
 - **Process**
 - **Must not**
-- **Handoff** — exact next string: `` `/next-skill - <full-paths>` ``
+- **Handoff** - exact next string: `` `/next-skill - <full-paths>` ``
 
 ### Develop skills - mandatory session end
 

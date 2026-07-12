@@ -52,9 +52,9 @@ Expected savings: 22-87% of output prose tokens per session.
 | Skill | Level |
 |---|---|
 | `commit` | **NEVER** - excluded regardless of setting |
-| `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan` | **LITE** when mode ON |
+| `sdd-spec`, `sdd-plan` | **LITE** when mode ON |
 | `code-review`, `developer`, `fix-build`, `test-coverage` | **FULL** when mode ON |
-| `sdd-develop`, `speckit-develop` | **FULL** when mode ON |
+| `sdd-develop` | **FULL** when mode ON |
 
 **Always protected in every skill (never compressed under any mode):**
 - Confirmation gates: `(sim / ajustar / cancelar)` blocks
@@ -66,7 +66,7 @@ Expected savings: 22-87% of output prose tokens per session.
 
 ## Full Mode Rules
 
-Apply to: `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop`, `speckit-develop`.
+Apply to: `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop`.
 
 **Strip completely:**
 - Opening preambles ("Claro! Vou ajudar com isso.", "Ótima pergunta!", "Com certeza!")
@@ -91,7 +91,7 @@ Apply to: `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop
 
 ## Lite Mode Rules
 
-Apply to: `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan`.
+Apply to: `sdd-spec`, `sdd-plan`.
 
 **Strip:**
 - Opening preambles and framing before questions
@@ -134,8 +134,8 @@ Posso gravar em `{path}`? (sim / ajustar / cancelar)
 
 | Consumer | Load condition |
 |---|---|
-| `sdd-develop`, `speckit-develop` | Step -1, if caveman_mode check passes |
+| `sdd-develop` | Step -1, if caveman_mode check passes |
 | `code-review`, `developer`, `fix-build`, `test-coverage` | Step -1, if caveman_mode check passes |
-| `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan` | Step -1, if caveman_mode check passes (Lite rules only) |
+| `sdd-spec`, `sdd-plan` | Step -1, if caveman_mode check passes (Lite rules only) |
 | `AGENTS.md` | Reference only - documents the toggle and participation table |
 | `PIPELINE.md` | Reference only - documents confirmation gate protection |

@@ -4,7 +4,7 @@ Step-by-step manuals for the most common skills in **cursor-dev-toolkit**. Each 
 
 **Audience:** developers new to SDD in Cursor or to this toolkit.
 
-**Language:** guides 01–09 are in English. Guide [10 - Forma C](10-forma-c-orquestracao.md) is in **pt-BR** (agent orchestration guide). Agent chat replies may still follow your `user-language-pt-br` rule (Brazilian Portuguese). SDD artifacts stay in pt-BR by default; application code stays English.
+**Language:** guides are in English except [10 - Forma C](10-forma-c-orquestracao.md) (**pt-BR**). Agent chat replies may still follow your `user-language-pt-br` rule (Brazilian Portuguese). SDD artifacts stay in pt-BR by default; application code stays English.
 
 ---
 
@@ -73,7 +73,6 @@ New task
 | Review before commit/merge | `code-review` | [03 - code-review](03-code-review.md) |
 | Coverage report (.NET, Coverlet) | `test-coverage` | [04 - test-coverage](04-test-coverage.md) |
 | Commit, fix-build, migrations, backlog, repo docs | See operational guide | [05 - operational skills](05-operational-skills.md) |
-| Structured CLI-based specification & planning | `speckit-spec` -> `speckit-plan` -> `speckit-develop` | [06 - Spec Kit workflow](06-speckit-workflow.md) |
 | Speed up chat and save token costs | Response compression | [07 - Caveman Mode](07-caveman-mode.md) |
 | Scripts, sync, validation | `toolkit.ps1`, `sync-cursor.ps1` | [09 - scripts and toolkit](09-scripts-and-toolkit.md) |
 
@@ -91,7 +90,6 @@ Guide [01 - SDD workflow](01-sdd-workflow.md) uses canonical `features/NNN-slug/
 | [03-code-review.md](03-code-review.md) | `code-review` | `/code-review` |
 | [04-test-coverage.md](04-test-coverage.md) | `test-coverage` | `/test-coverage` |
 | [05-operational-skills.md](05-operational-skills.md) | `commit`, `fix-build`, `add-migrations`, `document-plan`, `document-implement`, `refine-backlog-item`, `breakdown-tasks`, `create-message-consumer` | `/<kebab-name>` |
-| [06-speckit-workflow.md](06-speckit-workflow.md) | `speckit-setup`, `speckit-init`, `speckit-spec`, `speckit-plan`, `speckit-develop` | `/speckit-setup` · `/speckit-spec` |
 | [07-caveman-mode.md](07-caveman-mode.md) | `caveman-mode` (rule) | `caveman on` · `caveman off` |
 | [08-stack-developers.md](08-stack-developers.md) | stack `*-developer`, `blip-plugin-developer`, `impeccable` handoff | `/react-developer` · `/blip-plugin-developer` |
 | [09-scripts-and-toolkit.md](09-scripts-and-toolkit.md) | sync, validate, uninstall | `.\scripts\toolkit.ps1` |
@@ -101,21 +99,16 @@ Guide [01 - SDD workflow](01-sdd-workflow.md) uses canonical `features/NNN-slug/
 
 ## Skills catalog (quick reference)
 
-Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list of **38** skills: [docs/SKILLS.md](../SKILLS.md).
+Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list of **34** skills: [docs/SKILLS.md](../SKILLS.md).
 
 | Skill | Invoke | Use for |
 |-------|--------|---------|
 | `sdd-spec` | `/sdd-spec` | PRD from a feature request |
 | `sdd-plan` | `/sdd-plan` | Baby-step PLAN from PRD |
 | `sdd-develop` | `/sdd-develop` | Execute **one** PLAN step per session |
-| `orchestrate-analyze` | `/orchestrate-analyze` | Forma C O1 — triage + US/TS + CONTINUITY |
-| `orchestrate-deliver` | `/orchestrate-deliver` | Forma C O2 — PRD/PLAN per story |
-| `orchestrate-develop` | `/orchestrate-develop` | Forma C O3 — one subagent per PLAN step |
-| `speckit-setup` | `/speckit-setup` | Verify and install Spec Kit CLI prerequisites |
-| `speckit-init` | `/speckit-init` | Initialize `.specify/` and constitution.md in target repo |
-| `speckit-spec` | `/speckit-spec` | Create spec.md under `.specify/specs/` |
-| `speckit-plan` | `/speckit-plan` | Generate plan.md and tasks.md from spec |
-| `speckit-develop` | `/speckit-develop` | Implement code and run tests for one tasks.md item |
+| `orchestrate-analyze` | `/orchestrate-analyze` | Forma C O1 - triage + US/TS + CONTINUITY |
+| `orchestrate-deliver` | `/orchestrate-deliver` | Forma C O2 - PRD/PLAN per story |
+| `orchestrate-develop` | `/orchestrate-develop` | Forma C O3 - one subagent per PLAN step |
 | `code-review` | `/code-review` | Review diff/branch vs PRD/PLAN; asks single vs multi-angle if omitted |
 | `commit` | `/commit` | Conventional commit (optional push handoff) |
 | `push` | `/push` | `git push` on current feature branch |
@@ -150,10 +143,9 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list 
 |------|--------|
 | Forma C (multi-story / brownfield) | `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop` |
 | Repo documentation (RAG in target app) | `document-plan` -> `document-implement` |
-| Backlog -> SDD (Forma B) | `refine-backlog-item` -> optional `breakdown-tasks` -> Forma A, Spec Kit, or Forma C |
-| Spec Kit SDD | `speckit-setup` -> `speckit-init` -> `speckit-spec` -> `speckit-plan` -> `speckit-develop` |
+| Backlog -> SDD (Forma B) | `refine-backlog-item` -> optional `breakdown-tasks` -> Forma A or Forma C |
 | Frontend design -> implement | `impeccable shape` -> `DESIGN-BRIEF.md` -> matching `*-developer` |
-| Blip plugin scaffold -> implement | `blip-plugin-developer` -> SDD or Spec Kit -> `react-developer` |
+| Blip plugin scaffold -> implement | `blip-plugin-developer` -> Forma A or Forma C -> `react-developer` |
 | Build failure | `fix-build` -> optional `commit` |
 
 > **Note:** `document-plan` / `document-implement` document **application repositories** for RAG. They are not a substitute for these **toolkit** guides under `docs/guides/`.

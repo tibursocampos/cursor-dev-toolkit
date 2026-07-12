@@ -9,7 +9,7 @@
 | [TOKEN_BUDGET.md](TOKEN_BUDGET.md) | Toolkit builders | Token/cost guidance when extending content |
 | [architecture.md](architecture.md) | Maintainers | Cursor deployment model (rules, hooks, sync) |
 | [shared-guidelines.md](shared-guidelines.md) | Skill authors | Index of `_shared/` guideline packs |
-| [SKILLS.md](SKILLS.md) | All users | Canonical skill catalog (38 skills) |
+| [SKILLS.md](SKILLS.md) | All users | Canonical skill catalog (34 skills) |
 | [impeccable-integration.md](impeccable-integration.md) | Frontend / design | Impeccable -> DESIGN-BRIEF -> stack developer |
 | [blip-plugin-integration.md](blip-plugin-integration.md) | Blip plugin authors | Scaffold, profiles, handoff, anti-patterns |
 | [../skills/test-coverage/SKILL.md](../skills/test-coverage/SKILL.md) | Skill users | Coverage workflow (`/test-coverage`) |

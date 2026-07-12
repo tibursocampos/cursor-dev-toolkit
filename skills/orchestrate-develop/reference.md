@@ -8,15 +8,29 @@ Anti-bypass checklist, step queue, safe parallelism, CONTINUITY, Task child prom
 
 - [ ] Gate check reported; user **sim** for this O3 run / next spawn
 - [ ] Feature and/or PLAN path resolved (`STORAGE.md`, classic)
+- [ ] **Step 0** Memory Bank Gate done (`auto`; explicit `skip-memory-bank` only to bypass)
 - [ ] At least one `features/**/PLAN/PLAN_*.md` under story folders (or global `.../features/**/PLAN/`)
 - [ ] Next step deps **Completed** / **Concluídos**
 - [ ] Parent will **not** implement app code
+- [ ] Child prompts include `memoryBankPath` (read-only, selective)
 
-If no PLAN → hand off to O2 / `sdd-plan`. If user prefers no orchestrator → document manual `sdd-develop` and stop.
+If no PLAN -> hand off to O2 / `sdd-plan`. If user prefers no orchestrator -> document manual `sdd-develop` and stop (Forma A: no memory-bank gate - CA7).
 
 ---
 
-## Anti-bypass checklist (CA5) — copy into enforcement
+## Step 0 - Memory Bank Gate (CA4 / CT3)
+
+| Check | Pass |
+|-------|------|
+| Fresh healthy bank | No rewrite; CONTINUITY status `fresh` |
+| Refresh this run | CONTINUITY status `refreshed` |
+| Children | Receive bank path; selective read; no bank dump |
+| CONTINUITY vs bank | CONTINUITY = phase/handoff; bank = repo map |
+| 1-step contract | Unchanged - one child = one PLAN step |
+
+---
+
+## Anti-bypass checklist (CA5) - copy into enforcement
 
 Use before every spawn and before marking any step done.
 
@@ -33,7 +47,7 @@ Use before every spawn and before marking any step done.
 | 9 | No `*-developer` from parent for PLAN steps | Parent implements via stack skill instead of child sdd-develop |
 | 10 | CONTINUITY only in parent after child | Parent pastes full diffs as “implementation” |
 
-Any violation → **STOP**, fix process, do not mark step complete.
+Any violation -> **STOP**, fix process, do not mark step complete.
 
 ---
 
@@ -55,7 +69,7 @@ Story preference: finish one story’s PLAN before starting another unless user 
 
 ## Safe parallelism rules
 
-Parallel O3 is **supported**. Root cause of gate races is fixed by PLAN-scoped (or PLAN+step) develop sessions in `SESSION.md` — not by disabling parallel, not by worktrees.
+Parallel O3 is **supported**. Root cause of gate races is fixed by PLAN-scoped (or PLAN+step) develop sessions in `SESSION.md` - not by disabling parallel, not by worktrees.
 
 | Allowed | Not allowed |
 |---------|-------------|
@@ -93,14 +107,14 @@ O3 **orchestrates invocation**; it does **not** replace those documents.
 Give each child:
 
 1. Exact PLAN path + step number/title
-2. Instruction: execute `/sdd-develop` contract for **this step only** — load `sdd-develop/SKILL.md`
-3. Instruction: load develop SESSION scoped per `SESSION.md` — `plan-{planHash}.json`, or `plan-{planHash}-step-{N}.json` if this is a same-PLAN parallel spawn
-4. Prior-context paths only (PRD, STORY, CONTINUITY, FEATURE) — do not paste bodies
+2. Instruction: execute `/sdd-develop` contract for **this step only** - load `sdd-develop/SKILL.md`
+3. Instruction: load develop SESSION scoped per `SESSION.md` - `plan-{planHash}.json`, or `plan-{planHash}-step-{N}.json` if this is a same-PLAN parallel spawn
+4. Prior-context paths only (PRD, STORY, CONTINUITY, FEATURE, **`memoryBankPath`**) - do not paste bodies; selective bank read only
 5. Must stop after updating PLAN for this step; must run targeted tests before complete
 6. Return: `{ planPath, step, status: done|blocked, files[], testsSummary, nextStep?, blockedReason? }`
-7. Must not: other PLAN steps; weaken gates; skip tests; auto-commit unless user asked inside that child session; write develop gates to the flat repo session when PLAN path is known
+7. Must not: other PLAN steps; weaken gates; skip tests; auto-commit unless user asked inside that child session; write develop gates to the flat repo session when PLAN path is known; write under `memory-bank/` unless this child is explicitly running memory-bank-init (normal develop children: read-only)
 
-Parent: merge return → CONTINUITY → gate for next spawn.
+Parent: merge return -> CONTINUITY -> gate for next spawn.
 
 ---
 
@@ -116,15 +130,16 @@ Update when:
 
 | Field | Rule |
 |-------|------|
-| **Phase** | `develop` until all planned work done → `review` |
+| **Phase** | `develop` until all planned work done -> `review` |
 | **Last agent** | `orchestrate-develop` |
+| **Memory-bank** | Path + status from Step 0 |
 | **Estado atual** | ≤10 lines |
 | **Handoff tipado** | Full path `/…` |
-| **What not to write** | Full code diffs, guideline dumps |
+| **What not to write** | Full code diffs, guideline dumps, memory-bank body |
 
 ---
 
-## Example — serial two steps then review
+## Example - serial two steps then review
 
 Feature: `features/004-nuget-extract/`  
 PLAN: `features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md`
@@ -132,9 +147,9 @@ PLAN: `features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md`
 ```text
 ## O3 run
 
-1) sim → Task(sdd-develop Step 1) → CONTINUITY update
-2) new chat or sim → Task(sdd-develop Step 2) → …
-3) TS01 complete → handoff:
+1) sim -> Task(sdd-develop Step 1) -> CONTINUITY update
+2) new chat or sim -> Task(sdd-develop Step 2) -> …
+3) TS01 complete -> handoff:
 
 /code-review
 /code-review - single
@@ -149,7 +164,7 @@ PLAN: `features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md`
 ## Handoff copy (pt-BR / strings)
 
 ```text
-## Handoff O3 → review
+## Handoff O3 -> review
 
 /code-review
 /code-review - single
@@ -211,5 +226,5 @@ Handoff `/code-review` (user may pass `- single` / `- multi-angle`; if omitted, 
 - Mandatory multi-angle review
 - Git worktrees for multi-US
 - ADO / Celebration / Keycloak / mandatory Sonar corp
-- Spec Kit changes
+- Spec Kit / `.specify` (removed from toolkit — use Formas A/B/C)
 - Weakening `sdd-develop` one-step contract

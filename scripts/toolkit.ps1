@@ -26,9 +26,9 @@ function Show-Menu {
     Write-Host '[1] Sync toolkit (deploy to ~/.cursor/)'
     Write-Host '[2] Run smoke tests (core)'
     Write-Host '[3] Deploy and test (sync + smoke tests)'
-    Write-Host '[4] Full validation (includes Spec Kit and session gates)'
+    Write-Host '[4] Full validation (includes session gates)'
     Write-Host '[5] Maintainer suite (normalize encoding, fix/inject gates)'
-    Write-Host '[6] Configure toolkit repo for SDD (setup-speckit and config)'
+    Write-Host '[6] Configure toolkit repo for SDD (configure-repo-sdd)'
     Write-Host '[7] Uninstall toolkit from ~/.cursor/ (-DryRun preview)'
     Write-Host '[0] Exit'
     Write-Host '=========================================' -ForegroundColor Cyan
@@ -137,9 +137,8 @@ while ($true) {
             }
         }
         '4' {
-            Write-StepBanner 'Full validation (Spec Kit + session gates)'
+            Write-StepBanner 'Full validation (session gates)'
             $null = Invoke-ToolkitScript -RelativePath 'validation\validate-all.ps1' -ArgumentList @(
-                '-IncludeSpeckit',
                 '-IncludeSessionGate',
                 '-RepoPath',
                 $repoRoot
@@ -157,25 +156,15 @@ while ($true) {
             }
         }
         '6' {
-            Write-StepBanner 'SDD setup (toolkit repo)'
-            $setupOk = Invoke-ToolkitScript -RelativePath 'setup-speckit.ps1'
-            $configOk = $false
-            if ($setupOk) {
-                Write-StepBanner 'Configure manifest for toolkit repo'
-                $configOk = Invoke-ToolkitScript -RelativePath 'configure-repo-sdd.ps1' -ArgumentList @(
-                    '-StorageMode',
-                    'global',
-                    '-RepoPath',
-                    $repoRoot
-                )
-            }
-            else {
-                Write-Host 'Skipping configure-repo-sdd because setup-speckit failed or exited early.' -ForegroundColor Yellow
-            }
-
+            Write-StepBanner 'Configure manifest for toolkit repo'
+            $configOk = Invoke-ToolkitScript -RelativePath 'configure-repo-sdd.ps1' -ArgumentList @(
+                '-StorageMode',
+                'global',
+                '-RepoPath',
+                $repoRoot
+            )
             Write-WorkflowSummary @{
-                SetupSpeckit = if ($setupOk) { 'PASS' } else { 'FAIL' }
-                ConfigureSdd = if (-not $setupOk) { 'SKIP' } elseif ($configOk) { 'PASS' } else { 'FAIL' }
+                ConfigureSdd = if ($configOk) { 'PASS' } else { 'FAIL' }
             }
         }
         '7' {

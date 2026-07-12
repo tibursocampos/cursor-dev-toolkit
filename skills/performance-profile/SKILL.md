@@ -1,4 +1,4 @@
----
+﻿---
 name: performance-profile
 description: Find performance bottlenecks, set up micro-benchmarks, and optimize hot paths. Use when optimizing performance or invoking /performance-profile.
 ---
@@ -18,7 +18,7 @@ description: Find performance bottlenecks, set up micro-benchmarks, and optimize
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -89,7 +89,6 @@ Check `~/.cursor/sdd/preferences.json`:
 * Stop and ask the user to choose the workflow execution path for applying and benchmarking these optimizations:
   * **Option A - Direct Developer Skill (`/developer`):** For straightforward local optimization and benchmark setup.
   * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings or query tuning requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`/speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 

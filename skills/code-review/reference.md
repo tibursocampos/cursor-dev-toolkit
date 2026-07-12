@@ -13,7 +13,7 @@ Run in **step 0.5** before scoping the diff. Load `~/.cursor/skills/_shared/sdd-
 1. **Target repo** - open workspace is the project under review (not `cursor-dev-toolkit` unless that is the subject).
 2. **`<repo-id>`** - per `STORAGE.md`: `git remote get-url origin` -> slug; else workspace root basename; reuse `repo_id` from manifest when present.
 3. **Manifest** - read `~/.cursor/sdd/<repo-id>/manifest.json` when it exists and `workspace_root` (normalized separators, case-insensitive on Windows) matches the open workspace -> derive classic feature root from `STORAGE.md` (repository `features/` or global `.../features/`).
-4. **Glob** (parallel) — **only** under `features/` (never root/flat `PRD/` or `PLAN/`):
+4. **Glob** (parallel) - **only** under `features/` (never root/flat `PRD/` or `PLAN/`):
 
    | Location | Patterns |
    |----------|----------|
@@ -305,7 +305,7 @@ Run when PRD, PLAN, or user requires coverage evidence:
 
 ## Multi-angle mode
 
-Optional enrichment of the same report template. **No silent default:** if the invoke omits both single and multi, the skill **must ask** (pt-BR) before step 0.5 — see `SKILL.md` § Trigger and § 0.25. O3 may suggest review; never auto-blocks the pipeline.
+Optional enrichment of the same report template. **No silent default:** if the invoke omits both single and multi, the skill **must ask** (pt-BR) before step 0.5 - see `SKILL.md` § Trigger and § 0.25. O3 may suggest review; never auto-blocks the pipeline.
 
 ### Invoke examples
 
@@ -316,7 +316,7 @@ Optional enrichment of the same report template. **No silent default:** if the i
 /code-review - ângulos: qualidade, aceite, segurança
 ```
 
-Bare `/code-review` → ask mode (1 single / 2 multi-ângulo). Subset allowed, e.g. `ângulos: qualidade, segurança`. Synonyms: `multi-ângulo`, `multi-angle`, `single`, `single-angle`, `simples`.
+Bare `/code-review` -> ask mode (1 single / 2 multi-ângulo). Subset allowed, e.g. `ângulos: qualidade, segurança`. Synonyms: `multi-ângulo`, `multi-angle`, `single`, `single-angle`, `simples`.
 
 ### Checklist per angle
 
@@ -340,7 +340,7 @@ Bare `/code-review` → ask mode (1 single / 2 multi-ângulo). Subset allowed, e
 - [ ] AuthZ / AuthN assumptions for new endpoints or jobs
 - [ ] Input validation / injection (SQL, command, template)
 - [ ] Secrets and PII handling (no hardcoded secrets; no sensitive logs)
-- [ ] Dangerous defaults — hint source: `_shared/agents/prompts/security.md`
+- [ ] Dangerous defaults - hint source: `_shared/agents/prompts/security.md`
 - [ ] Evidence-based findings only; state what to verify if data is missing
 
 ### Merging Task outputs into the report
@@ -348,8 +348,8 @@ Bare `/code-review` → ask mode (1 single / 2 multi-ângulo). Subset allowed, e
 1. Spawn one Task per requested angle (parallel); parent keeps the default flow for build/test/coverage.
 2. Deduplicate overlapping findings; keep the strongest severity and clearest `path:line`.
 3. Map into the existing template sections:
-   - Blocking bugs / security / broken PRD scope → **Problemas críticos**
-   - Non-blocking quality, PLAN/PRD drift, gaps → **Problemas importantes**
-   - Optional polish → **Nice-to-have**
+   - Blocking bugs / security / broken PRD scope -> **Problemas críticos**
+   - Non-blocking quality, PLAN/PRD drift, gaps -> **Problemas importantes**
+   - Optional polish -> **Nice-to-have**
 4. Fold security-angle notes into § Segurança; acceptance into § Aderência ao PRD / Verificação do PLAN; quality into analysis sections and positives.
-5. Apply the **same** decision matrix and coverage gates — multi-angle does not change Approved / Approved with reservations / Changes required semantics.
+5. Apply the **same** decision matrix and coverage gates - multi-angle does not change Approved / Approved with reservations / Changes required semantics.

@@ -1,4 +1,4 @@
----
+﻿---
 name: document-plan
 description: Create a baby-step documentation plan (overview + domain deep dives for RAG). Asks doc language before writing. Use when planning repo docs or invoking /document-plan.
 ---
@@ -17,7 +17,7 @@ description: Create a baby-step documentation plan (overview + domain deep dives
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```

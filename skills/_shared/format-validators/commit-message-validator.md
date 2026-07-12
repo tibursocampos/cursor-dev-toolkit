@@ -47,7 +47,7 @@ Do **not** use ticket id as the type prefix (e.g. avoid `feat(42):`).
 
 ### Rule 4: No Cursor co-author attribution
 
-- **Forbidden:** `Co-authored-by:` lines naming Cursor (any email/domain), Antigravity, or any AI agent — in body or footers
+- **Forbidden:** `Co-authored-by:` lines naming Cursor (any email/domain), Antigravity, or any AI agent - in body or footers
 - **Forbidden:** `git commit --trailer` / `--trailer=…` (or equivalent) used to add co-author trailers
 - **Severity:** Error
 - **Fix:** Remove the trailer/footer; commit with approved Conventional Commits text only (`-F` preferred)

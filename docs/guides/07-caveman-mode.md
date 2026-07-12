@@ -47,8 +47,8 @@ Different skills implement compression to varying degrees to preserve clarity wh
 | Participation Level | Skills | Behavior |
 |---|---|---|
 | **NEVER** | `commit` | Standard communication. Excluded to ensure critical git operations and commit messages remain completely natural. |
-| **LITE** | `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan` | Compresses preambles and greeting text, but preserves clarifying questions and artifact drafts (like `spec.md`/`plan.md` previews) 100% intact. |
-| **FULL** | `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop`, `speckit-develop` | Compresses all prose. Strips introductory and concluding pleasantries entirely. Uses direct bullet points and action statements instead of sentences. |
+| **LITE** | `sdd-spec`, `sdd-plan` | Compresses preambles and greeting text, but preserves clarifying questions and artifact drafts (like PRD/PLAN previews) 100% intact. |
+| **FULL** | `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop` | Compresses all prose. Strips introductory and concluding pleasantries entirely. Uses direct bullet points and action statements instead of sentences. |
 
 ---
 

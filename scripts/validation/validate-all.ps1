@@ -5,13 +5,10 @@
 
 .DESCRIPTION
   Orchestrates deploy, structure, docs, and language validations. Optional
-  Spec Kit and session-gate checks are available via flags.
+  session-gate checks are available via flags.
 
 .PARAMETER RepoPath
-  Repository path for optional Spec Kit validation.
-
-.PARAMETER IncludeSpeckit
-  Run validate-speckit-init.ps1.
+  Repository path for optional session-gate validation.
 
 .PARAMETER IncludeSessionGate
   Run validate-session-gates.ps1.
@@ -37,15 +34,11 @@
   .\scripts\validation\validate-all.ps1
 
 .EXAMPLE
-  .\scripts\validation\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
-
-.EXAMPLE
   .\scripts\validation\validate-all.ps1 -IncludeSessionGate -RequiredGate step_confirmed -PlanPath "D:\...\PLAN_004_x.md"
 #>
 [CmdletBinding()]
 param(
     [string] $RepoPath = (Get-Location).Path,
-    [switch] $IncludeSpeckit,
     [switch] $IncludeSessionGate,
     [ValidateSet('storage_confirmed', 'write_confirmed', 'step_confirmed', 'tests_run')]
     [string] $RequiredGate = 'write_confirmed',
@@ -115,23 +108,6 @@ foreach ($check in $coreChecks) {
 
     if ($FailFast -and $result.Status -eq 'FAIL') {
         break
-    }
-}
-
-if (-not ($FailFast -and ($results | Where-Object { $_.Status -eq 'FAIL' }))) {
-    if ($IncludeSpeckit) {
-        $result = Invoke-ValidationCheck `
-            -Name 'speckit-init' `
-            -ScriptPath (Join-Path $scriptDir 'validate-speckit-init.ps1') `
-            -Arguments @('-RepoPath', $RepoPath)
-        $results += $result
-
-        if ($FailFast -and $result.Status -eq 'FAIL') {
-            # stop optional checks
-        }
-    }
-    else {
-        $results += [PSCustomObject]@{ Name = 'speckit-init'; Status = 'SKIP'; ExitCode = 0 }
     }
 }
 

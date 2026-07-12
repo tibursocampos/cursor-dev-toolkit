@@ -1,4 +1,4 @@
----
+﻿---
 name: sdd-plan
 description: Create a baby-step PLAN from an existing PRD (agent PLAN .md, pt-BR default). Feeds sdd-develop. Use when creating a plan or invoking /sdd-plan.
 ---
@@ -17,7 +17,7 @@ description: Create a baby-step PLAN from an existing PRD (agent PLAN .md, pt-BR
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```

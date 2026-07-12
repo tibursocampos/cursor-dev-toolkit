@@ -1,4 +1,4 @@
----
+﻿---
 name: fix-build
 description: Diagnose and fix failing dotnet build or test runs. Local first; optional GitHub Actions via gh. Use when fixing a build or invoking /fix-build.
 ---
@@ -17,7 +17,7 @@ description: Diagnose and fix failing dotnet build or test runs. Local first; op
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```

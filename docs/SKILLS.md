@@ -1,6 +1,6 @@
 # Skills catalog - cursor-dev-toolkit
 
-Canonical kebab-case skill folders under `skills/` (**38 skills**). Prefer Cursor slash: `/<name>` (menu shows each skill description). Compat: `use skill <name>` still works.
+Canonical kebab-case skill folders under `skills/` (**34 skills**). Prefer Cursor slash: `/<name>` (menu shows each skill description). Compat: `use skill <name>` still works.
 
 ## Formas (A / B / C)
 
@@ -8,7 +8,7 @@ Canonical kebab-case skill folders under `skills/` (**38 skills**). Prefer Curso
 |-------|--------|-------|
 | **A** Classic SDD | `sdd-spec`, `sdd-plan`, `sdd-develop` | [01-sdd-workflow](guides/01-sdd-workflow.md) |
 | **B** Backlog prep | `refine-backlog-item`, `breakdown-tasks` | [05-operational-skills](guides/05-operational-skills.md) |
-| **C** Orchestrated | `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` | [10-forma-c-orquestracao](guides/10-forma-c-orquestracao.md) |
+| **C** Orchestrated | `memory-bank-init` (Step 0), `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` | [10-forma-c-orquestracao](guides/10-forma-c-orquestracao.md) |
 
 ## Classic SDD (Forma A)
 
@@ -22,21 +22,10 @@ Canonical kebab-case skill folders under `skills/` (**38 skills**). Prefer Curso
 
 | Skill | Purpose |
 |-------|---------|
-| `orchestrate-analyze` | O1: triage, conditional Task specialists, FEATURE + US/TS + CONTINUITY |
-| `orchestrate-deliver` | O2: sdd-spec/sdd-plan per story (series or parallel); multi-path handoff |
-| `orchestrate-develop` | O3: one Task subagent per PLAN step (sdd-develop contract); parent never codes |
-
-## Spec Kit
-
-| Skill | Purpose |
-|-------|---------|
-| `speckit-setup` | Install Spec Kit CLI prerequisites |
-| `speckit-init` | Initialize `.specify/` + constitution |
-| `speckit-spec` | Create `spec.md` under `.specify/specs/` |
-| `speckit-plan` | Generate `plan.md` and `tasks.md` |
-| `speckit-develop` | Implement one `tasks.md` item per session |
-
-Unchanged by Forma C MVP (PRD 003). Spec Kit / memory-bank / worktrees multi-US are **out of scope** for that PRD.
+| `memory-bank-init` | Create/refresh repo-root `memory-bank/` (Step 0 for O1/O2/O3; Forma A optional) |
+| `orchestrate-analyze` | O1: Step 0 + triage, conditional Task specialists, FEATURE + US/TS + CONTINUITY |
+| `orchestrate-deliver` | O2: Step 0 + sdd-spec/sdd-plan per story (series or parallel); multi-path handoff |
+| `orchestrate-develop` | O3: Step 0 + one Task subagent per PLAN step (sdd-develop contract); parent never codes |
 
 ## Developer routing and stack
 

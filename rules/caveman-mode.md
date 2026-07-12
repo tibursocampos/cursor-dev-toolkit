@@ -40,7 +40,7 @@ At the beginning of each session or task (Step -1):
   - Confirmation gates like `(sim / ajustar / cancelar)`.
   - Artifact drafts (specs, plans, tasks, commits).
 
-- **Lite Mode (Apply to `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan`)**:
+- **Lite Mode (Apply to `sdd-spec`, `sdd-plan`)**:
   - Strip preambles, greetings, and post-draft pleasantries.
   - Keep clarifying questions, draft previews, and section headers intact.
 

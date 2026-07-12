@@ -6,7 +6,7 @@ Context and PLAN checkpoint helpers. Installed under `~/.cursor/` by `scripts/sy
 
 | Hook | Script | Purpose |
 |------|--------|---------|
-| `beforeSubmitPrompt` | `hooks/context-before-prompt.ps1` | Detect SDD/speckit skill invocations and record session state |
+| `beforeSubmitPrompt` | `hooks/context-before-prompt.ps1` | Detect SDD / Forma C skill invocations and record session state |
 | `afterFileEdit` | `hooks/plan-after-edit.ps1` | Record edits to `features/**/PLAN/PLAN_*.md` (repo or `~/.cursor/sdd/<repo-id>/features/**/PLAN/`) |
 | `preCompact` | `hooks/context-pre-compact.ps1` | Show user message before context compaction (40%/80% thresholds) |
 

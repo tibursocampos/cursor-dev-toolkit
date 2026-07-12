@@ -10,7 +10,7 @@
 
 The skill **does not modify code** unless you ask for fixes in a follow-up. It is the recommended step **after** [SDD develop (`sdd-develop`)](01-sdd-workflow.md) or [developer](02-developer.md) and **before** [commit](05-operational-skills.md) or merge.
 
-**Review mode (ask — no silent default):** if the invoke omits **single** and **multi-angle**, the skill **asks once** (pt-BR) and waits. It never assumes single or multi.
+**Review mode (ask - no silent default):** if the invoke omits **single** and **multi-angle**, the skill **asks once** (pt-BR) and waits. It never assumes single or multi.
 
 ---
 
@@ -23,7 +23,7 @@ The skill **does not modify code** unless you ask for fixes in a follow-up. It i
 - You want a second pass on **correctness, architecture, tests, security**, and maintainability.
 - You need a clear **go / no-go** before `/commit` or opening a pull request.
 
-PRD and PLAN paths are **optional** in your invoke — the agent searches under `features/**/PRD` and `features/**/PLAN` (repo and global `~/.cursor/sdd/<repo-id>/features/`) per `STORAGE.md` before asking you.
+PRD and PLAN paths are **optional** in your invoke - the agent searches under `features/**/PRD` and `features/**/PLAN` (repo and global `~/.cursor/sdd/<repo-id>/features/`) per `STORAGE.md` before asking you.
 
 ### Do not use `code-review` when
 
@@ -57,7 +57,7 @@ Primary invoke:
 
 Alternatives: `review this PR`, `/code-review`.
 
-**Review mode (mandatory — no silent default):**
+**Review mode (mandatory - no silent default):**
 
 | Mode | Explicit invoke examples |
 |------|--------------------------|

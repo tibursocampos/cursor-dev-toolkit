@@ -8,14 +8,29 @@ Modes, approval gates, path layout, CONTINUITY checklist, handoff examples, and 
 
 Before any PRD/PLAN write:
 
-- [ ] Gate check reported; `write_confirmed` / user **sim** for this O2 run (O2 writes PRD/PLAN — not develop `step_confirmed`)
+- [ ] Gate check reported; `write_confirmed` / user **sim** for this O2 run (O2 writes PRD/PLAN - not develop `step_confirmed`)
 - [ ] Feature path resolved (`STORAGE.md`, `$Workflow = classic`)
-- [ ] `FEATURE.md` + `CONTINUITY.md` exist
+- [ ] **Step 0** Memory Bank Gate done (`MEMORY-BANK.md`, policy `auto`; `skip` only with explicit flag)
+- [ ] `FEATURE.md` + `CONTINUITY.md` exist (Memory-bank path/status updated if create/refresh)
 - [ ] Backlog human-approved (FEATURE/stories `approved`, or explicit **sim** in this session recorded)
 - [ ] Story list from `US*/STORY.md` + `TS*/STORY.md`
 - [ ] Mode chosen: **série** or **paralelo** (user asked; not assumed)
 
-If backlog not approved → hand off to O1; do not invent approval (RN01).
+If backlog not approved -> hand off to O1; do not invent approval (RN01).
+
+---
+
+## Step 0 - Memory Bank Gate (CA4 / CT3)
+
+Same contract as O1 (`MEMORY-BANK.md`). Run after feature resolve, **before** mode selection.
+
+| Check | Pass |
+|-------|------|
+| Healthy bank | Selective read; status `fresh`; no rewrite |
+| Missing/stale | Confirm -> create/refresh; status `created`/`refreshed` |
+| CONTINUITY | Path + status only; phase/handoff still CONTINUITY-owned |
+| Children | Parallel draft Tasks get `memoryBankPath` read-only |
+| Forma A | Memory-bank **not** required (CA7) |
 
 ---
 
@@ -24,8 +39,8 @@ If backlog not approved → hand off to O1; do not invent approval (RN01).
 | | **Série** | **Paralelo** |
 |--|-----------|--------------|
 | Who drafts / writes | Parent runs contracts end-to-end (Write after **sim**) | Task children **draft only** (no disk Write); parent Writes after **sim** |
-| Order | Spec → plan → (optional approve) → next | Children concurrent; parent aggregates drafts then writes |
-| Deps | Natural — finish dependency stories first | Block spawn until deps have PRD+PLAN (or user waives) |
+| Order | Spec -> plan -> (optional approve) -> next | Children concurrent; parent aggregates drafts then writes |
+| Deps | Natural - finish dependency stories first | Block spawn until deps have PRD+PLAN (or user waives) |
 | Context (RNF01) | Higher in parent | Parent lean (paths + draft summaries) |
 | Confirm-before-write | Inline in parent | Always parent gate after aggregation |
 | Best when | Few stories; tight review | Many independent stories; brownfield batch |
@@ -84,12 +99,12 @@ Parent must **not** invent a shorter “PRD lite” process that skips confirm-b
 ### Mode selection
 
 ```text
-O2 em `{feature-path}` — {N} histórias.
+O2 em `{feature-path}` - {N} histórias.
 
 Modo de execução?
 
-1) série — uma história por vez (spec → plan → aprovação)
-2) paralelo — Task por história (filho só rascunha PRD/PLAN; Write só no pai após sim); agregação e aprovação no pai
+1) série - uma história por vez (spec -> plan -> aprovação)
+2) paralelo - Task por história (filho só rascunha PRD/PLAN; Write só no pai após sim); agregação e aprovação no pai
 3) cancelar
 ```
 
@@ -129,22 +144,23 @@ Update `CONTINUITY.md` when:
 |-------|------|
 | **Phase** | `deliver` during/after O2 |
 | **Last agent** | `orchestrate-deliver` |
+| **Memory-bank** | Path + `fresh`\|`refreshed`\|`created` from Step 0 |
 | **Estado atual** | ≤10 lines; which stories done/pending |
 | **Decisões** | Append mode + approval scope |
 | **Pendências** | Stories still missing PRD/PLAN or approval |
 | **Handoff tipado** | Full `/…` lines with **full paths** |
-| **What not to write** | Full PRD/PLAN bodies, guideline dumps, app code |
+| **What not to write** | Full PRD/PLAN bodies, guideline dumps, app code, memory-bank body |
 
 ---
 
-## Example handoff — 2 stories (CA4 / RF04)
+## Example handoff - 2 stories (CA4 / RF04)
 
 Feature: `features/004-nuget-extract/`  
 Stories approved in O1: `TS01` (package extract), `TS02` (App A consumer).  
 Mode: paralelo. After approval:
 
 ```text
-## Handoff O2 → develop
+## Handoff O2 -> develop
 
 Feature: features/004-nuget-extract/
 
@@ -188,13 +204,13 @@ Do **not** claim `sdd-develop` one-step contract changed.
 Give each child:
 
 1. Full story path + feature path
-2. Instruction: draft PRD then PLAN content for **this story only** using `sdd-spec` / `sdd-plan` structure — **do not** `Write` files to disk
+2. Instruction: draft PRD then PLAN content for **this story only** using `sdd-spec` / `sdd-plan` structure - **do not** `Write` files to disk
 3. Prior-context files to Read (list paths; do not paste bodies)
 4. Intended canonical paths for PRD and PLAN (for the return payload)
 5. Return format: `{ storyId, prdPath, planPath, prdDraft, planDraft, bullets[≤5], blockedReason? }`
 6. Must not: app code; other stories; expand roster; disk Write of PRD/PLAN
 
-Parent merges drafts → human **sim** → parent runs `sdd-spec` / `sdd-plan` contracts and performs the only disk writes.
+Parent merges drafts -> human **sim** -> parent runs `sdd-spec` / `sdd-plan` contracts and performs the only disk writes.
 
 ---
 

@@ -1,4 +1,4 @@
----
+﻿---
 name: add-migrations
 description: Add an EF Core migration in the open workspace. Discovers startup project, DbContext, and migrations folder. Use when adding a migration or invoking /add-migrations.
 ---
@@ -17,7 +17,7 @@ description: Add an EF Core migration in the open workspace. Discovers startup p
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```

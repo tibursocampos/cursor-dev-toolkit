@@ -35,12 +35,14 @@ Required: full feature path **or** a specific `PLAN/PLAN_NNN_*.md` path under a 
 ## Outcome
 
 1. Pending PLAN step(s) executed **only** via Task children that follow the **`sdd-develop` contract** (one PLAN step per child / session)
-2. Feature `CONTINUITY.md` updated (phase `develop`, progress, typed next invoke)
+2. Feature `CONTINUITY.md` updated (phase `develop`, progress, typed next invoke, **Memory-bank** path + status)
 3. Handoff to `code-review` (`- single` or `- multi-angle`; skill asks if omitted) and/or next step / next story
+
+**Step 0 (required):** Memory Bank Gate (`MEMORY-BANK.md`, policy `auto`) **before** building the step queue / spawning children. Bank = `$Cwd/memory-bank/`. CONTINUITY stays the feature phase/handoff source.
 
 **Parent orchestrator never** writes application code, never marks multiple PLAN steps done in one child, and never bypasses `sdd-develop` gates (`step_confirmed`, tests before complete).
 
-**Alternative (always valid):** user runs manual `/sdd-develop - <full-plan-path> - Step N` without this skill (RF05 / CA5).
+**Alternative (always valid):** user runs manual `/sdd-develop - <full-plan-path> - Step N` without this skill (RF05 / CA5). Manual Forma A does **not** require memory-bank (CA7).
 
 ## Lazy-load
 
@@ -48,6 +50,8 @@ Required: full feature path **or** a specific `PLAN/PLAN_NNN_*.md` path under a 
 |------|------|
 | Pipeline Forma C, paths | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
 | Storage | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
+| Step 0 Memory Bank Gate | `~/.cursor/skills/_shared/sdd-artifacts/MEMORY-BANK.md` |
+| Memory-bank create/refresh | `~/.cursor/skills/memory-bank-init/SKILL.md` |
 | Develop contract (source of truth) | `~/.cursor/skills/sdd-develop/SKILL.md` + `reference.md` |
 | SESSION gates | `~/.cursor/skills/_shared/sdd-artifacts/SESSION.md` |
 | CONTINUITY template | `~/.cursor/skills/_shared/templates/features/CONTINUITY.md` |
@@ -71,7 +75,7 @@ Load `STORAGE.md` (`$Workflow = classic`).
 |--------|--------|
 | Feature path | Glob `**/PLAN/PLAN_*.md` under that feature; build story/PLAN queue |
 | Single PLAN path | Work that PLAN only; still update feature `CONTINUITY.md` if present |
-| Missing PLAN | **STOP** — suggest O2 or Forma A |
+| Missing PLAN | **STOP** - suggest O2 or Forma A |
 
 ```text
 Não encontrei PLAN sob `{path}`.
@@ -83,7 +87,13 @@ Não encontrei PLAN sob `{path}`.
 
 `Read` `FEATURE.md` + `CONTINUITY.md` when under a feature. Prefer O2-approved stories; if PLAN exists but approval unclear, ask once (pt-BR) before spawning.
 
-### 3. Build step queue (deps)
+### 3. Step 0 - Memory Bank Gate
+
+Follow `MEMORY-BANK.md` (policy default **`auto`**). Bank root = `$Cwd/memory-bank/` — **not** under `features/`.
+
+Confirm (pt-BR) before create/refresh; healthy → selective read only. Update CONTINUITY Memory-bank fields when create/refresh runs. Pass **`bank_path`** into every develop child prompt as read-only Prior context (selective files — never dump).
+
+### 4. Build step queue (deps)
 
 For each PLAN:
 
@@ -94,7 +104,7 @@ For each PLAN:
 Present queue summary (pt-BR): story, PLAN path, next step id/title, deps. Confirm:
 
 ```text
-Fila O3: próximo = `{plan-path}` Step {N} — {title}.
+Fila O3: próximo = `{plan-path}` Step {N} - {title}.
 
 Posso spawnar o subagente (contrato sdd-develop)?
 (sim / ajustar / cancelar)
@@ -102,17 +112,17 @@ Posso spawnar o subagente (contrato sdd-develop)?
 
 Silence ≠ approval (RN01).
 
-### 4. Spawn exactly one step child (CA5)
+### 5. Spawn exactly one step child (CA5)
 
 **Hard rule:** one Task = one PLAN step = full `sdd-develop` contract.
 
 Child must:
 
 1. Load and follow `sdd-develop/SKILL.md` (gates, validate step, git branch, implement, tests, update PLAN, report)
-2. Receive **only** that PLAN path + step number + lean Prior context paths (not full guideline dumps)
+2. Receive **only** that PLAN path + step number + lean Prior context paths (PRD, STORY, CONTINUITY, FEATURE, **`memory-bank/` path**) - not full guideline dumps or full bank body
 3. Use **PLAN-scoped SESSION** per `SESSION.md` (`plan-{planHash}.json`, or `plan-{planHash}-step-{N}.json` when this spawn is parallel on the same PLAN)
 4. Return: `{ planPath, step, status, files[], testsSummary, nextStep?, blockedReason? }`
-5. **STOP** after that step — must not start Step N+1 in the same child
+5. **STOP** after that step - must not start Step N+1 in the same child
 
 **Parent must not:**
 
@@ -123,11 +133,11 @@ Child must:
 - Skip `tests_run` / treat silence as step approval inside the child
 - Share one flat `{repo-hash}.json` develop gate across parallel children
 
-After child returns: parent updates `CONTINUITY.md` only (synthesis + paths). Then either hand off to a **new chat** for the next step, or ask **sim** again before the next spawn in this conversation — never auto-chain without a gate.
+After child returns: parent updates `CONTINUITY.md` only (synthesis + paths; keep Memory-bank fields). Then either hand off to a **new chat** for the next step, or ask **sim** again before the next spawn in this conversation - never auto-chain without a gate.
 
-### 5. Safe parallelism (optional)
+### 6. Safe parallelism (optional)
 
-Default: **serial** — one step in flight (lower context risk).
+Default: **serial** - one step in flight (lower context risk).
 
 Parallel Task children **when all** of:
 
@@ -151,20 +161,20 @@ Steps {A} e {B} parecem independentes. Executar em paralelo?
 | Different PLANs | `sessions/{repoHash}/plan-{planHash}.json` each |
 | Same PLAN, parallel-safe steps | `sessions/{repoHash}/plan-{planHash}-step-{N}.json` each |
 
-Child prompt **must** include: `planPath`, `step`, and “load develop SESSION scoped per SESSION.md (PLAN or PLAN+step)”.
+Child prompt **must** include: `planPath`, `step`, `memoryBankPath` (read-only), and “load develop SESSION scoped per SESSION.md (PLAN or PLAN+step)”.
 
-If unsure about file independence → **série**. **Cap: 4** concurrent parallel children; if more steps qualify, wave ≤4 or stay serial. No git worktrees multi-US in MVP (RNF04). Parallelism is supported via scoped sessions — do **not** disable parallel as the only safe path.
+If unsure about file independence -> **série**. **Cap: 4** concurrent parallel children; if more steps qualify, wave ≤4 or stay serial. No git worktrees multi-US in MVP (RNF04). Parallelism is supported via scoped sessions - do **not** disable parallel as the only safe path.
 
-**Same-PLAN scope rule:** if any `plan-{planHash}-step-*.json` exists for the PLAN, every spawn for that PLAN (including later serial ones) **must** use PLAN+step session files — do not mix with `plan-{planHash}.json`.
+**Same-PLAN scope rule:** if any `plan-{planHash}-step-*.json` exists for the PLAN, every spawn for that PLAN (including later serial ones) **must** use PLAN+step session files - do not mix with `plan-{planHash}.json`.
 
-### 6. Stop conditions
+### 7. Stop conditions
 
 Stop spawning and emit handoff when any of:
 
 | Event | Action |
 |-------|--------|
 | Story PLAN all steps complete | Offer next story or code-review |
-| Feature all PLANs complete | Phase → review; code-review handoff |
+| Feature all PLANs complete | Phase -> review; code-review handoff |
 | Context pressure (TE02) | Persist CONTINUITY per `context-management.mdc`; resume invoke |
 | Context hard-stop | Hard stop; new chat required |
 | Child blocked / tests fail | Do not mark step done; report; wait for user |
@@ -182,7 +192,7 @@ Or per PLAN:
 /orchestrate-develop - <full-plan-path>
 ```
 
-### 7. CONTINUITY
+### 8. CONTINUITY
 
 On each meaningful milestone (before/after child, pause, story done):
 
@@ -190,17 +200,18 @@ On each meaningful milestone (before/after child, pause, story done):
 |-------|------|
 | **Phase** | `develop` (or `review` when all done) |
 | **Last agent** | `orchestrate-develop` |
+| **Memory-bank** | Path + status from Step 0 (`fresh` / `refreshed` / `created`) |
 | **Estado atual** | Short per CONTINUITY template: active PLAN, last step done, next step |
 | **Handoff tipado** | Exact next `/…` with **full paths** |
 
-Do not paste full diffs or guideline bodies into CONTINUITY.
+Do not paste full diffs, guideline bodies, or memory-bank body into CONTINUITY. CONTINUITY owns phase/handoff; bank does not replace it.
 
-### 8. Handoff — code-review + manual alternative
+### 9. Handoff - code-review + manual alternative
 
 When a story or feature develop pass completes (or user asks to review mid-way):
 
 ```text
-## Handoff O3 → review
+## Handoff O3 -> review
 
 /code-review
 /code-review - single
@@ -232,6 +243,8 @@ Full copy in `reference.md`.
 
 ## Must not
 
+- Skip Step 0 Memory Bank Gate (unless explicit user `skip-memory-bank`)
+- Create `memory-bank/` under `features/` or dump bank into CONTINUITY / child prompts
 - Parent writes application/production code or tests
 - Merge N PLAN steps into one Task / one session context
 - Bypass or weaken `sdd-develop` one-step-per-session contract
@@ -240,12 +253,13 @@ Full copy in `reference.md`.
 - Force multi-angle code-review
 - Introduce git worktrees for multi-US parallelism (MVP)
 - Write new PRD/PLAN (O2 / sdd-spec / sdd-plan own that)
+- Require memory-bank for manual Forma A `sdd-develop` (CA7)
 
 ## Handoff
 
 | Situation | Next |
 |-----------|------|
-| Next PLAN step | New chat → `orchestrate-develop` **or** `sdd-develop - <plan> - Step N` |
+| Next PLAN step | New chat -> `orchestrate-develop` **or** `sdd-develop - <plan> - Step N` |
 | Story/feature done | `/code-review` (pass `- single` / `- multi-angle`, or let skill ask) |
 | Missing PLAN | `orchestrate-deliver` / `sdd-plan` |
 | Prefer no orchestrator | Manual `sdd-develop` only |

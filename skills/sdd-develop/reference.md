@@ -2,7 +2,7 @@
 
 Detailed protocols for `skills/sdd-develop/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for templates and checklists.
 
-PLAN must live under `features/NNN-slug/USnn/PLAN/` (or globally under `~/.cursor/sdd/<repo-id>/features/...`). Root/flat `PLAN/` is **not** a valid Classic SDD path — do not update it in place. Update the same feature PLAN path passed in the handoff. **Code** in the repo stays **English**. **PLAN prose** stays in the file's language (pt-BR default). See `sdd-artifact-language-pt-br.mdc` and `STORAGE.md`.
+PLAN must live under `features/NNN-slug/USnn/PLAN/` (or globally under `~/.cursor/sdd/<repo-id>/features/...`). Root/flat `PLAN/` is **not** a valid Classic SDD path - do not update it in place. Update the same feature PLAN path passed in the handoff. **Code** in the repo stays **English**. **PLAN prose** stays in the file's language (pt-BR default). See `sdd-artifact-language-pt-br.mdc` and `STORAGE.md`.
 
 ---
 

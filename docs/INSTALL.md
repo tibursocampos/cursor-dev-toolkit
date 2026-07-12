@@ -38,10 +38,9 @@ Uninstall (removes toolkit from `~/.cursor/`):
 .\scripts\validation\validate-all.ps1
 ```
 
-Optional Spec Kit / session checks:
+Optional session-gate checks:
 
 ```powershell
-.\scripts\validation\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
 .\scripts\validation\validate-all.ps1 -IncludeSessionGate -RepoPath "D:\Source\Repos\MyApp"
 ```
 
@@ -82,16 +81,6 @@ Open any codebase in Cursor. Manuals: **[guides/README.md](guides/README.md)**.
 | PLAN | `/sdd-plan - <prd-path>` |
 | Develop | `/sdd-develop - <plan-path> - Step N` |
 
-### Spec Kit
-
-| Step | Invoke |
-|------|--------|
-| Setup | `/speckit-setup` |
-| Init | `/speckit-init` |
-| Spec | `/speckit-spec` |
-| Plan | `/speckit-plan - <spec-path>` |
-| Develop | `/speckit-develop - <tasks-path>` |
-
 ### Shortcut
 
 `/developer` - routes to the correct stack skill for small work without full SDD.
@@ -104,12 +93,11 @@ Net-new UI: `/impeccable shape` -> `docs/DESIGN-BRIEF.md` (see [impeccable-integ
 
 ### Storage
 
-Unified manifest v2: `~/.cursor/sdd/manifest.json` with `classic` and `speckit` sections. See `STORAGE.md` and `docs/ENFORCEMENT.md`.
+Unified manifest v2: `~/.cursor/sdd/manifest.json` with a `classic` section per repo (legacy `speckit` keys are ignored). See `STORAGE.md` and `docs/ENFORCEMENT.md`.
 
 Configure a repo:
 
 ```powershell
-.\scripts\setup-speckit.ps1
 .\scripts\configure-repo-sdd.ps1 -StorageMode global -RepoPath "D:\Source\Repos\MyApp"
 ```
 
@@ -118,6 +106,14 @@ Migrate legacy manifest:
 ```powershell
 .\scripts\maintainers\migrate-manifest-v2.ps1
 ```
+
+> **Breaking change (PRD 004):** Spec Kit is removed from the operational toolkit.
+>
+> - **Removed:** skills `speckit-setup|init|spec|plan|develop`, `scripts/setup-speckit.ps1`, `validate-speckit-init.ps1`, `fix-speckit-refs.ps1`, guide `docs/guides/06-speckit-workflow.md`, Spec Kit menu entries, and `.specify` / `specify-cli` paths in STORAGE/PIPELINE/SESSION.
+> - **Use instead:** Formas A / B / C only (`sdd-*`, backlog prep, `orchestrate-*`).
+> - **Added:** `memory-bank-init` + Memory Bank Gate (Step 0) on Forma C O1/O2/O3. Forma A does **not** require a memory-bank.
+> - **Manifest:** legacy `speckit` keys in `~/.cursor/sdd/manifest.json` are **ignored** - remove manually if desired; no forced migrate.
+> - **After pull:** `.\scripts\sync-cursor.ps1` then `.\scripts\validation\validate-all.ps1` (expect **34** skills).
 
 ---
 
@@ -129,7 +125,7 @@ Migrate legacy manifest:
 | `ai-stealth.mdc` | No AI traces in code, docs, commits, identifiers |
 | `sdd-pipeline-guards.mdc` | SDD order and canonical paths |
 | `user-language-pt-br.mdc` | Chat in pt-BR |
-| `sdd-artifact-language-pt-br.mdc` | PRD/PLAN/spec/plan/tasks default pt-BR |
+| `sdd-artifact-language-pt-br.mdc` | PRD/PLAN default pt-BR |
 | `branch-validation.mdc` | Valid branch before commit/push |
 | `conventional-commits.mdc` | Conventional Commits format |
 | `context-management.mdc` | Pause at 40%/80% context |

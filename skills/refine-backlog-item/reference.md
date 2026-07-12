@@ -146,7 +146,7 @@ If guardrails fail, ask for missing detail - do not publish incomplete docs.
 ## Optional save: feature STORY (preferred)
 
 ```markdown
-# STORY: US01 — [title]
+# STORY: US01 - [title]
 ...
 ```
 

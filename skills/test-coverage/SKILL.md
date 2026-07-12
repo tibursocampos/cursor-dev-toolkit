@@ -1,4 +1,4 @@
----
+﻿---
 name: test-coverage
 description: Run .NET Coverlet coverage, report Sonar-aligned metrics, and evaluate against a threshold (default 80%). Use for coverage reports or when invoking /test-coverage.
 ---
@@ -17,7 +17,7 @@ description: Run .NET Coverlet coverage, report Sonar-aligned metrics, and evalu
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```

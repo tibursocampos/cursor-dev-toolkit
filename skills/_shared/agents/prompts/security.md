@@ -19,7 +19,7 @@ List concrete security risks and mitigations relevant to the change.
 - Never put secrets, API keys, connection strings, or feed tokens into `SEC/` notes, CONTINUITY, chat dumps, or example configs committed to git
 - Prefer redacted placeholders (`***`, env var names) when discussing credentials
 - Flag if the story would log PII or secrets at info/debug level
-- If a private feed or signing key is required, say **what to verify** (rotation, least privilege, secret store) — do not invent vault product choices
+- If a private feed or signing key is required, say **what to verify** (rotation, least privilege, secret store) - do not invent vault product choices
 
 ## Output
 

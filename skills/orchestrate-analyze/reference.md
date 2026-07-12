@@ -4,6 +4,23 @@ Triage tables, specialist mapping, feature layout, CONTINUITY checklist, and bou
 
 ---
 
+## Step 0 - Memory Bank Gate (CT2 / CA3)
+
+Run **before** triage (SKILL §3). Contract: `MEMORY-BANK.md`. Skill: `memory-bank-init`.
+
+| Check | Pass criteria |
+|-------|---------------|
+| Bank path | `$Cwd/memory-bank/` - **not** under `features/NNN-slug/` |
+| Policy | `auto` default; `skip` only with explicit user flag |
+| Healthy | Selective read; no write; CONTINUITY status `fresh` |
+| Missing/stale | Confirm -> create/refresh; status `created` / `refreshed` |
+| CONTINUITY | Path + status only - no bank body dump |
+| Parent context | Lean - do not load entire bank |
+
+**CA6:** memory-bank = repo map; CONTINUITY = feature handoff. Parallel scopes.
+
+---
+
 ## Triage decision table
 
 | Dimension | Values | How to choose |
@@ -18,21 +35,21 @@ Triage tables, specialist mapping, feature layout, CONTINUITY checklist, and bou
 
 | Complexity | Suggested path (RF01) |
 |------------|------------------------|
-| `trivial` | `developer` / `*-developer` — skip full O1 unless user insists |
-| `medium` | Forma A (`sdd-spec` → …) **or** O1 if multi-US/TS |
-| `complex` | Full Forma C O1 → approval → O2 |
+| `trivial` | `developer` / `*-developer` - skip full O1 unless user insists |
+| `medium` | Forma A (`sdd-spec` -> …) **or** O1 if multi-US/TS |
+| `complex` | Full Forma C O1 -> approval -> O2 |
 
-**TE01:** If nature or any `needs_*` is unclear after a short Prior-context pass, ask ≤3 high-cost questions. Default unset flags to `false`, **except** auth / secrets / PII / feed-token / supply-chain signals → ask or set `needs_security=true`. Do not invent architecture in the parent orchestrator. Canonical spawn map: `ROSTER.md` only.
+**TE01:** If nature or any `needs_*` is unclear after a short Prior-context pass, ask ≤3 high-cost questions. Default unset flags to `false`, **except** auth / secrets / PII / feed-token / supply-chain signals -> ask or set `needs_security=true`. Do not invent architecture in the parent orchestrator. Canonical spawn map: `ROSTER.md` only.
 
 ---
 
-## Flag → specialist mapping
+## Flag -> specialist mapping
 
-**Canonical source:** `skills/_shared/agents/ROSTER.md` (`needs_*` table). Keep this section as a short pointer — edit ROSTER when the map changes.
+**Canonical source:** `skills/_shared/agents/ROSTER.md` (`needs_*` table). Keep this section as a short pointer - edit ROSTER when the map changes.
 
-Spawn Task **only** when ROSTER says so. Parallelize when multiple specialists apply. Brownfield / impact-unclear → prefer `repo_analyst`. Optional stage notes: `impact` / `risk` / `generate-story` prompts.
+Spawn Task **only** when ROSTER says so. Parallelize when multiple specialists apply. Brownfield / impact-unclear -> prefer `repo_analyst`. Optional stage notes: `impact` / `risk` / `generate-story` prompts.
 
-**Stacks are not roster roles** — do not spawn `react`/`dotnet` agents in O1. Route implementation later via `ROUTING.md`.
+**Stacks are not roster roles** - do not spawn `react`/`dotnet` agents in O1. Route implementation later via `ROUTING.md`.
 
 **Must not (specialists):** app code; ADO/Celebration/Keycloak; invent APIs; expand to 40 agent files. `qa_checklist` = CONTINUITY/STORY only (no Task).
 
@@ -49,9 +66,9 @@ features/NNN-slug/
 ├── US01/
 │   ├── STORY.md
 │   ├── REFINE/          # optional, on demand
-│   ├── ANALYSIS/        # optional — repo_analyst / impact notes
-│   ├── ARCH/            # optional — architect / database slice
-│   └── SEC/             # optional — security notes
+│   ├── ANALYSIS/        # optional - repo_analyst / impact notes
+│   ├── ARCH/            # optional - architect / database slice
+│   └── SEC/             # optional - security notes
 └── TS01/                # as needed
     └── STORY.md
 ```
@@ -82,11 +99,13 @@ Update `CONTINUITY.md` when:
 |-------|------|
 | **Phase** | `analyze` during O1 |
 | **Last agent** | `orchestrate-analyze` or specialist role id |
+| **Memory-bank** | Repo path (default `memory-bank/`); never a feature-relative bank |
+| **Memory-bank status** | `fresh` \| `refreshed` \| `created` (from Step 0) |
 | **Estado atual** | ≤10 lines; replace on update |
 | **Decisões** | Append; do not erase history |
 | **Pendências** | Keep open items until done |
 | **Handoff tipado** | Exact `/…` with **full path** |
-| **What not to write** | Full PRD/PLAN bodies, guideline dumps, application code |
+| **What not to write** | Full PRD/PLAN bodies, guideline dumps, application code, memory-bank body |
 
 ---
 
@@ -106,7 +125,7 @@ Escalate **to sdd-spec** when: single story clear enough for PRD without O2 batc
 
 Do **not** write PRD/PLAN inside O1. Do **not** claim `sdd-develop` one-step contract changed.
 
-Scorecard: reuse `skills/refine-backlog-item/reference.md` (universal + type-specific). Map totals to STORY 1–5: 80+ → 5, 60–79 → 4, 40–59 → 3, else ≤2.
+Scorecard: reuse `skills/refine-backlog-item/reference.md` (universal + type-specific). Map totals to STORY 1-5: 80+ -> 5, 60-79 -> 4, 40-59 -> 3, else ≤2.
 
 ---
 
@@ -124,7 +143,7 @@ Scorecard: reuse `skills/refine-backlog-item/reference.md` (universal + type-spe
 | needs_database | `false` (unless shared persistence) |
 | needs_frontend | `false` |
 | needs_security | `true` (package feed / secrets / supply chain) |
-| needs_devops | `true` (CI publish — CONTINUITY note only) |
+| needs_devops | `true` (CI publish - CONTINUITY note only) |
 
 **Spawn (parallel):** `repo_analyst`, `architect`, `security`.  
 **Stories (example):** TS01 package extract + feed; TS02 App A consumer; TS03 App B consumer; US01 (optional) developer publish flow.  
@@ -150,7 +169,7 @@ Scorecard: reuse `skills/refine-backlog-item/reference.md` (universal + type-spe
 /sdd-spec
 ```
 
-O2 **series vs parallel** is chosen inside `orchestrate-deliver` — document the choice to the user; do not implement O2 in this skill.
+O2 **series vs parallel** is chosen inside `orchestrate-deliver` - document the choice to the user; do not implement O2 in this skill.
 
 After O2 (for awareness only):
 
@@ -179,8 +198,10 @@ RN01: silence / emoji / “ok” without **sim** is **not** approval.
 Do **not** introduce:
 
 - Write of application or test source as part of O1
+- `memory-bank/` under `features/NNN-slug/`
+- Full memory-bank dump into CONTINUITY or parent chat
+- Skip of Step 0 without explicit `skip-memory-bank`
 - `az` boards / ADO work-item commands
 - Celebration, Keycloak, mandatory Sonar corp fields
 - Forty aspirational agent files from design.md
 - Changes to `sdd-develop` one-PLAN-step-per-session contract
-- Spec Kit changes (out of Forma C MVP scope)

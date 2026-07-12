@@ -16,7 +16,7 @@
   Gate name: storage_confirmed, write_confirmed, step_confirmed, tests_run
 
 .PARAMETER PlanPath
-  Full PLAN, Spec Kit tasks.md, or docs/documentation-plan/plan.md path.
+  Full PLAN path (features/.../PLAN/PLAN_*.md) or docs/documentation-plan/plan.md.
   Required for step_confirmed / tests_run. Must exist and resolve under RepoPath
   (or under ~/.cursor/sdd/ for global classic feature paths).
 

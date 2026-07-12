@@ -12,27 +12,24 @@ Companion: `STORAGE.md` (folders, manifest, `.gitignore`).
 |------|------|------------------|
 | **A** Classic | `sdd-spec` -> `sdd-plan` -> `sdd-develop` | `features/NNN-slug/USnn/{PRD,PLAN}/` (default story `US01`) |
 | **B** Backlog | `refine-backlog-item` -> `breakdown-tasks` (-> optional SDD / developer) | Prefer `features/.../STORY.md` + story subfolders; `docs/backlog/` shortcut |
-| **C** Orchestrated | `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` **or** manual `sdd-develop` | Same `features/` tree; CONTINUITY between stages |
+| **C** Orchestrated | **Step 0** memory-bank gate -> `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` **or** manual `sdd-develop` | Same `features/` tree; CONTINUITY between stages; bank at `$Cwd/memory-bank/` |
 
-Forms coexist. Spec Kit (`speckit-*`) is separate and unchanged by Forma C MVP.
+Forms coexist (A / B / C only). **Forma A** does **not** require memory-bank. Gate contract: `MEMORY-BANK.md`.
 
 ## Skill order
 
-- **Classic SDD (Forma A)**: Fixed sequence: **`sdd-spec` -> `sdd-plan` -> `sdd-develop`**. Never skip a stage unless shortcut selected.
-- **Forma C**: Fixed sequence: **`orchestrate-analyze` (O1) -> `orchestrate-deliver` (O2) -> (`orchestrate-develop` (O3) \| `sdd-develop`)** after human gates. O2 reuses `sdd-spec` / `sdd-plan` contracts per story. O3 reuses `sdd-develop` contract (**one PLAN step per subagent / session**).
-- **Spec Kit**: Fixed sequence: **`speckit-spec` -> `speckit-plan` -> `speckit-develop`**.
+- **Classic SDD (Forma A)**: Fixed sequence: **`sdd-spec` -> `sdd-plan` -> `sdd-develop`**. Never skip a stage unless shortcut selected. Memory-bank optional.
+- **Forma C**: Fixed sequence: **Step 0 (Memory Bank Gate, policy `auto`) -> `orchestrate-analyze` (O1) -> `orchestrate-deliver` (O2) -> (`orchestrate-develop` (O3) \| `sdd-develop`)** after human gates. Each `orchestrate-*` re-checks Step 0 before its flow. O2 reuses `sdd-spec` / `sdd-plan` contracts per story. O3 reuses `sdd-develop` contract (**one PLAN step per subagent / session**).
 
 | Skill | Writes | Must not in same session |
 |-------|--------|---------------------------|
 | `spec` | PRD + manifest under feature story | PLAN; production/test code (`*.cs`, migrations, etc.) |
 | `plan` | PLAN + manifest under feature story | PRD body; production/test code |
 | `sdd-develop` | Code (English) + PLAN progress | New PRD/PLAN files; **multiple PLAN steps** |
-| `orchestrate-analyze` | Feature tree + STORY + CONTINUITY | App code; skip human backlog approval |
-| `orchestrate-deliver` | PRD/PLAN per story (via sdd contracts) | App code |
-| `orchestrate-develop` | CONTINUITY + spawn step subagents | App code in parent; multi-step in one child |
-| `speckit-spec` | `spec.md` + manifest | Plan/Tasks; production/test code |
-| `speckit-plan` | `plan.md` + `tasks.md` | spec.md body; production/test code |
-| `speckit-develop` | Code (English) + `tasks.md` progress | New spec/sdd-plan/tasks files |
+| `memory-bank-init` | `$Cwd/memory-bank/` (+ `.inventory/`) | App code; bank under `features/` |
+| `orchestrate-analyze` | Feature tree + STORY + CONTINUITY (incl. Memory-bank ref) | App code; skip Step 0 / human backlog approval |
+| `orchestrate-deliver` | PRD/PLAN per story (via sdd contracts) | App code; skip Step 0 when wired |
+| `orchestrate-develop` | CONTINUITY + spawn step subagents | App code in parent; multi-step in one child; skip Step 0 when wired |
 
 ## Canonical paths
 
@@ -58,10 +55,10 @@ PLAN `NNN` **must match** source PRD `NNN`.
 
 Do **not** read, write, or continue Classic SDD from:
 
-- Repo-root `PRD/` / `PLAN/` / `docs/PRD/` / `docs/PLAN/` (gitignore safety net only — not an active flow)
+- Repo-root `PRD/` / `PLAN/` / `docs/PRD/` / `docs/PLAN/` (gitignore safety net only - not an active flow)
 - Global-flat `~/.cursor/sdd/<repo-id>/PRD/` or `.../PLAN/` outside `features/`
 - Loose `REFINE/`, `ANALYSIS/`, `ARCH/`, `SEC/` at repo root
-- `~/.cursor/` outside `sdd/<repo-id>/features/` (classic) or Spec Kit paths
+- `~/.cursor/` outside `sdd/<repo-id>/features/` (classic)
 - `docs/backlog/*.md`, arbitrary `docs/*.md`, repo-root `*.md` without feature tree
 
 ### Promote non-canonical `.md`
@@ -132,7 +129,7 @@ When the working path is under `features/NNN-slug/` (or the user names that feat
 3. Prefer sibling content over re-asking; still max **3** gap questions.
 4. Keep parent chat lean: summarize + paths; do not paste full guideline bodies.
 
-If no `features/` artifacts exist, do **not** fall back to root `PRD/`/`PLAN/` — ask the user to create via `sdd-spec` / Forma C.
+If no `features/` artifacts exist, do **not** fall back to root `PRD/`/`PLAN/` - ask the user to create via `sdd-spec` / Forma C.
 
 ## Missing canonical artifact - ask before handoff
 
@@ -179,7 +176,7 @@ Before `Write`, confirm the target matches **new-write** patterns:
 - PRD: `features/[^/]+/(US|TS)\d+/PRD/\d{3}_.+\.md` (workspace-relative) or same under `.../sdd/<repo-id>/features/`
 - PLAN: `features/[^/]+/(US|TS)\d+/PLAN/PLAN_\d{3}_.+\.md` or global equivalent
 
-Root or flat `PRD/` / `PLAN/` paths are **invalid** for Classic SDD — promote under `features/` before write/develop.
+Root or flat `PRD/` / `PLAN/` paths are **invalid** for Classic SDD - promote under `features/` before write/develop.
 
 ### Forma A path example (full)
 
@@ -193,24 +190,14 @@ features/004-export-profile/US01/PLAN/PLAN_004_export_profile.md
 
 If validation fails, do not write - fix path or promote.
 
-### Spec Kit path validation
-
-Before writing any Spec Kit artifact (spec.md, plan.md, tasks.md), verify that the target path matches:
-
-- spec.md: `.*\.specify/specs/\d{3}-[^/]+/spec\.md$`
-- plan.md: `.*\.specify/specs/\d{3}-[^/]+/plan\.md$`
-- tasks.md: `.*\.specify/specs/\d{3}-[^/]+/tasks\.md$`
-
-If validation fails, do not write - abort and fix.
-
 ## Integration
 
 | Consumer | Use |
 |----------|-----|
-| `sdd-spec`, `sdd-plan`, `sdd-develop`, `speckit-spec`, `speckit-plan`, `speckit-develop` | Step -1 load; steps reference § by name |
+| `sdd-spec`, `sdd-plan`, `sdd-develop` | Step -1 load; steps reference § by name |
 | `orchestrate-*` | Forma C order; feature Prior context; CONTINUITY |
 | `refine-backlog-item`, `breakdown-tasks` | Forma B; prefer feature STORY paths |
 | `STORAGE.md` | Folders, manifest, invalid-path summary |
 | `rules/sdd-pipeline-guards.mdc` | Short always-on reminder |
-| `code-review` | Handoff to `sdd-spec` or `speckit-spec` for new spec; read-only SDD discovery |
+| `code-review` | Handoff to `sdd-spec` for new PRD; read-only SDD discovery |
 | `test-coverage` | Phase B / Agent for shell; report paths in `reference.md` |

@@ -1,4 +1,4 @@
----
+﻿---
 name: refactor
 description: Analyze complexity and smells, draft a safe refactor plan, and execute step-by-step with tests. Use when refactoring code or invoking /refactor.
 ---
@@ -18,7 +18,7 @@ description: Analyze complexity and smells, draft a safe refactor plan, and exec
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -95,7 +95,6 @@ Check `~/.cursor/sdd/preferences.json`:
 * Stop and ask the user to choose the workflow execution path based on the scope:
   * **Option A - Direct Developer Skill (`/developer`):** For straightforward local refactoring edits.
   * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings requiring a formal specification (PRD) and a step-by-step checklist (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`/speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 

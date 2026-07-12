@@ -24,6 +24,8 @@ Orchestrators and specialists **do not** reimplement stack work. Point implement
 | `orchestrate-deliver` | Contracts of `sdd-spec` / `sdd-plan` per story | Implement code |
 | `orchestrate-develop` | One subagent per PLAN step using `sdd-develop` contract | Parent writes app code; multi-step in one child |
 
+**Memory-bank (Forma C Step 0):** after gate, pass `$Cwd/memory-bank/` as **read-only** Prior context to specialists / O2 draft Tasks / O3 develop children (selective files). Do not place bank under `features/`. Forma A / manual `sdd-*` do not require the gate.
+
 ## Review
 
-After O3 or manual develop: `/code-review` (name `- single` or `- multi-angle`, or let the skill ask — no silent default).
+After O3 or manual develop: `/code-review` (name `- single` or `- multi-angle`, or let the skill ask - no silent default).

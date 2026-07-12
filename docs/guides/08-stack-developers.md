@@ -37,7 +37,7 @@ For **new** Blip plugin projects (no repo yet), invoke `/blip-plugin-developer` 
 ## Blip plugin flow
 
 1. `/blip-plugin-developer` -> scaffold + profile (Lite/Full)
-2. `sdd-spec` -> `sdd-plan` -> `sdd-develop` (or Spec Kit chain)
+2. `sdd-spec` -> `sdd-plan` -> `sdd-develop`
 3. Optional: `impeccable shape` -> `docs/DESIGN-BRIEF.md`
 4. `/react-developer` for implementation
 
@@ -61,7 +61,7 @@ See [02-developer.md](02-developer.md) for the router and [02b-dotnet-developer.
 
 ## When to escalate to SDD
 
-Use `sdd-spec` -> `sdd-plan` -> `sdd-develop` (or Spec Kit chain) when **two or more** apply:
+Use `sdd-spec` -> `sdd-plan` -> `sdd-develop` when **two or more** apply:
 
 - 3+ architectural layers touched
 - Schema/migration changes

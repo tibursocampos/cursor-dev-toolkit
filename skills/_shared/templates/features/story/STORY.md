@@ -1,4 +1,4 @@
-# STORY: {{STORY_ID}} — {{TITLE}}
+# STORY: {{STORY_ID}} - {{TITLE}}
 
 | Campo | Valor |
 |-------|--------|
@@ -22,7 +22,7 @@ Então {{THEN}}
 
 ## Scorecard (resumo)
 
-Rubric detail: `refine-backlog-item/reference.md` (scores **/100**). Map to this table as **1–5** (approx. `/20`, round nearest; floor 1 if score > 0).
+Rubric detail: `refine-backlog-item/reference.md` (scores **/100**). Map to this table as **1-5** (approx. `/20`, round nearest; floor 1 if score > 0).
 
 | Critério | Nota (1-5) | Nota |
 |----------|------------|------|

@@ -71,7 +71,7 @@ Then:
 ## Handoff contract
 
 1. `blip-plugin-developer` Phase 1 -> scaffold + profile choice
-2. Phase 2 -> `sdd-spec` -> `sdd-plan` -> `sdd-develop` **or** Spec Kit chain **or** existing PRD/brief
+2. Phase 2 -> `sdd-spec` -> `sdd-plan` -> `sdd-develop` **or** existing PRD/brief **or** Forma C
 3. Phase 3:
    - Net-new UI -> `/impeccable shape` -> `docs/DESIGN-BRIEF.md` (`target_stack: react`, Blip notes in section 9). See [impeccable-integration.md](impeccable-integration.md).
    - Implementation -> `/react-developer` (loads `blip-guidelines/`)

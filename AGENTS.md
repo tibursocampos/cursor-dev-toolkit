@@ -6,7 +6,7 @@ Lean router for agents when this toolkit is installed under `~/.cursor/`. Pointe
 
 | Context | Rule |
 |---------|------|
-| SDD agent artifacts (`features/**` — FEATURE/STORY/PRD/PLAN/CONTINUITY; `.specify/specs/**`) | Brazilian Portuguese (pt-BR) - `sdd-artifact-language-pt-br.mdc` |
+| SDD agent artifacts (`features/**` - FEATURE/STORY/PRD/PLAN/CONTINUITY) | Brazilian Portuguese (pt-BR) - `sdd-artifact-language-pt-br.mdc` |
 | Source code, tests, commits, identifiers | English always |
 | Project docs (`docs/`, README deliverables) | Ask pt-BR or English in skill before writing |
 | User-facing chat replies | Brazilian Portuguese (pt-BR) - `user-language-pt-br.mdc` |
@@ -38,7 +38,7 @@ sdd-spec -> sdd-plan -> sdd-develop (one PLAN step per session)
 ### Forma C - multi-agent orchestration
 
 ```
-orchestrate-analyze (O1) -> human approve backlog
+Step 0 memory-bank gate (auto) -> orchestrate-analyze (O1) -> human approve backlog
   -> orchestrate-deliver (O2) -> human approve PRD/PLAN per story
   -> orchestrate-develop (O3) OR manual sdd-develop
   -> optional code-review (asks single vs multi-angle if omitted)
@@ -46,29 +46,16 @@ orchestrate-analyze (O1) -> human approve backlog
 
 | Skill | Invoke | Typical output |
 |-------|--------|----------------|
-| orchestrate-analyze | `/orchestrate-analyze` | `FEATURE.md` + US/TS + `CONTINUITY.md` |
-| orchestrate-deliver | `/orchestrate-deliver - <feature-path>` | PRD/PLAN per story + path handoff |
-| orchestrate-develop | `/orchestrate-develop - <feature-path>` | One PLAN step per subagent; CONTINUITY |
+| memory-bank-init | `/memory-bank-init` | Repo-root `memory-bank/` (create/refresh) |
+| orchestrate-analyze | `/orchestrate-analyze` | Step 0 + `FEATURE.md` + US/TS + `CONTINUITY.md` |
+| orchestrate-deliver | `/orchestrate-deliver - <feature-path>` | Step 0 + PRD/PLAN per story + path handoff |
+| orchestrate-develop | `/orchestrate-develop - <feature-path>` | Step 0 + one PLAN step per subagent; CONTINUITY |
+
+**Step 0:** O1/O2/O3 run Memory Bank Gate before triage/deliver/develop (`MEMORY-BANK.md`). Forma A (`sdd-*`) does **not** require it. Bank lives at consumer `$Cwd/memory-bank/` - never under `features/`.
 
 O1/O2 do **not** write app code. O3 parent does **not** implement; children reuse the `sdd-develop` contract.
 
-### Spec Kit SDD
-
-```
-speckit-setup -> speckit-init -> speckit-spec -> speckit-plan -> speckit-develop
-```
-
-| Skill | Invoke | Typical output |
-|-------|--------|----------------|
-| speckit-setup | `/speckit-setup` | CLI prerequisites |
-| speckit-init | `/speckit-init` | `.specify/` + `constitution.md` |
-| speckit-spec | `/speckit-spec` | `.specify/specs/NNN-<slug>/spec.md` |
-| speckit-plan | `/speckit-plan` | `plan.md` + `tasks.md` |
-| speckit-develop | `/speckit-develop` | Code + tasks checkbox |
-
-**Out of this MVP (Forma C / PRD 003):** Spec Kit path changes, full `memory-bank/`, git worktrees multi-US. Spec Kit skills remain fully usable as today.
-
-**Checkpoint:** one `sdd-develop` / `speckit-develop` session = one step/task.
+**Checkpoint:** one `sdd-develop` session = one PLAN step.
 
 **Enforcement:** `~/.cursor/rules/guardrails.mdc`, `sdd-pipeline-guards.mdc`, `SESSION.md` session gates.
 
@@ -86,11 +73,12 @@ For new Blip React plugins: `blip-plugin-developer` - `/blip-plugin-developer`. 
 
 | Flow | Steps |
 |------|--------|
-| Forma C (complex / multi-story) | `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop` |
+| Forma C (complex / multi-story) | Step 0 memory-bank -> `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop` |
+| Memory bank (manual) | `memory-bank-init` (create/refresh; also Step 0 inside O*) |
 | Repo documentation (RAG) | `document-plan` -> `document-implement` |
-| Backlog -> SDD (Forma B) | `refine-backlog-item` -> `breakdown-tasks` -> classic, Spec Kit, or Forma C |
+| Backlog -> SDD (Forma B) | `refine-backlog-item` -> `breakdown-tasks` -> Forma A or Forma C |
 | Frontend design -> implement | `impeccable shape` -> `DESIGN-BRIEF.md` -> `*-developer` (one session per step) |
-| Blip plugin scaffold -> implement | `blip-plugin-developer` -> SDD/spec -> `react-developer` (one session per step) |
+| Blip plugin scaffold -> implement | `blip-plugin-developer` -> SDD -> `react-developer` (one session per step) |
 | Build / test | `fix-build` -> optional `commit` / `push` |
 | EF migration | `add-migrations` |
 | Message consumer | `create-message-consumer` |
@@ -108,7 +96,7 @@ For new Blip React plugins: `blip-plugin-developer` - `/blip-plugin-developer`. 
 | Branch / commits | `branch-validation.mdc`, `conventional-commits.mdc` |
 | Caveman Mode | `caveman-mode.mdc` |
 
-## Skills catalog (38)
+## Skills catalog (34)
 
 See full list: `docs/SKILLS.md` in the toolkit repo. Prefer `/<name>` (Cursor slash menu). Compat: `use skill <name>` still works.
 
@@ -119,14 +107,10 @@ See full list: `docs/SKILLS.md` in the toolkit repo. Prefer `/<name>` (Cursor sl
 | sdd-spec | `/sdd-spec` |
 | sdd-plan | `/sdd-plan` |
 | sdd-develop | `/sdd-develop` |
+| memory-bank-init | `/memory-bank-init` |
 | orchestrate-analyze | `/orchestrate-analyze` |
 | orchestrate-deliver | `/orchestrate-deliver` |
 | orchestrate-develop | `/orchestrate-develop` |
-| speckit-setup | `/speckit-setup` |
-| speckit-init | `/speckit-init` |
-| speckit-spec | `/speckit-spec` |
-| speckit-plan | `/speckit-plan` |
-| speckit-develop | `/speckit-develop` |
 | developer | `/developer` |
 | dotnet-developer | `/dotnet-developer` |
 | react-developer | `/react-developer` |

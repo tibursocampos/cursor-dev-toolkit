@@ -1,4 +1,4 @@
----
+﻿---
 name: sdd-spec
 description: Create a PRD for a new feature or change (agent PRD .md, pt-BR default under features/). Feeds sdd-plan. Use when creating a spec or invoking /sdd-spec.
 ---
@@ -17,7 +17,7 @@ description: Create a PRD for a new feature or change (agent PRD .md, pt-BR defa
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```

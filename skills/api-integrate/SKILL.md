@@ -1,4 +1,4 @@
----
+﻿---
 name: api-integrate
 description: Generate typed API clients and DTOs from OpenAPI/Swagger. Use when integrating an API or invoking /api-integrate.
 ---
@@ -18,7 +18,7 @@ description: Generate typed API clients and DTOs from OpenAPI/Swagger. Use when 
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -90,7 +90,6 @@ Check `~/.cursor/sdd/preferences.json`:
 * Stop and ask the user to choose the workflow execution path based on the integration scope:
   * **Option A - Direct Developer Skill (`/developer`):** For straightforward local client generation.
   * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex third-party integrations requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`/speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 

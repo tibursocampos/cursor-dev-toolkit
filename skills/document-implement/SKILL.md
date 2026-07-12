@@ -17,7 +17,7 @@ description: Execute the next pending step from docs/documentation-plan/plan.md 
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -51,7 +51,7 @@ One **documentation plan step** completed in the target repo: new/updated markdo
 
 1. Confirm **target repository**.
 2. Resolve **doc plan path** = absolute `$Cwd/docs/documentation-plan/plan.md` (or user-given alternate). If absent -> stop and suggest `/document-plan`.
-3. Load/create **develop session** keyed by that full plan path per `SESSION.md` (`plan-{plan-hash}.json`). Gates `step_confirmed` / `tests_run` live **only** there — never use flat `{repo-hash}.json` for them.
+3. Load/create **develop session** keyed by that full plan path per `SESSION.md` (`plan-{plan-hash}.json`). Gates `step_confirmed` / `tests_run` live **only** there - never use flat `{repo-hash}.json` for them.
 4. Read the plan. Read **Doc language** from plan header. If missing, ask: **pt-BR** or **English** before writing `docs/`.
 5. Re-detect stack briefly (Glob per `document-plan/reference.md` section Stack detection) if plan is stale.
 
@@ -74,7 +74,7 @@ Follow the step's **Tasks** in the plan:
 
 ### 3. Update plan
 
-Before marking the step done: set `tests_run=true` on the scoped develop session after reporting what was written (doc verification — no app test suite required).
+Before marking the step done: set `tests_run=true` on the scoped develop session after reporting what was written (doc verification - no app test suite required).
 
 Edit `docs/documentation-plan/plan.md` in place:
 
@@ -101,7 +101,7 @@ Files written, step completed, progress `N/M`, suggested handoff.
 ## Must not
 
 - Run without `docs/documentation-plan/plan.md` (unless user gives an explicit alternate plan path)
-- Use flat `{repo-hash}.json` for `step_confirmed` / `tests_run` when the doc plan path is known — always PLAN-scoped develop session
+- Use flat `{repo-hash}.json` for `step_confirmed` / `tests_run` when the doc plan path is known - always PLAN-scoped develop session
 - Assume MES/Athena or fixed stack versions
 - Write product `docs/` before doc language is known
 - Complete multiple plan steps in one session when context is high - prefer one step per session

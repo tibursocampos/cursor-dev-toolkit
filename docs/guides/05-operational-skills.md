@@ -134,7 +134,7 @@ Optional: path to an existing overview file after review.
 
 **When to use:** After `refine-backlog-item` (or similar input); group implementation steps into a checklist. Preferred path: under the story folder (`features/.../USnn/` or `TSnn/`). Shortcut: `docs/implementation-tasks/<slug>.md` (legacy alias `docs/sdd-developation-tasks/` still accepted).
 
-**Typical handoff:** `/sdd-spec` / `/orchestrate-analyze` (complex / multi-story) — paste or reference the refined item and task file; or `/developer` for small scope.
+**Typical handoff:** `/sdd-spec` / `/orchestrate-analyze` (complex / multi-story) - paste or reference the refined item and task file; or `/developer` for small scope.
 
 **Notes:** Complements SDD / Forma C; does not replace PRD/PLAN for complex features. See [10-forma-c-orquestracao](10-forma-c-orquestracao.md).
 

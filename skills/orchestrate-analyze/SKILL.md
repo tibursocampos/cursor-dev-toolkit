@@ -36,9 +36,11 @@ Optional: pasted feature description, existing notes path, or prior refine outpu
 
 Under the resolved classic feature root (`STORAGE.md`, `$Workflow = classic`):
 
-1. `features/NNN-slug/FEATURE.md` — triage, scope, nature, complexity, `needs_*`
-2. `features/NNN-slug/CONTINUITY.md` — phase, decisions, typed handoff
-3. `features/NNN-slug/USnn/STORY.md` and/or `TSnn/STORY.md` — BDD + scorecard summary + deps
+1. `features/NNN-slug/FEATURE.md` - triage, scope, nature, complexity, `needs_*`
+2. `features/NNN-slug/CONTINUITY.md` - phase, decisions, typed handoff, **Memory-bank** path + status (`fresh` \| `refreshed` \| `created`)
+3. `features/NNN-slug/USnn/STORY.md` and/or `TSnn/STORY.md` - BDD + scorecard summary + deps
+
+**Step 0 (required):** Memory Bank Gate (`MEMORY-BANK.md`, policy `auto`) **before** triage. Bank lives at `$Cwd/memory-bank/` - **never** under `features/NNN-slug/`.
 
 **Human gate:** backlog must be explicitly approved (`sim` / `ajustar` / `cancelar`) before O2. **Silence is not approval** (RN01).
 
@@ -52,6 +54,8 @@ Does **not** write PRD/PLAN (that is O2 via `sdd-spec` / `sdd-plan` contracts). 
 |------|------|
 | Pipeline Forma C, confirm, paths | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
 | Storage, manifest, feature tree | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
+| Step 0 Memory Bank Gate | `~/.cursor/skills/_shared/sdd-artifacts/MEMORY-BANK.md` |
+| Memory-bank create/refresh | `~/.cursor/skills/memory-bank-init/SKILL.md` |
 | Roster, `needs_*`, triage table | `~/.cursor/skills/_shared/agents/ROSTER.md` |
 | Stack routing (implement later) | `~/.cursor/skills/_shared/agents/ROUTING.md` |
 | Templates | `~/.cursor/skills/_shared/templates/features/{FEATURE,CONTINUITY,TREE}.md`, `.../story/STORY.md` |
@@ -70,18 +74,28 @@ Report the Step -1 gate checklist in chat. Load `PIPELINE.md` (Forma C) and `SES
 
 Load `STORAGE.md`. Run resolution with `$Workflow = classic`. Resolve feature root:
 
-- **repository** → `$Cwd/features/`
-- **global** → `<classic.path>/features/`
+- **repository** -> `$Cwd/features/`
+- **global** -> `<classic.path>/features/`
 
-**Path sanitize (required)** for any invoke / allocated feature path: normalize (`\` → `/`, trim trailing `/`, resolve `.`). Reject if it contains `..`, or if the resolved absolute path is **not** under the feature root above. Ask again in pt-BR for a canonical path — do not Read/Write outside the feature root.
+**Path sanitize (required)** for any invoke / allocated feature path: normalize (`\` -> `/`, trim trailing `/`, resolve `.`). Reject if it contains `..`, or if the resolved absolute path is **not** under the feature root above. Ask again in pt-BR for a canonical path - do not Read/Write outside the feature root.
 
 If first run for this repo: ask storage (pt-BR) per `STORAGE.md` and persist manifest. Confirm target workspace. Do **not** invent a feature path outside the resolved root.
 
 Repository mode: ensure SDD `.gitignore` patterns per `STORAGE.md` when writing under `features/` (do not weaken toolkit patterns; never ignore `skills/`).
 
-### 3. Collect description and triage
+### 3. Step 0 - Memory Bank Gate
 
-Ask for (or reuse Prior context): goal, current behavior, constraints, known repos/areas.
+Follow `~/.cursor/skills/_shared/sdd-artifacts/MEMORY-BANK.md` (policy default **`auto`**). Bank root = `$Cwd/memory-bank/` — **never** under `features/NNN-slug/`.
+
+Before any bank write: confirm (pt-BR) per MEMORY-BANK.md / guardrails (`sim` / `ajustar` / `cancelar`). Healthy bank → selective read only (no write). Explicit `skip` / `skip-memory-bank` → log and continue (exception only).
+
+Record `bank_path` + status (`fresh` | `created` | `refreshed` | skipped) for CONTINUITY (steps 6 and 8).
+
+**Must not:** dump the entire bank into the parent prompt; create bank under `features/`; write app code during Step 0.
+
+### 4. Collect description and triage
+
+Ask for (or reuse Prior context): goal, current behavior, constraints, known repos/areas. Use selective memory-bank facts as Prior context - do not re-ask what the bank already states clearly.
 
 Set and record:
 
@@ -93,17 +107,17 @@ Set and record:
 
 Set `needs_*` flags (`needs_api`, `needs_domain`, `needs_database`, `needs_frontend`, `needs_security`, `needs_devops`) using the **canonical table in `ROSTER.md`** (do not fork a second mapping here). Optional NuGet/examples: `reference.md`.
 
-**TE01 — ambiguous flags:** ask at most a few high-cost questions (pt-BR). Do **not** invent architecture in the orchestrator. Prefer `false` until evidence or user confirms — **except** auth / secrets / PII / feed-token / supply-chain signals → ask explicitly or set `needs_security=true`.
+**TE01 - ambiguous flags:** ask at most a few high-cost questions (pt-BR). Do **not** invent architecture in the orchestrator. Prefer `false` until evidence or user confirms - **except** auth / secrets / PII / feed-token / supply-chain signals -> ask explicitly or set `needs_security=true`.
 
 Suggest path (RF01):
 
 | Complexity | Suggestion |
 |------------|------------|
-| `trivial` | Shortcut `developer` / stack `*-developer` (step 4) |
-| `medium` | Forma A (`sdd-spec` → `sdd-plan` → `sdd-develop`) **or** continue O1 if multi-story |
+| `trivial` | Shortcut `developer` / stack `*-developer` (step 5) |
+| `medium` | Forma A (`sdd-spec` -> `sdd-plan` -> `sdd-develop`) **or** continue O1 if multi-story |
 | `complex` | Continue full O1 (this skill) |
 
-### 4. Trivial shortcut
+### 5. Trivial shortcut
 
 If `trivial`: recommend skipping full O1 write:
 
@@ -115,18 +129,18 @@ Escopo trivial. Prefere atalho?
 3) cancelar
 ```
 
-Only continue to step 5+ if the user explicitly chooses **2**.
+Only continue to step 6+ if the user explicitly chooses **2**.
 
-### 5. Allocate NNN-slug and scaffold tree
+### 6. Allocate NNN-slug and scaffold tree
 
 1. Glob existing `NNN` under `features/*/` only (workspace + global feature root) per `STORAGE.md`. Next = max + 1. Do **not** number from root/flat `PRD/` or `PLAN/`.
 2. Propose `NNN-slug` (kebab-case) and **full path**.
-3. Confirm before first Write (pt-BR): **“Posso gravar a árvore em `{path}`? (sim / ajustar / cancelar)”** — silence ≠ approval.
-4. Create from templates: `FEATURE.md`, `CONTINUITY.md`, story folders `USnn`/`TSnn` as needed. Optional subfolders (`ANALYSIS/`, `ARCH/`, `SEC/`, `REFINE/`) **on demand** under the story — never at repo root. Do **not** create `PRD/` / `PLAN/` yet (O2).
+3. Confirm before first Write (pt-BR): **“Posso gravar a árvore em `{path}`? (sim / ajustar / cancelar)”** - silence ≠ approval.
+4. Create from templates: `FEATURE.md`, `CONTINUITY.md` (include **Memory-bank** path + status from Step 0), story folders `USnn`/`TSnn` as needed. Optional subfolders (`ANALYSIS/`, `ARCH/`, `SEC/`, `REFINE/`) **on demand** under the story - never at repo root. Do **not** create `PRD/` / `PLAN/` yet (O2). Do **not** create `memory-bank/` under the feature path.
 
-### 6. Spawn Task specialists (conditional, parallel)
+### 7. Spawn Task specialists (conditional, parallel)
 
-Spawn a Task subagent **only** when `ROSTER.md` canonical `needs_*` / brownfield rules say so. Load prompt from `skills/_shared/agents/prompts/`. When multiple specialists apply, spawn **in parallel** — **cap: 4** concurrent Tasks; if more flags apply, batch in waves of ≤4 or ask (pt-BR) to run série.
+Spawn a Task subagent **only** when `ROSTER.md` canonical `needs_*` / brownfield rules say so. Load prompt from `skills/_shared/agents/prompts/`. When multiple specialists apply, spawn **in parallel** - **cap: 4** concurrent Tasks; if more flags apply, batch in waves of ≤4 or ask (pt-BR) to run série.
 
 | Signal (see ROSTER) | Specialist | Prompt |
 |---------------------|------------|--------|
@@ -134,24 +148,24 @@ Spawn a Task subagent **only** when `ROSTER.md` canonical `needs_*` / brownfield
 | `needs_domain` or contract-heavy API | `architect` | `prompts/architect.md` |
 | `needs_database` | `database` | `prompts/database.md` |
 | `needs_security` | `security` | `prompts/security.md` |
-| `needs_frontend` | *(no O1 specialist)* — note in CONTINUITY; route at implement via `ROUTING.md` |
-| `needs_devops` | short CONTINUITY note only | — |
+| `needs_frontend` | *(no O1 specialist)* - note in CONTINUITY; route at implement via `ROUTING.md` |
+| `needs_devops` | short CONTINUITY note only | - |
 | Story drafting aid | use `generate-story` patterns | `prompts/generate-story.md` |
 | Optional stage notes | `impact` / `risk` | `prompts/impact.md`, `prompts/risk.md` |
 
-Parent keeps lean context: synthesis + paths. Specialists must **not** write app code. Do **not** call `*-developer` to implement. `qa_checklist` is CONTINUITY/STORY only — never spawn a Task for it.
+Parent keeps lean context: synthesis + paths. Specialists must **not** write app code. Do **not** call `*-developer` to implement. `qa_checklist` is CONTINUITY/STORY only - never spawn a Task for it.
 
-### 7. Synthesize artifacts
+### 8. Synthesize artifacts
 
 Merge specialist notes + user input into:
 
-1. **FEATURE.md** — overview, story index, all `needs_*`, status `draft`
-2. **CONTINUITY.md** — phase `analyze`, decisions, flags, open items
-3. **STORY.md** per US/TS — template structure; BDD Given/When/Then; deps; scorecard summary (rubric from `refine-backlog-item/reference.md`; map /100 → 1–5 in STORY table)
+1. **FEATURE.md** - overview, story index, all `needs_*`, status `draft`
+2. **CONTINUITY.md** - phase `analyze`, decisions, flags, open items, **Memory-bank** path + status (`fresh` \| `refreshed` \| `created`)
+3. **STORY.md** per US/TS - template structure; BDD Given/When/Then; deps; scorecard summary (rubric from `refine-backlog-item/reference.md`; map /100 -> 1-5 in STORY table)
 
-Use `generate-story` prompt patterns for drafts. Prefer pt-BR artifact prose; paths/ids English.
+Use `generate-story` prompt patterns for drafts. Prefer pt-BR artifact prose; paths/ids English. CONTINUITY references the bank only - **do not** paste bank body into CONTINUITY.
 
-### 8. Human backlog approval (RN01)
+### 9. Human backlog approval (RN01)
 
 Present the backlog (feature summary + story table + scorecard highlights). Ask (pt-BR):
 
@@ -164,18 +178,18 @@ Posso marcar como aprovado e seguir para O2?
 
 | Answer | Action |
 |--------|--------|
-| **sim** | status → `approved`; continue step 9 |
+| **sim** | status -> `approved`; continue step 10 |
 | **ajustar** | revise stories/flags; re-present; ask again |
 | **cancelar** | leave `draft`; do not hand off to O2 |
-| *(silence / other)* | **not** approval — wait |
+| *(silence / other)* | **not** approval - wait |
 
-### 9. Approve → CONTINUITY + O2 handoff
+### 10. Approve -> CONTINUITY + O2 handoff
 
 On **sim**:
 
 1. Update `FEATURE.md` / story statuses to `approved` as appropriate.
-2. Update `CONTINUITY.md`: phase stays `analyze` until O2 starts (or set handoff-ready note); `Last agent` = `orchestrate-analyze`; typed handoff string.
-3. Offer O2 (document series vs parallel as **O2 choice** — do not implement O2 here):
+2. Update `CONTINUITY.md`: phase stays `analyze` until O2 starts (or set handoff-ready note); `Last agent` = `orchestrate-analyze`; keep Memory-bank fields; typed handoff string.
+3. Offer O2 (document series vs parallel as **O2 choice** - do not implement O2 here):
 
 ```text
 /orchestrate-deliver - <full-feature-path>
@@ -189,12 +203,12 @@ Example:
 
 Remind (pt-BR): O2 will ask série vs paralelo for per-story PRD/PLAN.
 
-### 10. Context pressure (TE02 / RNF02)
+### 11. Context pressure (TE02 / RNF02)
 
 Honor `~/.cursor/rules/context-management.mdc` thresholds (checkpoint / hard stop). When pressure is high:
 
 1. Persist latest `CONTINUITY.md` (estado atual short per CONTINUITY template, decisões, pendências, exact next `/…`).
-2. Offer session handoff — same phase, resume with feature path:
+2. Offer session handoff - same phase, resume with feature path:
 
 ```text
 /orchestrate-analyze - <full-feature-path>
@@ -204,6 +218,10 @@ Do **not** paste full specialist dumps into the parent chat.
 
 ## Must not
 
+- Skip Step 0 Memory Bank Gate (unless explicit user `skip-memory-bank`)
+- Create or place `memory-bank/` under `features/NNN-slug/`
+- Duplicate memory-bank body into CONTINUITY (path + status only)
+- Dump entire memory-bank into the parent orchestrator context
 - Write application/production code or tests (`*.cs`, `*.tsx`, `*.ts`, `*.js`, `*.vue`, `*.py`, migrations, etc.)
 - Call `*-developer` / `developer` to **implement** code (suggesting the trivial shortcut is allowed)
 - Skip human backlog approval or treat silence as `sim`

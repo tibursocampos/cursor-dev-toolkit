@@ -33,13 +33,17 @@ $centralArtifacts = @(
     'skills\_shared\sdd-artifacts\SESSION.md',
     'skills\_shared\sdd-artifacts\PIPELINE.md',
     'skills\_shared\sdd-artifacts\STORAGE.md',
+    'skills\_shared\sdd-artifacts\MEMORY-BANK.md',
     'skills\_shared\SKILL_TEMPLATE.md',
     'skills\_shared\templates\features\FEATURE.md',
     'skills\_shared\templates\features\CONTINUITY.md',
     'skills\_shared\templates\features\TREE.md',
     'skills\_shared\templates\features\story\STORY.md',
+    'skills\_shared\templates\memory-bank\project-context.md',
+    'skills\_shared\templates\memory-bank\tech-stack.json',
     'skills\_shared\agents\ROSTER.md',
-    'skills\_shared\agents\ROUTING.md'
+    'skills\_shared\agents\ROUTING.md',
+    'scripts\inventory\Invoke-MemoryBankInventory.ps1'
 )
 
 foreach ($relative in $centralArtifacts) {
@@ -49,18 +53,37 @@ foreach ($relative in $centralArtifacts) {
     }
 }
 
-$requiredFormaCSkills = @(
+$forbiddenSpecKit = @(
+    'skills\speckit-setup',
+    'skills\speckit-init',
+    'skills\speckit-spec',
+    'skills\speckit-plan',
+    'skills\speckit-develop',
+    'scripts\setup-speckit.ps1',
+    'scripts\validation\validate-speckit-init.ps1',
+    'scripts\maintainers\fix-speckit-refs.ps1',
+    'docs\guides\06-speckit-workflow.md'
+)
+foreach ($relative in $forbiddenSpecKit) {
+    $path = Join-Path $RepoRoot $relative
+    if (Test-Path -LiteralPath $path) {
+        $failures += "Forbidden Spec Kit leftover (must be removed): $relative"
+    }
+}
+
+$requiredOrchestrationSkills = @(
     'orchestrate-analyze',
     'orchestrate-deliver',
-    'orchestrate-develop'
+    'orchestrate-develop',
+    'memory-bank-init'
 )
-foreach ($skillName in $requiredFormaCSkills) {
+foreach ($skillName in $requiredOrchestrationSkills) {
     $skillPath = Join-Path $skillsRoot $skillName
     if (-not (Test-Path -LiteralPath (Join-Path $skillPath 'SKILL.md'))) {
-        $failures += "Missing Forma C skill: skills/$skillName/SKILL.md"
+        $failures += "Missing required skill: skills/$skillName/SKILL.md"
     }
     if (-not (Test-Path -LiteralPath (Join-Path $skillPath 'reference.md'))) {
-        $failures += "Missing Forma C reference: skills/$skillName/reference.md"
+        $failures += "Missing required reference: skills/$skillName/reference.md"
     }
 }
 
@@ -123,8 +146,9 @@ foreach ($dir in $skillDirs) {
     }
 
     $workflowSkills = @(
-        'speckit-plan', 'speckit-spec', 'speckit-develop', 'sdd-spec', 'sdd-plan', 'sdd-develop',
+        'sdd-spec', 'sdd-plan', 'sdd-develop',
         'orchestrate-analyze', 'orchestrate-deliver', 'orchestrate-develop',
+        'memory-bank-init',
         'code-review', 'test-coverage', 'developer', 'document-plan', 'document-implement'
     )
     if ($dir.Name -in $workflowSkills -and $lineCount -lt 100) {
@@ -149,9 +173,6 @@ if (Test-Path -LiteralPath $manifestPath) {
                 $entry = $manifest.repositories.$repoKey
                 if ($entry.PSObject.Properties.Name -notcontains 'classic') {
                     $failures += "manifest.json : repository '$repoKey' missing classic section"
-                }
-                if ($entry.PSObject.Properties.Name -notcontains 'speckit') {
-                    $failures += "manifest.json : repository '$repoKey' missing speckit section"
                 }
             }
         }

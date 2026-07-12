@@ -33,7 +33,7 @@ For **existing** Blip plugin repos ( `blip-ds` in `package.json` ), use `/react-
 
 ## Outcome
 
-A correctly scaffolded Blip plugin repo with `config:plugin` applied, profile documented, SDD/Spec Kit path chosen, and clear handoff to implementation skills.
+A correctly scaffolded Blip plugin repo with `config:plugin` applied, profile documented, SDD path chosen, and clear handoff to implementation skills.
 
 ## Lazy-load references
 
@@ -58,7 +58,7 @@ Do not preload unrelated guideline trees.
 - Use `cra-template-blip-plugin` (microbundle) as scaffold default
 - Clone ADO `package-plugin-template` silently without user confirmation
 - Skip `npm run config:plugin`
-- Skip `sdd-spec` / `speckit-spec` when starting SDD from scratch
+- Skip `sdd-spec` when starting SDD from scratch
 - Hand off to Antigravity-only personas
 - Mix backend API implementation into the plugin scaffold session
 
@@ -85,7 +85,7 @@ npm run config:plugin
 
 - `config:plugin` replaces `PLUGIN_NAME` in charts and `appsettings.json`
 - Remove template `.git` only if the user wants a fresh repo history (`Remove-Item -Recurse -Force .git` on Windows)
-- Update `.gitignore` for agent artifacts (`PRD/`, `PLAN/`, `.specify/` if desired locally)
+- Update `.gitignore` for agent artifacts (`/features/`, safety-net `/PRD/`, `/PLAN/` if desired locally)
 
 **Portal checklist (document for user):**
 
@@ -105,14 +105,14 @@ Document manual smoke: `npm start` -> open inside Blip portal -> verify iframe h
 
 ### Phase 2 - Documentation flow
 
-Ask **(pt-BR)**: "Qual fluxo de documentação? (SDD, Spec Kit, PRD/brief existente, ou escopo informal?)"
+Ask **(pt-BR)**: "Qual fluxo de documentação? (SDD Forma A, Forma C, PRD/brief existente, ou escopo informal?)"
 
 | Choice | Next command (new session each step) |
 |--------|--------------------------------------|
-| **SDD** | `/sdd-spec` -> `/sdd-plan` -> `/sdd-develop` |
-| **Spec Kit** | `/speckit-spec` -> `/speckit-plan` -> `/speckit-develop` |
-| **Existing PRD/brief** | Skip spec; proceed to `sdd-plan` or `speckit-plan` with provided doc |
-| **Informal / small** | Document scope in `README.md`; handoff directly to implementation |
+| **SDD (Forma A)** | `/sdd-spec` -> `/sdd-plan` -> `/sdd-develop` |
+| **Forma C** | `/orchestrate-analyze` -> `/orchestrate-deliver` -> develop |
+| **Existing PRD/brief** | Skip spec; proceed to `sdd-plan` with provided doc |
+| **Informal / small** | Document scope in `README.md`; handoff directly to implementation / `developer` |
 
 **Do not** jump to `sdd-plan` without a PRD/spec when starting SDD from scratch.
 

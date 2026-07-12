@@ -1,4 +1,4 @@
----
+﻿---
 name: create-message-consumer
 description: Scaffold a message consumer in a .NET workspace (MassTransit, RabbitMQ, or similar). Collects requirements first. Use when creating a consumer or invoking /create-message-consumer.
 ---
@@ -17,7 +17,7 @@ description: Scaffold a message consumer in a .NET workspace (MassTransit, Rabbi
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```

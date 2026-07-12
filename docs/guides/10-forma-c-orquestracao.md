@@ -10,11 +10,12 @@
 
 A **Forma C** é o fluxo orquestrado do toolkit para trabalho **complexo / multi-história / brownfield**:
 
-1. **O1 `orchestrate-analyze`** — triage, especialistas condicionais (Task), backlog US/TS sob `features/NNN-slug/`, gate humano.
-2. **O2 `orchestrate-deliver`** — PRD + PLAN por história (reusa contratos `sdd-spec` / `sdd-plan`), série ou paralelo, handoff com paths.
-3. **O3 `orchestrate-develop`** *(opcional)* — um subagente por passo do PLAN (contrato `sdd-develop`). Alternativa: `sdd-develop` manual.
+0. **Step 0 Memory Bank Gate** - antes de O1/O2/O3: garante `memory-bank/` saudável no **repo alvo** (política `auto` por padrão). Ver seção [Step 0](#step-0--memory-bank-gate).
+1. **O1 `orchestrate-analyze`** - triage, especialistas condicionais (Task), backlog US/TS sob `features/NNN-slug/`, gate humano.
+2. **O2 `orchestrate-deliver`** - PRD + PLAN por história (reusa contratos `sdd-spec` / `sdd-plan`), série ou paralelo, handoff com paths.
+3. **O3 `orchestrate-develop`** *(opcional)* - um subagente por passo do PLAN (contrato `sdd-develop`). Alternativa: `sdd-develop` manual.
 
-Orquestradores **não escrevem código de aplicação**. O contrato de **1 step por sessão** de `sdd-develop` permanece intacto.
+Orquestradores **não escrevem código de aplicação**. O contrato de **1 step por sessão** de `sdd-develop` permanece intacto. Forma A (`sdd-*`) **não** exige memory-bank.
 
 ---
 
@@ -22,9 +23,9 @@ Orquestradores **não escrevem código de aplicação**. O contrato de **1 step 
 
 | Forma | Quando usar | Pipeline |
 |-------|-------------|----------|
-| **A** Classic | Uma feature clara, caminho único | `sdd-spec` → `sdd-plan` → `sdd-develop` |
-| **B** Backlog | Item informal antes de SDD | `refine-backlog-item` → `breakdown-tasks` → A ou C |
-| **C** Orquestrada | Várias histórias, brownfield, precisa de especialistas | O1 → O2 → O3 **ou** `sdd-develop` |
+| **A** Classic | Uma feature clara, caminho único | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| **B** Backlog | Item informal antes de SDD | `refine-backlog-item` -> `breakdown-tasks` -> A ou C |
+| **C** Orquestrada | Várias histórias, brownfield, precisa de especialistas | O1 -> O2 -> O3 **ou** `sdd-develop` |
 
 Nenhuma Forma deprecia a outra neste MVP (CA7 / RN02).
 
@@ -40,9 +41,9 @@ Nenhuma Forma deprecia a outra neste MVP (CA7 / RN02).
 
 ### Não use Forma C quando
 
-- Fix pequeno / área única → `developer` ou `*-developer` ([02](02-developer.md), [08](08-stack-developers.md)).
-- Uma história clara sem orquestração → Forma A ([01](01-sdd-workflow.md)).
-- Só refinar um item de backlog → Forma B ([05](05-operational-skills.md)).
+- Fix pequeno / área única -> `developer` ou `*-developer` ([02](02-developer.md), [08](08-stack-developers.md)).
+- Uma história clara sem orquestração -> Forma A ([01](01-sdd-workflow.md)).
+- Só refinar um item de backlog -> Forma B ([05](05-operational-skills.md)).
 
 ---
 
@@ -62,9 +63,28 @@ No clone do **cursor-dev-toolkit** (ou após atualizar skills O1/O2/O3):
 .\scripts\validation\validate-all.ps1
 ```
 
-Esperado: `Smoke test PASSED` (skills no repo = **38**, incluindo `orchestrate-*`). Menu interativo: `.\scripts\toolkit.ps1`. Detalhes: [MAINTAINER_GUIDE](../MAINTAINER_GUIDE.md), [INSTALL](../INSTALL.md).
+Esperado: `Smoke test PASSED` (skills no repo = **34**, incluindo `orchestrate-*` e `memory-bank-init`). Menu interativo: `.\scripts\toolkit.ps1`. Detalhes: [MAINTAINER_GUIDE](../MAINTAINER_GUIDE.md), [INSTALL](../INSTALL.md).
 
 Sem sync, `/orchestrate-*` pode falhar (skills só existem em `~/.cursor/skills/` após o deploy).
+
+---
+
+## Step 0 - Memory Bank Gate
+
+Antes de O1, O2 ou O3, o orquestrador executa o **Memory Bank Gate** (`MEMORY-BANK.md`):
+
+| Situação | Comportamento (`auto`) |
+|----------|-------------------------|
+| `memory-bank/` ausente | Pede **sim** -> create (skill `/memory-bank-init` ou fluxo embutido) |
+| Bank incompleto / stale | Pede **sim** -> refresh |
+| Bank saudável | Continua **sem** write |
+
+- Path: `$Cwd/memory-bank/` no **repositório alvo** (nunca sob `features/NNN-slug/`).
+- `CONTINUITY.md` guarda só referência: path + status (`fresh` \| `refreshed` \| `created`).
+- Política `skip` só com flag explícita (ex.: `skip-memory-bank`). Silêncio ≠ skip.
+- Init/refresh manual: `/memory-bank-init`. Inventário read-only: `scripts/inventory/Invoke-MemoryBankInventory.ps1`.
+
+**Fluxo:** Step 0 -> O1 -> O2 -> (O3 \| `sdd-develop`).
 
 ---
 
@@ -72,6 +92,7 @@ Sem sync, `/orchestrate-*` pode falhar (skills só existem em `~/.cursor/skills/
 
 | Fase | Invoke |
 |------|--------|
+| Memory bank (manual) | `/memory-bank-init` |
 | O1 Análise | `/orchestrate-analyze` |
 | O1 retomar | `/orchestrate-analyze - <full-feature-path>` |
 | O2 Spec/Plan | `/orchestrate-deliver - <full-feature-path>` |
@@ -79,34 +100,37 @@ Sem sync, `/orchestrate-*` pode falhar (skills só existem em `~/.cursor/skills/
 | Develop manual | `/sdd-develop - <full-plan-path> - Step N` |
 | Review | `/code-review` (passe `single` ou `multi-angle`; se omitir, a skill pergunta) |
 
-`<full-feature-path>` — exemplo: `features/004-nuget-extract/`
+`<full-feature-path>` - exemplo: `features/004-nuget-extract/`
 
 ---
 
 ## Passo a passo
 
-### O1 — `orchestrate-analyze`
+### O1 - `orchestrate-analyze`
 
-1. Descreva a feature (ou cole notas / saída de Forma B).
-2. O agente faz triage: nature, complexity, scope, flags `needs_*`.
-3. Especialistas sobem via Task **só** se a flag for verdadeira.
-4. Grava `FEATURE.md`, `CONTINUITY.md`, pastas `USnn`/`TSnn` com `STORY.md`.
-5. **Pare** e aprove o backlog (**sim** / ajustar / cancelar).
-6. Handoff: `/orchestrate-deliver - <full-feature-path>`
+1. **Step 0:** Memory Bank Gate (`auto`) - create/refresh só após **sim**; bank saudável = só leitura.
+2. Descreva a feature (ou cole notas / saída de Forma B).
+3. O agente faz triage: nature, complexity, scope, flags `needs_*`.
+4. Especialistas sobem via Task **só** se a flag for verdadeira (podem receber path do bank).
+5. Grava `FEATURE.md`, `CONTINUITY.md` (campo Memory-bank), pastas `USnn`/`TSnn` com `STORY.md`.
+6. **Pare** e aprove o backlog (**sim** / ajustar / cancelar).
+7. Handoff: `/orchestrate-deliver - <full-feature-path>`
 
-### O2 — `orchestrate-deliver`
+### O2 - `orchestrate-deliver`
 
-1. Informe o path da feature aprovada.
-2. Escolha modo **série** ou **paralelo**. Em paralelo: cada filho **só rascunha** PRD/PLAN; o pai agrega, pede **sim** e grava.
-3. Cada história recebe `PRD/` + `PLAN/` (contratos sdd-spec / sdd-plan).
-4. Aprove PRD/PLAN por história ou em lote.
-5. Receba a tabela de paths + invokes para develop / O3.
+1. **Step 0** de novo no início da sessão O2 (fresh -> sem reescrita).
+2. Informe o path da feature aprovada.
+3. Escolha modo **série** ou **paralelo**. Em paralelo: cada filho **só rascunha** PRD/PLAN; o pai agrega, pede **sim** e grava.
+4. Cada história recebe `PRD/` + `PLAN/` (contratos sdd-spec / sdd-plan).
+5. Aprove PRD/PLAN por história ou em lote.
+6. Receba a tabela de paths + invokes para develop / O3.
 
-### O3 — `orchestrate-develop` (ou manual)
+### O3 - `orchestrate-develop` (ou manual)
 
-1. O3: pai atualiza CONTINUITY e dispara **um** subagente por passo pendente (deps respeitadas).
-2. Manual: nova sessão por passo — `/sdd-develop - <plan> - Step N`.
-3. Ao concluir a história: `/code-review` (single ou multi-ângulo; se omitir, a skill pergunta).
+1. **Step 0** no início da sessão O3; filhos recebem path do bank para leitura.
+2. O3: pai atualiza CONTINUITY e dispara **um** subagente por passo pendente (deps respeitadas).
+3. Manual: nova sessão por passo - `/sdd-develop - <plan> - Step N` (Forma A: gate memory-bank **opcional**).
+4. Ao concluir a história: `/code-review` (single ou multi-ângulo; se omitir, a skill pergunta).
 
 ---
 
@@ -130,18 +154,18 @@ Leitura e gravação Classic SDD **somente** sob `features/NNN-slug/...` (repo o
 
 ---
 
-## CA7 — compatibilidade e exclusões deste MVP
+## CA7 - compatibilidade e exclusões deste MVP
 
 **Dado** o toolkit sincronizado  
 **Quando** você **não** usa Forma C  
-**Então** skills existentes (incluindo Spec Kit) continuam invocáveis  
+**Então** skills Classic / Forma B / stack / operacional continuam invocáveis  
 
-**Explicitamente fora deste PRD/MVP:**
+**Explicitamente fora deste PRD/MVP (histórico PRD 003):**
 
 | Item | Status |
 |------|--------|
-| Spec Kit (`speckit-*`) como fluxo alterado | Fora — skills atuais intactas |
-| `memory-bank/` completo | Fora (opcional futuro) |
+| Spec Kit (`speckit-*`) | Removido do toolkit (PRD 004) - use Formas A / B / C |
+| `memory-bank/` + Step 0 | Entregue (PRD 004) - gate só em `orchestrate-*`; Forma A isenta |
 | Git worktrees multi-US | Fora |
 | ADO / Celebration / Sonar corp. / Keycloak | Não portados |
 | Blind review ×3 automático no loop de develop | Não |
@@ -152,9 +176,9 @@ Referência: PRD 003 § CA7, §14 Fora de escopo.
 
 ## Walkthrough: extração NuGet (cenário bf-ex)
 
-Cenário ilustrativo — **não** exige app de produção neste repo. Objetivo: extrair biblioteca compartilhada X para NuGet interno; App A e App B consomem sem quebrar CI.
+Cenário ilustrativo - **não** exige app de produção neste repo. Objetivo: extrair biblioteca compartilhada X para NuGet interno; App A e App B consomem sem quebrar CI.
 
-### Chat 1 — O1
+### Chat 1 - O1
 
 ```text
 /orchestrate-analyze
@@ -190,12 +214,12 @@ Após **sim** no backlog:
 /orchestrate-deliver - features/004-nuget-extract/
 ```
 
-### Chat 2 — O2 (paralelo)
+### Chat 2 - O2 (paralelo)
 
-Modo paralelo: um Task por história **rascunha** PRD/PLAN (sem Write em disco). Pai agrega → aprovação humana → pai grava via contratos `sdd-spec` / `sdd-plan`. Após aprovação, handoff típico:
+Modo paralelo: um Task por história **rascunha** PRD/PLAN (sem Write em disco). Pai agrega -> aprovação humana -> pai grava via contratos `sdd-spec` / `sdd-plan`. Após aprovação, handoff típico:
 
 ```text
-## Handoff O2 → develop
+## Handoff O2 -> develop
 
 Feature: features/004-nuget-extract/
 
@@ -211,10 +235,10 @@ Feature: features/004-nuget-extract/
 /orchestrate-develop - features/004-nuget-extract/
 ```
 
-### Chat 3+ — develop e review
+### Chat 3+ - develop e review
 
 - Preferir **uma história por vez** (ex.: TS01 até 100%, depois TS02).
-- Após código: `/code-review` — passe `single`/`multi-angle` ou deixe a skill perguntar.
+- Após código: `/code-review` - passe `single`/`multi-angle` ou deixe a skill perguntar.
 - Commit: `/commit` (após **sim**).
 
 ---
@@ -226,7 +250,9 @@ Feature: features/004-nuget-extract/
 | Pedir O2 sem aprovar backlog O1 | Voltar: `orchestrate-analyze - <path>` |
 | Pai O3 implementar vários steps | Must-not; um subagente / um step |
 | Usar Forma C para fix de uma linha | Usar `developer` / stack skill |
-| Esperar worktrees ou Spec Kit neste MVP | Ver CA7 acima |
+| Esperar worktrees neste MVP | Ver CA7 acima |
+| Criar `memory-bank/` sob `features/` | Path errado - bank fica na raiz do repo alvo |
+| Assumir skip do Step 0 sem flag | Silêncio ≠ skip; use flag explícita |
 
 ---
 
@@ -237,6 +263,5 @@ Feature: features/004-nuget-extract/
 | [01-sdd-workflow.md](01-sdd-workflow.md) | Forma A |
 | [03-code-review.md](03-code-review.md) | Review pós-develop |
 | [05-operational-skills.md](05-operational-skills.md) | Forma B + commit |
-| [06-speckit-workflow.md](06-speckit-workflow.md) | Spec Kit (inalterado) |
 | [AGENTS.md](../../AGENTS.md) | Router após sync |
 | [SKILLS.md](../SKILLS.md) | Catálogo |
