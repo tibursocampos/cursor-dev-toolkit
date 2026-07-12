@@ -40,7 +40,7 @@ Under each approved story folder (`USnn` / `TSnn`):
 2. `PLAN/PLAN_NNN_*.md` - via **`sdd-plan` contract** (baby steps)
 3. Feature `CONTINUITY.md` - phase `deliver`, decisions, typed multi-path handoff, **Memory-bank** path + status
 
-**Step 0 (required):** Memory Bank Gate (`MEMORY-BANK.md`, policy `auto`) **before** mode selection / story contracts. Bank = `$Cwd/memory-bank/` - never under `features/`. CONTINUITY remains the feature phase/handoff source; bank does not replace it.
+**Step 0 (required):** Memory Bank Gate (`MEMORY-BANK.md`, policy `auto`) **before** mode selection / story contracts. Resolve `bank_root` via `STORAGE.md` - never under `features/`. CONTINUITY remains the feature phase/handoff source; bank does not replace it.
 
 **Human gate:** PRD/PLAN approval per story **or** batch (`sim` / `ajustar` / `cancelar`). Silence ≠ approval (RN01).
 
@@ -72,10 +72,12 @@ Load `STORAGE.md`. Run resolution with `$Workflow = classic`.
 
 Accept feature path from invoke (preferred) or Glob under feature root:
 
-- **repository** -> `$Cwd/features/NNN-slug/`
-- **global** -> `<classic.path>/features/NNN-slug/`
+- **repository** -> `$Cwd/features/NNN-slug/`; bank `$Cwd/memory-bank/`
+- **global** -> `<classic.path>/features/NNN-slug/`; bank `<classic.path>/memory-bank/`
 
 **Path sanitize (required):** normalize the invoke path (`\` -> `/`, trim trailing `/`, resolve `.`). Reject if it contains `..`, or if the resolved absolute path is **not** under `$Cwd/features/` (repository) or `<classic.path>/features/` (global). Ask again in pt-BR for a canonical path - do not Read/Write outside the feature root.
+
+Repository mode: ensure SDD `.gitignore` per `STORAGE.md` (incl. `/memory-bank/`) before writes under feature or bank roots. **Global:** do not edit `.gitignore`.
 
 `Read` `FEATURE.md` + `CONTINUITY.md`. If missing: **STOP** - ask for O1 first:
 
@@ -88,9 +90,9 @@ Não encontrei FEATURE.md / CONTINUITY.md em `{path}`.
 
 ### 3. Step 0 - Memory Bank Gate
 
-Follow `MEMORY-BANK.md` (policy default **`auto`**). Bank root = `$Cwd/memory-bank/` — **not** under `features/`.
+Follow `MEMORY-BANK.md` (policy default **`auto`**). Bank root = resolved `bank_root` - **not** under `features/`.
 
-Confirm (pt-BR) before create/refresh; healthy → selective read only. Update `CONTINUITY.md` Memory-bank path + status when create/refresh runs. Keep phase/handoff ownership in CONTINUITY — do not replace with bank body. Pass `bank_path` into parallel draft Task prompts as **read-only Prior context** (selective files only).
+Confirm (pt-BR) before create/refresh; healthy -> selective read only. Update `CONTINUITY.md` Memory-bank path + status when create/refresh runs. Keep phase/handoff ownership in CONTINUITY - do not replace with bank body. Pass `bank_path` into parallel draft Task prompts as **read-only Prior context** (selective files only).
 
 ### 4. Preconditions (approved backlog)
 

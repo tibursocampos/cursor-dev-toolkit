@@ -168,7 +168,8 @@ Details: [03-code-review.md](03-code-review.md), [04-test-coverage.md](04-test-c
 
 | Artifact | Typical location | Committed to git? |
 |----------|------------------|-------------------|
-| Feature tree (Forma A/C) | `features/NNN-slug/` **or** `~/.cursor/sdd/<repo-id>/features/NNN-slug/` | Usually **no** (gitignored via `/features/` when stored in repo) |
+| Feature tree (Forma A/C) | `features/NNN-slug/` **or** `~/.cursor/sdd/<repo-id>/features/NNN-slug/` | Usually **no** (gitignored via `/features/` when stored in repo; global mode does not touch `.gitignore`) |
+| Memory-bank (Forma C) | `$Cwd/memory-bank/` **or** `~/.cursor/sdd/<repo-id>/memory-bank/` | **No** (gitignored via `/memory-bank/` in repository mode) |
 | PRD / PLAN | Under story: `features/.../USnn/PRD/`, `features/.../USnn/PLAN/` | Usually **no**; root `PRD/` / `PLAN/` are **not** active destinations (gitignore safety net only) |
 | User guides (this folder) | `docs/guides/` in **cursor-dev-toolkit** | **Yes** |
 

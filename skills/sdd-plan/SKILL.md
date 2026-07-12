@@ -94,7 +94,7 @@ Glob/Grep/Read. Steps ~20-45 min each. Doc-update steps: **sdd-develop** asks do
 ### 6. Write PLAN (Agent + sim only)
 
 1. Validate canonical PLAN path under same story as PRD (`features/.../PLAN/`); `NNN` **equals** PRD `NNN`. Do **not** write or update PLANs at repo-root `PLAN/`.
-2. Repository mode: `.gitignore` per `STORAGE.md` (include `/features/`; keep `/PRD/` `/PLAN/` as safety net only).
+2. Repository mode: `.gitignore` per `STORAGE.md` (include `/features/` and `/memory-bank/`; keep `/PRD/` `/PLAN/` as safety net only). Global mode: do **not** edit `.gitignore`.
 3. Template `reference.md`; PRD header = full PRD path; steps **Pendente**; `0/N`.
 4. Warn if overwriting PLAN with completed steps.
 

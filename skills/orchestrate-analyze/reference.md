@@ -10,10 +10,11 @@ Run **before** triage (SKILL §3). Contract: `MEMORY-BANK.md`. Skill: `memory-ba
 
 | Check | Pass criteria |
 |-------|---------------|
-| Bank path | `$Cwd/memory-bank/` - **not** under `features/NNN-slug/` |
+| Bank path | Resolved `bank_root` via `STORAGE.md` (`$Cwd/memory-bank/` or `<classic.path>/memory-bank/`) - **not** under `features/NNN-slug/` |
 | Policy | `auto` default; `skip` only with explicit user flag |
 | Healthy | Selective read; no write; CONTINUITY status `fresh` |
 | Missing/stale | Confirm -> create/refresh; status `created` / `refreshed` |
+| Gitignore | Repository: `/memory-bank/` in SDD block; global: do not edit `.gitignore` |
 | CONTINUITY | Path + status only - no bank body dump |
 | Parent context | Lean - do not load entire bank |
 
@@ -99,7 +100,7 @@ Update `CONTINUITY.md` when:
 |-------|------|
 | **Phase** | `analyze` during O1 |
 | **Last agent** | `orchestrate-analyze` or specialist role id |
-| **Memory-bank** | Repo path (default `memory-bank/`); never a feature-relative bank |
+| **Memory-bank** | Resolved `bank_root` (`STORAGE.md`); never a feature-relative bank |
 | **Memory-bank status** | `fresh` \| `refreshed` \| `created` (from Step 0) |
 | **Estado atual** | ≤10 lines; replace on update |
 | **Decisões** | Append; do not erase history |

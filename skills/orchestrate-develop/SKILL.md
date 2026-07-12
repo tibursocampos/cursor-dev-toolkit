@@ -38,7 +38,9 @@ Required: full feature path **or** a specific `PLAN/PLAN_NNN_*.md` path under a 
 2. Feature `CONTINUITY.md` updated (phase `develop`, progress, typed next invoke, **Memory-bank** path + status)
 3. Handoff to `code-review` (`- single` or `- multi-angle`; skill asks if omitted) and/or next step / next story
 
-**Step 0 (required):** Memory Bank Gate (`MEMORY-BANK.md`, policy `auto`) **before** building the step queue / spawning children. Bank = `$Cwd/memory-bank/`. CONTINUITY stays the feature phase/handoff source.
+**Step 0 (required):** Memory Bank Gate (`MEMORY-BANK.md`, policy `auto`) **before** building the step queue / spawning children. Resolve `bank_root` via `STORAGE.md`. CONTINUITY stays the feature phase/handoff source.
+
+**Step N (after code changes):** when at least one develop child succeeded with app file changes, run `memory-bank-init` mode **`refresh-light`** at `bank_root` before final handoff (`MEMORY-BANK.md` Step N). Confirm (pt-BR) first.
 
 **Parent orchestrator never** writes application code, never marks multiple PLAN steps done in one child, and never bypasses `sdd-develop` gates (`step_confirmed`, tests before complete).
 
@@ -67,9 +69,11 @@ Report the Step -1 gate checklist in chat. Load `PIPELINE.md` (Forma C) and `SES
 
 ### 2. Resolve feature / PLAN set
 
-Load `STORAGE.md` (`$Workflow = classic`).
+Load `STORAGE.md` (`$Workflow = classic`). Resolve feature root and `bank_root` (repository vs global per `STORAGE.md` / `MEMORY-BANK.md`).
 
 **Path sanitize (required):** normalize invoke paths; reject `..` and any resolved path outside `$Cwd/features/` (repository) or `<classic.path>/features/` (global). For a single PLAN path, it must remain under that features root. Ask again in pt-BR if invalid.
+
+Repository mode: ensure SDD `.gitignore` per `STORAGE.md` before any bank write. **Global:** do not edit `.gitignore`.
 
 | Invoke | Action |
 |--------|--------|
@@ -89,9 +93,9 @@ Não encontrei PLAN sob `{path}`.
 
 ### 3. Step 0 - Memory Bank Gate
 
-Follow `MEMORY-BANK.md` (policy default **`auto`**). Bank root = `$Cwd/memory-bank/` — **not** under `features/`.
+Follow `MEMORY-BANK.md` (policy default **`auto`**). Bank root = resolved `bank_root` - **not** under `features/`.
 
-Confirm (pt-BR) before create/refresh; healthy → selective read only. Update CONTINUITY Memory-bank fields when create/refresh runs. Pass **`bank_path`** into every develop child prompt as read-only Prior context (selective files — never dump).
+Confirm (pt-BR) before create/refresh; healthy -> selective read only. Update CONTINUITY Memory-bank fields when create/refresh runs. Pass **`bank_path`** into every develop child prompt as read-only Prior context (selective files - never dump).
 
 ### 4. Build step queue (deps)
 
@@ -206,7 +210,19 @@ On each meaningful milestone (before/after child, pause, story done):
 
 Do not paste full diffs, guideline bodies, or memory-bank body into CONTINUITY. CONTINUITY owns phase/handoff; bank does not replace it.
 
-### 9. Handoff - code-review + manual alternative
+### 9. Step N - Memory Bank refresh-light (after code changes)
+
+When this O3 run had at least one successful develop child that changed application files, **before** the final review handoff:
+
+1. Resolve `bank_root` (same as Step 0).
+2. Ask (pt-BR): `Posso atualizar o memory-bank (refresh-light) em '{bank_root}'? (sim / pular / cancelar)`
+3. On **sim**: follow `memory-bank-init` mode **`refresh-light`** (inventory + GENERATED + `tech-stack.json` only).
+4. Update CONTINUITY Memory-bank status to `refreshed` (or note skipped).
+5. On **pular**: log and continue handoff without bank write.
+
+If no app code changed this run, skip Step N.
+
+### 10. Handoff - code-review + manual alternative
 
 When a story or feature develop pass completes (or user asks to review mid-way):
 
@@ -222,6 +238,9 @@ When a story or feature develop pass completes (or user asks to review mid-way):
 
 ## Continuar O3
 /orchestrate-develop - <full-feature-path>
+
+## Memory-bank (manual)
+/memory-bank-init - refresh-light
 ```
 
 Suggest `/code-review` (user may pass `- single` or `- multi-angle`; if omitted, **code-review asks**). Never require a mode. O3 does **not** auto-block the pipeline on review.

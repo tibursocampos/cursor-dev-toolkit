@@ -22,11 +22,22 @@ If no PLAN -> hand off to O2 / `sdd-plan`. If user prefers no orchestrator -> do
 
 | Check | Pass |
 |-------|------|
+| Bank path | Resolved `bank_root` (`STORAGE.md`) - not under `features/` |
 | Fresh healthy bank | No rewrite; CONTINUITY status `fresh` |
 | Refresh this run | CONTINUITY status `refreshed` |
 | Children | Receive bank path; selective read; no bank dump |
-| CONTINUITY vs bank | CONTINUITY = phase/handoff; bank = repo map |
+| CONTINUITY vs bank | CONTINUITY = phase/handoff; bank = workspace map |
 | 1-step contract | Unchanged - one child = one PLAN step |
+
+## Step N - refresh-light (after code changes)
+
+| Check | Pass |
+|-------|------|
+| Trigger | At least one child changed app files this O3 run |
+| Mode | `memory-bank-init` **`refresh-light`** only (not full prose rewrite) |
+| Confirm | pt-BR `sim` / `pular` / `cancelar` before write |
+| Skip | No code changes, or user chose `pular` |
+| CONTINUITY | Status `refreshed` when Step N ran |
 
 ---
 
@@ -226,5 +237,5 @@ Handoff `/code-review` (user may pass `- single` / `- multi-angle`; if omitted, 
 - Mandatory multi-angle review
 - Git worktrees for multi-US
 - ADO / Celebration / Keycloak / mandatory Sonar corp
-- Spec Kit / `.specify` (removed from toolkit — use Formas A/B/C)
+- Spec Kit / `.specify` (removed from toolkit - use Formas A/B/C)
 - Weakening `sdd-develop` one-step contract

@@ -46,12 +46,12 @@ Step 0 memory-bank gate (auto) -> orchestrate-analyze (O1) -> human approve back
 
 | Skill | Invoke | Typical output |
 |-------|--------|----------------|
-| memory-bank-init | `/memory-bank-init` | Repo-root `memory-bank/` (create/refresh) |
+| memory-bank-init | `/memory-bank-init` | Resolved `memory-bank/` (create/refresh/refresh-light; local, not committed) |
 | orchestrate-analyze | `/orchestrate-analyze` | Step 0 + `FEATURE.md` + US/TS + `CONTINUITY.md` |
 | orchestrate-deliver | `/orchestrate-deliver - <feature-path>` | Step 0 + PRD/PLAN per story + path handoff |
-| orchestrate-develop | `/orchestrate-develop - <feature-path>` | Step 0 + one PLAN step per subagent; CONTINUITY |
+| orchestrate-develop | `/orchestrate-develop - <feature-path>` | Step 0 + one PLAN step per subagent; CONTINUITY; Step N refresh-light |
 
-**Step 0:** O1/O2/O3 run Memory Bank Gate before triage/deliver/develop (`MEMORY-BANK.md`). Forma A (`sdd-*`) does **not** require it. Bank lives at consumer `$Cwd/memory-bank/` - never under `features/`.
+**Step 0:** O1/O2/O3 run Memory Bank Gate before triage/deliver/develop (`MEMORY-BANK.md`). Forma A (`sdd-*`) does **not** require it. Bank co-locates with `features/` via manifest (`$Cwd/memory-bank/` or `<classic.path>/memory-bank/`) - never under `features/`. Local only: `/memory-bank/` in `.gitignore` when repository mode; global mode does not touch `.gitignore`.
 
 O1/O2 do **not** write app code. O3 parent does **not** implement; children reuse the `sdd-develop` contract.
 
@@ -74,7 +74,7 @@ For new Blip React plugins: `blip-plugin-developer` - `/blip-plugin-developer`. 
 | Flow | Steps |
 |------|--------|
 | Forma C (complex / multi-story) | Step 0 memory-bank -> `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop` |
-| Memory bank (manual) | `memory-bank-init` (create/refresh; also Step 0 inside O*) |
+| Memory bank (manual) | `memory-bank-init` (create/refresh/refresh-light; also Step 0 / O3 Step N inside O*) |
 | Repo documentation (RAG) | `document-plan` -> `document-implement` |
 | Backlog -> SDD (Forma B) | `refine-backlog-item` -> `breakdown-tasks` -> Forma A or Forma C |
 | Frontend design -> implement | `impeccable shape` -> `DESIGN-BRIEF.md` -> `*-developer` (one session per step) |

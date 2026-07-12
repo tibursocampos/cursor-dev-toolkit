@@ -8,12 +8,14 @@ Install path after sync: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`
 
 ## Storage modes
 
-| Mode | Feature root |
-|------|--------------|
-| **repository** | `$Cwd/features/NNN-slug/` |
-| **global** | `<path>/features/NNN-slug/` where `<path>` = `~/.cursor/sdd/<repo-id>/` (or manifest `classic.path`) |
+| Mode | Feature root | Memory-bank root |
+|------|--------------|------------------|
+| **repository** | `$Cwd/features/NNN-slug/` | `$Cwd/memory-bank/` |
+| **global** | `<path>/features/NNN-slug/` where `<path>` = `~/.cursor/sdd/<repo-id>/` (or manifest `classic.path`) | `<path>/memory-bank/` |
 
 Use `$HOME/.cursor/sdd/...` on macOS/Linux when expanding paths in tools.
+
+**Co-location:** `features/` and `memory-bank/` always share the same storage root (`$Cwd` or `<classic.path>`). Never place `memory-bank/` under `features/NNN-slug/`. Contract details: `MEMORY-BANK.md`.
 
 **New writes (Classic Forma A / Forma B preferred / Forma C):** only under `features/NNN-slug/` (never loose `REFINE/`, `ANALYSIS/`, `ARCH/`, `SEC/`, `PRD/`, or `PLAN/` at repo root).
 
@@ -50,7 +52,7 @@ features/NNN-slug/
 
 ## Repository mode - `.gitignore`
 
-Run **before** the first `Write` under any SDD folder in the workspace (`sdd-spec` or `sdd-plan` in repository mode).
+Run **before** the first `Write` under any SDD folder or `memory-bank/` in the workspace (`sdd-spec`, `sdd-plan`, `orchestrate-*`, `memory-bank-init` in **repository** mode only).
 
 1. Read `.gitignore` at workspace root. If missing, create it with the SDD block below.
 2. **Always** require these patterns in repository mode:
@@ -59,12 +61,13 @@ Run **before** the first `Write` under any SDD folder in the workspace (`sdd-spe
    |---------|-----------|
    | `/features/` | Canonical Classic / Forma C artifacts (repo root only) |
    | `/docs/features/` | Reserved alternate under docs |
+   | `/memory-bank/` | Forma C memory-bank (entire tree; local agent workflow - not committed) |
    | `/PRD/` | Safety net - ignore accidental root PRD (not a write destination) |
    | `/PLAN/` | Safety net - ignore accidental root PLAN (not a write destination) |
    | `/docs/PRD/` | Safety net |
    | `/docs/PLAN/` | Safety net |
 
-   Use leading `/` so `skills/sdd-plan/`, `skills/_shared/templates/features/`, and other non-root paths are **not** ignored.
+   Use leading `/` so `skills/sdd-plan/`, `skills/_shared/templates/features/`, `skills/_shared/templates/memory-bank/`, and other non-root paths are **not** ignored.
 
 3. If **any** pattern is missing, append the **full** block:
 
@@ -72,6 +75,7 @@ Run **before** the first `Write` under any SDD folder in the workspace (`sdd-spe
    # SDD artifacts (local agent workflow - cursor-dev-toolkit)
    /features/
    /docs/features/
+   /memory-bank/
    /PRD/
    /PLAN/
    /docs/PRD/
@@ -80,7 +84,9 @@ Run **before** the first `Write` under any SDD folder in the workspace (`sdd-spe
 
 4. Report: patterns added, or all already present.
 
-**Global mode:** do not modify project `.gitignore`.
+**Global mode:** do **not** modify project `.gitignore`. Do **not** add or require `/features/`, `/memory-bank/`, `/PRD/`, `/PLAN/`, or related patterns - those artifacts live under `<classic.path>/` outside the consumer git tree. Skills must not suggest appending the SDD block when `storage_mode` is `global`.
+
+**Migration repository -> global:** skills do **not** auto-remove SDD lines from `.gitignore`; the human may delete the block if desired.
 
 ## Numbering (`NNN`)
 
@@ -137,6 +143,7 @@ When the user cites a non-canonical `.md`: read it, build the artifact per skill
 | sdd-plan | Yes if manifest missing | Repository mode only | PLAN under `features/.../PLAN/` |
 | sdd-develop | No - uses PLAN path from input | No | Updates same PLAN file |
 | orchestrate-* (Forma C) | Yes if first run | Repository mode only | Feature tree + stories |
+| memory-bank-init | Yes (resolve bank root) | Repository mode only (`/memory-bank/` in SDD block) | Bank under resolved `bank_root` |
 | refine-backlog-item | Prefer feature `STORY.md` | No (unless first SDD write) | Optional `docs/backlog/` shortcut |
 | breakdown-tasks | Prefer feature story folder | No | Task checklist under story / backlog |
 | code-review | No | No | Read-only |
@@ -201,21 +208,24 @@ Execute at skill load time, before any read or write. Parameter: `$Workflow` = `
    c. Set session gate storage_confirmed = true after user sim.
 5. If found: read repositories[$Cwd].classic.storage_mode and .path
    (ignore any legacy speckit key).
-6. Derive classic feature root:
-   - repository -> $Cwd/features/
-   - global     -> <classic.path>/features/
-7. For classic writes and reads: resolve only under
+6. Derive classic feature root and memory-bank root:
+   - repository -> feature_root = $Cwd/features/
+                    bank_root   = $Cwd/memory-bank/
+   - global     -> feature_root = <classic.path>/features/
+                    bank_root   = <classic.path>/memory-bank/
+7. For classic feature writes and reads: resolve only under
    features/NNN-slug/[USnn|TSnn]/{PRD|PLAN|...}
    (Forma A default story = US01 when unspecified).
    Never use repo-root or global-flat PRD/ / PLAN/.
+8. For memory-bank writes/reads: only under bank_root (never under features/NNN-slug/).
 ```
 
 ### Physical path mapping
 
-| storage_mode | Classic feature root | Classic PRD | Classic PLAN |
-|---|---|---|---|
-| `repository` | `$Cwd/features/` | `$Cwd/features/NNN-slug/USnn/PRD/` | `$Cwd/features/NNN-slug/USnn/PLAN/` |
-| `global` | `<path>/features/` | `<path>/features/NNN-slug/USnn/PRD/` | `<path>/features/NNN-slug/USnn/PLAN/` |
+| storage_mode | Classic feature root | Memory-bank root | Classic PRD | Classic PLAN |
+|---|---|---|---|---|
+| `repository` | `$Cwd/features/` | `$Cwd/memory-bank/` | `$Cwd/features/NNN-slug/USnn/PRD/` | `$Cwd/features/NNN-slug/USnn/PLAN/` |
+| `global` | `<path>/features/` | `<path>/memory-bank/` | `<path>/features/NNN-slug/USnn/PRD/` | `<path>/features/NNN-slug/USnn/PLAN/` |
 
 `<path>` = `repositories[$Cwd].classic.path`
 
@@ -224,25 +234,27 @@ Execute at skill load time, before any read or write. Parameter: `$Workflow` = `
 | Check | repository | global |
 |-------|------------|--------|
 | Feature root | `$Cwd/features/NNN-slug/` | `~/.cursor/sdd/<repo-id>/features/NNN-slug/` (or manifest path) |
+| Memory-bank root | `$Cwd/memory-bank/` | `<classic.path>/memory-bank/` |
 | PRD/PLAN | Under story `PRD/` / `PLAN/` only | Same under global feature root |
-| `.gitignore` SDD block | Required (incl. `/features/` + safety-net `/PRD/` `/PLAN/`) | Do not edit project `.gitignore` |
+| `.gitignore` SDD block | Required (incl. `/features/`, `/memory-bank/`, safety-net `/PRD/` `/PLAN/`) | Do **not** edit project `.gitignore` |
 | Root / flat `PRD/`/`PLAN/` | Not used (ignored if present) | Not used |
-| Leading `/` on ignore patterns | Must not ignore `skills/sdd-plan/` | N/A |
+| Leading `/` on ignore patterns | Must not ignore `skills/sdd-plan/` or templates | N/A |
 
 ### User storage prompt (chat only - pt-BR)
 
 Ask before the first write of Classic artifacts in the session (unless manifest applies):
 
 ```text
-Onde gravar artefatos SDD (features/) deste projeto?
+Onde gravar artefatos SDD (features/ + memory-bank/) deste projeto?
 
-1) Repositório - features/ na raiz (/features/, /docs/features/, e safety-net /PRD/, /PLAN/ no .gitignore se faltarem)
-2) Global - ~/.cursor/sdd/<RepositoryName>/features/ (fora do git do projeto)
+1) Repositório - na raiz do projeto (features/, memory-bank/; /features/, /docs/features/, /memory-bank/, e safety-net /PRD/, /PLAN/ no .gitignore se faltarem)
+2) Global - ~/.cursor/sdd/<RepositoryName>/ (features/ + memory-bank/ fora do git do projeto; sem alterar .gitignore)
 ```
 
 ## Integration
 
 - Pipeline guards: `_shared/sdd-artifacts/PIPELINE.md`
 - Session gates: `_shared/sdd-artifacts/SESSION.md`
+- Memory Bank Gate: `_shared/sdd-artifacts/MEMORY-BANK.md`
 - Feature templates: `_shared/templates/features/`
 - Always-on rules: `rules/sdd-pipeline-guards.mdc`, `rules/guardrails.mdc`

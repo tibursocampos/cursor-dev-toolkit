@@ -22,6 +22,6 @@
 | [../README.md](../README.md) | Project overview and quick links |
 | [../AGENTS.md](../AGENTS.md) | Agent router (installed to `~/.cursor/AGENTS.md`) |
 
-SDD artifacts are **local only** - `.gitignore` must include `/features/` (canonical Classic / Forma C tree). `/PRD/` and `/PLAN/` remain as a **safety net** only (not write destinations). Pipeline guards: `PIPELINE.md` and `~/.cursor/rules/sdd-pipeline-guards.mdc`.
+SDD artifacts are **local only** - in **repository** mode `.gitignore` must include `/features/`, `/memory-bank/`, and safety-net `/PRD/` `/PLAN/` (not write destinations). In **global** mode do **not** edit the consumer `.gitignore`. Pipeline guards: `PIPELINE.md` and `~/.cursor/rules/sdd-pipeline-guards.mdc`.
 
 For invokes, examples, and common mistakes, use **[guides/README.md](guides/README.md)** instead of reading `SKILL.md` files directly.

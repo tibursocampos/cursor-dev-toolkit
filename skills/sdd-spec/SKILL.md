@@ -101,7 +101,7 @@ Record `artifact_language` (default pt-BR) from manifest or user override.
 ### 7. Write PRD (Agent + sim only)
 
 1. Validate path per `PIPELINE.md` section Path validation - abort if non-canonical (**writes** only under `features/.../PRD/`).
-2. Repository mode: `.gitignore` per `STORAGE.md` (include `/features/`; keep `/PRD/` `/PLAN/` as safety net only).
+2. Repository mode: `.gitignore` per `STORAGE.md` (include `/features/` and `/memory-bank/`; keep `/PRD/` `/PLAN/` as safety net only). Global mode: do **not** edit `.gitignore`.
 3. Path: `features/NNN-slug/US01/PRD/NNN_short_feature_slug.md` (adjust story id); body from `reference.md`.
 4. Product `docs/` in scope: ask doc language first.
 

@@ -18,9 +18,9 @@ Storage: `STORAGE.md`. Pipeline (confirm-before-write, canonical paths, modes): 
 
 ## Storage and `.gitignore` (spec skill)
 
-Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure SDD block includes **`/features/`**. Keep `/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` in `.gitignore` **only as a safety net** (not active Classic SDD paths). Run this on first SDD write in a repo.
+Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure SDD block includes **`/features/`** and **`/memory-bank/`**. Keep `/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` in `.gitignore` **only as a safety net** (not active Classic SDD paths). Run this on first SDD write in a repo.
 
-**Global** mode: no `.gitignore` changes.
+**Global** mode: no `.gitignore` changes (do not add features / memory-bank / PRD / PLAN patterns).
 
 After choosing storage, write `~/.cursor/sdd/<repo-id>/manifest.json` with `artifact_language`: `pt-BR` (default) or `en` (override).
 

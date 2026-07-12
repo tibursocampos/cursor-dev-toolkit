@@ -79,12 +79,14 @@ Antes de O1, O2 ou O3, o orquestrador executa o **Memory Bank Gate** (`MEMORY-BA
 | Bank incompleto / stale | Pede **sim** -> refresh |
 | Bank saudável | Continua **sem** write |
 
-- Path: `$Cwd/memory-bank/` no **repositório alvo** (nunca sob `features/NNN-slug/`).
+- Path: co-localizado com `features/` via manifest - `$Cwd/memory-bank/` (repository) ou `<classic.path>/memory-bank/` (global). Nunca sob `features/NNN-slug/`.
+- Local only: em modo **repository**, `/memory-bank/` entra no bloco SDD do `.gitignore` (árvore inteira). Em modo **global**, **não** alterar o `.gitignore` do projeto.
 - `CONTINUITY.md` guarda só referência: path + status (`fresh` \| `refreshed` \| `created`).
 - Política `skip` só com flag explícita (ex.: `skip-memory-bank`). Silêncio ≠ skip.
-- Init/refresh manual: `/memory-bank-init`. Inventário read-only: `scripts/inventory/Invoke-MemoryBankInventory.ps1`.
+- Init/refresh manual: `/memory-bank-init` (`refresh` / `refresh-light`). Inventário: `scripts/inventory/Invoke-MemoryBankInventory.ps1 -BankPath <bank_root>`.
+- **Step N (O3):** após mudanças de código, `refresh-light` no fim do develop (confirmado).
 
-**Fluxo:** Step 0 -> O1 -> O2 -> (O3 \| `sdd-develop`).
+**Fluxo:** Step 0 -> O1 -> O2 -> (O3 + Step N \| `sdd-develop`).
 
 ---
 
@@ -92,7 +94,7 @@ Antes de O1, O2 ou O3, o orquestrador executa o **Memory Bank Gate** (`MEMORY-BA
 
 | Fase | Invoke |
 |------|--------|
-| Memory bank (manual) | `/memory-bank-init` |
+| Memory bank (manual) | `/memory-bank-init` (`- refresh` / `- refresh-light`) |
 | O1 Análise | `/orchestrate-analyze` |
 | O1 retomar | `/orchestrate-analyze - <full-feature-path>` |
 | O2 Spec/Plan | `/orchestrate-deliver - <full-feature-path>` |
@@ -150,7 +152,7 @@ features/NNN-slug/
     └── PLAN/
 ```
 
-Leitura e gravação Classic SDD **somente** sob `features/NNN-slug/...` (repo ou global). Pastas `PRD/` / `PLAN/` na raiz **não** fazem parte do fluxo ativo (só safety-net no `.gitignore`). Detalhes: `STORAGE.md` / `PIPELINE.md` após sync.
+Leitura e gravação Classic SDD **somente** sob `features/NNN-slug/...` (repo ou global). Memory-bank co-localizado (`memory-bank/` no mesmo storage root). Pastas `PRD/` / `PLAN/` na raiz **não** fazem parte do fluxo ativo (só safety-net no `.gitignore` em modo repository). Em modo **global**, não editar `.gitignore`. Detalhes: `STORAGE.md` / `PIPELINE.md` / `MEMORY-BANK.md` após sync.
 
 ---
 
@@ -251,7 +253,7 @@ Feature: features/004-nuget-extract/
 | Pai O3 implementar vários steps | Must-not; um subagente / um step |
 | Usar Forma C para fix de uma linha | Usar `developer` / stack skill |
 | Esperar worktrees neste MVP | Ver CA7 acima |
-| Criar `memory-bank/` sob `features/` | Path errado - bank fica na raiz do repo alvo |
+| Criar `memory-bank/` sob `features/` | Path errado - bank co-localiza com `features/` via manifest (`$Cwd/memory-bank/` ou `<classic.path>/memory-bank/`) |
 | Assumir skip do Step 0 sem flag | Silêncio ≠ skip; use flag explícita |
 
 ---

@@ -19,7 +19,7 @@ Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`. Pipeline gua
 
 ## Storage and `.gitignore` (plan skill)
 
-If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore` (include `/features/`; keep `/PRD/` `/PLAN/` as safety net only). Update manifest (`artifact_language`, folders). Do **not** write or update PLANs at repo-root `PLAN/`.
+If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore` (include `/features/` and `/memory-bank/`; keep `/PRD/` `/PLAN/` as safety net only). Update manifest (`artifact_language`, folders). Do **not** write or update PLANs at repo-root `PLAN/`. **Global** mode: do not edit `.gitignore`.
 
 ## Product documentation language
 

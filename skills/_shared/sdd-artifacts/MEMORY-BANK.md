@@ -1,10 +1,10 @@
 # Memory Bank Gate (Forma C Step 0)
 
-Single source of truth for the **repository-scoped** `memory-bank/` contract and Step 0 policies used by `orchestrate-analyze`, `orchestrate-deliver`, and `orchestrate-develop`. Load on demand - do not paste into PRD/PLAN bodies.
+Single source of truth for the **workspace-scoped** `memory-bank/` contract and Step 0 / Step N policies used by `orchestrate-analyze`, `orchestrate-deliver`, and `orchestrate-develop`. Load on demand - do not paste into PRD/PLAN bodies.
 
 Install path after sync: `~/.cursor/skills/_shared/sdd-artifacts/MEMORY-BANK.md`
 
-Companion skill: `memory-bank-init`. Inventory script: `scripts/inventory/Invoke-MemoryBankInventory.ps1`.
+Companion skill: `memory-bank-init`. Inventory script: `scripts/inventory/Invoke-MemoryBankInventory.ps1`. Storage resolution: `STORAGE.md` (same manifest as `features/`).
 
 **Language:** This guideline is **English**. Consumer bank prose may be pt-BR or English (ask once on create if ambiguous). Paths and identifiers stay English.
 
@@ -14,7 +14,7 @@ Companion skill: `memory-bank-init`. Inventory script: `scripts/inventory/Invoke
 
 | Artifact | Scope | Role |
 |----------|-------|------|
-| `memory-bank/` | **Repository** (cross-feature) | Durable map: stack, architecture, domain, conventions, risks |
+| `memory-bank/` | **Workspace** (cross-feature; co-located with `features/` via manifest) | Durable map: stack, architecture, domain, conventions, risks |
 | `CONTINUITY.md` | **Feature** under `features/NNN-slug/` | Phase, `needs_*`, decisions, typed handoff; **reference** bank path/status only |
 
 **Must not:** place `memory-bank/` under `features/NNN-slug/`. CONTINUITY must not duplicate bank body.
@@ -23,14 +23,16 @@ Companion skill: `memory-bank-init`. Inventory script: `scripts/inventory/Invoke
 
 ---
 
-## Default path
+## Path resolution (manifest)
 
-| Storage | Bank root |
-|---------|-----------|
-| Repository (consumer `$Cwd`) | `$Cwd/memory-bank/` |
-| Global SDD artifacts | Still bank at **consumer repo root** `$Cwd/memory-bank/` (not under `~/.cursor/sdd/<repo-id>/`) |
+Resolve `$Cwd` as the target application/service workspace (not `cursor-dev-toolkit` unless that repo is the subject). Load `STORAGE.md` with `$Workflow = classic`, then:
 
-Resolve `$Cwd` as the target application/service workspace (not `cursor-dev-toolkit` unless that repo is the subject).
+| `storage_mode` | Bank root (`bank_root`) |
+|----------------|-------------------------|
+| **repository** | `$Cwd/memory-bank/` |
+| **global** | `<classic.path>/memory-bank/` |
+
+`features/` and `memory-bank/` share the same storage root. Never invent a bank path outside that root or under `features/NNN-slug/`.
 
 ---
 
@@ -100,7 +102,7 @@ Agents may write non-blocking notes as `- [ ] …`. Only `- [ ] BLOCKING: …` f
 
 ## Create / refresh rules
 
-1. **Confirm before write** (pt-BR): show path + create|refresh; wait for **sim** / **ajustar** / **cancelar**. Healthy read-only path needs no confirm.
+1. **Confirm before write** (pt-BR): show path + create|refresh|refresh-light; wait for **sim** / **ajustar** / **cancelar**. Healthy read-only path needs no confirm.
 2. **No application code** - never create/edit `*.cs`, `*.ts`, app sources, migrations, etc. Bank + `.inventory/` only.
 3. **No Spec Kit / uv / specify** - inventory is PowerShell (or agent Glob/Grep); no Python toolchain required on the consumer.
 4. **Secrets** - never write API keys, tokens, connection strings, passwords, PII. Use env var **names** or `***`.
@@ -115,26 +117,36 @@ Agents may write non-blocking notes as `- [ ] …`. Only `- [ ] BLOCKING: …` f
 Human prose outside markers is preserved on refresh when practical.
 6. **Selective read** - orchestrator parents load bank selectively (context-management); never dump entire bank into the parent prompt.
 
+### Modes (`memory-bank-init`)
+
+| Mode | When | Action |
+|------|------|--------|
+| `create` | Bank missing / incomplete scaffold | Templates + inventory + fill GENERATED |
+| `refresh` | Stale / user asked full refresh | Inventory + update GENERATED + `tech-stack.json`; preserve human prose |
+| `refresh-light` | O3 Step N after code changed; optional manual | Inventory + update GENERATED + `tech-stack.json` only; no full prose rewrite; append `refresh-history.jsonl` with `action: refresh-light` |
+
 ---
 
-## Versioning (consumer repo)
+## Versioning (local only - not committed)
 
-| Path | Recommendation |
-|------|----------------|
-| Stable markdown + `tech-stack.json` | **Commit** in consumer git |
-| `memory-bank/.inventory/` | Prefer **gitignore** in the consumer (regenerable). Document in INSTALL/guide; do not force-edit consumer `.gitignore` without confirm |
+| `storage_mode` | Bank on disk | Consumer `.gitignore` |
+|----------------|--------------|------------------------|
+| **repository** | `$Cwd/memory-bank/` | **Required:** `/memory-bank/` in the SDD block (`STORAGE.md`) - entire tree, not only `.inventory/` |
+| **global** | `<classic.path>/memory-bank/` | **Do not** edit project `.gitignore` (bank is outside the consumer git tree) |
+
+Memory-bank is **local agent workflow** - never commit bank files to the application repo. Do not recommend “commit stable markdown”.
 
 Toolkit itself may keep templates only - not a live bank unless documenting the toolkit as subject.
 
 ---
 
-## Step 0 algorithm (orchestrate-*)
+## Step 0 algorithm (orchestrate-* start)
 
 ```
-1. Resolve bank root = $Cwd/memory-bank/
+1. Resolve bank_root via STORAGE.md (manifest classic -> repository | global)
 2. Policy = auto (unless require/skip from user)
 3. If skip (explicit): log and continue
-4. Evaluate presence + completeness + stale
+4. Evaluate presence + completeness + stale at bank_root
 5. auto + healthy -> read selective paths; status fresh; continue
 6. auto + missing/incomplete/stale -> confirm -> run memory-bank-init (create|refresh) -> continue
 7. require + not healthy -> STOP + handoff /memory-bank-init
@@ -145,14 +157,35 @@ Toolkit itself may keep templates only - not a live bank unless documenting the 
 
 ---
 
+## Step N algorithm (O3 end - refresh-light)
+
+After O3 has changed application code (at least one develop child succeeded with file changes):
+
+```
+1. Resolve bank_root (same as Step 0)
+2. Confirm (pt-BR) refresh-light at bank_root
+3. Run memory-bank-init mode refresh-light (inventory + GENERATED + tech-stack.json)
+4. Record CONTINUITY Memory-bank status refreshed (or note skipped if cancelar)
+```
+
+| Phase | Step N? |
+|-------|---------|
+| **O3** (`orchestrate-develop`) | **Yes** when code changed this run |
+| **O1** | Optional point promote only (architecture/domain/risk fact) - not full inventory by default |
+| **O2** | **No** end refresh (O2 does not change app code) |
+
+Do **not** full-refresh at every O1/O2 start “just in case” - Step 0 already handles stale.
+
+---
+
 ## Inventory script
 
 ```powershell
-.\scripts\inventory\Invoke-MemoryBankInventory.ps1 -RepoPath "D:\path\to\consumer"
+.\scripts\inventory\Invoke-MemoryBankInventory.ps1 -RepoPath "<consumer>" -BankPath "<bank_root>" -AllowCreateInventory
 ```
 
-- **Read-only** over consumer source tree.
-- **Writes only** under `memory-bank/.inventory/` (creates bank folder if missing for inventory files only when `-AllowCreateInventory` / skill-driven).
+- **Read-only** over consumer source tree (`-RepoPath` = `$Cwd`).
+- **Writes only** under `<bank_root>/.inventory/` (`-BankPath` may be `$Cwd/memory-bank` or `<classic.path>/memory-bank`).
 - Output: `sources.json`, updates `gaps.md` stubs when stack signals rich contracts, appends `refresh-history.jsonl`.
 
 ---
@@ -162,5 +195,6 @@ Toolkit itself may keep templates only - not a live bank unless documenting the 
 ```text
 /memory-bank-init
 /memory-bank-init - refresh
+/memory-bank-init - refresh-light
 /orchestrate-analyze
 ```

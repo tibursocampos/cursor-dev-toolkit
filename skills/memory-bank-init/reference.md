@@ -24,12 +24,14 @@ Replace `{{PLACEHOLDERS}}` with evidenced values or `TBD` + gap entry. Never inv
 <!-- END GENERATED: inventory-summary -->
 ```
 
-On **refresh**:
+On **refresh** or **refresh-light**:
 
-1. Re-run inventory -> update `.inventory/`.
+1. Re-run inventory -> update `.inventory/` under resolved `bank_root`.
 2. Replace only content **inside** matching BEGIN/END pairs.
 3. Leave human prose outside markers intact.
-4. Append one JSON line to `refresh-history.jsonl` (`at`, `action`, `repo`, `hints`).
+4. Append one JSON line to `refresh-history.jsonl` (`at`, `action` = `refresh` \| `refresh-light` \| `inventory`, `repo`, `hints`).
+
+**refresh-light** (O3 Step N / manual): same as refresh for inventory + GENERATED + `tech-stack.json`; do not rewrite unmarked human prose sections; prefer `action: refresh-light` in history.
 
 If markers missing in an old file: add markers around the inventory summary block once; do not wipe the whole file.
 
@@ -55,7 +57,7 @@ If `Invoke-MemoryBankInventory.ps1` is unreachable:
 3. Write `gaps.md` with MVP checklist + phase-2 hints (openapi / migrations / package.json -> ui).
 4. Append `refresh-history.jsonl`.
 
-Still **write only** under `memory-bank/.inventory/`.
+Still **write only** under `<bank_root>/.inventory/` (resolved via `STORAGE.md`).
 
 ## Secrets checklist
 
@@ -69,15 +71,20 @@ Use: `ConnectionStrings__Default` (name only), `***`, or “see secret store”.
 
 ## Versioning note (for guides)
 
-| Commit in consumer | Usually ignore |
-|--------------------|----------------|
-| `project-context.md`, `architecture.md`, `domain-knowledge.md`, `conventions.md`, `known-risks.md`, `tech-stack.json` | `memory-bank/.inventory/` |
+Memory-bank is **local agent workflow** - **do not commit** any bank files to the application repo.
+
+| `storage_mode` | Action |
+|----------------|--------|
+| **repository** | Ensure `/memory-bank/` in SDD `.gitignore` block (`STORAGE.md`) before first write |
+| **global** | Bank under `<classic.path>/memory-bank/` - **do not** edit consumer `.gitignore` |
 
 ## Dry-run mental tests (CA5)
 
 | Situation | Expected |
 |-----------|----------|
-| No `memory-bank/` + policy auto | create after confirm |
+| No `memory-bank/` + policy auto | create after confirm at resolved `bank_root` |
 | Healthy bank, fresh inventory | skip write; status `fresh` |
 | Lockfile newer than `sources.json` | stale -> refresh after confirm |
-| Inventory script | does not touch files outside `memory-bank/.inventory/` (and skill may create sibling bank markdown) |
+| Global storage | `bank_root` = `<classic.path>/memory-bank/`; no `.gitignore` edit |
+| O3 code changed | Step N -> `refresh-light` after confirm |
+| Inventory script | does not touch files outside `<bank_root>/.inventory/` (and skill may create sibling bank markdown) |

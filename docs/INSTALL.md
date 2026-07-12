@@ -111,7 +111,7 @@ Migrate legacy manifest:
 >
 > - **Removed:** skills `speckit-setup|init|spec|plan|develop`, `scripts/setup-speckit.ps1`, `validate-speckit-init.ps1`, `fix-speckit-refs.ps1`, guide `docs/guides/06-speckit-workflow.md`, Spec Kit menu entries, and `.specify` / `specify-cli` paths in STORAGE/PIPELINE/SESSION.
 > - **Use instead:** Formas A / B / C only (`sdd-*`, backlog prep, `orchestrate-*`).
-> - **Added:** `memory-bank-init` + Memory Bank Gate (Step 0) on Forma C O1/O2/O3. Forma A does **not** require a memory-bank.
+> - **Added:** `memory-bank-init` + Memory Bank Gate (Step 0) on Forma C O1/O2/O3; O3 Step N `refresh-light`. Bank co-locates with `features/` via manifest; local only (`/memory-bank/` gitignored in repository mode). Forma A does **not** require a memory-bank.
 > - **Manifest:** legacy `speckit` keys in `~/.cursor/sdd/manifest.json` are **ignored** - remove manually if desired; no forced migrate.
 > - **After pull:** `.\scripts\sync-cursor.ps1` then `.\scripts\validation\validate-all.ps1` (expect **34** skills).
 

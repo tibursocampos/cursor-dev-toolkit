@@ -40,7 +40,7 @@ Under the resolved classic feature root (`STORAGE.md`, `$Workflow = classic`):
 2. `features/NNN-slug/CONTINUITY.md` - phase, decisions, typed handoff, **Memory-bank** path + status (`fresh` \| `refreshed` \| `created`)
 3. `features/NNN-slug/USnn/STORY.md` and/or `TSnn/STORY.md` - BDD + scorecard summary + deps
 
-**Step 0 (required):** Memory Bank Gate (`MEMORY-BANK.md`, policy `auto`) **before** triage. Bank lives at `$Cwd/memory-bank/` - **never** under `features/NNN-slug/`.
+**Step 0 (required):** Memory Bank Gate (`MEMORY-BANK.md`, policy `auto`) **before** triage. Resolve `bank_root` via `STORAGE.md` (`$Cwd/memory-bank/` or `<classic.path>/memory-bank/`) - **never** under `features/NNN-slug/`.
 
 **Human gate:** backlog must be explicitly approved (`sim` / `ajustar` / `cancelar`) before O2. **Silence is not approval** (RN01).
 
@@ -72,22 +72,22 @@ Report the Step -1 gate checklist in chat. Load `PIPELINE.md` (Forma C) and `SES
 
 ### 2. Resolve storage
 
-Load `STORAGE.md`. Run resolution with `$Workflow = classic`. Resolve feature root:
+Load `STORAGE.md`. Run resolution with `$Workflow = classic`. Resolve feature root and bank root:
 
-- **repository** -> `$Cwd/features/`
-- **global** -> `<classic.path>/features/`
+- **repository** -> feature `$Cwd/features/`; bank `$Cwd/memory-bank/`
+- **global** -> feature `<classic.path>/features/`; bank `<classic.path>/memory-bank/`
 
 **Path sanitize (required)** for any invoke / allocated feature path: normalize (`\` -> `/`, trim trailing `/`, resolve `.`). Reject if it contains `..`, or if the resolved absolute path is **not** under the feature root above. Ask again in pt-BR for a canonical path - do not Read/Write outside the feature root.
 
 If first run for this repo: ask storage (pt-BR) per `STORAGE.md` and persist manifest. Confirm target workspace. Do **not** invent a feature path outside the resolved root.
 
-Repository mode: ensure SDD `.gitignore` patterns per `STORAGE.md` when writing under `features/` (do not weaken toolkit patterns; never ignore `skills/`).
+Repository mode: ensure SDD `.gitignore` patterns per `STORAGE.md` (includes `/features/` and `/memory-bank/`) when writing under `features/` or `memory-bank/` (do not weaken toolkit patterns; never ignore `skills/`). **Global mode:** do not edit project `.gitignore`.
 
 ### 3. Step 0 - Memory Bank Gate
 
-Follow `~/.cursor/skills/_shared/sdd-artifacts/MEMORY-BANK.md` (policy default **`auto`**). Bank root = `$Cwd/memory-bank/` — **never** under `features/NNN-slug/`.
+Follow `~/.cursor/skills/_shared/sdd-artifacts/MEMORY-BANK.md` (policy default **`auto`**). Bank root = resolved `bank_root` from step 2 - **never** under `features/NNN-slug/`.
 
-Before any bank write: confirm (pt-BR) per MEMORY-BANK.md / guardrails (`sim` / `ajustar` / `cancelar`). Healthy bank → selective read only (no write). Explicit `skip` / `skip-memory-bank` → log and continue (exception only).
+Before any bank write: confirm (pt-BR) per MEMORY-BANK.md / guardrails (`sim` / `ajustar` / `cancelar`). Healthy bank -> selective read only (no write). Explicit `skip` / `skip-memory-bank` -> log and continue (exception only).
 
 Record `bank_path` + status (`fresh` | `created` | `refreshed` | skipped) for CONTINUITY (steps 6 and 8).
 

@@ -8,7 +8,7 @@
 | **Last agent** | {{AGENT_OR_SKILL}} |
 | **Complexity** | trivial \| medium \| complex |
 | **Nature** | greenfield \| brownfield \| operational |
-| **Memory-bank** | `{{BANK_PATH}}` (default `$Cwd/memory-bank/` - **repo** root, never under this feature) |
+| **Memory-bank** | `{{BANK_PATH}}` (resolved via `STORAGE.md`: `$Cwd/memory-bank/` or `<classic.path>/memory-bank/` - never under this feature) |
 | **Memory-bank status** | fresh \| refreshed \| created |
 
 ## Estado atual
@@ -53,5 +53,5 @@ Máx. síntese + paths. Detalhes ficam em `STORY.md` / `PRD` / `PLAN` / notas so
 3. **What to write:** phase, last agent, estado atual (≤10 lines), new decisões, open pendências, exact next `/…` string with **full paths**.
 4. **What not to write:** full PRD/PLAN bodies, guideline dumps, application code, or the body of `memory-bank/` (path + status only); never secrets, API keys, feed tokens, connection strings, or PII - use `***` / env var names only.
 5. **Merge:** append decisões; replace estado atual; never delete unresolved pendências without marking done.
-6. **Memory-bank:** update path/status after Step 0 (`fresh` = healthy read; `created` / `refreshed` = init wrote). Bank stays at repo `memory-bank/`, not under `features/NNN-slug/`.
+6. **Memory-bank:** update path/status after Step 0 (`fresh` = healthy read; `created` / `refreshed` = init wrote). Also after O3 Step N `refresh-light`. Bank co-locates with `features/` via manifest; never under `features/NNN-slug/`. Local only (not committed).
 7. **Language:** artifact prose default **pt-BR**; skill names and paths in English.

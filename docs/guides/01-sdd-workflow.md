@@ -42,7 +42,7 @@ When in doubt, prefer SDD. You can always stop after `spec` if the PRD reveals t
 2. **Target project open in Cursor** - the repo you are building (not necessarily `cursor-dev-toolkit`).
 3. **Agent mode** - SDD writes files (PRD, PLAN, code). Plan or Ask mode drafts in chat only until you confirm **sim** (yes) for the write.
 4. **Feature branch** - before `sdd-develop`, work on `feature/<slug>` or `feat/<id>`, not `main`, `master`, or `develop`.
-5. **Storage choice understood** - Classic artifacts go under repo `features/NNN-slug/` **or** global `~/.cursor/sdd/<repo-id>/features/NNN-slug/`. In repository mode, `.gitignore` must include `/features/` (canonical). `/PRD/` and `/PLAN/` remain only as a **safety net** against accidental root files - they are **not** write destinations.
+5. **Storage choice understood** - Classic artifacts go under repo `features/NNN-slug/` **or** global `~/.cursor/sdd/<repo-id>/features/NNN-slug/` (memory-bank co-locates: `memory-bank/` beside `features/`). In repository mode, `.gitignore` must include `/features/` and `/memory-bank/` (canonical). `/PRD/` and `/PLAN/` remain only as a **safety net** against accidental root files - they are **not** write destinations. Global mode: do not edit `.gitignore`.
 
 Full storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (after sync).
 
@@ -170,7 +170,7 @@ After all PLAN steps: run post-code flow ([code-review](03-code-review.md) -> [t
 
 ## Common mistakes
 
-1. **Expecting features/PRD/PLAN in git history** - Agent artifacts under `features/` are **gitignored** in repository storage mode (`/features/` is canonical). `/PRD/` and `/PLAN/` in `.gitignore` are a **safety net** only - not active destinations. Artifacts live on your machine (or under `~/.cursor/sdd/<repo-id>/features/`), not as product deliverables. Versioned documentation for **this toolkit** lives in `docs/guides/`, which **is** committed. Do not confuse the two (TE01).
+1. **Expecting features/PRD/PLAN/memory-bank in git history** - Agent artifacts under `features/` and `memory-bank/` are **gitignored** in repository storage mode (`/features/`, `/memory-bank/` are canonical). `/PRD/` and `/PLAN/` in `.gitignore` are a **safety net** only - not active destinations. Artifacts live on your machine (or under `~/.cursor/sdd/<repo-id>/`), not as product deliverables. Versioned documentation for **this toolkit** lives in `docs/guides/`, which **is** committed. Do not confuse the two (TE01).
 
 2. **Multiple PLAN steps in one `sdd-develop` session** - Each step is sized for one session. Asking for Step 2 in the same chat as Step 1 skips checkpoints, overloads context, and often leaves the PLAN file out of sync. Always open a **new chat** per step (TE02).
 

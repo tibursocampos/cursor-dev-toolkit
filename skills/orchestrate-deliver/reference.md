@@ -26,11 +26,14 @@ Same contract as O1 (`MEMORY-BANK.md`). Run after feature resolve, **before** mo
 
 | Check | Pass |
 |-------|------|
+| Bank path | Resolved `bank_root` via `STORAGE.md` |
 | Healthy bank | Selective read; status `fresh`; no rewrite |
 | Missing/stale | Confirm -> create/refresh; status `created`/`refreshed` |
+| Gitignore | Repository only; global = no `.gitignore` edit |
 | CONTINUITY | Path + status only; phase/handoff still CONTINUITY-owned |
 | Children | Parallel draft Tasks get `memoryBankPath` read-only |
 | Forma A | Memory-bank **not** required (CA7) |
+| End refresh | **No** (O2 does not change app code) |
 
 ---
 

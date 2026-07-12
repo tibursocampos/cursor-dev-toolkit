@@ -12,7 +12,9 @@
   Consumer repository root (default: current location).
 
 .PARAMETER BankPath
-  Override memory-bank root (default: <RepoPath>/memory-bank).
+  Memory-bank root. Default: <RepoPath>/memory-bank.
+  May be outside RepoPath when SDD storage_mode is global
+  (e.g. ~/.cursor/sdd/<repo>/memory-bank). Writes still only under BankPath/.inventory/.
 
 .PARAMETER StaleDays
   Age threshold recorded in sources.json (default: 90).
@@ -25,6 +27,9 @@
 
 .EXAMPLE
   .\scripts\inventory\Invoke-MemoryBankInventory.ps1 -RepoPath "D:\Source\Repos\MyApp" -AllowCreateInventory
+
+.EXAMPLE
+  .\scripts\inventory\Invoke-MemoryBankInventory.ps1 -RepoPath "D:\Source\Repos\MyApp" -BankPath "$env:USERPROFILE\.cursor\sdd\MyApp\memory-bank" -AllowCreateInventory
 #>
 [CmdletBinding()]
 param(
@@ -243,10 +248,8 @@ $sourcesPath = Join-Path $inventoryDir 'sources.json'
 $gapsPath = Join-Path $inventoryDir 'gaps.md'
 $historyPath = Join-Path $inventoryDir 'refresh-history.jsonl'
 
-# Safety: bank under repo; inventory writes only under bank/.inventory
-if (-not (Test-IsUnderRoot -Candidate $BankPath -Root $RepoPath)) {
-    throw "BankPath must be under RepoPath. Bank=$BankPath Repo=$RepoPath"
-}
+# Safety: inventory writes only under bank/.inventory
+# BankPath may be outside RepoPath (global SDD storage co-located with features/).
 if (-not (Test-IsUnderRoot -Candidate $inventoryDir -Root $BankPath)) {
     throw "Inventory path escapes bank root: $inventoryDir"
 }
@@ -317,8 +320,9 @@ $sources = [ordered]@{
     stack_hints    = @($stackHints)
     notes          = @(
         "Read-only inventory. No application source modified.",
-        "Paths in this file are relative to the consumer repo root.",
-        "Recommend gitignoring memory-bank/.inventory/ in the consumer."
+        "Evidence paths are relative to the consumer repo root (-RepoPath).",
+        "bank_path may be absolute when storage_mode is global (outside the consumer repo).",
+        "Memory-bank is local agent workflow - do not commit; repository mode uses /memory-bank/ in .gitignore."
     )
 }
 
