@@ -1,9 +1,8 @@
 ---
 name: containerize
-description: >
-  Analyze project structure to write optimized multi-stage Dockerfiles, .dockerignore files, and docker-compose.yml
-  development environments. Use when the user says "use skill containerize", "dockerize project", or "/containerize".
+description: Write multi-stage Dockerfiles, .dockerignore, and docker-compose for local dev. Use when dockerizing a project or invoking /containerize.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -30,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user requests: `use skill containerize`, `dockerize project`, `/containerize`, or asks to containerize the workspace.
+Invoke when the user requests: `/containerize`, `dockerize project`, `/containerize`, or asks to containerize the workspace.
 
 **Arguments (optional):**
 
@@ -89,9 +88,9 @@ Check `~/.cursor/sdd/preferences.json`:
   * Port maps and network parameters.
   * Required local services in compose.
 * Stop and ask the user to choose the workflow execution path to build and verify these configurations:
-  * **Option A - Direct Developer Skill (`use skill developer`):** For straightforward local creation of Dockerfiles/Compose.
-  * **Option B - Classic SDD (`use skill sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex environment containerization requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`use skill speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
+  * **Option A - Direct Developer Skill (`/developer`):** For straightforward local creation of Dockerfiles/Compose.
+  * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex environment containerization requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
+  * **Option C - Spec Kit (`/speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 
@@ -133,7 +132,7 @@ docker compose up -d
 * Offer committing the configurations:
 
 ```
-use skill commit
+/commit
 ```
 
 ## Must not

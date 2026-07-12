@@ -1,10 +1,8 @@
 ---
 name: react-developer
-description: >
-  Implement or fix small-to-medium React features without full SDD. Uses React, functional components, hooks,
-  TSX/JSX, Jest/React Testing Library, and Git-only developer flow. Use for isolated React work.
-  For larger cross-cutting features, route to sdd-spec -> sdd-plan -> sdd-develop.
+description: Implement or fix small-to-medium React features without full SDD (hooks, TSX, RTL). Use for isolated React work or when invoking /react-developer.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,11 +26,11 @@ Gate check:
 
 ## Trigger
 
-Use when user asks for `use skill react-developer`, `react fix`, or a small isolated React implementation.
+Use when user asks for `/react-developer`, `react fix`, or a small isolated React implementation.
 
 ## Outcome
 
-Working React components and tests in the target workspace, validated with tests/build, with optional handoff to `use skill commit`.
+Working React components and tests in the target workspace, validated with tests/build, with optional handoff to `/commit`.
 
 ## When to escalate to SDD
 
@@ -42,7 +40,7 @@ Recommend `sdd-spec` -> `sdd-plan` -> `sdd-develop` if two or more apply: 3+ lay
 
 If `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` exists, treat it as the acceptance source. Map sections to React/TSX; do **not** reinterpret visual decisions. Implement **one session scope** from section 10 only.
 
-If the task is net-new UI without a brief, recommend `use skill impeccable shape` in a **new session** before implementing.
+If the task is net-new UI without a brief, recommend `/impeccable shape` in a **new session** before implementing.
 
 ## Lazy-load references
 
@@ -98,7 +96,7 @@ npm run build
 
 ### 7. Handoff
 
-Offer `use skill commit`. Do not commit automatically.
+Offer `/commit`. Do not commit automatically.
 
 ## Must not
 
@@ -110,7 +108,7 @@ Offer `use skill commit`. Do not commit automatically.
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
-| Review | `use skill code-review` |
+| Commit | `/commit` |
+| Review | `/code-review` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
-| Missing design brief | `use skill impeccable shape` (new session) |
+| Missing design brief | `/impeccable shape` (new session) |

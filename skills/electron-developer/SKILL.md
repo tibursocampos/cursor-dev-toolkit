@@ -1,10 +1,8 @@
 ---
 name: electron-developer
-description: >
-  Implement or fix small-to-medium Electron desktop features without full SDD. Covers main process,
-  preload scripts, renderer (React/Vue/vanilla), IPC, security, and packaging. Orchestrates renderer
-  stack guidelines without delegating skill identity. For large cross-cutting features, route to SDD.
+description: Implement or fix small-to-medium Electron apps (main, preload, renderer, IPC, packaging). Use for isolated Electron work or when invoking /electron-developer.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,11 +26,11 @@ Gate check:
 
 ## Trigger
 
-Use when user asks for `use skill electron-developer`, `electron fix`, or a small isolated Electron implementation.
+Use when user asks for `/electron-developer`, `electron fix`, or a small isolated Electron implementation.
 
 ## Outcome
 
-Working main/preload/renderer changes, validated with build and documented smoke (app launch), with optional handoff to `use skill commit`.
+Working main/preload/renderer changes, validated with build and documented smoke (app launch), with optional handoff to `/commit`.
 
 ## Renderer stack (orchestration)
 
@@ -54,7 +52,7 @@ Recommend `sdd-spec` -> `sdd-plan` -> `sdd-develop` if two or more apply: main+r
 
 If `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` exists, treat it as the acceptance source. Map sections to renderer UI; do **not** reinterpret visual decisions. Implement **one session scope** from section 10 only.
 
-If the task is net-new UI without a brief, recommend `use skill impeccable shape` in a **new session** before implementing.
+If the task is net-new UI without a brief, recommend `/impeccable shape` in a **new session** before implementing.
 
 ## Lazy-load references
 
@@ -108,7 +106,7 @@ Document smoke steps in chat (launch app, exercise changed feature).
 
 ### 7. Handoff
 
-Offer `use skill commit`. Do not commit automatically.
+Offer `/commit`. Do not commit automatically.
 
 ## Must not
 
@@ -121,7 +119,7 @@ Offer `use skill commit`. Do not commit automatically.
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
-| Review | `use skill code-review` |
+| Commit | `/commit` |
+| Review | `/code-review` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
-| Missing design brief | `use skill impeccable shape` (new session) |
+| Missing design brief | `/impeccable shape` (new session) |

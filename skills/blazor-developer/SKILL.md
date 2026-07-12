@@ -1,10 +1,8 @@
 ---
 name: blazor-developer
-description: >
-  Implement or fix small-to-medium Blazor UI features without full SDD. Covers Blazor WebAssembly, Server,
-  and Hybrid (MAUI). Uses Razor components, EditForm, bUnit, and Git-only developer flow.
-  For API/backend-only .NET work, use dotnet-developer. For large cross-cutting features, route to SDD.
+description: Implement or fix small-to-medium Blazor UI (WASM, Server, Hybrid) without full SDD. Use for isolated Blazor work or when invoking /blazor-developer.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,11 +26,11 @@ Gate check:
 
 ## Trigger
 
-Use when user asks for `use skill blazor-developer`, `blazor fix`, or a small isolated Blazor UI implementation.
+Use when user asks for `/blazor-developer`, `blazor fix`, or a small isolated Blazor UI implementation.
 
 ## Outcome
 
-Working Razor components and tests in the target workspace, validated with `dotnet build` and `dotnet test`, with optional handoff to `use skill commit`.
+Working Razor components and tests in the target workspace, validated with `dotnet build` and `dotnet test`, with optional handoff to `/commit`.
 
 ## Blazor host detection
 
@@ -58,7 +56,7 @@ If `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` exists, treat it as t
 
 For Hybrid targets, note platform-specific constraints in section 9 of the brief.
 
-If the task is net-new UI without a brief, recommend `use skill impeccable shape` in a **new session** before implementing.
+If the task is net-new UI without a brief, recommend `/impeccable shape` in a **new session** before implementing.
 
 ## Lazy-load references
 
@@ -111,7 +109,7 @@ dotnet test
 
 ### 7. Handoff
 
-Offer `use skill commit`. Do not commit automatically.
+Offer `/commit`. Do not commit automatically.
 
 ## Must not
 
@@ -123,8 +121,8 @@ Offer `use skill commit`. Do not commit automatically.
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
-| Review | `use skill code-review` |
-| Backend / API only | `use skill dotnet-developer` |
+| Commit | `/commit` |
+| Review | `/code-review` |
+| Backend / API only | `/dotnet-developer` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
-| Missing design brief | `use skill impeccable shape` (new session) |
+| Missing design brief | `/impeccable shape` (new session) |

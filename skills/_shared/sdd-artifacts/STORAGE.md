@@ -110,10 +110,10 @@ Do **not** scan repo-root `PRD/` / `PLAN/` or global-flat `PRD/` / `PLAN/` for n
 Always pass the **full path** used on disk:
 
 ```text
-use skill sdd-plan - features/003-feature/US01/PRD/003_feature.md
-use skill sdd-develop - features/003-feature/US01/PLAN/PLAN_003_feature.md - Step 1
-use skill speckit-plan - .specify/specs/003-feature/spec.md
-use skill speckit-develop - .specify/specs/003-feature/tasks.md
+/sdd-plan - features/003-feature/US01/PRD/003_feature.md
+/sdd-develop - features/003-feature/US01/PLAN/PLAN_003_feature.md - Step 1
+/speckit-plan - .specify/specs/003-feature/spec.md
+/speckit-develop - .specify/specs/003-feature/tasks.md
 ```
 
 ## Forbidden paths (not used)

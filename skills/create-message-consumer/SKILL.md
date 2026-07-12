@@ -1,6 +1,6 @@
 ---
 name: create-message-consumer
-description: Scaffold a new message consumer in the open .NET workspace. Detects MassTransit, RabbitMQ, or other messaging stacks via Grep - does not assume Azure Service Bus. Collects requirements before code. Use when the user says "use skill create-message-consumer", "create message consumer", or "/create-message-consumer".
+description: Scaffold a message consumer in a .NET workspace (MassTransit, RabbitMQ, or similar). Collects requirements first. Use when creating a consumer or invoking /create-message-consumer.
 ---
 
 ## STOP - Read before ANY tool call
@@ -32,7 +32,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill create-message-consumer`, `create message consumer`, `/create-message-consumer`, or when a PLAN step adds a new queue/topic handler.
+Invoke when the user asks for: `/create-message-consumer`, `create message consumer`, `/create-message-consumer`, or when a PLAN step adds a new queue/topic handler.
 
 Optional arguments: message or event name, queue/topic name, or path to an existing consumer to mirror.
 
@@ -52,7 +52,7 @@ In the **target workspace** (not `cursor-dev-toolkit` unless it is the .NET repo
 | Detection, checklist, scaffold notes | `skills/create-message-consumer/reference.md` or `~/.cursor/skills/create-message-consumer/reference.md` after sync |
 | Generating or reviewing .NET code | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
 | C# / test naming | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
-| Small follow-up without SDD | `use skill dotnet-developer` |
+| Small follow-up without SDD | `/dotnet-developer` |
 
 ## Process
 
@@ -117,9 +117,9 @@ Report: stack detected, paths touched, how to run locally, open risks (idempoten
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
+| Commit | `/commit` |
 | Part of SDD PLAN step | Mark PLAN step; continue in new session if another step remains |
-| Build failure | `use skill fix-build` |
+| Build failure | `/fix-build` |
 
 ## Must not
 
@@ -131,11 +131,11 @@ Report: stack detected, paths touched, how to run locally, open risks (idempoten
 ## Handoff examples
 
 ```
-use skill fix-build
+/fix-build
 ```
 
 ```
-use skill sdd-develop - <full-plan-path> - Step N
+/sdd-develop - <full-plan-path> - Step N
 ```
 
 SDD `PLAN` paths: resolve per `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` (`features/**/PLAN/PLAN_*.md` or global `~/.cursor/sdd/<repo-id>/features/**/PLAN/` only). Not root/flat `PLAN/` and not `docs/documentation-plan/plan.md`.

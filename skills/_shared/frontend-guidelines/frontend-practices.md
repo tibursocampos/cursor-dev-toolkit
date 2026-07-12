@@ -1,6 +1,6 @@
 # Frontend Core Guidelines
 
-Engineering standards for web frontends. **Visual decisions** (palette, typography, layout, motion) come from `docs/DESIGN-BRIEF.md` and `use skill impeccable` - not from this file.
+Engineering standards for web frontends. **Visual decisions** (palette, typography, layout, motion) come from `docs/DESIGN-BRIEF.md` and `/impeccable` - not from this file.
 
 ## Visual decisions vs engineering
 
@@ -9,7 +9,7 @@ Engineering standards for web frontends. **Visual decisions** (palette, typograp
 | `DESIGN-BRIEF.md` / Impeccable | Colors (OKLCH), typography scale, spacing rhythm, component states, anti-patterns |
 | This file | Semantic HTML, SEO, tooling, accessibility basics, stack matching |
 
-For **net-new UI** without a brief, recommend `use skill impeccable shape` in a new session before implementing.
+For **net-new UI** without a brief, recommend `/impeccable shape` in a new session before implementing.
 
 ## Technology stack
 

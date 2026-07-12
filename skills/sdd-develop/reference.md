@@ -126,7 +126,7 @@ dotnet test --filter "FullyQualifiedName~MyFeatureTests"
 dotnet test path/to/TestProject.csproj
 ```
 
-**Migrations:** when a PLAN step requires a new EF Core migration, hand off to `use skill add-migrations` (optional migration name in PascalCase). Resume the same PLAN step after migration files exist. Details: `~/.cursor/skills/add-migrations/reference.md` or `skills/add-migrations/reference.md` in this toolkit repo.
+**Migrations:** when a PLAN step requires a new EF Core migration, hand off to `/add-migrations` (optional migration name in PascalCase). Resume the same PLAN step after migration files exist. Details: `~/.cursor/skills/add-migrations/reference.md` or `skills/add-migrations/reference.md` in this toolkit repo.
 
 ---
 
@@ -159,7 +159,7 @@ Use after PLAN is saved:
 **Progress:** N/M (X%)
 
 **Next (new chat):**
-use skill sdd-develop - <full-plan-path> - Step N+1
+/sdd-develop - <full-plan-path> - Step N+1
 ```
 
 ---
@@ -181,8 +181,8 @@ Include in pause message: saved PLAN path, last step completed, next step id/tit
 
 | After last step | User may run |
 |-----------------|--------------|
-| Review diff | `use skill code-review` |
-| Commit | `use skill commit` |
+| Review diff | `/code-review` |
+| Commit | `/commit` |
 | Open PR | `gh pr create` with repo template - no ADO work-item fields |
 
 Do not auto-create PRs or link external trackers.
@@ -209,5 +209,5 @@ Do not auto-create PRs or link external trackers.
 | `feature/base/{parent}/{child}` | `feature/<slug>` or `feat/<id>` only |
 | Portuguese implement skill / `PLANO_*` filenames | `sdd-develop`, `PLAN_*` |
 | NUnit-only bans in new tests | `dotnet-guidelines`, xUnit/Moq |
-| Auto sync-commit with work item IDs | Optional `use skill commit` |
+| Auto sync-commit with work item IDs | Optional `/commit` |
 | Auto PR analyzer + work-item links | User runs `gh` / review skill |

@@ -1,10 +1,8 @@
 ---
 name: angular-developer
-description: >
-  Implement or fix small-to-medium Angular features without full SDD. Uses Angular, components, services,
-  RxJS, dependency injection, Jasmine/Karma, and Git-only developer flow. Use for isolated Angular work.
-  For larger cross-cutting features, route to sdd-spec -> sdd-plan -> sdd-develop.
+description: Implement or fix small-to-medium Angular features without full SDD (components, services, RxJS, DI). Use for isolated Angular work or when invoking /angular-developer.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,11 +26,11 @@ Gate check:
 
 ## Trigger
 
-Use when user asks for `use skill angular-developer`, `angular fix`, or a small isolated Angular implementation.
+Use when user asks for `/angular-developer`, `angular fix`, or a small isolated Angular implementation.
 
 ## Outcome
 
-Working Angular code and tests in the target workspace, validated with tests/build, with optional handoff to `use skill commit`.
+Working Angular code and tests in the target workspace, validated with tests/build, with optional handoff to `/commit`.
 
 ## When to escalate to SDD
 
@@ -42,7 +40,7 @@ Recommend `sdd-spec` -> `sdd-plan` -> `sdd-develop` if two or more apply: 3+ lay
 
 If `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` exists, treat it as the acceptance source. Map sections to Angular components/templates; do **not** reinterpret visual decisions. Implement **one session scope** from section 10 only.
 
-If the task is net-new UI without a brief, recommend `use skill impeccable shape` in a **new session** before implementing.
+If the task is net-new UI without a brief, recommend `/impeccable shape` in a **new session** before implementing.
 
 ## Lazy-load references
 
@@ -96,7 +94,7 @@ ng build
 
 ### 7. Handoff
 
-Offer `use skill commit`. Do not commit automatically.
+Offer `/commit`. Do not commit automatically.
 
 ## Must not
 
@@ -107,7 +105,7 @@ Offer `use skill commit`. Do not commit automatically.
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
-| Review | `use skill code-review` |
+| Commit | `/commit` |
+| Review | `/code-review` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
-| Missing design brief | `use skill impeccable shape` (new session) |
+| Missing design brief | `/impeccable shape` (new session) |

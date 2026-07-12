@@ -54,9 +54,9 @@ Use these exact phrases in chat (English trigger, as in [AGENTS.md](../../AGENTS
 
 | Phase | Invoke |
 |-------|--------|
-| Create PRD | `use skill sdd-spec` |
-| Create PLAN from PRD | `use skill sdd-plan - <prd-path>` |
-| Execute one PLAN step | `use skill sdd-develop - <plan-path> - Step N` |
+| Create PRD | `/sdd-spec` |
+| Create PLAN from PRD | `/sdd-plan - <prd-path>` |
+| Execute one PLAN step | `/sdd-develop - <plan-path> - Step N` |
 
 **Path placeholders:**
 
@@ -74,22 +74,22 @@ Use these exact phrases in chat (English trigger, as in [AGENTS.md](../../AGENTS
 
 1. Open the **project repo** in Cursor.
 2. Switch to **Agent** mode.
-3. Type: `use skill sdd-spec`
+3. Type: `/sdd-spec`
 4. Answer the agent’s questions (feature, current vs expected behavior, optional tracking id).
 5. Review the draft summary. When the agent asks to confirm the path and storage, reply **sim** to save (or **ajustar** / **cancelar**).
 6. **Output:** `features/NNN-slug/US01/PRD/NNN_short_slug.md` (or global `~/.cursor/sdd/<repo-id>/features/...`). Status should be ready for planning.
-7. **Handoff:** `use skill sdd-plan - <full-prd-path>`
+7. **Handoff:** `/sdd-plan - <full-prd-path>`
 
 **What the agent will not do in `spec`:** write PLAN, implementation code, or commits.
 
 ### Phase B - `plan` (baby steps)
 
 1. Ensure the PRD exists and status is **Pronto para planejamento** / **Ready for planning**.
-2. Type: `use skill sdd-plan - <prd-path>` (use the **full** path from the `spec` handoff).
+2. Type: `/sdd-plan - <prd-path>` (use the **full** path from the `spec` handoff).
 3. Review proposed steps (~20-45 minutes each). Confirm **sim** before the PLAN file is written.
 4. **Output:** `features/NNN-slug/US01/PLAN/PLAN_NNN_*.md` with steps marked **Pendente** / pending and progress `0/N`.
 5. Note **Step 1** as your first implement target.
-6. **Handoff:** `use skill sdd-develop - <full-plan-path> - Step 1`
+6. **Handoff:** `/sdd-develop - <full-plan-path> - Step 1`
 
 **What the agent will not do in `plan`:** implement code, overwrite your PRD, or run multiple sdd-develop steps.
 
@@ -97,11 +97,11 @@ Use these exact phrases in chat (English trigger, as in [AGENTS.md](../../AGENTS
 
 1. Check out or create a **valid feature branch**.
 2. Open a **fresh chat** (recommended every step, **required** after long sessions).
-3. Type: `use skill sdd-develop - <plan-path> - Step N` (replace `N` with the pending step number).
+3. Type: `/sdd-develop - <plan-path> - Step N` (replace `N` with the pending step number).
 4. The agent validates dependencies (previous steps completed), implements scope, runs targeted tests if applicable.
 5. The agent marks the step **Concluído** / completed in the PLAN file.
 6. **Stop.** Do not ask for Step N+1 in the same session.
-7. **Next session:** new chat -> `use skill sdd-develop - <plan-path> - Step N+1`
+7. **Next session:** new chat -> `/sdd-develop - <plan-path> - Step N+1`
 
 Repeat until all PLAN steps are done.
 
@@ -118,7 +118,7 @@ Scenario: add email validation to a signup API in your app repo (`my-app`). Thre
 **Chat 1 - spec**
 
 ```
-You: use skill sdd-spec
+You: /sdd-spec
 
 Agent: [asks what to build, current vs expected behavior]
 
@@ -134,13 +134,13 @@ Agent: [summary, proposed path
 You: sim
 
 Agent: PRD saved. Handoff:
-       use skill sdd-plan - features/001-signup-email-validation/US01/PRD/001_signup_email_validation.md
+       /sdd-plan - features/001-signup-email-validation/US01/PRD/001_signup_email_validation.md
 ```
 
 **Chat 2 - plan**
 
 ```
-You: use skill sdd-plan - features/001-signup-email-validation/US01/PRD/001_signup_email_validation.md
+You: /sdd-plan - features/001-signup-email-validation/US01/PRD/001_signup_email_validation.md
 
 Agent: [summarizes PRD, proposes 4 baby steps]
        Confirm PLAN at
@@ -150,17 +150,17 @@ Agent: [summarizes PRD, proposes 4 baby steps]
 You: sim
 
 Agent: PLAN saved (0/4). First step: domain validator + unit tests.
-       Handoff: use skill sdd-develop -
+       Handoff: /sdd-develop -
        features/001-signup-email-validation/US01/PLAN/PLAN_001_signup_email_validation.md - Step 1
 ```
 
 **Chat 3 - implement (Step 1 only)**
 
 ```
-You: use skill sdd-develop - features/001-signup-email-validation/US01/PLAN/PLAN_001_signup_email_validation.md - Step 1
+You: /sdd-develop - features/001-signup-email-validation/US01/PLAN/PLAN_001_signup_email_validation.md - Step 1
 
 Agent: [implements Step 1, updates PLAN to 1/4, marks Step 1 complete]
-       Handoff: new chat -> use skill sdd-develop -
+       Handoff: new chat -> /sdd-develop -
        features/001-signup-email-validation/US01/PLAN/PLAN_001_signup_email_validation.md - Step 2
 ```
 
@@ -188,10 +188,10 @@ After all PLAN steps: run post-code flow ([code-review](03-code-review.md) -> [t
 
 | After | Do this |
 |-------|---------|
-| All PLAN steps complete | `use skill code-review` - [03 - code-review](03-code-review.md) |
-| .NET project with tests | `use skill test-coverage` - [04 - test-coverage](04-test-coverage.md) |
-| Ready to land changes | `use skill commit` - [05 - operational skills](05-operational-skills.md) |
+| All PLAN steps complete | `/code-review` - [03 - code-review](03-code-review.md) |
+| .NET project with tests | `/test-coverage` - [04 - test-coverage](04-test-coverage.md) |
+| Ready to land changes | `/commit` - [05 - operational skills](05-operational-skills.md) |
 | Work was smaller than expected | [02 - developer](02-developer.md) for the next small task |
 | Back to skill map | [Guides README](README.md) |
 
-**Resume SDD:** new chat -> `use skill sdd-develop - <plan-path> - Step N` for the next pending step.
+**Resume SDD:** new chat -> `/sdd-develop - <plan-path> - Step N` for the next pending step.

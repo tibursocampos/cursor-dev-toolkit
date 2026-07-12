@@ -1,6 +1,6 @@
 ---
 name: document-plan
-description: Create a baby-step documentation plan for the open workspace (overview + domain deep dives for RAG). Detects stack via Glob. Asks doc language before writing product docs. Use when the user says "use skill document-plan", "plan repo docs", or "/document-plan". Optional path to a reviewed overview file.
+description: Create a baby-step documentation plan (overview + domain deep dives for RAG). Asks doc language before writing. Use when planning repo docs or invoking /document-plan.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill document-plan`, `plan repo documentation`, `/document-plan`, or `doc plan`.
+Invoke when the user asks for: `/document-plan`, `plan repo documentation`, `/document-plan`, or `doc plan`.
 
 Optional argument: path to an existing **reviewed** `docs/overview.md` (or equivalent) to seed the plan.
 
@@ -97,7 +97,7 @@ After finishing overview + plan (or after each major planning chunk if the repo 
 Report: paths written, language, step count, first pending step id.
 
 ```
-use skill document-implement
+/document-implement
 ```
 
 ## Must not
@@ -112,6 +112,6 @@ use skill document-implement
 
 | Situation | Next |
 |-----------|------|
-| Execute next doc step | `use skill document-implement` |
-| Code change needed | `use skill developer` or SDD `sdd-develop` |
-| Commit docs | `use skill commit` |
+| Execute next doc step | `/document-implement` |
+| Code change needed | `/developer` or SDD `sdd-develop` |
+| Commit docs | `/commit` |

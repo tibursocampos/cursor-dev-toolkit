@@ -30,7 +30,7 @@ cursor-dev-toolkit/
 
 ## Skills (38 folders)
 
-See [SKILLS.md](SKILLS.md). Naming: **kebab-case** folders and `use skill <name>`.
+See [SKILLS.md](SKILLS.md). Naming: **kebab-case** folders and `/<name>`.
 
 **Forma C (O1/O2/O3):** `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop`. Guide: [guides/10-forma-c-orquestracao.md](guides/10-forma-c-orquestracao.md). Classic layout: `features/NNN-slug/` (templates under `skills/_shared/templates/features/`).
 

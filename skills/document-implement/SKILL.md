@@ -1,6 +1,6 @@
 ---
 name: document-implement
-description: Execute the next pending step from docs/documentation-plan/plan.md in the open workspace. Updates plan progress and writes domain docs for RAG. Use when the user says "use skill document-implement", "document repo", or "/document-implement". Requires a plan; handoff to document-plan if missing.
+description: Execute the next pending step from docs/documentation-plan/plan.md and write domain docs for RAG. Use when documenting the repo or invoking /document-implement.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,9 +28,9 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill document-implement`, `document repository`, `/document-implement`, or `execute documentation plan`.
+Invoke when the user asks for: `/document-implement`, `document repository`, `/document-implement`, or `execute documentation plan`.
 
-Requires `docs/documentation-plan/plan.md` in the **target workspace**. If missing, hand off to `use skill document-plan` (do not invent steps).
+Requires `docs/documentation-plan/plan.md` in the **target workspace**. If missing, hand off to `/document-plan` (do not invent steps).
 
 ## Outcome
 
@@ -50,7 +50,7 @@ One **documentation plan step** completed in the target repo: new/updated markdo
 ### 0. Workspace, plan, and stack
 
 1. Confirm **target repository**.
-2. Resolve **doc plan path** = absolute `$Cwd/docs/documentation-plan/plan.md` (or user-given alternate). If absent -> stop and suggest `use skill document-plan`.
+2. Resolve **doc plan path** = absolute `$Cwd/docs/documentation-plan/plan.md` (or user-given alternate). If absent -> stop and suggest `/document-plan`.
 3. Load/create **develop session** keyed by that full plan path per `SESSION.md` (`plan-{plan-hash}.json`). Gates `step_confirmed` / `tests_run` live **only** there — never use flat `{repo-hash}.json` for them.
 4. Read the plan. Read **Doc language** from plan header. If missing, ask: **pt-BR** or **English** before writing `docs/`.
 5. Re-detect stack briefly (Glob per `document-plan/reference.md` section Stack detection) if plan is stale.
@@ -111,7 +111,7 @@ Files written, step completed, progress `N/M`, suggested handoff.
 
 | Situation | Next |
 |-----------|------|
-| No plan | `use skill document-plan` |
-| Next doc step (new chat) | `use skill document-implement` |
-| All steps done | `use skill code-review` (optional) or `use skill commit` |
-| Feature code change | `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| No plan | `/document-plan` |
+| Next doc step (new chat) | `/document-implement` |
+| All steps done | `/code-review` (optional) or `/commit` |
+| Feature code change | `/sdd-spec` -> `sdd-plan` -> `sdd-develop` |

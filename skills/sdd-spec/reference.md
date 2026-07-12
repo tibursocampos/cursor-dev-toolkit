@@ -209,7 +209,7 @@ Espelhar critérios de aceite; incluir borda e falha.
 Este PRD está pronto para a skill **plan**:
 
 ```
-use skill sdd-plan - <caminho-completo-do-prd>
+/sdd-plan - <caminho-completo-do-prd>
 ```
 
 ## 15. Referências
@@ -258,4 +258,4 @@ Use only when the user requests English in the skill invocation. Same structure;
 - [ ] Body in pt-BR unless English override
 - [ ] Type/method/API names in English where cited
 - [ ] Status **Pronto para planejamento** (or **Ready for planning** if EN override)
-- [ ] Handoff: `use skill sdd-plan - <full-prd-path>`
+- [ ] Handoff: `/sdd-plan - <full-prd-path>`

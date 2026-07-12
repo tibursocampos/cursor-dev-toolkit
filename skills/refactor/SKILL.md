@@ -1,10 +1,8 @@
 ---
 name: refactor
-description: >
-  Analyze code files for complexity, code smells, or technical debt, draft a safe refactoring plan,
-  and execute it step-by-step, validating with test runs at each step. Use when the user says
-  "use skill refactor", "refactor code", or "/refactor".
+description: Analyze complexity and smells, draft a safe refactor plan, and execute step-by-step with tests. Use when refactoring code or invoking /refactor.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -31,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user requests: `use skill refactor`, `refactor code`, `/refactor`, or when code reviews indicate high complexity.
+Invoke when the user requests: `/refactor`, `refactor code`, `/refactor`, or when code reviews indicate high complexity.
 
 **Arguments (optional):**
 
@@ -95,9 +93,9 @@ Check `~/.cursor/sdd/preferences.json`:
 
 * Present the summary of identified code smells and debt.
 * Stop and ask the user to choose the workflow execution path based on the scope:
-  * **Option A - Direct Developer Skill (`use skill developer`):** For straightforward local refactoring edits.
-  * **Option B - Classic SDD (`use skill sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings requiring a formal specification (PRD) and a step-by-step checklist (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`use skill speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
+  * **Option A - Direct Developer Skill (`/developer`):** For straightforward local refactoring edits.
+  * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings requiring a formal specification (PRD) and a step-by-step checklist (PLAN) in Portuguese.
+  * **Option C - Spec Kit (`/speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 
@@ -121,7 +119,7 @@ Check `~/.cursor/sdd/preferences.json`:
 * Ask the user if they want to review the final diff and handoff to the commit skill:
 
 ```
-use skill commit
+/commit
 ```
 
 ## Must not

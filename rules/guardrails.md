@@ -34,9 +34,9 @@ If the user has **not** said **sim** to the current action, do **NOT** execute m
 
 Mutating git commands require explicit **sim** in the user's **immediately previous** message, or the user runs them manually.
 
-Use `use skill commit` / `use skill push` after confirmation.
+Use `/commit` / `/push` after confirmation.
 
-**Commit messages:** never include `Co-authored-by: Cursor`, Antigravity, or any AI agent — not in the message file, not via `--trailer`. If the IDE injects a co-author trailer after commit, amend it away per `use skill commit` §5.1 and `conventional-commits.mdc`.
+**Commit messages:** never include `Co-authored-by: Cursor`, Antigravity, or any AI agent — not in the message file, not via `--trailer`. If the IDE injects a co-author trailer after commit, amend it away per `/commit` §5.1 and `conventional-commits.mdc`.
 
 ---
 
@@ -97,7 +97,7 @@ See `~/.cursor/rules/context-management.mdc`. At ≥40% context: pause and recom
 Do **not** run `speckit-spec`, `speckit-plan`, or `speckit-develop` unless:
 
 - `validate-speckit-init.ps1` passes for the resolved path, **or**
-- User explicitly runs `use skill speckit-init` and init completes with `constitution.md`.
+- User explicitly runs `/speckit-init` and init completes with `constitution.md`.
 
 Do **not** manually create `.specify/` folders without full init.
 

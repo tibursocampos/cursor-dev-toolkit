@@ -6,6 +6,26 @@ Skill body (process, guardrails, handoff) must be **English**. User-facing promp
 
 ---
 
+## YAML frontmatter (required)
+
+```yaml
+---
+name: your-skill-name
+description: >-
+  <WHAT in one sentence>. <WHEN / natural phrases>. Use when invoking /your-skill-name.
+---
+```
+
+| Field | Rules |
+|-------|--------|
+| `name` | kebab-case; max 64 chars; equals folder name |
+| `description` | English, third person; **WHAT + WHEN**; soft target **~180–280** chars; hard max **1024** (Cursor). Always include `"/<name>"` matching `name`. Prefer slash-menu readability over listing every stack detail. |
+
+**Invoke (canonical in docs / handoffs / Trigger):** `` `/<name> - <args>` ``  
+**Compat:** `use skill <name>` still works (hooks / muscle memory); do not make it the primary example.
+
+---
+
 ## STOP - Read before ANY tool call
 
 1. Read `~/.cursor/rules/guardrails.mdc`
@@ -35,12 +55,12 @@ The STOP block above is ~27 lines and does not count toward editorial budget.
 
 **Size:** hard limit **500 lines** total per `SKILL.md` (Cursor / Agent Skills). Soft targets: workflow skills 150-300 lines after the gate; atomic skills (`push`) may be shorter. Put long templates in `reference.md` but keep decision tables and must-not inline.
 
-- **Trigger**
+- **Trigger** — lead with `/<name>`; optional one-line note that `use skill <name>` still works
 - **Outcome**
 - **Lazy-load**
 - **Process**
 - **Must not**
-- **Handoff**
+- **Handoff** — exact next string: `` `/next-skill - <full-paths>` ``
 
 ### Develop skills - mandatory session end
 

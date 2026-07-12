@@ -11,7 +11,7 @@ Reference production plugins:
 
 | Level | What | Project install? |
 |-------|------|------------------|
-| **1 - Toolkit skill** | `use skill blip-plugin-developer` + lazy-loaded `blip-guidelines/` | **No** - synced to `~/.cursor/skills/` |
+| **1 - Toolkit skill** | `/blip-plugin-developer` + lazy-loaded `blip-guidelines/` | **No** - synced to `~/.cursor/skills/` |
 | **2 - Scaffold** | `npm create blip-extension@latest` + `npm run config:plugin` | **Yes** - in the target plugin repo |
 | **3 - Portal registration** | Blip portal advanced settings -> Plugins JSON + local URL | **Yes** - manual, never commit keys |
 
@@ -20,10 +20,10 @@ Daily scaffold -> spec -> implement **does not** require a separate SDK install 
 ## Invoke
 
 ```
-use skill blip-plugin-developer
+/blip-plugin-developer
 ```
 
-For implementation in an existing Blip plugin repo, use `use skill react-developer` (auto-loads `blip-guidelines/` when `blip-ds` is in `package.json`).
+For implementation in an existing Blip plugin repo, use `/react-developer` (auto-loads `blip-guidelines/` when `blip-ds` is in `package.json`).
 
 ## Architecture overview
 
@@ -73,9 +73,9 @@ Then:
 1. `blip-plugin-developer` Phase 1 -> scaffold + profile choice
 2. Phase 2 -> `sdd-spec` -> `sdd-plan` -> `sdd-develop` **or** Spec Kit chain **or** existing PRD/brief
 3. Phase 3:
-   - Net-new UI -> `use skill impeccable shape` -> `docs/DESIGN-BRIEF.md` (`target_stack: react`, Blip notes in section 9). See [impeccable-integration.md](impeccable-integration.md).
-   - Implementation -> `use skill react-developer` (loads `blip-guidelines/`)
-   - Backend API (.NET) -> `use skill dotnet-developer` in a **separate repo**
+   - Net-new UI -> `/impeccable shape` -> `docs/DESIGN-BRIEF.md` (`target_stack: react`, Blip notes in section 9). See [impeccable-integration.md](impeccable-integration.md).
+   - Implementation -> `/react-developer` (loads `blip-guidelines/`)
+   - Backend API (.NET) -> `/dotnet-developer` in a **separate repo**
 
 One session = one phase or one SDD step. Do not scaffold and implement in the same session.
 

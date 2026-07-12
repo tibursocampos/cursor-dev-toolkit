@@ -1,10 +1,8 @@
 ---
 name: performance-profile
-description: >
-  Analyze code and queries for performance bottlenecks, configure micro-benchmarks, compare metrics,
-  and optimize execution. Use when the user says "use skill performance-profile", "optimize performance",
-  or "/performance-profile".
+description: Find performance bottlenecks, set up micro-benchmarks, and optimize hot paths. Use when optimizing performance or invoking /performance-profile.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -31,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user requests: `use skill performance-profile`, `optimize performance`, `/performance-profile`, or asks to fix query bottlenecks.
+Invoke when the user requests: `/performance-profile`, `optimize performance`, `/performance-profile`, or asks to fix query bottlenecks.
 
 **Arguments (optional):**
 
@@ -89,9 +87,9 @@ Check `~/.cursor/sdd/preferences.json`:
   * Memory: Excessive allocations inside loops, duplicate string concatenations, boxing/unboxing.
 * Present the diagnostic report summarizing the bottlenecks.
 * Stop and ask the user to choose the workflow execution path for applying and benchmarking these optimizations:
-  * **Option A - Direct Developer Skill (`use skill developer`):** For straightforward local optimization and benchmark setup.
-  * **Option B - Classic SDD (`use skill sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings or query tuning requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`use skill speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
+  * **Option A - Direct Developer Skill (`/developer`):** For straightforward local optimization and benchmark setup.
+  * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings or query tuning requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
+  * **Option C - Spec Kit (`/speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 
@@ -131,7 +129,7 @@ Check `~/.cursor/sdd/preferences.json`:
 * Offer committing the optimizations:
 
 ```
-use skill commit
+/commit
 ```
 
 ## Must not

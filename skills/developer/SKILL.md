@@ -1,10 +1,8 @@
 ---
 name: developer
-description: >
-  Generic development skill. Acts as a smart router for heavy frameworks (delegating to specialized stack skills) OR
-  acts directly as a Senior Fullstack/DevOps engineer for ad-hoc scripts, HTML, and automation tasks.
-  Use when the user says "use skill developer" or requests generic coding without specifying a stack.
+description: Smart router for stack skills, or senior fullstack for ad-hoc scripts/HTML/automation. Use for generic development or when invoking /developer.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,11 +26,11 @@ Gate check:
 
 ## Trigger
 
-Use when user asks for `use skill developer` or requests generic coding/refactoring tasks without specifying a stack.
+Use when user asks for `/developer` or requests generic coding/refactoring tasks without specifying a stack.
 
 ## Outcome
 
-Correct stack skill loaded and executed, or ad-hoc implementation in fallback mode with optional handoff to `use skill commit`.
+Correct stack skill loaded and executed, or ad-hoc implementation in fallback mode with optional handoff to `/commit`.
 
 ## Lazy-load (only when needed)
 
@@ -49,11 +47,11 @@ Do **not** load `dev_persona` or Antigravity KI artifacts.
 
 Before UI implementation, check project context:
 
-1. If the task is **net-new UI** or a **visual redesign** and `PRODUCT.md` is missing -> recommend `use skill impeccable init` first (new session).
+1. If the task is **net-new UI** or a **visual redesign** and `PRODUCT.md` is missing -> recommend `/impeccable init` first (new session).
 2. If `docs/DESIGN-BRIEF.md` (or `docs/design/DESIGN-BRIEF.md`) exists -> treat it as acceptance source; delegate to the matching `*-developer` skill **without reinterpreting visual decisions**.
 3. One session = design (`impeccable shape`) **or** implementation (`*-developer`), not both.
 
-Premium UI without a brief -> suggest `use skill impeccable shape` before stack implementation.
+Premium UI without a brief -> suggest `/impeccable shape` before stack implementation.
 
 ## Routing Logic
 
@@ -103,7 +101,7 @@ Run local scripts or linting tools to ensure the code executes without syntax er
 
 ### 4. Handoff
 
-Offer `use skill commit`. Do not commit automatically.
+Offer `/commit`. Do not commit automatically.
 
 ## Must not
 
@@ -115,8 +113,8 @@ Offer `use skill commit`. Do not commit automatically.
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
-| .NET work (explicit) | `use skill dotnet-developer` |
-| Large scope | `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` |
-| UI design / brief | `use skill impeccable` (`shape` / `craft`) |
-| New Blip plugin scaffold | `use skill blip-plugin-developer` |
+| Commit | `/commit` |
+| .NET work (explicit) | `/dotnet-developer` |
+| Large scope | `/sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| UI design / brief | `/impeccable` (`shape` / `craft`) |
+| New Blip plugin scaffold | `/blip-plugin-developer` |

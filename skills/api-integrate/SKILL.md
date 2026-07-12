@@ -1,9 +1,8 @@
 ---
 name: api-integrate
-description: >
-  Generate strongly typed API integration clients and data models (DTOs) from OpenAPI/Swagger definitions.
-  Use when the user says "use skill api-integrate", "integrate api", or "/api-integrate".
+description: Generate typed API clients and DTOs from OpenAPI/Swagger. Use when integrating an API or invoking /api-integrate.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -30,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user requests: `use skill api-integrate`, `integrate api`, `/api-integrate`, or asks to integrate endpoints from a schema.
+Invoke when the user requests: `/api-integrate`, `integrate api`, `/api-integrate`, or asks to integrate endpoints from a schema.
 
 **Arguments (optional):**
 
@@ -89,9 +88,9 @@ Check `~/.cursor/sdd/preferences.json`:
   * File splits: client interface, models, configuration.
 * Present the summary of identified API endpoints, routes, and request/response shapes.
 * Stop and ask the user to choose the workflow execution path based on the integration scope:
-  * **Option A - Direct Developer Skill (`use skill developer`):** For straightforward local client generation.
-  * **Option B - Classic SDD (`use skill sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex third-party integrations requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`use skill speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
+  * **Option A - Direct Developer Skill (`/developer`):** For straightforward local client generation.
+  * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex third-party integrations requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
+  * **Option C - Spec Kit (`/speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 
@@ -125,7 +124,7 @@ Check `~/.cursor/sdd/preferences.json`:
 * Offer committing the new files:
 
 ```
-use skill commit
+/commit
 ```
 
 ## Must not

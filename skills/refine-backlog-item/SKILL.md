@@ -1,6 +1,6 @@
 ---
 name: refine-backlog-item
-description: Refine an informal backlog item (Bug, User Story, Technical Story) into structured markdown with BDD acceptance criteria and a quality scorecard. Prefer features/.../STORY.md; docs/backlog/ as shortcut. No tracker API. Use when the user says "use skill refine-backlog-item", "refine backlog", or "/refine-backlog-item".
+description: Refine a Bug, User Story, or Technical Story into structured markdown with BDD acceptance and a quality scorecard. Use when refining backlog or invoking /refine-backlog-item.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill refine-backlog-item`, `refine backlog item`, `/refine-backlog-item`, or quick intake before SDD / Forma C.
+Invoke when the user asks for: `/refine-backlog-item`, `refine backlog item`, `/refine-backlog-item`, or quick intake before SDD / Forma C.
 
 Optional: path to existing notes, or pasted description.
 
@@ -119,11 +119,11 @@ Write prose in that language; paths and identifiers stay in English. Slug from t
 
 | Situation | Next |
 |-----------|------|
-| Break into implementation checklist | `use skill breakdown-tasks` (same content or saved path) |
-| Multi-story / complex / needs specialists | `use skill orchestrate-analyze` (Forma C O1) |
-| Medium/high complexity single feature (Forma A) | `use skill sdd-spec` -> `use skill sdd-plan` -> `use skill sdd-develop` |
-| Small isolated change | `use skill developer` / stack `*-developer` |
-| Commit saved file | `use skill commit` |
+| Break into implementation checklist | `/breakdown-tasks` (same content or saved path) |
+| Multi-story / complex / needs specialists | `/orchestrate-analyze` (Forma C O1) |
+| Medium/high complexity single feature (Forma A) | `/sdd-spec` -> `/sdd-plan` -> `/sdd-develop` |
+| Small isolated change | `/developer` / stack `*-developer` |
+| Commit saved file | `/commit` |
 
 ## Must not
 
@@ -136,13 +136,13 @@ Write prose in that language; paths and identifiers stay in English. Slug from t
 ## Handoff examples
 
 ```
-use skill breakdown-tasks - features/004-export/US01/STORY.md
+/breakdown-tasks - features/004-export/US01/STORY.md
 ```
 
 ```
-use skill orchestrate-analyze
+/orchestrate-analyze
 ```
 
 ```
-use skill sdd-spec
+/sdd-spec
 ```

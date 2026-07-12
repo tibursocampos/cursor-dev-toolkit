@@ -1,6 +1,6 @@
 ---
 name: sdd-spec
-description: Create a PRD for a new feature or change. Writes agent PRD .md in pt-BR by default (repo or ~/.cursor/sdd/<repo-id>/). Use when the user says "use skill sdd-spec", "create spec", "new feature", or "/sdd-spec". Output feeds sdd-plan.
+description: Create a PRD for a new feature or change (agent PRD .md, pt-BR default under features/). Feeds sdd-plan. Use when creating a spec or invoking /sdd-spec.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill sdd-spec`, `create spec`, `new feature`, or `/sdd-spec`.
+Invoke when the user asks for: `/sdd-spec`, `create spec`, `new feature`.
 
 ## Outcome
 
@@ -108,7 +108,7 @@ Record `artifact_language` (default pt-BR) from manifest or user override.
 Report path, storage, language, `.gitignore` changes. Handoff with **full** feature path:
 
 ```
-use skill sdd-plan - features/NNN-slug/US01/PRD/NNN_short_feature_slug.md
+/sdd-plan - features/NNN-slug/US01/PRD/NNN_short_feature_slug.md
 ```
 
 ## Must not
@@ -122,5 +122,5 @@ use skill sdd-plan - features/NNN-slug/US01/PRD/NNN_short_feature_slug.md
 ## Handoff
 
 ```
-use skill sdd-plan - <full-prd-path-under-features>
+/sdd-plan - <full-prd-path-under-features>
 ```

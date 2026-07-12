@@ -1,6 +1,6 @@
 ---
 name: orchestrate-analyze
-description: Forma C O1 - triage a feature (complexity/nature/scope), spawn conditional Task specialists from needs_* flags, and write FEATURE.md + CONTINUITY.md + US/TS STORY.md under features/NNN-slug/. Human backlog approval before O2. Does not implement app code. Use when the user says "use skill orchestrate-analyze", "orchestrate analyze", or "/orchestrate-analyze".
+description: Forma C O1: triage a feature, spawn conditional Task specialists, write FEATURE.md + CONTINUITY + US/TS under features/NNN-slug/. No app code. Use when invoking /orchestrate-analyze.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill orchestrate-analyze`, `orchestrate analyze`, `/orchestrate-analyze`, or Forma C analysis for a complex / multi-story / brownfield feature.
+Invoke when the user asks for: `/orchestrate-analyze`, `orchestrate analyze`, `/orchestrate-analyze`, or Forma C analysis for a complex / multi-story / brownfield feature.
 
 Optional: pasted feature description, existing notes path, or prior refine output.
 
@@ -110,7 +110,7 @@ If `trivial`: recommend skipping full O1 write:
 ```text
 Escopo trivial. Prefere atalho?
 
-1) use skill developer  (ou *-developer do stack)
+1) /developer  (ou *-developer do stack)
 2) Continuar O1 mesmo assim (gravar feature tree)
 3) cancelar
 ```
@@ -178,13 +178,13 @@ On **sim**:
 3. Offer O2 (document series vs parallel as **O2 choice** — do not implement O2 here):
 
 ```text
-use skill orchestrate-deliver - <full-feature-path>
+/orchestrate-deliver - <full-feature-path>
 ```
 
 Example:
 
 ```text
-use skill orchestrate-deliver - features/004-nuget-extract/
+/orchestrate-deliver - features/004-nuget-extract/
 ```
 
 Remind (pt-BR): O2 will ask série vs paralelo for per-story PRD/PLAN.
@@ -193,11 +193,11 @@ Remind (pt-BR): O2 will ask série vs paralelo for per-story PRD/PLAN.
 
 Honor `~/.cursor/rules/context-management.mdc` thresholds (checkpoint / hard stop). When pressure is high:
 
-1. Persist latest `CONTINUITY.md` (estado atual short per CONTINUITY template, decisões, pendências, exact next `use skill …`).
+1. Persist latest `CONTINUITY.md` (estado atual short per CONTINUITY template, decisões, pendências, exact next `/…`).
 2. Offer session handoff — same phase, resume with feature path:
 
 ```text
-use skill orchestrate-analyze - <full-feature-path>
+/orchestrate-analyze - <full-feature-path>
 ```
 
 Do **not** paste full specialist dumps into the parent chat.
@@ -219,14 +219,14 @@ Do **not** paste full specialist dumps into the parent chat.
 
 | Situation | Next |
 |-----------|------|
-| Backlog approved | `use skill orchestrate-deliver - <full-feature-path>` |
-| Context pause mid-O1 | `use skill orchestrate-analyze - <full-feature-path>` |
-| Trivial after triage | `use skill developer` or stack `*-developer` |
-| Single clear story, skip O2 multi | `use skill sdd-spec` (Forma A) after STORY exists |
-| Informal single item only | `use skill refine-backlog-item` (Forma B) |
+| Backlog approved | `/orchestrate-deliver - <full-feature-path>` |
+| Context pause mid-O1 | `/orchestrate-analyze - <full-feature-path>` |
+| Trivial after triage | `/developer` or stack `*-developer` |
+| Single clear story, skip O2 multi | `/sdd-spec` (Forma A) after STORY exists |
+| Informal single item only | `/refine-backlog-item` (Forma B) |
 
 ### Canonical O2 handoff (exact pattern)
 
 ```text
-use skill orchestrate-deliver - <full-feature-path>
+/orchestrate-deliver - <full-feature-path>
 ```

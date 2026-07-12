@@ -42,10 +42,10 @@ For **new** PRD, PLAN, Spec or Plan/Tasks: show full path + summary, then ask **
 - **Plan / Ask:** Phase A - questions and draft in chat only. Do **not** claim files were saved without a successful `Write`.
 - **Agent:** Phase B - persist after confirmation; run `sdd-develop`, `speckit-develop` and `test-coverage`.
 
-When Phase A is done but persistence is pending, tell the user to switch to **Agent** and resend `use skill <name> - gravar`.
+When Phase A is done but persistence is pending, tell the user to switch to **Agent** and resend `/<name> - gravar`.
 
 ## Boundaries
 
 - `sdd-spec` / `sdd-plan` / `speckit-spec` / `speckit-plan`: no production or test code changes.
 - `sdd-develop`: **one PLAN step per develop session** (unchanged contract). Develop gates (`step_confirmed`, `tests_run`) live in PLAN-scoped files under `~/.cursor/sdd/sessions/{repo-hash}/` — see `SESSION.md` (supports parallel O3 without sharing one flat session JSON).
-- `code-review`: does not write PRD/PLAN/Spec; hand off findings with `use skill sdd-spec` or `use skill speckit-spec`.
+- `code-review`: does not write PRD/PLAN/Spec; hand off findings with `/sdd-spec` or `/speckit-spec`.

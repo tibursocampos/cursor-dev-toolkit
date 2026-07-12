@@ -132,7 +132,7 @@ Update `CONTINUITY.md` when:
 | **Estado atual** | ≤10 lines; which stories done/pending |
 | **Decisões** | Append mode + approval scope |
 | **Pendências** | Stories still missing PRD/PLAN or approval |
-| **Handoff tipado** | Full `use skill …` lines with **full paths** |
+| **Handoff tipado** | Full `/…` lines with **full paths** |
 | **What not to write** | Full PRD/PLAN bodies, guideline dumps, app code |
 
 ---
@@ -154,11 +154,11 @@ Feature: features/004-nuget-extract/
 | TS02 | features/004-nuget-extract/TS02/PRD/004_app_a_consumer.md | features/004-nuget-extract/TS02/PLAN/PLAN_004_app_a_consumer.md |
 
 ### Manual (one PLAN step per session)
-use skill sdd-develop - features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md - Step 1
-use skill sdd-develop - features/004-nuget-extract/TS02/PLAN/PLAN_004_app_a_consumer.md - Step 1
+/sdd-develop - features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md - Step 1
+/sdd-develop - features/004-nuget-extract/TS02/PLAN/PLAN_004_app_a_consumer.md - Step 1
 
 ### Orchestrated (O3)
-use skill orchestrate-develop - features/004-nuget-extract/
+/orchestrate-develop - features/004-nuget-extract/
 ```
 
 Same pattern with absolute paths when the invoke used absolute feature roots (global storage).
@@ -201,24 +201,24 @@ Parent merges drafts → human **sim** → parent runs `sdd-spec` / `sdd-plan` c
 ## Canonical invoke strings
 
 ```text
-use skill orchestrate-deliver - <full-feature-path>
+/orchestrate-deliver - <full-feature-path>
 ```
 
 ```text
-use skill orchestrate-analyze - <full-feature-path>
+/orchestrate-analyze - <full-feature-path>
 ```
 
 ```text
-use skill sdd-develop - <full-plan-path> - Step 1
+/sdd-develop - <full-plan-path> - Step 1
 ```
 
 ```text
-use skill orchestrate-develop - <full-feature-path>
+/orchestrate-develop - <full-feature-path>
 ```
 
 ```text
-use skill sdd-spec
-use skill sdd-plan - <full-prd-path>
+/sdd-spec
+/sdd-plan - <full-prd-path>
 ```
 
 ---

@@ -33,21 +33,21 @@ flowchart TD
   Q2 -->|Unsure| DEV[developer router]
   Q2 -->|No| SDD
   DEV --> STACK
-  FC --> O1["use skill orchestrate-analyze"]
-  O1 --> O2["use skill orchestrate-deliver"]
+  FC --> O1["/orchestrate-analyze"]
+  O1 --> O2["/orchestrate-deliver"]
   O2 --> O3["orchestrate-develop or sdd-develop"]
-  SDD --> Spec["use skill sdd-spec"]
-  Spec --> Plan["use skill sdd-plan"]
-  Plan --> Impl["use skill sdd-develop<br/>(one PLAN step per chat)"]
+  SDD --> Spec["/sdd-spec"]
+  Spec --> Plan["/sdd-plan"]
+  Plan --> Impl["/sdd-develop<br/>(one PLAN step per chat)"]
   NET --> DoneNet[Code change]
   STACK --> DoneNet
   Impl --> DoneSdd[Code change]
   O3 --> DoneSdd
   DoneNet --> Post
   DoneSdd --> Post
-  Post[After code is ready] --> CR["use skill code-review"]
-  CR --> TC["use skill test-coverage<br/>(.NET projects with tests)"]
-  TC --> Commit["use skill commit"]
+  Post[After code is ready] --> CR["/code-review"]
+  CR --> TC["/test-coverage<br/>(.NET projects with tests)"]
+  TC --> Commit["/commit"]
 ```
 
 **ASCII summary (same logic):**
@@ -85,17 +85,17 @@ Guide [01 - SDD workflow](01-sdd-workflow.md) uses canonical `features/NNN-slug/
 
 | Guide | Skills covered | Invoke examples |
 |-------|----------------|-----------------|
-| [01-sdd-workflow.md](01-sdd-workflow.md) | `sdd-spec`, `sdd-plan`, `sdd-develop` | `use skill sdd-spec` · `use skill sdd-plan - <prd-path>` · `use skill sdd-develop - <plan-path> - Step N` |
-| [02-developer.md](02-developer.md) | `developer` (router) | `use skill developer` |
-| [02b-dotnet-developer.md](02b-dotnet-developer.md) | `dotnet-developer` | `use skill dotnet-developer` |
-| [03-code-review.md](03-code-review.md) | `code-review` | `use skill code-review` |
-| [04-test-coverage.md](04-test-coverage.md) | `test-coverage` | `use skill test-coverage` |
-| [05-operational-skills.md](05-operational-skills.md) | `commit`, `fix-build`, `add-migrations`, `document-plan`, `document-implement`, `refine-backlog-item`, `breakdown-tasks`, `create-message-consumer` | `use skill <kebab-name>` |
-| [06-speckit-workflow.md](06-speckit-workflow.md) | `speckit-setup`, `speckit-init`, `speckit-spec`, `speckit-plan`, `speckit-develop` | `use skill speckit-setup` · `use skill speckit-spec` |
+| [01-sdd-workflow.md](01-sdd-workflow.md) | `sdd-spec`, `sdd-plan`, `sdd-develop` | `/sdd-spec` · `/sdd-plan - <prd-path>` · `/sdd-develop - <plan-path> - Step N` |
+| [02-developer.md](02-developer.md) | `developer` (router) | `/developer` |
+| [02b-dotnet-developer.md](02b-dotnet-developer.md) | `dotnet-developer` | `/dotnet-developer` |
+| [03-code-review.md](03-code-review.md) | `code-review` | `/code-review` |
+| [04-test-coverage.md](04-test-coverage.md) | `test-coverage` | `/test-coverage` |
+| [05-operational-skills.md](05-operational-skills.md) | `commit`, `fix-build`, `add-migrations`, `document-plan`, `document-implement`, `refine-backlog-item`, `breakdown-tasks`, `create-message-consumer` | `/<kebab-name>` |
+| [06-speckit-workflow.md](06-speckit-workflow.md) | `speckit-setup`, `speckit-init`, `speckit-spec`, `speckit-plan`, `speckit-develop` | `/speckit-setup` · `/speckit-spec` |
 | [07-caveman-mode.md](07-caveman-mode.md) | `caveman-mode` (rule) | `caveman on` · `caveman off` |
-| [08-stack-developers.md](08-stack-developers.md) | stack `*-developer`, `blip-plugin-developer`, `impeccable` handoff | `use skill react-developer` · `use skill blip-plugin-developer` |
+| [08-stack-developers.md](08-stack-developers.md) | stack `*-developer`, `blip-plugin-developer`, `impeccable` handoff | `/react-developer` · `/blip-plugin-developer` |
 | [09-scripts-and-toolkit.md](09-scripts-and-toolkit.md) | sync, validate, uninstall | `.\scripts\toolkit.ps1` |
-| [10-forma-c-orquestracao.md](10-forma-c-orquestracao.md) | `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` (pt-BR) | `use skill orchestrate-analyze` · `use skill orchestrate-deliver - <feature-path>` · `use skill orchestrate-develop - <feature-path>` |
+| [10-forma-c-orquestracao.md](10-forma-c-orquestracao.md) | `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` (pt-BR) | `/orchestrate-analyze` · `/orchestrate-deliver - <feature-path>` · `/orchestrate-develop - <feature-path>` |
 
 ---
 
@@ -105,44 +105,44 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list 
 
 | Skill | Invoke | Use for |
 |-------|--------|---------|
-| `sdd-spec` | `use skill sdd-spec` | PRD from a feature request |
-| `sdd-plan` | `use skill sdd-plan` | Baby-step PLAN from PRD |
-| `sdd-develop` | `use skill sdd-develop` | Execute **one** PLAN step per session |
-| `orchestrate-analyze` | `use skill orchestrate-analyze` | Forma C O1 — triage + US/TS + CONTINUITY |
-| `orchestrate-deliver` | `use skill orchestrate-deliver` | Forma C O2 — PRD/PLAN per story |
-| `orchestrate-develop` | `use skill orchestrate-develop` | Forma C O3 — one subagent per PLAN step |
-| `speckit-setup` | `use skill speckit-setup` | Verify and install Spec Kit CLI prerequisites |
-| `speckit-init` | `use skill speckit-init` | Initialize `.specify/` and constitution.md in target repo |
-| `speckit-spec` | `use skill speckit-spec` | Create spec.md under `.specify/specs/` |
-| `speckit-plan` | `use skill speckit-plan` | Generate plan.md and tasks.md from spec |
-| `speckit-develop` | `use skill speckit-develop` | Implement code and run tests for one tasks.md item |
-| `code-review` | `use skill code-review` | Review diff/branch vs PRD/PLAN; asks single vs multi-angle if omitted |
-| `commit` | `use skill commit` | Conventional commit (optional push handoff) |
-| `push` | `use skill push` | `git push` on current feature branch |
-| `developer` | `use skill developer` | Stack router for small tasks |
-| `impeccable` | `use skill impeccable` | UI design; `shape` -> `docs/DESIGN-BRIEF.md` |
-| `blip-plugin-developer` | `use skill blip-plugin-developer` | New Blip React extension scaffold |
-| `dotnet-developer` | `use skill dotnet-developer` | Small .NET task without full SDD |
-| `blazor-developer` | `use skill blazor-developer` | Small Blazor UI task |
-| `react-developer` | `use skill react-developer` | Small React task (incl. existing Blip plugins) |
-| `angular-developer` | `use skill angular-developer` | Small Angular task |
-| `vue-developer` | `use skill vue-developer` | Small Vue 3 task |
-| `electron-developer` | `use skill electron-developer` | Small Electron desktop task |
-| `javascript-developer` | `use skill javascript-developer` | Small Node/JS task |
-| `python-developer` | `use skill python-developer` | Small Python task |
-| `add-migrations` | `use skill add-migrations` | EF Core migration in the open repo |
-| `fix-build` | `use skill fix-build` | Fix `dotnet build` or test failures |
-| `test-coverage` | `use skill test-coverage` | .NET coverage (Coverlet; SonarQube-aligned metrics) |
-| `refactor` | `use skill refactor` | Safe step-by-step refactor with test checkpoints |
-| `api-integrate` | `use skill api-integrate` | Typed clients/DTOs from OpenAPI/Swagger |
-| `performance-profile` | `use skill performance-profile` | Bottlenecks, benchmarks, optimize |
-| `containerize` | `use skill containerize` | Dockerfile / compose for the open repo |
-| `i18n-manager` | `use skill i18n-manager` | Extract hardcoded strings to resources |
-| `document-plan` | `use skill document-plan` | Documentation plan for a **consumer** repo (RAG) |
-| `document-implement` | `use skill document-implement` | One step of a consumer repo doc plan |
-| `refine-backlog-item` | `use skill refine-backlog-item` | Refine bug/story + scorecard (local markdown) |
-| `breakdown-tasks` | `use skill breakdown-tasks` | Implementation task checklist (local) |
-| `create-message-consumer` | `use skill create-message-consumer` | Scaffold message consumer (bus detected via Grep) |
+| `sdd-spec` | `/sdd-spec` | PRD from a feature request |
+| `sdd-plan` | `/sdd-plan` | Baby-step PLAN from PRD |
+| `sdd-develop` | `/sdd-develop` | Execute **one** PLAN step per session |
+| `orchestrate-analyze` | `/orchestrate-analyze` | Forma C O1 — triage + US/TS + CONTINUITY |
+| `orchestrate-deliver` | `/orchestrate-deliver` | Forma C O2 — PRD/PLAN per story |
+| `orchestrate-develop` | `/orchestrate-develop` | Forma C O3 — one subagent per PLAN step |
+| `speckit-setup` | `/speckit-setup` | Verify and install Spec Kit CLI prerequisites |
+| `speckit-init` | `/speckit-init` | Initialize `.specify/` and constitution.md in target repo |
+| `speckit-spec` | `/speckit-spec` | Create spec.md under `.specify/specs/` |
+| `speckit-plan` | `/speckit-plan` | Generate plan.md and tasks.md from spec |
+| `speckit-develop` | `/speckit-develop` | Implement code and run tests for one tasks.md item |
+| `code-review` | `/code-review` | Review diff/branch vs PRD/PLAN; asks single vs multi-angle if omitted |
+| `commit` | `/commit` | Conventional commit (optional push handoff) |
+| `push` | `/push` | `git push` on current feature branch |
+| `developer` | `/developer` | Stack router for small tasks |
+| `impeccable` | `/impeccable` | UI design; `shape` -> `docs/DESIGN-BRIEF.md` |
+| `blip-plugin-developer` | `/blip-plugin-developer` | New Blip React extension scaffold |
+| `dotnet-developer` | `/dotnet-developer` | Small .NET task without full SDD |
+| `blazor-developer` | `/blazor-developer` | Small Blazor UI task |
+| `react-developer` | `/react-developer` | Small React task (incl. existing Blip plugins) |
+| `angular-developer` | `/angular-developer` | Small Angular task |
+| `vue-developer` | `/vue-developer` | Small Vue 3 task |
+| `electron-developer` | `/electron-developer` | Small Electron desktop task |
+| `javascript-developer` | `/javascript-developer` | Small Node/JS task |
+| `python-developer` | `/python-developer` | Small Python task |
+| `add-migrations` | `/add-migrations` | EF Core migration in the open repo |
+| `fix-build` | `/fix-build` | Fix `dotnet build` or test failures |
+| `test-coverage` | `/test-coverage` | .NET coverage (Coverlet; SonarQube-aligned metrics) |
+| `refactor` | `/refactor` | Safe step-by-step refactor with test checkpoints |
+| `api-integrate` | `/api-integrate` | Typed clients/DTOs from OpenAPI/Swagger |
+| `performance-profile` | `/performance-profile` | Bottlenecks, benchmarks, optimize |
+| `containerize` | `/containerize` | Dockerfile / compose for the open repo |
+| `i18n-manager` | `/i18n-manager` | Extract hardcoded strings to resources |
+| `document-plan` | `/document-plan` | Documentation plan for a **consumer** repo (RAG) |
+| `document-implement` | `/document-implement` | One step of a consumer repo doc plan |
+| `refine-backlog-item` | `/refine-backlog-item` | Refine bug/story + scorecard (local markdown) |
+| `breakdown-tasks` | `/breakdown-tasks` | Implementation task checklist (local) |
+| `create-message-consumer` | `/create-message-consumer` | Scaffold message consumer (bus detected via Grep) |
 
 **Optional flows (no work-item tracker):**
 
@@ -164,9 +164,9 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list 
 
 After implementation (SDD or `developer`), run this sequence on a valid feature branch (`feature/<slug>` or `feat/<id>`-not `main` / `master` / `develop`):
 
-1. **`use skill code-review`** - structured report (critical / important / nice-to-have); asks single vs multi-angle if omitted; resolves PRD/PLAN under `features/` (repo or `~/.cursor/sdd/<repo-id>/features/`).
-2. **`use skill test-coverage`** - for .NET projects with tests; default threshold 80% (see guide 04).
-3. **`use skill commit`** - conventional commit; optional push.
+1. **`/code-review`** - structured report (critical / important / nice-to-have); asks single vs multi-angle if omitted; resolves PRD/PLAN under `features/` (repo or `~/.cursor/sdd/<repo-id>/features/`).
+2. **`/test-coverage`** - for .NET projects with tests; default threshold 80% (see guide 04).
+3. **`/commit`** - conventional commit; optional push.
 
 Details: [03-code-review.md](03-code-review.md), [04-test-coverage.md](04-test-coverage.md), [05-operational-skills.md](05-operational-skills.md) (`commit` section).
 

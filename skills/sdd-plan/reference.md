@@ -68,7 +68,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 - [ ] [Como a feature será verificada - unitário, integração, manual]
 - [ ] .NET: xUnit, Moq, FluentAssertions; `Should_<Result>_When_<Condition>`
 - [ ] Build passa local / CI
-- [ ] (Opcional/.NET) Cobertura nos arquivos alterados ≥ 80% via `use skill test-coverage`
+- [ ] (Opcional/.NET) Cobertura nos arquivos alterados ≥ 80% via `/test-coverage`
 
 ---
 
@@ -133,7 +133,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 
 **Tarefas:**
 
-1. Executar `use skill test-coverage` com base branch adequada
+1. Executar `/test-coverage` com base branch adequada
 2. Coletar métricas: new code, branch/overall, por arquivo alterado
 3. Registrar resultado e gaps para follow-up (quando houver)
 
@@ -206,7 +206,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 - [ ] Cenários de teste cobrem CA e bordas
 - [ ] (Opcional/.NET) Passo final de qualidade com cobertura ≥ 80% via `test-coverage`
 - [ ] Sem código de implementação embutido no PLAN
-- [ ] Handoff: `use skill sdd-develop - <caminho-completo-do-plan> - Step 1`
+- [ ] Handoff: `/sdd-develop - <caminho-completo-do-plan> - Step 1`
 ```
 
 ---
@@ -250,5 +250,5 @@ Use **Pendente** / **Concluído** / **Bloqueado** (or English equivalents) on th
 - [ ] Step prose in pt-BR (unless English override)
 - [ ] No full implementation code blocks in the PLAN
 - [ ] Output path: `features/**/PLAN/PLAN_NNN_*.md` or global `.../features/**/PLAN/` only (not root `PLAN/`, ad-hoc `docs/`, or `~/.cursor/` outside `sdd/.../features/`)
-- [ ] Handoff: `use skill sdd-develop - <full-plan-path> - Step 1`
+- [ ] Handoff: `/sdd-develop - <full-plan-path> - Step 1`
 - [ ] Initial progress `0/N`

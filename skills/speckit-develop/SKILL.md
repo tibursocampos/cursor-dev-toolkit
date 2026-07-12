@@ -1,9 +1,8 @@
 ---
 name: speckit-develop
-description: >
-  Implement exactly one pending tasks.md item per session; code in English.
-  Use when the user says "use skill speckit-develop", "implement speckit task", or "/speckit-develop".
+description: Implement exactly one pending tasks.md item per session; code in English. Use when implementing a Spec Kit task or invoking /speckit-develop.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,7 +27,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill speckit-develop`, `executar tarefa speckit`, `desenvolver spec kit`, or `/speckit-develop`.
+Invoke when the user asks for: `/speckit-develop`, `executar tarefa speckit`, `desenvolver spec kit`.
 
 ## Outcome
 
@@ -49,7 +48,7 @@ Production code and/or tests written (in **English**) for one pending task from 
 ### -1. Validate speckit initialization
 
 Run `scripts/validation/validate-speckit-init.ps1` before any implementation workflow action.
-- If validation fails: **STOP** and handoff to `use skill speckit-init`.
+- If validation fails: **STOP** and handoff to `/speckit-init`.
 - If validation passes: continue.
 
 ### 0. Load context
@@ -134,7 +133,7 @@ feat(<scope>): <short description of the change>
 Refs: .specify/specs/NNN-<slug>/spec.md
 ```
 
-Ask the user (pt-BR): *"Deseja que eu execute o commit agora com `use skill commit`? (sim / nao)"*
+Ask the user (pt-BR): *"Deseja que eu execute o commit agora com `/commit`? (sim / nao)"*
 
 ## STOP - Session end (mandatory)
 
@@ -152,6 +151,6 @@ After completing one task, stop the session and hand off only. Do not implement 
 ## Handoff
 
 ```
-use skill speckit-develop - {path to tasks.md}    (for the next task)
-use skill commit                                    (to commit changes)
+/speckit-develop - {path to tasks.md}    (for the next task)
+/commit                                    (to commit changes)
 ```

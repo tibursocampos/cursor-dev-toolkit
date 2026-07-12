@@ -1,10 +1,8 @@
 ---
 name: blip-plugin-developer
-description: >
-  Orchestrate new Blip React plugin projects using create-blip-extension (CRA scaffold), config:plugin setup,
-  SDD/Spec Kit documentation flow, and handoff to react-developer or impeccable. Use when the user says
-  "use skill blip-plugin-developer", "blip plugin", or wants to scaffold a Blip extension. Not for backend-only work.
+description: Scaffold a new Blip React plugin (create-blip-extension), config:plugin, and SDD handoff to react-developer. Use for new Blip plugins or when invoking /blip-plugin-developer.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,10 +26,10 @@ Gate check:
 
 ## Trigger
 
-- User asks for `use skill blip-plugin-developer`, `blip plugin`, or a **new** Blip React extension
+- User asks for `/blip-plugin-developer`, `blip plugin`, or a **new** Blip React extension
 - User wants scaffold + documentation setup before implementation
 
-For **existing** Blip plugin repos ( `blip-ds` in `package.json` ), use `use skill react-developer` instead.
+For **existing** Blip plugin repos ( `blip-ds` in `package.json` ), use `/react-developer` instead.
 
 ## Outcome
 
@@ -111,8 +109,8 @@ Ask **(pt-BR)**: "Qual fluxo de documentação? (SDD, Spec Kit, PRD/brief existe
 
 | Choice | Next command (new session each step) |
 |--------|--------------------------------------|
-| **SDD** | `use skill sdd-spec` -> `use skill sdd-plan` -> `use skill sdd-develop` |
-| **Spec Kit** | `use skill speckit-spec` -> `use skill speckit-plan` -> `use skill speckit-develop` |
+| **SDD** | `/sdd-spec` -> `/sdd-plan` -> `/sdd-develop` |
+| **Spec Kit** | `/speckit-spec` -> `/speckit-plan` -> `/speckit-develop` |
 | **Existing PRD/brief** | Skip spec; proceed to `sdd-plan` or `speckit-plan` with provided doc |
 | **Informal / small** | Document scope in `README.md`; handoff directly to implementation |
 
@@ -126,9 +124,9 @@ Ask **(pt-BR)** what to implement next. Route by scope:
 
 | Scope | Next step |
 |-------|-----------|
-| Net-new UI / redesign | `use skill impeccable shape` -> `docs/DESIGN-BRIEF.md` with `target_stack: react` and Blip/BDS notes in section 9 |
-| Plugin implementation | `use skill react-developer` (auto-loads `blip-guidelines/` when `blip-ds` present) |
-| Backend API (.NET) | `use skill dotnet-developer` in **separate repo** - not in plugin scaffold session |
+| Net-new UI / redesign | `/impeccable shape` -> `docs/DESIGN-BRIEF.md` with `target_stack: react` and Blip/BDS notes in section 9 |
+| Plugin implementation | `/react-developer` (auto-loads `blip-guidelines/` when `blip-ds` present) |
+| Backend API (.NET) | `/dotnet-developer` in **separate repo** - not in plugin scaffold session |
 
 **DESIGN-BRIEF:** use template at `~/.cursor/skills/impeccable/reference/DESIGN-BRIEF-TEMPLATE.md`. One session = design **or** implementation, not both.
 
@@ -144,11 +142,11 @@ Load `auth-and-permissions.md` only for Full profile.
 
 | Situation | Next |
 |-----------|------|
-| Implement UI/features | `use skill react-developer` |
-| Design new screens | `use skill impeccable shape` |
-| Backend API | `use skill dotnet-developer` (separate repo) |
-| Full SDD feature | `use skill sdd-spec` |
-| Commit (after implementation) | `use skill commit` |
+| Implement UI/features | `/react-developer` |
+| Design new screens | `/impeccable shape` |
+| Backend API | `/dotnet-developer` (separate repo) |
+| Full SDD feature | `/sdd-spec` |
+| Commit (after implementation) | `/commit` |
 
 ## Related docs
 

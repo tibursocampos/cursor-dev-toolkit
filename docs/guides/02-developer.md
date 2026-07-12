@@ -47,17 +47,17 @@ Delegation is **silent** - the agent loads the stack skill without asking.
 ## Invoke examples
 
 ```
-use skill developer
+/developer
 ```
 
 ```
-use skill developer - fix the login form validation in this React app
+/developer - fix the login form validation in this React app
 ```
 
 For explicit .NET work without detection:
 
 ```
-use skill dotnet-developer
+/dotnet-developer
 ```
 
 See [08-stack-developers.md](08-stack-developers.md) for all stack skills.
@@ -67,10 +67,10 @@ See [08-stack-developers.md](08-stack-developers.md) for all stack skills.
 ## Typical session
 
 1. Open target project in Cursor.
-2. Invoke `use skill developer` with a concise description.
+2. Invoke `/developer` with a concise description.
 3. Agent runs gate check, detects stack, implements.
 4. Run tests/build per stack skill.
-5. `use skill code-review` -> optional `test-coverage` (.NET) -> `use skill commit`.
+5. `/code-review` -> optional `test-coverage` (.NET) -> `/commit`.
 
 ---
 

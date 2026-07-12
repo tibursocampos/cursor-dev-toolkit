@@ -97,7 +97,7 @@ Copy when content is approved but disk write or tests are still pending:
 Rascunho aprovado. Para gravar o arquivo em `{path}` (ou executar testes),
 altere para o modo **Agent** e envie:
 
-use skill <nome> - gravar
+/<nome> - gravar
 
 (Opcional: cole o caminho do PRD/PLAN se já tiver sido definido.)
 ```
@@ -151,7 +151,7 @@ Como prefere continuar?
 
 | Choice | Next step |
 |--------|-----------|
-| **1** | Ask: *“Envie as orientações do PRD (texto) ou o caminho de um arquivo .md para analisar.”* -> run **`spec`** (Phase A; persist in Agent). Handoff when PRD exists: `use skill sdd-plan - <full-prd-path>` |
+| **1** | Ask: *“Envie as orientações do PRD (texto) ou o caminho de um arquivo .md para analisar.”* -> run **`spec`** (Phase A; persist in Agent). Handoff when PRD exists: `/sdd-plan - <full-prd-path>` |
 | **2** | Ask: *“Envie as especificações (texto) ou o caminho de um arquivo para análise.”* -> analyze -> PLAN draft in chat; note ideal SDD has a PRD; persist PLAN only with canonical path + § Confirm. Suggest option **1** if scope is large |
 
 Explicit “criar PRD” while invoking `plan` -> treat as choice **1**; do not write PLAN until a canonical PRD exists unless user chose **2**.
@@ -187,8 +187,8 @@ Root or flat `PRD/` / `PLAN/` paths are **invalid** for Classic SDD — promote 
 features/004-export-profile/US01/PRD/004_export_profile.md
 features/004-export-profile/US01/PLAN/PLAN_004_export_profile.md
 
-use skill sdd-plan - features/004-export-profile/US01/PRD/004_export_profile.md
-use skill sdd-develop - features/004-export-profile/US01/PLAN/PLAN_004_export_profile.md - Step 1
+/sdd-plan - features/004-export-profile/US01/PRD/004_export_profile.md
+/sdd-develop - features/004-export-profile/US01/PLAN/PLAN_004_export_profile.md - Step 1
 ```
 
 If validation fails, do not write - fix path or promote.

@@ -1,6 +1,6 @@
 ---
 name: fix-build
-description: Diagnose and fix failing dotnet build or test runs in the open workspace. Local first; optional GitHub Actions logs via gh. Use when the user says "use skill fix-build", "fix build", or "/fix-build". Git-only commit handoff - no Azure DevOps API.
+description: Diagnose and fix failing dotnet build or test runs. Local first; optional GitHub Actions via gh. Use when fixing a build or invoking /fix-build.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill fix-build`, `fix build`, `/fix-build`, or when build/test failures block progress.
+Invoke when the user asks for: `/fix-build`, `fix build`, `/fix-build`, or when build/test failures block progress.
 
 **Arguments (optional):**
 
@@ -42,7 +42,7 @@ Do not require a build ID from Azure Pipelines or any PAT.
 
 ## Outcome
 
-Structured diagnosis, proposed fixes with rationale, fixes applied only after user confirmation, local re-validation, then handoff to `use skill commit` if the user wants to commit.
+Structured diagnosis, proposed fixes with rationale, fixes applied only after user confirmation, local re-validation, then handoff to `/commit` if the user wants to commit.
 
 ## Lazy-load
 
@@ -51,7 +51,7 @@ Structured diagnosis, proposed fixes with rationale, fixes applied only after us
 | Locale / timezone / Bogus heuristics | `skills/fix-build/reference.md` or `~/.cursor/skills/fix-build/reference.md` after sync |
 | C# patterns | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
 | Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full mode** |
-| Commit | `use skill commit` |
+| Commit | `/commit` |
 
 ## Process
 
@@ -126,7 +126,7 @@ Or scoped test filter when the repo is large (see `reference.md` section Scoped 
 When build and targeted tests pass, offer:
 
 ```
-use skill commit
+/commit
 ```
 
 Do not auto-commit. Do not push unless the user asks via commit skill or explicitly.
@@ -142,6 +142,6 @@ Do not auto-commit. Do not push unless the user asks via commit skill or explici
 
 | Situation | Next |
 |-----------|------|
-| Commit on valid branch | `use skill commit` |
-| New EF migration needed | `use skill add-migrations` |
-| Large feature scope | `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` |
+| Commit on valid branch | `/commit` |
+| New EF migration needed | `/add-migrations` |
+| Large feature scope | `/sdd-spec` -> `sdd-plan` -> `sdd-develop` |

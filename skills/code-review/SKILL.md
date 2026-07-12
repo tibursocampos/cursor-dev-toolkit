@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Review a branch or diff against PRD/PLAN acceptance, project standards, and shared guidelines. Asks single vs multi-angle when not specified. Produces a structured report (critical, important, nice-to-have). Use when the user says "use skill code-review", "review this PR", or "/code-review". Git-only - optional GitHub PR via gh CLI.
+description: Review a branch or diff against PRD/PLAN and project standards. Asks single vs multi-angle when omitted. Use when reviewing a PR or invoking /code-review.
 ---
 
 ## STOP - Read before ANY tool call
@@ -26,7 +26,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill code-review`, `review this PR`, `code review`, or `/code-review`.
+Invoke when the user asks for: `/code-review`, `review this PR`, `code review`.
 
 **Review mode (mandatory choice - no silent default):**
 
@@ -152,7 +152,7 @@ Use the checklists in `reference.md` - do not paste full guideline bodies into t
 | Stack | Commands |
 |-------|----------|
 | .NET | `dotnet build`, `dotnet test` (scoped if large) |
-| .NET coverage | `use skill test-coverage` when PRD, PLAN, or user sets a coverage target (default threshold **80%** on changed production files) |
+| .NET coverage | `/test-coverage` when PRD, PLAN, or user sets a coverage target (default threshold **80%** on changed production files) |
 | Node | `npm run build`, `npm test` per project scripts |
 
 For .NET with a coverage target: run `test-coverage` before final decision; paste the summary into the report section Testes (see `reference.md`). If `test-coverage` reports **Fail** (< threshold), treat as **Changes required** unless the user documents an accepted exception.
@@ -201,7 +201,7 @@ See `reference.md` section **Multi-angle mode** for invoke examples and per-angl
 
 ## Must not
 
-- Write or update PRD/PLAN files (hand off to `use skill sdd-spec` / `use skill sdd-plan`)
+- Write or update PRD/PLAN files (hand off to `/sdd-spec` / `/sdd-plan`)
 - Auto-merge, auto-approve, or rewrite code without user request
 - Work-item tracker APIs, external PR platform APIs, or obsolete guideline paths
 - Block on coverage only when no target applies - when PRD, PLAN, user, or a `test-coverage` report defines a threshold (default **80%** on changed production files), treat below threshold as **Changes required**
@@ -215,9 +215,9 @@ See `reference.md` section **Multi-angle mode** for invoke examples and per-angl
 
 | Situation | Next |
 |-----------|------|
-| After O3 (`orchestrate-develop`) completes | `use skill code-review` - skill asks single vs multi if not specified; never required as pipeline gate |
-| New feature / PRD from review findings | `use skill sdd-spec` - paste or summarize review items; do **not** write PRD in this skill |
-| Coverage below threshold | `use skill test-coverage` -> then `use skill dotnet-developer` or `use skill sdd-develop` |
-| Fixes needed | User or `use skill sdd-develop` / `use skill dotnet-developer` |
-| Commit fixes | `use skill commit` |
+| After O3 (`orchestrate-develop`) completes | `/code-review` - skill asks single vs multi if not specified; never required as pipeline gate |
+| New feature / PRD from review findings | `/sdd-spec` - paste or summarize review items; do **not** write PRD in this skill |
+| Coverage below threshold | `/test-coverage` -> then `/dotnet-developer` or `/sdd-develop` |
+| Fixes needed | User or `/sdd-develop` / `/dotnet-developer` |
+| Commit fixes | `/commit` |
 | All SDD steps done + approved | User runs `gh pr create` or merges per repo policy |

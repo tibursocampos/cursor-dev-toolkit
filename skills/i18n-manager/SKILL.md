@@ -1,10 +1,8 @@
 ---
 name: i18n-manager
-description: >
-  Scan files for hardcoded string literals, extract them into resource localization files (.resx or .json),
-  and replace them with dynamic translation keys. Use when the user says "use skill i18n-manager",
-  "localize code", or "/i18n-manager".
+description: Extract hardcoded strings into .resx or .json localization files and replace with translation keys. Use when localizing code or invoking /i18n-manager.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -31,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user requests: `use skill i18n-manager`, `localize code`, `/i18n-manager`, or asks to internationalize a component.
+Invoke when the user requests: `/i18n-manager`, `localize code`, `/i18n-manager`, or asks to internationalize a component.
 
 **Arguments (optional):**
 
@@ -89,9 +87,9 @@ Check `~/.cursor/sdd/preferences.json`:
   * System keys (like routing paths, config names, constants, and dictionary keys).
 * Present a list of candidate strings with suggested keys (e.g. `WelcomeMessage`, `SubmitButtonLabel`).
 * Stop and ask the user to choose the workflow execution path to refactor and localize these strings:
-  * **Option A - Direct Developer Skill (`use skill developer`):** For straightforward local string extraction and key replacements.
-  * **Option B - Classic SDD (`use skill sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For massive application-wide localization tasks requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`use skill speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
+  * **Option A - Direct Developer Skill (`/developer`):** For straightforward local string extraction and key replacements.
+  * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For massive application-wide localization tasks requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
+  * **Option C - Spec Kit (`/speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 
@@ -116,7 +114,7 @@ Check `~/.cursor/sdd/preferences.json`:
 * Offer committing the refactored code and resources:
 
 ```
-use skill commit
+/commit
 ```
 
 ## Must not

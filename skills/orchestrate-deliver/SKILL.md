@@ -1,6 +1,6 @@
 ---
 name: orchestrate-deliver
-description: Forma C O2 - for an approved feature backlog under features/NNN-slug/, run sdd-spec then sdd-plan contracts per US/TS (series or parallel Task mode), human-approve PRD/PLAN per story or batch, update CONTINUITY, and emit multi-path handoff for sdd-develop or O3. Does not implement app code. Use when the user says "use skill orchestrate-deliver", "orchestrate deliver", or "/orchestrate-deliver".
+description: Forma C O2: run sdd-spec then sdd-plan per approved US/TS; human-approve PRD/PLAN; emit multi-path handoff. No app code. Use when invoking /orchestrate-deliver.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill orchestrate-deliver`, `orchestrate deliver`, `/orchestrate-deliver`, or Forma C O2 after an approved O1 backlog.
+Invoke when the user asks for: `/orchestrate-deliver`, `orchestrate deliver`, `/orchestrate-deliver`, or Forma C O2 after an approved O1 backlog.
 
 Required: full feature path (or resolvable `features/NNN-slug/`).
 
@@ -78,7 +78,7 @@ Accept feature path from invoke (preferred) or Glob under feature root:
 ```text
 Não encontrei FEATURE.md / CONTINUITY.md em `{path}`.
 
-1) use skill orchestrate-analyze - <full-feature-path>
+1) /orchestrate-analyze - <full-feature-path>
 2) cancelar
 ```
 
@@ -96,7 +96,7 @@ If still `draft` or approval unclear: **STOP** — do not invent approval:
 ```text
 Backlog ainda não aprovado em `{feature-path}`.
 
-1) Voltar ao O1: use skill orchestrate-analyze - <full-feature-path>
+1) Voltar ao O1: /orchestrate-analyze - <full-feature-path>
 2) Você confirma aprovação agora? (sim / cancelar)
 ```
 
@@ -185,11 +185,11 @@ On approval:
 ## Handoff O2 → develop
 
 ### Manual (Forma A per story)
-use skill sdd-develop - <full-plan-path-US01> - Step 1
-use skill sdd-develop - <full-plan-path-TS01> - Step 1
+/sdd-develop - <full-plan-path-US01> - Step 1
+/sdd-develop - <full-plan-path-TS01> - Step 1
 
 ### Orchestrated (O3)
-use skill orchestrate-develop - <full-feature-path>
+/orchestrate-develop - <full-feature-path>
 ```
 
 Remind (pt-BR): O3 is optional; `sdd-develop` one-step contract unchanged. User picks one path per story/session.
@@ -202,7 +202,7 @@ Honor `context-management.mdc` thresholds. When pressure is high:
 2. Offer resume:
 
 ```text
-use skill orchestrate-deliver - <full-feature-path>
+/orchestrate-deliver - <full-feature-path>
 ```
 
 Do **not** paste full PRD/PLAN bodies into the parent chat.
@@ -225,17 +225,17 @@ Do **not** paste full PRD/PLAN bodies into the parent chat.
 
 | Situation | Next |
 |-----------|------|
-| All stories approved | `use skill orchestrate-develop - <full-feature-path>` **or** per-story `sdd-develop` |
-| Context pause mid-O2 | `use skill orchestrate-deliver - <full-feature-path>` |
-| Backlog not approved | `use skill orchestrate-analyze - <full-feature-path>` |
-| Single story only (skip O2) | `use skill sdd-spec` then `sdd-plan` (Forma A) |
+| All stories approved | `/orchestrate-develop - <full-feature-path>` **or** per-story `sdd-develop` |
+| Context pause mid-O2 | `/orchestrate-deliver - <full-feature-path>` |
+| Backlog not approved | `/orchestrate-analyze - <full-feature-path>` |
+| Single story only (skip O2) | `/sdd-spec` then `sdd-plan` (Forma A) |
 
 ### Canonical develop handoffs
 
 ```text
-use skill sdd-develop - <full-plan-path> - Step 1
+/sdd-develop - <full-plan-path> - Step 1
 ```
 
 ```text
-use skill orchestrate-develop - <full-feature-path>
+/orchestrate-develop - <full-feature-path>
 ```

@@ -150,7 +150,7 @@ _Omitir esta seção somente se step 0.5 registrou **Limitação SDD**._
 - **Cobertura (código novo / arquivos alterados):** [X% - Passou ≥ [threshold]% / Abaixo do target / Não executado]
 - **Cobertura geral (branch):** [Y% - informativo]
 - **Meta:** 100% (mínimo aceitável: [80]% quando target aplicável)
-- **Fonte:** `use skill test-coverage` - [colar bloco do relatório ou N/A]
+- **Fonte:** `/test-coverage` - [colar bloco do relatório ou N/A]
 
 ---
 
@@ -218,7 +218,7 @@ Problemas: [Nenhum | listados]
 | Stack | Commands |
 |-------|----------|
 | .NET | `dotnet build`, `dotnet test` (scoped if large) |
-| .NET coverage | `use skill test-coverage` when PRD, PLAN, or user sets a target (default **80%** on changed production files) |
+| .NET coverage | `/test-coverage` when PRD, PLAN, or user sets a target (default **80%** on changed production files) |
 | Node | `npm run build`, `npm test` per project scripts |
 
 When a coverage target applies: run `test-coverage` before final decision; paste summary into report section Testes. **Fail** below threshold -> **Changes required** unless user documents an accepted exception.
@@ -291,7 +291,7 @@ When a coverage target applies: run `test-coverage` before final decision; paste
 Run when PRD, PLAN, or user requires coverage evidence:
 
 ```text
-use skill test-coverage - <base-branch> - threshold 80
+/test-coverage - <base-branch> - threshold 80
 ```
 
 | Result from test-coverage | code-review decision |
@@ -310,13 +310,13 @@ Optional enrichment of the same report template. **No silent default:** if the i
 ### Invoke examples
 
 ```text
-use skill code-review
-use skill code-review - single
-use skill code-review - multi-angle
-use skill code-review - ângulos: qualidade, aceite, segurança
+/code-review
+/code-review - single
+/code-review - multi-angle
+/code-review - ângulos: qualidade, aceite, segurança
 ```
 
-Bare `use skill code-review` → ask mode (1 single / 2 multi-ângulo). Subset allowed, e.g. `ângulos: qualidade, segurança`. Synonyms: `multi-ângulo`, `multi-angle`, `single`, `single-angle`, `simples`.
+Bare `/code-review` → ask mode (1 single / 2 multi-ângulo). Subset allowed, e.g. `ângulos: qualidade, segurança`. Synonyms: `multi-ângulo`, `multi-angle`, `single`, `single-angle`, `simples`.
 
 ### Checklist per angle
 

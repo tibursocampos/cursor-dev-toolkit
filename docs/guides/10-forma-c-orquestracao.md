@@ -64,7 +64,7 @@ No clone do **cursor-dev-toolkit** (ou após atualizar skills O1/O2/O3):
 
 Esperado: `Smoke test PASSED` (skills no repo = **38**, incluindo `orchestrate-*`). Menu interativo: `.\scripts\toolkit.ps1`. Detalhes: [MAINTAINER_GUIDE](../MAINTAINER_GUIDE.md), [INSTALL](../INSTALL.md).
 
-Sem sync, `use skill orchestrate-*` pode falhar (skills só existem em `~/.cursor/skills/` após o deploy).
+Sem sync, `/orchestrate-*` pode falhar (skills só existem em `~/.cursor/skills/` após o deploy).
 
 ---
 
@@ -72,12 +72,12 @@ Sem sync, `use skill orchestrate-*` pode falhar (skills só existem em `~/.curso
 
 | Fase | Invoke |
 |------|--------|
-| O1 Análise | `use skill orchestrate-analyze` |
-| O1 retomar | `use skill orchestrate-analyze - <full-feature-path>` |
-| O2 Spec/Plan | `use skill orchestrate-deliver - <full-feature-path>` |
-| O3 Develop | `use skill orchestrate-develop - <full-feature-path>` |
-| Develop manual | `use skill sdd-develop - <full-plan-path> - Step N` |
-| Review | `use skill code-review` (passe `single` ou `multi-angle`; se omitir, a skill pergunta) |
+| O1 Análise | `/orchestrate-analyze` |
+| O1 retomar | `/orchestrate-analyze - <full-feature-path>` |
+| O2 Spec/Plan | `/orchestrate-deliver - <full-feature-path>` |
+| O3 Develop | `/orchestrate-develop - <full-feature-path>` |
+| Develop manual | `/sdd-develop - <full-plan-path> - Step N` |
+| Review | `/code-review` (passe `single` ou `multi-angle`; se omitir, a skill pergunta) |
 
 `<full-feature-path>` — exemplo: `features/004-nuget-extract/`
 
@@ -92,7 +92,7 @@ Sem sync, `use skill orchestrate-*` pode falhar (skills só existem em `~/.curso
 3. Especialistas sobem via Task **só** se a flag for verdadeira.
 4. Grava `FEATURE.md`, `CONTINUITY.md`, pastas `USnn`/`TSnn` com `STORY.md`.
 5. **Pare** e aprove o backlog (**sim** / ajustar / cancelar).
-6. Handoff: `use skill orchestrate-deliver - <full-feature-path>`
+6. Handoff: `/orchestrate-deliver - <full-feature-path>`
 
 ### O2 — `orchestrate-deliver`
 
@@ -105,8 +105,8 @@ Sem sync, `use skill orchestrate-*` pode falhar (skills só existem em `~/.curso
 ### O3 — `orchestrate-develop` (ou manual)
 
 1. O3: pai atualiza CONTINUITY e dispara **um** subagente por passo pendente (deps respeitadas).
-2. Manual: nova sessão por passo — `use skill sdd-develop - <plan> - Step N`.
-3. Ao concluir a história: `use skill code-review` (single ou multi-ângulo; se omitir, a skill pergunta).
+2. Manual: nova sessão por passo — `/sdd-develop - <plan> - Step N`.
+3. Ao concluir a história: `/code-review` (single ou multi-ângulo; se omitir, a skill pergunta).
 
 ---
 
@@ -157,7 +157,7 @@ Cenário ilustrativo — **não** exige app de produção neste repo. Objetivo: 
 ### Chat 1 — O1
 
 ```text
-use skill orchestrate-analyze
+/orchestrate-analyze
 
 Pedido: Extrair biblioteca compartilhada X para NuGet interno;
 Apps A e B devem consumir o pacote sem quebrar CI.
@@ -187,7 +187,7 @@ Histórias de exemplo:
 Após **sim** no backlog:
 
 ```text
-use skill orchestrate-deliver - features/004-nuget-extract/
+/orchestrate-deliver - features/004-nuget-extract/
 ```
 
 ### Chat 2 — O2 (paralelo)
@@ -205,17 +205,17 @@ Feature: features/004-nuget-extract/
 | TS02 | features/004-nuget-extract/TS02/PRD/004_app_a_consumer.md | features/004-nuget-extract/TS02/PLAN/PLAN_004_app_a_consumer.md |
 
 ### Manual (1 step por sessão)
-use skill sdd-develop - features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md - Step 1
+/sdd-develop - features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md - Step 1
 
 ### Orquestrado (O3)
-use skill orchestrate-develop - features/004-nuget-extract/
+/orchestrate-develop - features/004-nuget-extract/
 ```
 
 ### Chat 3+ — develop e review
 
 - Preferir **uma história por vez** (ex.: TS01 até 100%, depois TS02).
-- Após código: `use skill code-review` — passe `single`/`multi-angle` ou deixe a skill perguntar.
-- Commit: `use skill commit` (após **sim**).
+- Após código: `/code-review` — passe `single`/`multi-angle` ou deixe a skill perguntar.
+- Commit: `/commit` (após **sim**).
 
 ---
 

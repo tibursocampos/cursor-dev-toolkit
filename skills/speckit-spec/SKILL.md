@@ -1,9 +1,8 @@
 ---
 name: speckit-spec
-description: >
-  Create spec.md under .specify/specs/NNN-slug/ at resolved storage path.
-  Use when the user says "use skill speckit-spec", "create speckit spec", or "/speckit-spec".
+description: Create spec.md under .specify/specs/NNN-slug/ at the resolved storage path. Use when creating a Spec Kit spec or invoking /speckit-spec.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,7 +27,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill speckit-spec`, `criar spec speckit`, `nova spec`, or `/speckit-spec`.
+Invoke when the user asks for: `/speckit-spec`, `criar spec speckit`, `nova spec`.
 
 ## Outcome
 
@@ -52,7 +51,7 @@ The spec answers **what** and **why**, not **how**. No implementation code. Iden
 ### -1. Validate speckit initialization
 
 Run `scripts/validation/validate-speckit-init.ps1` before any spec workflow action.
-- If validation fails: **STOP** and handoff to `use skill speckit-init`.
+- If validation fails: **STOP** and handoff to `/speckit-init`.
 - If validation passes: continue.
 
 ### 0. Pipeline and storage
@@ -154,5 +153,5 @@ Ask the user (pt-BR): **"Posso gravar em `{path}`? (sim / ajustar / cancelar)"**
 ## Handoff
 
 ```
-use skill speckit-plan - {written path}
+/speckit-plan - {written path}
 ```

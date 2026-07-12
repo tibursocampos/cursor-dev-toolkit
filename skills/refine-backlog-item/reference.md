@@ -24,9 +24,9 @@ Do **not** expand refine into a full PRD inline.
 Handoff wording:
 
 ```
-Item grande / multi-história: use skill orchestrate-analyze
-Item único pronto para PRD: use skill sdd-spec
-Checklist local: use skill breakdown-tasks
+Item grande / multi-história: /orchestrate-analyze
+Item único pronto para PRD: /sdd-spec
+Checklist local: /breakdown-tasks
 ```
 
 Before suggesting `sdd-spec`, optionally Glob `features/**/PRD/` (workspace + global feature root) per `STORAGE.md`. Do **not** glob root/flat `PRD/` for execution.
@@ -188,7 +188,7 @@ Do not create `docs/backlog/` in **cursor-dev-toolkit** during toolkit porting -
 After refine, offer:
 
 ```
-use skill breakdown-tasks - <story-or-backlog-path>
+/breakdown-tasks - <story-or-backlog-path>
 ```
 
 ---

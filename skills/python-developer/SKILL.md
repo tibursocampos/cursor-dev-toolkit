@@ -1,10 +1,8 @@
 ---
 name: python-developer
-description: >
-  Implement or fix small-to-medium Python features without full SDD. Uses Python, FastAPI/Flask,
-  virtual environments (venv, uv), pytest, and Git-only developer flow. Use for isolated Python work.
-  For larger cross-cutting features, route to sdd-spec -> sdd-plan -> sdd-develop.
+description: Implement or fix small-to-medium Python features without full SDD (FastAPI/Flask, pytest). Use for isolated Python work or when invoking /python-developer.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,11 +26,11 @@ Gate check:
 
 ## Trigger
 
-Use when user asks for `use skill python-developer`, `python fix`, or a small isolated Python implementation.
+Use when user asks for `/python-developer`, `python fix`, or a small isolated Python implementation.
 
 ## Outcome
 
-Working Python code and tests in the target workspace, validated with pytest/build, with optional handoff to `use skill commit`.
+Working Python code and tests in the target workspace, validated with pytest/build, with optional handoff to `/commit`.
 
 ## When to escalate to SDD
 
@@ -86,7 +84,7 @@ Add build/lint steps if configured (`ruff`, `mypy`, etc.).
 
 ### 7. Handoff
 
-Offer `use skill commit`. Do not commit automatically.
+Offer `/commit`. Do not commit automatically.
 
 ## Must not
 
@@ -97,6 +95,6 @@ Offer `use skill commit`. Do not commit automatically.
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
-| Review | `use skill code-review` |
+| Commit | `/commit` |
+| Review | `/code-review` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |

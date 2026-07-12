@@ -1,6 +1,6 @@
 ---
 name: sdd-plan
-description: Create a baby-step PLAN from an existing PRD. Writes agent PLAN .md in pt-BR by default (repo or ~/.cursor/sdd/<repo-id>/). Use when the user says "use skill sdd-plan", "create plan", "/sdd-plan". Requires a PRD; output feeds sdd-develop.
+description: Create a baby-step PLAN from an existing PRD (agent PLAN .md, pt-BR default). Feeds sdd-develop. Use when creating a plan or invoking /sdd-plan.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill sdd-plan`, `create plan`, `execution plan`, or `/sdd-plan`.
+Invoke when the user asks for: `/sdd-plan`, `create plan`, `execution plan`.
 
 ## Outcome
 
@@ -113,7 +113,7 @@ Present steps, deps, risks. Confirm first sdd-develop step.
 ## Handoff
 
 ```
-use skill sdd-develop - features/NNN-slug/US01/PLAN/PLAN_NNN_slug.md - Step 1
+/sdd-develop - features/NNN-slug/US01/PLAN/PLAN_NNN_slug.md - Step 1
 ```
 
 One session = one PLAN step.

@@ -85,7 +85,7 @@ Update `CONTINUITY.md` when:
 | **Estado atual** | ≤10 lines; replace on update |
 | **Decisões** | Append; do not erase history |
 | **Pendências** | Keep open items until done |
-| **Handoff tipado** | Exact `use skill …` with **full path** |
+| **Handoff tipado** | Exact `/…` with **full path** |
 | **What not to write** | Full PRD/PLAN bodies, guideline dumps, application code |
 
 ---
@@ -128,26 +128,26 @@ Scorecard: reuse `skills/refine-backlog-item/reference.md` (universal + type-spe
 
 **Spawn (parallel):** `repo_analyst`, `architect`, `security`.  
 **Stories (example):** TS01 package extract + feed; TS02 App A consumer; TS03 App B consumer; US01 (optional) developer publish flow.  
-**After approve:** `use skill orchestrate-deliver - features/00N-nuget-extract/`
+**After approve:** `/orchestrate-deliver - features/00N-nuget-extract/`
 
 ---
 
 ## Canonical handoff strings
 
 ```text
-use skill orchestrate-deliver - <full-feature-path>
+/orchestrate-deliver - <full-feature-path>
 ```
 
 ```text
-use skill orchestrate-analyze - <full-feature-path>
+/orchestrate-analyze - <full-feature-path>
 ```
 
 ```text
-use skill developer
+/developer
 ```
 
 ```text
-use skill sdd-spec
+/sdd-spec
 ```
 
 O2 **series vs parallel** is chosen inside `orchestrate-deliver` — document the choice to the user; do not implement O2 in this skill.
@@ -155,8 +155,8 @@ O2 **series vs parallel** is chosen inside `orchestrate-deliver` — document th
 After O2 (for awareness only):
 
 ```text
-use skill sdd-develop - <full-plan-path> - Step N
-use skill orchestrate-develop - <full-feature-path>
+/sdd-develop - <full-plan-path> - Step N
+/orchestrate-develop - <full-feature-path>
 ```
 
 ---

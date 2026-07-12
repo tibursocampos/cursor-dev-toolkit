@@ -78,29 +78,29 @@ Open any codebase in Cursor. Manuals: **[guides/README.md](guides/README.md)**.
 
 | Step | Invoke |
 |------|--------|
-| PRD | `use skill sdd-spec` |
-| PLAN | `use skill sdd-plan - <prd-path>` |
-| Develop | `use skill sdd-develop - <plan-path> - Step N` |
+| PRD | `/sdd-spec` |
+| PLAN | `/sdd-plan - <prd-path>` |
+| Develop | `/sdd-develop - <plan-path> - Step N` |
 
 ### Spec Kit
 
 | Step | Invoke |
 |------|--------|
-| Setup | `use skill speckit-setup` |
-| Init | `use skill speckit-init` |
-| Spec | `use skill speckit-spec` |
-| Plan | `use skill speckit-plan - <spec-path>` |
-| Develop | `use skill speckit-develop - <tasks-path>` |
+| Setup | `/speckit-setup` |
+| Init | `/speckit-init` |
+| Spec | `/speckit-spec` |
+| Plan | `/speckit-plan - <spec-path>` |
+| Develop | `/speckit-develop - <tasks-path>` |
 
 ### Shortcut
 
-`use skill developer` - routes to the correct stack skill for small work without full SDD.
+`/developer` - routes to the correct stack skill for small work without full SDD.
 
-Explicit .NET: `use skill dotnet-developer`.
+Explicit .NET: `/dotnet-developer`.
 
-New Blip React plugin: `use skill blip-plugin-developer` (see [blip-plugin-integration.md](blip-plugin-integration.md)).
+New Blip React plugin: `/blip-plugin-developer` (see [blip-plugin-integration.md](blip-plugin-integration.md)).
 
-Net-new UI: `use skill impeccable shape` -> `docs/DESIGN-BRIEF.md` (see [impeccable-integration.md](impeccable-integration.md)).
+Net-new UI: `/impeccable shape` -> `docs/DESIGN-BRIEF.md` (see [impeccable-integration.md](impeccable-integration.md)).
 
 ### Storage
 

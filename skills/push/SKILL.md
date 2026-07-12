@@ -1,9 +1,8 @@
 ---
 name: push
-description: >
-  Execute git push on the current branch. Use when the user says "use skill push",
-  "push changes", or "/push". Git-only - no work-item tracker APIs.
+description: Execute git push on the current branch after confirmation. Git-only. Use when pushing changes or invoking /push.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -30,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Use for `use skill push`, `push changes`, or `/push`.
+Use for `/push`, `push changes`, or `/push`.
 
 ## Outcome
 
@@ -89,4 +88,4 @@ Return branch and push status.
 | Situation | Next |
 |-----------|------|
 | Create PR (user asks) | `gh pr create` per `step-4-commits-pr.md` |
-| Review before PR | `use skill code-review` |
+| Review before PR | `/code-review` |

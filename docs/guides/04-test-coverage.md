@@ -32,7 +32,7 @@ Use it in the **post-code workflow** after [code-review](03-code-review.md) and 
 ### Do not use `test-coverage` when
 
 - The repo has **no tests** or **no Coverlet** - add `coverlet.collector` and tests first (see Prerequisites).
-- **`dotnet build` or `dotnet test` already fails** -> `use skill fix-build` ([05 - operational skills](05-operational-skills.md)).
+- **`dotnet build` or `dotnet test` already fails** -> `/fix-build` ([05 - operational skills](05-operational-skills.md)).
 - You only want a **code quality review** without metrics -> [03 - code-review](03-code-review.md).
 - You are working **only in cursor-dev-toolkit** (Markdown docs)-coverage does not apply to this feature’s deliverables.
 
@@ -58,24 +58,24 @@ Detailed commands and exclusions (migrations, generated files): `~/.cursor/skill
 Primary invoke:
 
 ```
-use skill test-coverage
+/test-coverage
 ```
 
-Alternatives: `coverage report`, `/coverage`.
+Alternatives: `coverage report`, `coverage`.
 
 **Optional parameters** (same message):
 
 | Parameter | Example | Default |
 |-----------|---------|---------|
-| Base branch | `use skill test-coverage - base develop` | `main` or `develop` (agent asks once if ambiguous) |
-| Test project | `use skill test-coverage - tests src/MyApp.Tests/MyApp.Tests.csproj` | Auto-detect `*Tests.csproj` |
-| Threshold | `use skill test-coverage - threshold 85` | **80** (% line coverage on changed production files) |
-| Target (aspirational) | `use skill test-coverage - target 100` | **100** - report notes gaps below 100 even when Pass |
+| Base branch | `/test-coverage - base develop` | `main` or `develop` (agent asks once if ambiguous) |
+| Test project | `/test-coverage - tests src/MyApp.Tests/MyApp.Tests.csproj` | Auto-detect `*Tests.csproj` |
+| Threshold | `/test-coverage - threshold 85` | **80** (% line coverage on changed production files) |
+| Target (aspirational) | `/test-coverage - target 100` | **100** - report notes gaps below 100 even when Pass |
 
 **Example:**
 
 ```
-use skill test-coverage - base main - threshold 80
+/test-coverage - base main - threshold 80
 ```
 
 ---
@@ -84,14 +84,14 @@ use skill test-coverage - base main - threshold 80
 
 1. Complete code changes on a **feature branch**; [code-review](03-code-review.md) optional but recommended first.
 2. Open your **.NET application repo** in Cursor (not toolkit-only workspace).
-3. Invoke **`use skill test-coverage`** with optional base branch, test path, or threshold.
+3. Invoke **`/test-coverage`** with optional base branch, test path, or threshold.
 4. Agent resolves **changed production `.cs` files** vs base (`git diff <base>...HEAD`).
 5. Agent verifies **Coverlet**, green **`dotnet test`**, and **ReportGenerator**.
 6. Agent runs **`dotnet test`** with coverage -> `TestResults/**/coverage.cobertura.xml`.
 7. Agent runs **ReportGenerator** -> `TestResults/CoverageReport/` (`Summary.txt`, `index.html`).
 8. Agent computes **new code**, **overall branch**, and **per-file** metrics (excludes migrations, `*.g.cs`, test projects from new-code denominator).
 9. Agent reports **Pass** (≥ threshold) or **Fail** (&lt; threshold) with gap list and paths to on-disk reports.
-10. If **Fail**, add tests via [developer](02-developer.md) or `use skill sdd-develop`, then re-run this skill.
+10. If **Fail**, add tests via [developer](02-developer.md) or `/sdd-develop`, then re-run this skill.
 
 **How to read the report:**
 
@@ -111,7 +111,7 @@ Chat report is often **pt-BR**; paths and commands stay in English. Agent must c
 Scenario: branch `feature/order-discount` in `my-api`, base `main`, threshold 80%.
 
 ```
-You: use skill test-coverage - base main
+You: /test-coverage - base main
 
 Agent: [diff: 3 production files changed]
        [dotnet test + ReportGenerator]
@@ -131,12 +131,12 @@ Agent: ## Coverage - Pass (threshold 80%)
        - TestResults/CoverageReport/Summary.txt
        - TestResults/CoverageReport/index.html
 
-       Handoff: use skill commit
+       Handoff: /commit
 
-You: use skill commit
+You: /commit
 ```
 
-If new code were **72%**, decision would be **Fail** -> add tests -> re-run `use skill test-coverage`.
+If new code were **72%**, decision would be **Fail** -> add tests -> re-run `/test-coverage`.
 
 ---
 
@@ -160,11 +160,11 @@ If new code were **72%**, decision would be **Fail** -> add tests -> re-run `use
 
 | After coverage | Do this |
 |----------------|---------|
-| **Pass** | `use skill commit` - [05 - operational skills](05-operational-skills.md) |
+| **Pass** | `/commit` - [05 - operational skills](05-operational-skills.md) |
 | **Pass** + PR policy | Paste approval block / `Summary.txt` into PR description |
-| **Fail** - add tests | [02 - developer](02-developer.md) or `use skill sdd-develop - <plan-path> - Step N` |
-| **Fail** - build/tests broken | `use skill fix-build` - [05 - operational skills](05-operational-skills.md) |
-| Re-validate quality | `use skill code-review` - [03 - code-review](03-code-review.md) |
+| **Fail** - add tests | [02 - developer](02-developer.md) or `/sdd-develop - <plan-path> - Step N` |
+| **Fail** - build/tests broken | `/fix-build` - [05 - operational skills](05-operational-skills.md) |
+| Re-validate quality | `/code-review` - [03 - code-review](03-code-review.md) |
 | Back to skill map | [Guides README](README.md) |
 
 **Typical sequence:** [03-code-review](03-code-review.md) -> **test-coverage** -> `commit`.

@@ -12,7 +12,7 @@
 | [SKILLS.md](SKILLS.md) | All users | Canonical skill catalog (38 skills) |
 | [impeccable-integration.md](impeccable-integration.md) | Frontend / design | Impeccable -> DESIGN-BRIEF -> stack developer |
 | [blip-plugin-integration.md](blip-plugin-integration.md) | Blip plugin authors | Scaffold, profiles, handoff, anti-patterns |
-| [../skills/test-coverage/SKILL.md](../skills/test-coverage/SKILL.md) | Skill users | Coverage workflow (`use skill test-coverage`) |
+| [../skills/test-coverage/SKILL.md](../skills/test-coverage/SKILL.md) | Skill users | Coverage workflow (`/test-coverage`) |
 | [SYNC_POLICY.md](SYNC_POLICY.md) | Maintainers | Cross-toolkit sync with antigravity-dev-toolkit |
 
 **Related (repo root):**

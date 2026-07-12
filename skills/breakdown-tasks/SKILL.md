@@ -1,6 +1,6 @@
 ---
 name: breakdown-tasks
-description: Break refined backlog steps into a grouped implementation task checklist with dependency-aware (topological) grouping. Prefer features/... story folder; docs/ paths as shortcut. No tracker API. Use when the user says "use skill breakdown-tasks", "break down tasks", or "/breakdown-tasks".
+description: Break refined backlog steps into a dependency-aware task checklist (backend, frontend, tests). Prefer features/... story folders. Use when breaking down tasks or invoking /breakdown-tasks.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill breakdown-tasks`, `break down tasks`, `/breakdown-tasks`, or after `refine-backlog-item`.
+Invoke when the user asks for: `/breakdown-tasks`, `break down tasks`, `/breakdown-tasks`, or after `refine-backlog-item`.
 
 **Input (one of):**
 
@@ -39,7 +39,7 @@ Invoke when the user asks for: `use skill breakdown-tasks`, `break down tasks`, 
 | Chat | User confirms refined markdown from current session |
 | Pasted | User pastes the Steps section |
 
-Prerequisite: content includes structured **Steps** (or Bug **Suggested fix**). If missing, hand off to `use skill refine-backlog-item`.
+Prerequisite: content includes structured **Steps** (or Bug **Suggested fix**). If missing, hand off to `/refine-backlog-item`.
 
 ## Outcome
 
@@ -71,7 +71,7 @@ If both `REFINE/tasks.md` and `TASKS.md` already exist: update **`REFINE/tasks.m
 2. Load refined content from feature story, path, chat, or paste.
 3. Extract steps from Steps / Suggested fix (`reference.md` § Parsing).
 
-If no steps found, stop and suggest `use skill refine-backlog-item`.
+If no steps found, stop and suggest `/refine-backlog-item`.
 
 ### 1. Documentation language (blocker before Write)
 
@@ -110,11 +110,11 @@ Show group names, dependency waves, output path, and suggested next skills.
 
 | Situation | Next |
 |-----------|------|
-| Multi-story / needs O1 | `use skill orchestrate-analyze` |
-| Full SDD for the story | `use skill sdd-spec` -> `use skill sdd-plan` -> `use skill sdd-develop` |
-| PLAN already exists | Resolve under `features/**/PLAN/` only (workspace + global feature root); `use skill sdd-develop - <full-plan-path> - Step 1` |
-| Small code-only change | `use skill developer` / stack `*-developer` |
-| Commit checklist file | `use skill commit` |
+| Multi-story / needs O1 | `/orchestrate-analyze` |
+| Full SDD for the story | `/sdd-spec` -> `/sdd-plan` -> `/sdd-develop` |
+| PLAN already exists | Resolve under `features/**/PLAN/` only (workspace + global feature root); `/sdd-develop - <full-plan-path> - Step 1` |
+| Small code-only change | `/developer` / stack `*-developer` |
+| Commit checklist file | `/commit` |
 
 ## Must not
 
@@ -126,13 +126,13 @@ Show group names, dependency waves, output path, and suggested next skills.
 ## Handoff examples
 
 ```
-use skill sdd-spec
+/sdd-spec
 ```
 
 ```
-use skill orchestrate-analyze
+/orchestrate-analyze
 ```
 
 ```
-use skill sdd-develop - features/004-export/US01/PLAN/PLAN_004_export.md - Step 1
+/sdd-develop - features/004-export/US01/PLAN/PLAN_004_export.md - Step 1
 ```

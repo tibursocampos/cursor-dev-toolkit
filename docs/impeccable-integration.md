@@ -6,7 +6,7 @@ Upstream: [pbakaus/impeccable](https://github.com/pbakaus/impeccable) - vendored
 
 | Level | What | Project install? |
 |-------|------|------------------|
-| **1 - Toolkit skill** | `use skill impeccable` + lazy-loaded `reference/<cmd>.md` | **No** - synced to `~/.cursor/skills/impeccable/` |
+| **1 - Toolkit skill** | `/impeccable` + lazy-loaded `reference/<cmd>.md` | **No** - synced to `~/.cursor/skills/impeccable/` |
 | **2 - Detector bridge** | `npx impeccable detect --json <paths>` during `audit` | **No** - transient npx |
 | **3 - Per-project setup** | `npx impeccable install` (live mode, design hook, `.impeccable/`) | **Yes** - explicit user consent only |
 
@@ -15,9 +15,9 @@ Daily shape -> brief -> implement **does not** require level 3.
 ## Invoke
 
 ```
-use skill impeccable
-use skill impeccable shape [feature]
-use skill impeccable audit [paths]
+/impeccable
+/impeccable shape [feature]
+/impeccable audit [paths]
 ```
 
 Aliases: `impeccable-shape`, `impeccable-audit` map to the same router.
@@ -30,7 +30,7 @@ Aliases: `impeccable-shape`, `impeccable-audit` map to the same router.
 
 Template: `skills/impeccable/reference/DESIGN-BRIEF-TEMPLATE.md`
 
-**Blip plugins:** when `target_stack` is `react` and the project uses `blip-ds`, add BDS / iframe constraints in brief section 9. For new Blip extensions, prefer `use skill blip-plugin-developer` for scaffold before `impeccable shape`. See [blip-plugin-integration.md](blip-plugin-integration.md).
+**Blip plugins:** when `target_stack` is `react` and the project uses `blip-ds`, add BDS / iframe constraints in brief section 9. For new Blip extensions, prefer `/blip-plugin-developer` for scaffold before `impeccable shape`. See [blip-plugin-integration.md](blip-plugin-integration.md).
 
 ## When `npx impeccable install` is needed
 

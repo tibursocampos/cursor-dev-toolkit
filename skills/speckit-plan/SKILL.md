@@ -1,9 +1,8 @@
 ---
 name: speckit-plan
-description: >
-  Generate plan.md and tasks.md from an existing spec.md under Spec Kit layout.
-  Use when the user says "use skill speckit-plan", "create speckit plan", or "/speckit-plan".
+description: Generate plan.md and tasks.md from an existing Spec Kit spec.md. Use when creating a Spec Kit plan or invoking /speckit-plan.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,7 +27,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill speckit-plan`, `planejar speckit`, `criar plano spec kit`, or `/speckit-plan`.
+Invoke when the user asks for: `/speckit-plan`, `planejar speckit`, `criar plano spec kit`.
 
 ## Outcome
 
@@ -54,7 +53,7 @@ Both in **pt-BR**. Paths and technical identifiers in **English**.
 ### -1. Validate speckit initialization
 
 Run `scripts/validation/validate-speckit-init.ps1` before any plan workflow action.
-- If validation fails: **STOP** and handoff to `use skill speckit-init`.
+- If validation fails: **STOP** and handoff to `/speckit-init`.
 - If validation passes: continue.
 
 ### 0. Pipeline and storage
@@ -171,5 +170,5 @@ Ask the user (pt-BR): **"Posso gravar `plan.md` e `tasks.md` em `{folder}`? (sim
 ## Handoff
 
 ```
-use skill speckit-develop - {path to tasks.md}
+/speckit-develop - {path to tasks.md}
 ```

@@ -1,6 +1,6 @@
 ---
 name: orchestrate-develop
-description: Forma C O3 - for approved PLANs under features/NNN-slug/, spawn one Task subagent per PLAN step using the sdd-develop contract (deps + SESSION gates). Parent never implements app code or merges N steps in one child. Updates CONTINUITY; handoff to code-review (ask single vs multi-angle if omitted) or manual sdd-develop. Use when the user says "use skill orchestrate-develop", "orchestrate develop", or "/orchestrate-develop".
+description: Forma C O3: one Task subagent per PLAN step (sdd-develop contract); parent never writes app code. Updates CONTINUITY; handoff to code-review. Use when invoking /orchestrate-develop.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill orchestrate-develop`, `orchestrate develop`, `/orchestrate-develop`, or Forma C O3 after O2 handoff.
+Invoke when the user asks for: `/orchestrate-develop`, `orchestrate develop`, `/orchestrate-develop`, or Forma C O3 after O2 handoff.
 
 Required: full feature path **or** a specific `PLAN/PLAN_NNN_*.md` path under a story.
 
@@ -40,7 +40,7 @@ Required: full feature path **or** a specific `PLAN/PLAN_NNN_*.md` path under a 
 
 **Parent orchestrator never** writes application code, never marks multiple PLAN steps done in one child, and never bypasses `sdd-develop` gates (`step_confirmed`, tests before complete).
 
-**Alternative (always valid):** user runs manual `use skill sdd-develop - <full-plan-path> - Step N` without this skill (RF05 / CA5).
+**Alternative (always valid):** user runs manual `/sdd-develop - <full-plan-path> - Step N` without this skill (RF05 / CA5).
 
 ## Lazy-load
 
@@ -76,8 +76,8 @@ Load `STORAGE.md` (`$Workflow = classic`).
 ```text
 Não encontrei PLAN sob `{path}`.
 
-1) use skill orchestrate-deliver - <full-feature-path>
-2) use skill sdd-plan - <full-prd-path>
+1) /orchestrate-deliver - <full-feature-path>
+2) /sdd-plan - <full-prd-path>
 3) cancelar
 ```
 
@@ -173,13 +173,13 @@ Stop spawning and emit handoff when any of:
 Resume string:
 
 ```text
-use skill orchestrate-develop - <full-feature-path>
+/orchestrate-develop - <full-feature-path>
 ```
 
 Or per PLAN:
 
 ```text
-use skill orchestrate-develop - <full-plan-path>
+/orchestrate-develop - <full-plan-path>
 ```
 
 ### 7. CONTINUITY
@@ -191,7 +191,7 @@ On each meaningful milestone (before/after child, pause, story done):
 | **Phase** | `develop` (or `review` when all done) |
 | **Last agent** | `orchestrate-develop` |
 | **Estado atual** | Short per CONTINUITY template: active PLAN, last step done, next step |
-| **Handoff tipado** | Exact next `use skill …` with **full paths** |
+| **Handoff tipado** | Exact next `/…` with **full paths** |
 
 Do not paste full diffs or guideline bodies into CONTINUITY.
 
@@ -202,18 +202,18 @@ When a story or feature develop pass completes (or user asks to review mid-way):
 ```text
 ## Handoff O3 → review
 
-use skill code-review
-use skill code-review - single
-use skill code-review - multi-angle
+/code-review
+/code-review - single
+/code-review - multi-angle
 
 ## Continuar develop manual (alternativa a O3)
-use skill sdd-develop - <full-plan-path> - Step {N}
+/sdd-develop - <full-plan-path> - Step {N}
 
 ## Continuar O3
-use skill orchestrate-develop - <full-feature-path>
+/orchestrate-develop - <full-feature-path>
 ```
 
-Suggest `use skill code-review` (user may pass `- single` or `- multi-angle`; if omitted, **code-review asks**). Never require a mode. O3 does **not** auto-block the pipeline on review.
+Suggest `/code-review` (user may pass `- single` or `- multi-angle`; if omitted, **code-review asks**). Never require a mode. O3 does **not** auto-block the pipeline on review.
 
 ## Anti-bypass checklist (must enforce)
 
@@ -246,21 +246,21 @@ Full copy in `reference.md`.
 | Situation | Next |
 |-----------|------|
 | Next PLAN step | New chat → `orchestrate-develop` **or** `sdd-develop - <plan> - Step N` |
-| Story/feature done | `use skill code-review` (pass `- single` / `- multi-angle`, or let skill ask) |
+| Story/feature done | `/code-review` (pass `- single` / `- multi-angle`, or let skill ask) |
 | Missing PLAN | `orchestrate-deliver` / `sdd-plan` |
 | Prefer no orchestrator | Manual `sdd-develop` only |
 
 ### Canonical strings
 
 ```text
-use skill orchestrate-develop - <full-feature-path>
+/orchestrate-develop - <full-feature-path>
 ```
 
 ```text
-use skill sdd-develop - <full-plan-path> - Step N
+/sdd-develop - <full-plan-path> - Step N
 ```
 
 ```text
-use skill code-review
-use skill code-review - multi-angle
+/code-review
+/code-review - multi-angle
 ```

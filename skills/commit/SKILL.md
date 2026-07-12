@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Review staged and unstaged changes, draft a Conventional Commits message, commit on a valid feature branch, and optionally push. Use when the user says "use skill commit", "commit changes", or "/commit". Git-only - no work-item tracker APIs.
+description: Draft a Conventional Commits message and commit on a valid feature branch; optional push. Git-only. Use when committing changes or invoking /commit.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill commit`, `commit changes`, or `/commit`.
+Invoke when the user asks for: `/commit`, `commit changes`.
 
 ## Outcome
 
@@ -177,6 +177,6 @@ Never `git push --force` to `main`, `master`, or `develop`.
 
 | Situation | Next |
 |-----------|------|
-| Continue SDD step | New session -> `use skill sdd-develop - <full-plan-path> - Step N` |
-| Review before PR | `use skill code-review` |
+| Continue SDD step | New session -> `/sdd-develop - <full-plan-path> - Step N` |
+| Review before PR | `/code-review` |
 | Create PR (user asks) | `gh pr create` per `step-4-commits-pr.md` |

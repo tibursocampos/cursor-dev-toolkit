@@ -1,6 +1,6 @@
 ---
 name: sdd-develop
-description: Execute one PLAN baby step. Code always in English; updates PLAN .md in the file's language (pt-BR default). Use when the user says "use skill sdd-develop", "implement step", "/sdd-develop". One session = one PLAN step.
+description: Execute one PLAN baby step (code in English; PLAN in file language, pt-BR default). One session = one step. Use when implementing a PLAN step or invoking /sdd-develop.
 ---
 
 ## STOP - Read before ANY tool call
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill sdd-develop`, `implement step`, `execute step`, or `/sdd-develop`.
+Invoke when the user asks for: `/sdd-develop`, `implement step`, `execute step`.
 
 ## Outcome
 
@@ -105,7 +105,7 @@ Glob/Grep/Read scope. Code/tests in English; targeted build/test.
 
 ### 5. Commit (optional)
 
-Offer `use skill commit`; do not auto-commit.
+Offer `/commit`; do not auto-commit.
 
 ### 6. Update PLAN + checkpoint
 
@@ -113,7 +113,7 @@ Offer `use skill commit`; do not auto-commit.
 
 ### 7. Report
 
-Files, tests, `N/M` (pt-BR). Handoff: new chat -> `use skill sdd-develop - <full-plan-path> - Step N+1`.
+Files, tests, `N/M` (pt-BR). Handoff: new chat -> `/sdd-develop - <full-plan-path> - Step N+1`.
 
 ## Must not
 
@@ -127,12 +127,12 @@ Files, tests, `N/M` (pt-BR). Handoff: new chat -> `use skill sdd-develop - <full
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
-| Next step | New session -> `use skill sdd-develop - <full-plan-path> - Step N+1` |
-| All steps done | `use skill code-review` (pass `- single` / `- multi-angle`, or let skill ask) |
+| Commit | `/commit` |
+| Next step | New session -> `/sdd-develop - <full-plan-path> - Step N+1` |
+| All steps done | `/code-review` (pass `- single` / `- multi-angle`, or let skill ask) |
 
 Example full path (Forma A):
 
 ```
-use skill sdd-develop - features/004-export-profile/US01/PLAN/PLAN_004_export_profile.md - Step 2
+/sdd-develop - features/004-export-profile/US01/PLAN/PLAN_004_export_profile.md - Step 2
 ```

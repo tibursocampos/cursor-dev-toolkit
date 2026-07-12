@@ -136,13 +136,13 @@ Do not leave test-only steps inside feature implementation groups.
 ## SDD / Forma C handoff
 
 ```
-use skill sdd-spec -> use skill sdd-plan -> use skill sdd-develop
+/sdd-spec -> /sdd-plan -> /sdd-develop
 ```
 
 or
 
 ```
-use skill orchestrate-analyze
+/orchestrate-analyze
 ```
 
 This file does **not** replace `features/.../PLAN/PLAN_*.md`.

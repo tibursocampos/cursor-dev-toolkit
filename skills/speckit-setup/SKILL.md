@@ -1,9 +1,8 @@
 ---
 name: speckit-setup
-description: >
-  Install Spec Kit dependencies (Python, uv, specify-cli) and global SDD directories on Windows.
-  Use when the user says "use skill speckit-setup", "setup speckit", or "/speckit-setup".
+description: Install Spec Kit dependencies (Python, uv, specify-cli) and global SDD directories on Windows. Use when setting up Spec Kit or invoking /speckit-setup.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -30,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill speckit-setup`, `setup speckit`, `instalar spec kit`, or `/speckit-setup`.
+Invoke when the user asks for: `/speckit-setup`, `setup speckit`, `instalar spec kit`.
 
 ## Outcome
 
@@ -104,5 +103,5 @@ Run: `specify --version`
 ## Handoff
 
 ```
-use skill speckit-init
+/speckit-init
 ```

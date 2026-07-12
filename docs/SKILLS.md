@@ -1,6 +1,6 @@
 # Skills catalog - cursor-dev-toolkit
 
-Canonical kebab-case skill folders under `skills/` (**38 skills**). Invoke with `use skill <name>` or `/<name>`.
+Canonical kebab-case skill folders under `skills/` (**38 skills**). Prefer Cursor slash: `/<name>` (menu shows each skill description). Compat: `use skill <name>` still works.
 
 ## Formas (A / B / C)
 

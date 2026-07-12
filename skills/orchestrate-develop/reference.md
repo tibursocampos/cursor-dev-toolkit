@@ -93,7 +93,7 @@ O3 **orchestrates invocation**; it does **not** replace those documents.
 Give each child:
 
 1. Exact PLAN path + step number/title
-2. Instruction: execute `use skill sdd-develop` contract for **this step only** — load `sdd-develop/SKILL.md`
+2. Instruction: execute `/sdd-develop` contract for **this step only** — load `sdd-develop/SKILL.md`
 3. Instruction: load develop SESSION scoped per `SESSION.md` — `plan-{planHash}.json`, or `plan-{planHash}-step-{N}.json` if this is a same-PLAN parallel spawn
 4. Prior-context paths only (PRD, STORY, CONTINUITY, FEATURE) — do not paste bodies
 5. Must stop after updating PLAN for this step; must run targeted tests before complete
@@ -119,7 +119,7 @@ Update when:
 | **Phase** | `develop` until all planned work done → `review` |
 | **Last agent** | `orchestrate-develop` |
 | **Estado atual** | ≤10 lines |
-| **Handoff tipado** | Full path `use skill …` |
+| **Handoff tipado** | Full path `/…` |
 | **What not to write** | Full code diffs, guideline dumps |
 
 ---
@@ -136,12 +136,12 @@ PLAN: `features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md`
 2) new chat or sim → Task(sdd-develop Step 2) → …
 3) TS01 complete → handoff:
 
-use skill code-review
-use skill code-review - single
-use skill code-review - multi-angle
+/code-review
+/code-review - single
+/code-review - multi-angle
 
 # Manual alternative anytime:
-use skill sdd-develop - features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md - Step 3
+/sdd-develop - features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md - Step 3
 ```
 
 ---
@@ -151,18 +151,18 @@ use skill sdd-develop - features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_pack
 ```text
 ## Handoff O3 → review
 
-use skill code-review
-use skill code-review - single
-use skill code-review - multi-angle
+/code-review
+/code-review - single
+/code-review - multi-angle
 
 ## Continuar develop manual (alternativa a O3)
-use skill sdd-develop - <full-plan-path> - Step {N}
+/sdd-develop - <full-plan-path> - Step {N}
 
 ## Continuar O3
-use skill orchestrate-develop - <full-feature-path>
+/orchestrate-develop - <full-feature-path>
 ```
 
-Handoff `use skill code-review` (user may pass `- single` / `- multi-angle`; if omitted, skill asks). Never required; does not auto-block pipeline.
+Handoff `/code-review` (user may pass `- single` / `- multi-angle`; if omitted, skill asks). Never required; does not auto-block pipeline.
 
 ---
 
@@ -180,25 +180,25 @@ Handoff `use skill code-review` (user may pass `- single` / `- multi-angle`; if 
 ## Canonical invoke strings
 
 ```text
-use skill orchestrate-develop - <full-feature-path>
+/orchestrate-develop - <full-feature-path>
 ```
 
 ```text
-use skill orchestrate-develop - <full-plan-path>
+/orchestrate-develop - <full-plan-path>
 ```
 
 ```text
-use skill sdd-develop - <full-plan-path> - Step N
+/sdd-develop - <full-plan-path> - Step N
 ```
 
 ```text
-use skill code-review
-use skill code-review - single
-use skill code-review - multi-angle
+/code-review
+/code-review - single
+/code-review - multi-angle
 ```
 
 ```text
-use skill orchestrate-deliver - <full-feature-path>
+/orchestrate-deliver - <full-feature-path>
 ```
 
 ---

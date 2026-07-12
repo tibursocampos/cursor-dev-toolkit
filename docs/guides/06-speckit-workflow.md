@@ -4,9 +4,9 @@ The Spec Kit workflow is an alternative to classic SDD, based on the official [G
 
 ---
 
-## Initial Step: `use skill speckit-setup`
+## Initial Step: `/speckit-setup`
 Verifies prerequisites on Windows and installs the CLI.
-**Example:** `use skill speckit-setup`
+**Example:** `/speckit-setup`
 
 The agent will:
 - Verify Python 3.10+.
@@ -16,9 +16,9 @@ The agent will:
 
 ---
 
-## Step 2: `use skill speckit-init`
+## Step 2: `/speckit-init`
 Initializes the Spec Kit structure in the active repository.
-**Example:** `use skill speckit-init`
+**Example:** `/speckit-init`
 
 The agent will:
 - **Storage Resolution:** On the first execution, asks whether you prefer to store plans locally (in the repository) or globally (in `~/.cursor/sdd/`) to avoid cluttering the project's git. This choice is saved in the central `manifest.json`.
@@ -26,9 +26,9 @@ The agent will:
 
 ---
 
-## Step 3: `use skill speckit-spec`
+## Step 3: `/speckit-spec`
 Creates a new technical specification for a feature.
-**Example:** `use skill speckit-spec`
+**Example:** `/speckit-spec`
 
 The agent will:
 - Collect the feature description, current behavior, and expected behavior.
@@ -37,9 +37,9 @@ The agent will:
 
 ---
 
-## Step 4: `use skill speckit-plan`
+## Step 4: `/speckit-plan`
 Generates the detailed plan and checklist from the specification.
-**Example:** `use skill speckit-plan - <path-to-spec.md>`
+**Example:** `/speckit-plan - <path-to-spec.md>`
 
 The agent will:
 - Analyze the `spec.md` and the `constitution.md` of the project.
@@ -49,9 +49,9 @@ The agent will:
 
 ---
 
-## Step 5: `use skill speckit-develop`
+## Step 5: `/speckit-develop`
 Executes tasks iteratively step by step.
-**Example:** `use skill speckit-develop - <path-to-tasks.md>`
+**Example:** `/speckit-develop - <path-to-tasks.md>`
 
 The agent will:
 - Read the first pending task from the `tasks.md` file.

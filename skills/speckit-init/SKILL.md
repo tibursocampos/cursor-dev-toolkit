@@ -1,9 +1,8 @@
 ---
 name: speckit-init
-description: >
-  Initialize Spec Kit (.specify/) with stack-based constitution.md at resolved storage path.
-  Use when the user says "use skill speckit-init", "init speckit", or "/speckit-init".
+description: Initialize Spec Kit (.specify/) with stack-based constitution.md at the resolved storage path. Use when initializing Spec Kit or invoking /speckit-init.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -30,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill speckit-init`, `inicializar speckit`, `init spec kit`, or `/speckit-init`.
+Invoke when the user asks for: `/speckit-init`, `inicializar speckit`, `init spec kit`.
 
 ## Outcome
 
@@ -52,7 +51,7 @@ Invoke when the user asks for: `use skill speckit-init`, `inicializar speckit`, 
 Run: `specify --version`
 
 - If the command fails:
-  - Inform the user (pt-BR): *"A CLI do Spec Kit nÃ£o foi encontrada. Execute primeiro: `use skill speckit-setup`."*
+  - Inform the user (pt-BR): *"A CLI do Spec Kit nÃ£o foi encontrada. Execute primeiro: `/speckit-setup`."*
   - Stop.
 
 ### 1. Resolve storage
@@ -126,5 +125,5 @@ Check whether `.specify/memory/constitution.md` exists and contains the custom-w
 ## Handoff
 
 ```
-use skill speckit-spec
+/speckit-spec
 ```

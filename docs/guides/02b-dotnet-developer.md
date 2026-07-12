@@ -34,11 +34,11 @@ Use when the stack is **known to be .NET** or when `developer` routes here autom
 ## Invoke examples
 
 ```
-use skill dotnet-developer
+/dotnet-developer
 ```
 
 ```
-use skill dotnet-developer - CreateUserValidator allows empty email; reject empty with FluentValidation message.
+/dotnet-developer - CreateUserValidator allows empty email; reject empty with FluentValidation message.
 ```
 
 ---
@@ -50,7 +50,7 @@ use skill dotnet-developer - CreateUserValidator allows empty email; reject empt
 3. Agent creates/checks out `feature/<slug>`.
 4. Implements with xUnit + Moq + FluentAssertions.
 5. `dotnet build` and `dotnet test`.
-6. `use skill code-review` -> `use skill test-coverage` -> `use skill commit`.
+6. `/code-review` -> `/test-coverage` -> `/commit`.
 
 ---
 
@@ -59,9 +59,9 @@ use skill dotnet-developer - CreateUserValidator allows empty email; reject empt
 If scope grows during work (Forma A writes under `features/NNN-slug/US01/`):
 
 ```
-use skill sdd-spec - [feature description]
-use skill sdd-plan - features/NNN-slug/US01/PRD/...
-use skill sdd-develop - features/NNN-slug/US01/PLAN/... - Step 1
+/sdd-spec - [feature description]
+/sdd-plan - features/NNN-slug/US01/PRD/...
+/sdd-develop - features/NNN-slug/US01/PLAN/... - Step 1
 ```
 
 ---

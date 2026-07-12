@@ -4,17 +4,17 @@ Orchestrators and specialists **do not** reimplement stack work. Point implement
 
 | Signal | Route |
 |--------|-------|
-| `.cs` / `.csproj` / EF | `use skill dotnet-developer` |
-| React / TSX | `use skill react-developer` |
-| Angular | `use skill angular-developer` |
-| Vue | `use skill vue-developer` |
-| Blazor | `use skill blazor-developer` |
-| Electron | `use skill electron-developer` |
-| Node / plain JS | `use skill javascript-developer` |
-| Python | `use skill python-developer` |
-| Mixed / unclear | `use skill developer` (router) |
-| UI shape / audit first | `use skill impeccable` -> DESIGN-BRIEF -> stack skill |
-| Blip plugin scaffold | `use skill blip-plugin-developer` |
+| `.cs` / `.csproj` / EF | `/dotnet-developer` |
+| React / TSX | `/react-developer` |
+| Angular | `/angular-developer` |
+| Vue | `/vue-developer` |
+| Blazor | `/blazor-developer` |
+| Electron | `/electron-developer` |
+| Node / plain JS | `/javascript-developer` |
+| Python | `/python-developer` |
+| Mixed / unclear | `/developer` (router) |
+| UI shape / audit first | `/impeccable` -> DESIGN-BRIEF -> stack skill |
+| Blip plugin scaffold | `/blip-plugin-developer` |
 
 ## Orchestrator boundaries
 
@@ -26,4 +26,4 @@ Orchestrators and specialists **do not** reimplement stack work. Point implement
 
 ## Review
 
-After O3 or manual develop: `use skill code-review` (name `- single` or `- multi-angle`, or let the skill ask — no silent default).
+After O3 or manual develop: `/code-review` (name `- single` or `- multi-angle`, or let the skill ask — no silent default).
