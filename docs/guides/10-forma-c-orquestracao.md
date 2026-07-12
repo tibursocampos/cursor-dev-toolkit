@@ -1,6 +1,6 @@
 # Forma C: orquestração multi-agente (O1 / O2 / O3)
 
-**Índice:** [Guides README](README.md) · **PRD:** `PRD/003_orquestracao_multiagente.md` · **PLAN:** `PLAN/PLAN_003_orquestracao_multiagente.md`
+**Índice:** [Guides README](README.md) · **Casos:** [11 NuGet](11-forma-c-caso-nuget-extract.md) · [12 mobile](12-forma-c-caso-mobile-app.md) · **PRD:** `PRD/003_orquestracao_multiagente.md` · **PLAN:** `PLAN/PLAN_003_orquestracao_multiagente.md`
 
 **Idioma deste guide:** pt-BR (guide de agente). Skills e identificadores permanecem em inglês.
 
@@ -176,72 +176,16 @@ Referência: PRD 003 § CA7, §14 Fora de escopo.
 
 ---
 
-## Walkthrough: extração NuGet (cenário bf-ex)
+## Casos de uso (jornadas completas)
 
-Cenário ilustrativo - **não** exige app de produção neste repo. Objetivo: extrair biblioteca compartilhada X para NuGet interno; App A e App B consomem sem quebrar CI.
+Walkthroughs ponta a ponta (Step 0 → O3 → review/commit) em guides dedicados:
 
-### Chat 1 - O1
+| Cenário | Guide |
+|---------|--------|
+| Extração NuGet (brownfield) | [11 - caso NuGet](11-forma-c-caso-nuget-extract.md) |
+| App mobile MAUI (greenfield) | [12 - caso mobile](12-forma-c-caso-mobile-app.md) |
 
-```text
-/orchestrate-analyze
-
-Pedido: Extrair biblioteca compartilhada X para NuGet interno;
-Apps A e B devem consumir o pacote sem quebrar CI.
-```
-
-Triage esperada (exemplo):
-
-| Campo | Valor |
-|-------|--------|
-| Nature | `brownfield` |
-| Complexity | `complex` |
-| Scope | `backend` |
-| needs_api / domain / security / devops | `true` (conforme flags) |
-| needs_frontend / database | `false` (salvo persistência compartilhada) |
-
-Especialistas típicos em paralelo: `repo_analyst`, `architect`, `security`.
-
-Histórias de exemplo:
-
-| Story | Conteúdo |
-|-------|----------|
-| TS01 | Extrair pacote + feed / publish CI |
-| TS02 | App A como consumidor |
-| TS03 | App B como consumidor |
-| US01 *(opcional)* | Fluxo de publish para desenvolvedor |
-
-Após **sim** no backlog:
-
-```text
-/orchestrate-deliver - features/004-nuget-extract/
-```
-
-### Chat 2 - O2 (paralelo)
-
-Modo paralelo: um Task por história **rascunha** PRD/PLAN (sem Write em disco). Pai agrega -> aprovação humana -> pai grava via contratos `sdd-spec` / `sdd-plan`. Após aprovação, handoff típico:
-
-```text
-## Handoff O2 -> develop
-
-Feature: features/004-nuget-extract/
-
-| Story | PRD | PLAN |
-|-------|-----|------|
-| TS01 | features/004-nuget-extract/TS01/PRD/004_nuget_package.md | features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md |
-| TS02 | features/004-nuget-extract/TS02/PRD/004_app_a_consumer.md | features/004-nuget-extract/TS02/PLAN/PLAN_004_app_a_consumer.md |
-
-### Manual (1 step por sessão)
-/sdd-develop - features/004-nuget-extract/TS01/PLAN/PLAN_004_nuget_package.md - Step 1
-
-### Orquestrado (O3)
-/orchestrate-develop - features/004-nuget-extract/
-```
-
-### Chat 3+ - develop e review
-
-- Preferir **uma história por vez** (ex.: TS01 até 100%, depois TS02).
-- Após código: `/code-review` - passe `single`/`multi-angle` ou deixe a skill perguntar.
-- Commit: `/commit` (após **sim**).
+Este guide permanece a referência do contrato O1/O2/O3. Os casos 11/12 mostram invokes, artefatos, especialistas, Step N e pós-código em contexto realista.
 
 ---
 
@@ -263,6 +207,8 @@ Feature: features/004-nuget-extract/
 | Doc | Uso |
 |-----|-----|
 | [01-sdd-workflow.md](01-sdd-workflow.md) | Forma A |
+| [11-forma-c-caso-nuget-extract.md](11-forma-c-caso-nuget-extract.md) | Caso brownfield NuGet |
+| [12-forma-c-caso-mobile-app.md](12-forma-c-caso-mobile-app.md) | Caso greenfield MAUI |
 | [03-code-review.md](03-code-review.md) | Review pós-develop |
 | [05-operational-skills.md](05-operational-skills.md) | Forma B + commit |
 | [AGENTS.md](../../AGENTS.md) | Router após sync |

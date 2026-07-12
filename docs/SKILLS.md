@@ -8,7 +8,7 @@ Canonical kebab-case skill folders under `skills/` (**34 skills**). Prefer Curso
 |-------|--------|-------|
 | **A** Classic SDD | `sdd-spec`, `sdd-plan`, `sdd-develop` | [01-sdd-workflow](guides/01-sdd-workflow.md) |
 | **B** Backlog prep | `refine-backlog-item`, `breakdown-tasks` | [05-operational-skills](guides/05-operational-skills.md) |
-| **C** Orchestrated | `memory-bank-init` (Step 0), `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` | [10-forma-c-orquestracao](guides/10-forma-c-orquestracao.md) |
+| **C** Orchestrated | `memory-bank-init` (Step 0), `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` | [10-forma-c-orquestracao](guides/10-forma-c-orquestracao.md) · [11 NuGet](guides/11-forma-c-caso-nuget-extract.md) · [12 mobile](guides/12-forma-c-caso-mobile-app.md) |
 
 ## Classic SDD (Forma A)
 

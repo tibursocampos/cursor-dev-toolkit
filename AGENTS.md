@@ -21,7 +21,7 @@ Three coexisting **Formas** (none deprecates another). New Classic / Forma C wri
 | **B** Backlog prep | Informal item before SDD | `refine-backlog-item` -> `breakdown-tasks` -> A or C |
 | **C** Orchestrated | Multi-story / brownfield / specialists | `orchestrate-analyze` -> `orchestrate-deliver` -> (`orchestrate-develop` \| `sdd-develop`) |
 
-Guide: `docs/guides/10-forma-c-orquestracao.md` (Forma C + walkthrough NuGet).
+Guide: `docs/guides/10-forma-c-orquestracao.md` (Forma C). Casos: `docs/guides/11-forma-c-caso-nuget-extract.md`, `docs/guides/12-forma-c-caso-mobile-app.md`.
 
 ### Classic SDD (Forma A)
 

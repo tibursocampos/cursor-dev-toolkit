@@ -32,7 +32,7 @@ cursor-dev-toolkit/
 
 See [SKILLS.md](SKILLS.md). Naming: **kebab-case** folders and `/<name>`.
 
-**Forma C (O1/O2/O3):** Step 0 memory-bank -> `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` (Step N refresh-light). Skill `memory-bank-init` for manual create/refresh/refresh-light. Guide: [guides/10-forma-c-orquestracao.md](guides/10-forma-c-orquestracao.md). Classic layout: `features/NNN-slug/` + co-located `memory-bank/` (templates under `skills/_shared/templates/`).
+**Forma C (O1/O2/O3):** Step 0 memory-bank -> `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` (Step N refresh-light). Skill `memory-bank-init` for manual create/refresh/refresh-light. Guide: [guides/10-forma-c-orquestracao.md](guides/10-forma-c-orquestracao.md). End-to-end cases: [11 NuGet](guides/11-forma-c-caso-nuget-extract.md), [12 mobile](guides/12-forma-c-caso-mobile-app.md). Classic layout: `features/NNN-slug/` + co-located `memory-bank/` (templates under `skills/_shared/templates/`).
 
 **Frontend / Blip:** `impeccable` (design router), `blip-plugin-developer` (new Blip extension scaffold). Shared packs: `blip-guidelines/`, `react-guidelines/`, `frontend-guidelines/`. Integration docs: [impeccable-integration.md](impeccable-integration.md), [blip-plugin-integration.md](blip-plugin-integration.md).
 

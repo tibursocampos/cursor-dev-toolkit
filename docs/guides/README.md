@@ -4,7 +4,7 @@ Step-by-step manuals for the most common skills in **cursor-dev-toolkit**. Each 
 
 **Audience:** developers new to SDD in Cursor or to this toolkit.
 
-**Language:** guides are in English except [10 - Forma C](10-forma-c-orquestracao.md) (**pt-BR**). Agent chat replies may still follow your `user-language-pt-br` rule (Brazilian Portuguese). SDD artifacts stay in pt-BR by default; application code stays English.
+**Language:** guides are in English except [10 - Forma C](10-forma-c-orquestracao.md), [11 - caso NuGet](11-forma-c-caso-nuget-extract.md), and [12 - caso mobile](12-forma-c-caso-mobile-app.md) (**pt-BR**). Agent chat replies may still follow your `user-language-pt-br` rule (Brazilian Portuguese). SDD artifacts stay in pt-BR by default; application code stays English.
 
 ---
 
@@ -64,7 +64,7 @@ New task
 | Situation | Path | Guide |
 |-----------|------|--------|
 | Feature, migration, or cross-cutting design (Forma A) | `sdd-spec` -> `sdd-plan` -> `sdd-develop` | [01 - SDD workflow](01-sdd-workflow.md) |
-| Multi-story / brownfield / specialists (Forma C) | `orchestrate-analyze` -> `orchestrate-deliver` -> O3 \| `sdd-develop` | [10 - Forma C](10-forma-c-orquestracao.md) |
+| Multi-story / brownfield / specialists (Forma C) | `orchestrate-analyze` -> `orchestrate-deliver` -> O3 \| `sdd-develop` | [10 - Forma C](10-forma-c-orquestracao.md) · casos [11 NuGet](11-forma-c-caso-nuget-extract.md) / [12 mobile](12-forma-c-caso-mobile-app.md) |
 | Router / unknown stack | `developer` | [02 - developer](02-developer.md) |
 | Small .NET fix, single area, no PRD | `dotnet-developer` | [02b - dotnet-developer](02b-dotnet-developer.md) |
 | React / Angular / Vue / Blazor / Electron / JS / Python | stack skills | [08 - stack developers](08-stack-developers.md) |
@@ -94,6 +94,8 @@ Guide [01 - SDD workflow](01-sdd-workflow.md) uses canonical `features/NNN-slug/
 | [08-stack-developers.md](08-stack-developers.md) | stack `*-developer`, `blip-plugin-developer`, `impeccable` handoff | `/react-developer` · `/blip-plugin-developer` |
 | [09-scripts-and-toolkit.md](09-scripts-and-toolkit.md) | sync, validate, uninstall | `.\scripts\toolkit.ps1` |
 | [10-forma-c-orquestracao.md](10-forma-c-orquestracao.md) | `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` (pt-BR) | `/orchestrate-analyze` · `/orchestrate-deliver - <feature-path>` · `/orchestrate-develop - <feature-path>` |
+| [11-forma-c-caso-nuget-extract.md](11-forma-c-caso-nuget-extract.md) | Forma C end-to-end: NuGet brownfield (pt-BR) | `/orchestrate-analyze` → deliver → develop (see guide) |
+| [12-forma-c-caso-mobile-app.md](12-forma-c-caso-mobile-app.md) | Forma C end-to-end: MAUI greenfield (pt-BR) | `/orchestrate-analyze` → deliver → develop (see guide) |
 
 ---
 
@@ -141,7 +143,7 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list 
 
 | Flow | Steps |
 |------|--------|
-| Forma C (multi-story / brownfield) | `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop` |
+| Forma C (multi-story / brownfield) | `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop` ([10](10-forma-c-orquestracao.md); casos [11](11-forma-c-caso-nuget-extract.md) / [12](12-forma-c-caso-mobile-app.md)) |
 | Repo documentation (RAG in target app) | `document-plan` -> `document-implement` |
 | Backlog -> SDD (Forma B) | `refine-backlog-item` -> optional `breakdown-tasks` -> Forma A or Forma C |
 | Frontend design -> implement | `impeccable shape` -> `DESIGN-BRIEF.md` -> matching `*-developer` |
