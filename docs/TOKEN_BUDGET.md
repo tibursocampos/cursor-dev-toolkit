@@ -11,7 +11,7 @@ Guidelines for **using** and **extending** this toolkit without blowing context 
 | Skills `sdd-spec` + `sdd-plan` + `sdd-develop` | 12-15k total | Yes |
 | `code-review` + `commit` + `developer` + stack skills | ~12k | Yes |
 | Ported operational skills (7 × `SKILL.md` + `reference.md`) | ~18-22k | Yes - **lazy on invoke** |
-| `_shared/backlog-item-types/` (3 templates) | ~3k | Yes - `refine-backlog-item` only |
+| `_shared/backlog-item-types/` (3 templates) | ~3k | Yes - `refine-story` only |
 | `rules/` | 4.6k | Yes |
 | `format-validators` | 4k | Yes |
 | `code-guidelines/principles` | 6k | Yes |
@@ -44,10 +44,10 @@ With lazy-load in `AGENTS.md`:
 | SDD spec | 10-18k |
 | SDD develop (`sdd-develop`) (one step) | 12-20k |
 | Code review | 10-15k |
-| `fix-build` / `add-migrations` | 8-15k |
-| `refine-backlog-item` + `breakdown-tasks` | 10-18k |
+| `repair-dotnet-build` / `ef-add-migration` | 8-15k |
+| `refine-story` + `split-story-checklist` | 10-18k |
 | `document-plan` / `document-implement` (one step) | 12-20k |
-| `create-message-consumer` (scaffold) | 10-16k |
+| `scaffold-message-handler` (scaffold) | 10-16k |
 
 Without lazy-load: **+50-90k** per prompt -> roughly 3-5× monthly cost.
 

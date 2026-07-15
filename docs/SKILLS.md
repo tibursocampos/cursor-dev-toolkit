@@ -1,13 +1,13 @@
 # Skills catalog - cursor-dev-toolkit
 
-Canonical kebab-case skill folders under `skills/` (**34 skills**). Prefer Cursor slash: `/<name>` (menu shows each skill description). Compat: `use skill <name>` still works.
+Canonical kebab-case skill folders under `skills/` (**35 skills**). Prefer Cursor slash: `/<name>` (menu shows each skill description). Compat: `use skill <name>` still works.
 
 ## Formas (A / B / C)
 
 | Forma | Skills | Guide |
 |-------|--------|-------|
 | **A** Classic SDD | `sdd-spec`, `sdd-plan`, `sdd-develop` | [01-sdd-workflow](guides/01-sdd-workflow.md) |
-| **B** Backlog prep | `refine-backlog-item`, `breakdown-tasks` | [05-operational-skills](guides/05-operational-skills.md) |
+| **B** Backlog prep | `refine-story`, `split-story-checklist` | [05-operational-skills](guides/05-operational-skills.md) |
 | **C** Orchestrated | `memory-bank-init` (Step 0), `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` | [10-forma-c-orquestracao](guides/10-forma-c-orquestracao.md) · [11 NuGet](guides/11-forma-c-caso-nuget-extract.md) · [12 mobile](guides/12-forma-c-caso-mobile-app.md) |
 
 ## Classic SDD (Forma A)
@@ -34,6 +34,7 @@ Canonical kebab-case skill folders under `skills/` (**34 skills**). Prefer Curso
 | `developer` | Hybrid router: detects stack and delegates, or fallback for ad-hoc scripts |
 | `dotnet-developer` | Small/medium .NET work without full SDD |
 | `react-developer` | Small/medium React work without full SDD |
+| `react-native-developer` | Small/medium React Native / Expo work without full SDD |
 | `angular-developer` | Small/medium Angular work without full SDD |
 | `vue-developer` | Small/medium Vue 3 work without full SDD |
 | `blazor-developer` | Small/medium Blazor UI (WASM/Server/Hybrid) without full SDD |
@@ -62,12 +63,12 @@ See [impeccable-integration.md](impeccable-integration.md). Do **not** use Antig
 | Skill | Purpose |
 |-------|---------|
 | `code-review` | Structured review vs PRD/PLAN; asks single vs multi-angle if not specified (quality / acceptance / security) |
-| `fix-build` | Diagnose/fix build and tests |
+| `repair-dotnet-build` | Diagnose/fix build and tests |
 | `test-coverage` | .NET Coverlet coverage report |
 | `commit` | Conventional commit on valid branch |
 | `push` | Safe git push after confirmation |
-| `add-migrations` | EF Core migration discovery |
-| `create-message-consumer` | Message consumer scaffold |
+| `ef-add-migration` | EF Core migration discovery |
+| `scaffold-message-handler` | Message consumer scaffold |
 | `refactor` | Safe incremental refactoring |
 | `api-integrate` | Typed API clients from OpenAPI |
 | `performance-profile` | Profiling and optimization |
@@ -85,8 +86,8 @@ See [impeccable-integration.md](impeccable-integration.md). Do **not** use Antig
 
 | Skill | Purpose |
 |-------|---------|
-| `refine-backlog-item` | Refine backlog item + BDD scorecard; prefer `features/.../STORY.md` |
-| `breakdown-tasks` | Grouped implementation checklist with deps |
+| `refine-story` | Refine backlog item + BDD scorecard; prefer `features/.../STORY.md` |
+| `split-story-checklist` | Grouped implementation checklist with deps |
 
 ## Post-sync validation
 

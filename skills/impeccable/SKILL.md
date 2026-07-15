@@ -146,6 +146,7 @@ After user **confirms** the design brief:
 | `target_stack` | Next skill |
 |----------------|------------|
 | `react` | `/react-developer` |
+| `react-native` | `/react-native-developer` |
 | `angular` | `/angular-developer` |
 | `vue` | `/vue-developer` |
 | `blazor` | `/blazor-developer` |

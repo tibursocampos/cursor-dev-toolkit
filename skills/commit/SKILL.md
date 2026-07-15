@@ -1,4 +1,4 @@
-﻿---
+---
 name: commit
 description: Draft a Conventional Commits message and commit on a valid feature branch; optional push. Git-only. Use when committing changes or invoking /commit.
 ---
@@ -166,7 +166,7 @@ Never `git push --force` to `main`, `master`, or `develop`.
 ## Must not
 
 - Commit on `main`, `master`, `develop`, or invalid branch names
-- ADO/MCP work-item APIs, mandatory PR creation, or corporate PR templates
+- External work-item APIs, mandatory PR creation, or org-only PR templates
 - `git add -A` / `git add .` without review (unless user explicitly requests)
 - Deprecated commit skill aliases in user-facing handoff - use `commit` only
 - Auto-commit without message approval

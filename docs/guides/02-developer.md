@@ -33,6 +33,7 @@ Detection order (first match wins). See [08-stack-developers.md](08-stack-develo
 | Blazor markers (`.csproj`, `App.razor`, …) | `blazor-developer` |
 | Electron in `package.json` | `electron-developer` |
 | Vue in `package.json` | `vue-developer` |
+| `react-native` or `expo` in `package.json` | `react-native-developer` |
 | React in `package.json` | `react-developer` |
 | Angular in `package.json` | `angular-developer` |
 | Generic `package.json` (Node) | `javascript-developer` |

@@ -31,6 +31,6 @@ Notes under story `SEC/` (or return markdown): checklist of risks with severity 
 
 ## Rules
 
-- No ADO security gates, mandatory Sonar corp policies, or Keycloak-specific playbooks unless the repo already uses them.
+- No org-only tooling unless the repo already uses it.
 - No code changes.
 - If evidence is missing, say what to verify - do not invent vulnerabilities (**verify-if-missing**).

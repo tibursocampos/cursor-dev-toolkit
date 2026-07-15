@@ -1,6 +1,6 @@
 # Deploy and CI
 
-Production deployment artifacts for Blip plugins from `create-blip-extension` / CRA scaffold.
+Production deployment artifacts for Blip plugins from `create-blip-extension` / CRA scaffold (or a user-provided template).
 
 ## config:plugin
 
@@ -46,21 +46,53 @@ Static nginx image serving the CRA build output:
 
 Match the template's nginx config for SPA routing (fallback to `index.html`).
 
-## azure-pipelines.yml
+## CI detection (do not assume Azure Pipelines)
 
-Production plugins include Azure DevOps pipeline:
+**Never** treat `azure-pipelines.yml` as the production default. Detect what the repo already has:
+
+| Detected | Action |
+|----------|--------|
+| `.github/workflows/*.yml` | Prefer / extend existing GitHub Actions |
+| `azure-pipelines.yml` / `azure-pipelines/*.yml` | Prefer / extend existing Azure Pipelines |
+| Other CI (GitLab, Jenkins, Circle, etc.) | Prefer / extend what is present |
+| **No CI** | Suggest a **minimal GitHub Actions** workflow (build + test + optional Docker); ask before adding |
+
+Typical pipeline steps regardless of vendor:
 
 - Build: `npm ci`, lint, test, coverage, `npm run build`
-- Docker image build and push
-- Helm deploy to Kubernetes
+- Optional: Docker image build and push
+- Optional: Helm deploy to Kubernetes
 
-Internal Blip orgs may use shared pipeline templates. External teams: use as reference and replace template references.
+Deploy-related folders (remove only if the team opts out of K8s / container deploy):
 
-Files tied to CI (remove only if not deploying to K8s/ADO):
-
-- `azure-pipelines.yml`
 - `Dockerfile`
 - `charts/*`
+- Existing CI files under detection above
+
+### Minimal GitHub Actions sketch (when CI is absent)
+
+Suggest something like `.github/workflows/ci.yml` (customize, do not invent org secrets):
+
+```yaml
+name: ci
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint --if-present
+      - run: npm test --if-present
+      - run: npm run build
+```
 
 ## Environment configuration
 

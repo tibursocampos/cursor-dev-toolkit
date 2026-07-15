@@ -1,6 +1,6 @@
-﻿---
-name: add-migrations
-description: Add an EF Core migration in the open workspace. Discovers startup project, DbContext, and migrations folder. Use when adding a migration or invoking /add-migrations.
+---
+name: ef-add-migration
+description: Add an EF Core migration in the open workspace. Discovers startup project, DbContext, and migrations folder. Use when adding a migration or invoking /ef-add-migration.
 ---
 
 ## STOP - Read before ANY tool call
@@ -24,11 +24,11 @@ Gate check:
 
 ---
 
-# Skill: add-migrations
+# Skill: ef-add-migration
 
 ## Trigger
 
-Invoke when the user asks for: `/add-migrations`, `add migration`, `/add-migrations`, or when a PLAN step requires a new EF Core migration.
+Invoke when the user asks for: `/ef-add-migration`, `add migration`, `/ef-add-migration`, or when a PLAN step requires a new EF Core migration.
 
 Optional argument: migration name in **PascalCase**. If omitted, infer from pending model changes and confirm with the user.
 
@@ -40,7 +40,7 @@ A new EF Core migration in the **target workspace** (not `cursor-dev-toolkit` un
 
 | When | Path |
 |------|------|
-| EF tool install / version notes | `skills/add-migrations/reference.md` (this repo) or `~/.cursor/skills/add-migrations/reference.md` after sync |
+| EF tool install / version notes | `skills/ef-add-migration/reference.md` (this repo) or `~/.cursor/skills/ef-add-migration/reference.md` after sync |
 | .NET layering | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
 
 ## Process
@@ -95,7 +95,7 @@ Confirm new `*.cs` + `*.Designer.cs` and updated `*ModelSnapshot.cs` under the m
 ## Must not
 
 - Hardcode EF tool package versions in `SKILL.md` (use `reference.md`)
-- Assume corporate feeds, Azure DevOps, or organization-specific URLs
+- Assume corporate feeds or organization-specific URLs
 - Run migrations against production without explicit user request
 - Modify `cursor-dev-toolkit` when the user intended a consumer repo
 
@@ -104,5 +104,5 @@ Confirm new `*.cs` + `*.Designer.cs` and updated `*ModelSnapshot.cs` under the m
 | Situation | Next |
 |-----------|------|
 | PLAN step with EF | Continue `/sdd-develop - <full-plan-path> - Step N` (path from implement handoff; SDD locations per `STORAGE.md`) |
-| Build/test failures after migration | `/fix-build` |
+| Build/test failures after migration | `/repair-dotnet-build` |
 | Commit | `/commit` |

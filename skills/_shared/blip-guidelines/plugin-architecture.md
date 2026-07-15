@@ -1,6 +1,6 @@
 # Blip Plugin Architecture
 
-Standards for Blip React plugins, based on `blip-stellantis-plugin` (Full) and `blip-na-produtization` (Lite).
+Standards for Blip React plugins using **Lite** and **Full** complexity profiles (technical criteria only).
 
 ## Directory layout
 
@@ -14,12 +14,13 @@ src/
   lib/iframe-messages/        # showToast, showModal wrappers
   lib/constants.js
   assets/locales/{en,es,pt}/
-charts/{plugin-name}/         # Helm (production)
-azure-pipelines.yml
+charts/{plugin-name}/         # Helm (when deploying to K8s)
 Dockerfile
 tailwind.config.js            # tailwind-blip-ds plugin
 cypress/                      # component tests + nyc coverage
 ```
+
+CI files (`.github/workflows/`, `azure-pipelines.yml`, etc.) appear when present — detect; do not assume one vendor. See `deploy-and-ci.md`.
 
 Do not create parallel trees (e.g. `src/component/` and `src/components/`). Follow the scaffold layout.
 

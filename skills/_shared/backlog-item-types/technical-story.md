@@ -1,6 +1,6 @@
 # Backlog item type: Technical Story
 
-Templates and writing rules for `refine-backlog-item`. Output is **markdown in chat** (optional save under `docs/backlog/` in the target repo). No external tracker API.
+Templates and writing rules for `refine-story`. Output is **markdown in chat** (optional save under `docs/backlog/` in the target repo). No external tracker API.
 
 ---
 

@@ -1,4 +1,4 @@
-﻿---
+---
 name: orchestrate-develop
 description: Forma C O3: one Task subagent per PLAN step (sdd-develop contract); parent never writes app code. Updates CONTINUITY; handoff to code-review. Use when invoking /orchestrate-develop.
 ---
@@ -279,7 +279,7 @@ Full copy in `reference.md`.
 - Merge N PLAN steps into one Task / one session context
 - Bypass or weaken `sdd-develop` one-step-per-session contract
 - Auto-commit / auto-push
-- Create ADO / Celebration / Keycloak / mandatory Sonar corp content
+- Create external work-item tracker or org-only compliance content
 - Force multi-angle code-review
 - Introduce git worktrees for multi-US parallelism (MVP)
 - Write new PRD/PLAN (O2 / sdd-spec / sdd-plan own that)

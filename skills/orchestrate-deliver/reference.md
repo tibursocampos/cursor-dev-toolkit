@@ -248,8 +248,8 @@ Do **not** introduce:
 
 - Application or test source writes in O2
 - Forked “mini-spec” that skips sdd-spec/sdd-plan gates
-- `az` boards / ADO work-item commands
-- Celebration, Keycloak, mandatory Sonar corp fields
+- External work-item tracker CLI/API commands
+- External work-item tracker or org-only compliance fields
 - Assumed série/paralelo without asking
 - Changes to `sdd-develop` one-PLAN-step-per-session contract
 - Spec Kit / worktree multi-US changes (out of Forma C MVP)

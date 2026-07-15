@@ -1,6 +1,6 @@
-# add-migrations - reference
+# ef-add-migration - reference
 
-Detailed discovery and EF commands for `skills/add-migrations/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
+Detailed discovery and EF commands for `skills/ef-add-migration/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
 
 ---
 

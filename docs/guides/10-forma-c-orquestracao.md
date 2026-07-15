@@ -24,7 +24,7 @@ Orquestradores **não escrevem código de aplicação**. O contrato de **1 step 
 | Forma | Quando usar | Pipeline |
 |-------|-------------|----------|
 | **A** Classic | Uma feature clara, caminho único | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
-| **B** Backlog | Item informal antes de SDD | `refine-backlog-item` -> `breakdown-tasks` -> A ou C |
+| **B** Backlog | Item informal antes de SDD | `refine-story` -> `split-story-checklist` -> A ou C |
 | **C** Orquestrada | Várias histórias, brownfield, precisa de especialistas | O1 -> O2 -> O3 **ou** `sdd-develop` |
 
 Nenhuma Forma deprecia a outra neste MVP (CA7 / RN02).
@@ -169,7 +169,7 @@ Leitura e gravação Classic SDD **somente** sob `features/NNN-slug/...` (repo o
 | Spec Kit (`speckit-*`) | Removido do toolkit (PRD 004) - use Formas A / B / C |
 | `memory-bank/` + Step 0 | Entregue (PRD 004) - gate só em `orchestrate-*`; Forma A isenta |
 | Git worktrees multi-US | Fora |
-| ADO / Celebration / Sonar corp. / Keycloak | Não portados |
+| Trackers / IdP / corp quality gates org-specific | Not in this toolkit |
 | Blind review ×3 automático no loop de develop | Não |
 
 Referência: PRD 003 § CA7, §14 Fora de escopo.

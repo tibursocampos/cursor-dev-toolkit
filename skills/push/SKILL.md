@@ -1,4 +1,4 @@
-﻿---
+---
 name: push
 description: Execute git push on the current branch after confirmation. Git-only. Use when pushing changes or invoking /push.
 ---
@@ -84,7 +84,7 @@ Return branch and push status.
 
 - Push from invalid branch
 - Force push default branches
-- ADO/MCP work-item APIs or mandatory PR creation
+- External work-item APIs or mandatory PR creation
 
 ## Handoff
 

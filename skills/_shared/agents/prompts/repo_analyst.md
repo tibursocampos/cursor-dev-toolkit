@@ -29,5 +29,5 @@ Write concise notes under the story `ANALYSIS/` folder (or return markdown for t
 
 - Read the codebase with Glob/Grep/Read; do not invent files.
 - No application code changes.
-- No ADO, Celebration, Keycloak, or corporate-only tooling.
+- No org-only tooling unless the repo already uses it.
 - Keep under ~80 lines unless parent asks for depth.

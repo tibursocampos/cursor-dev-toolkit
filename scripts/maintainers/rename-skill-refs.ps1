@@ -4,10 +4,10 @@
   Bulk-replaces legacy skill names with canonical kebab-case names across the repo.
 
 .DESCRIPTION
-  Maps obsolete names to canonical Cursor toolkit skill names:
-  spec -> sdd-spec, plan -> sdd-plan, implement -> sdd-develop,
-  dotnet-developer -> developer, plan-repo-docs -> document-plan,
-  document-repo -> document-implement.
+  Maps obsolete names to canonical Cursor toolkit skill names.
+  Includes legacy SDD renames (spec/plan/implement) and the 2026 ops renames
+  (refine-story, split-story-checklist, repair-dotnet-build, ef-add-migration,
+  scaffold-message-handler).
 
   Longer patterns are applied first to avoid partial replacements.
 
@@ -39,38 +39,57 @@ if (-not $RepoRoot) {
 
 # Order matters: more specific / longer patterns first.
 $replacements = [ordered]@{
-    'use skill document-repo'     = 'use skill document-implement'
-    'use skill plan-repo-docs'    = 'use skill document-plan'
-    'use skill dotnet-developer'  = 'use skill developer'
-    'use skill implement'         = 'use skill sdd-develop'
-    'use skill plan'              = 'use skill sdd-plan'
-    'use skill spec'              = 'use skill sdd-spec'
-    '/document-repo'              = '/document-implement'
-    '/plan-repo-docs'             = '/document-plan'
-    '/dotnet-developer'           = '/developer'
-    '/implement'                  = '/sdd-develop'
-    '/plan'                       = '/sdd-plan'
-    '/spec'                       = '/sdd-spec'
-    'skills/document-repo/'       = 'skills/document-implement/'
-    'skills/plan-repo-docs/'      = 'skills/document-plan/'
-    'skills/dotnet-developer/'    = 'skills/developer/'
-    'skills/implement/'           = 'skills/sdd-develop/'
-    'skills/plan/'                = 'skills/sdd-plan/'
-    'skills/spec/'                = 'skills/sdd-spec/'
-    'name: document-repo'         = 'name: document-implement'
-    'name: plan-repo-docs'        = 'name: document-plan'
-    'name: dotnet-developer'      = 'name: developer'
-    'name: implement'             = 'name: sdd-develop'
-    'name: plan'                  = 'name: sdd-plan'
-    'name: spec'                  = 'name: sdd-spec'
-    '# Skill: document-repo'      = '# Skill: document-implement'
-    '# Skill: plan-repo-docs'     = '# Skill: document-plan'
-    '# Skill: dotnet-developer'   = '# Skill: developer'
-    '# Skill: implement'          = '# Skill: sdd-develop'
-    '# Skill: plan'               = '# Skill: sdd-plan'
-    '# Skill: spec'               = '# Skill: sdd-spec'
-    'sdd-spec -> sdd-plan -> sdd-develop'   = 'sdd-spec -> sdd-plan -> sdd-develop'
-    'spec to plan to implement'   = 'sdd-spec to sdd-plan to sdd-develop'
+    'use skill create-message-consumer' = 'use skill scaffold-message-handler'
+    'use skill refine-backlog-item'     = 'use skill refine-story'
+    'use skill breakdown-tasks'         = 'use skill split-story-checklist'
+    'use skill add-migrations'          = 'use skill ef-add-migration'
+    'use skill fix-build'               = 'use skill repair-dotnet-build'
+    'use skill document-repo'           = 'use skill document-implement'
+    'use skill plan-repo-docs'          = 'use skill document-plan'
+    'use skill implement'               = 'use skill sdd-develop'
+    'use skill plan'                    = 'use skill sdd-plan'
+    'use skill spec'                    = 'use skill sdd-spec'
+    '/create-message-consumer'          = '/scaffold-message-handler'
+    '/refine-backlog-item'              = '/refine-story'
+    '/breakdown-tasks'                  = '/split-story-checklist'
+    '/add-migrations'                   = '/ef-add-migration'
+    '/fix-build'                        = '/repair-dotnet-build'
+    '/document-repo'                    = '/document-implement'
+    '/plan-repo-docs'                   = '/document-plan'
+    '/implement'                        = '/sdd-develop'
+    '/plan'                             = '/sdd-plan'
+    '/spec'                             = '/sdd-spec'
+    'skills/create-message-consumer/'   = 'skills/scaffold-message-handler/'
+    'skills/refine-backlog-item/'       = 'skills/refine-story/'
+    'skills/breakdown-tasks/'           = 'skills/split-story-checklist/'
+    'skills/add-migrations/'            = 'skills/ef-add-migration/'
+    'skills/fix-build/'                 = 'skills/repair-dotnet-build/'
+    'skills/document-repo/'             = 'skills/document-implement/'
+    'skills/plan-repo-docs/'            = 'skills/document-plan/'
+    'skills/implement/'                 = 'skills/sdd-develop/'
+    'skills/plan/'                      = 'skills/sdd-plan/'
+    'skills/spec/'                      = 'skills/sdd-spec/'
+    'name: create-message-consumer'     = 'name: scaffold-message-handler'
+    'name: refine-backlog-item'         = 'name: refine-story'
+    'name: breakdown-tasks'             = 'name: split-story-checklist'
+    'name: add-migrations'              = 'name: ef-add-migration'
+    'name: fix-build'                   = 'name: repair-dotnet-build'
+    'name: document-repo'               = 'name: document-implement'
+    'name: plan-repo-docs'              = 'name: document-plan'
+    'name: implement'                   = 'name: sdd-develop'
+    'name: plan'                        = 'name: sdd-plan'
+    'name: spec'                        = 'name: sdd-spec'
+    '# Skill: create-message-consumer'  = '# Skill: scaffold-message-handler'
+    '# Skill: refine-backlog-item'      = '# Skill: refine-story'
+    '# Skill: breakdown-tasks'          = '# Skill: split-story-checklist'
+    '# Skill: add-migrations'           = '# Skill: ef-add-migration'
+    '# Skill: fix-build'                = '# Skill: repair-dotnet-build'
+    '# Skill: document-repo'            = '# Skill: document-implement'
+    '# Skill: plan-repo-docs'           = '# Skill: document-plan'
+    '# Skill: implement'                = '# Skill: sdd-develop'
+    '# Skill: plan'                     = '# Skill: sdd-plan'
+    '# Skill: spec'                     = '# Skill: sdd-spec'
+    'spec to plan to implement'         = 'sdd-spec to sdd-plan to sdd-develop'
 }
 
 $excludeDirs = @('.git', 'node_modules', 'bin', 'obj')

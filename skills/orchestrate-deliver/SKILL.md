@@ -1,4 +1,4 @@
-﻿---
+---
 name: orchestrate-deliver
 description: Forma C O2: run sdd-spec then sdd-plan per approved US/TS; human-approve PRD/PLAN; emit multi-path handoff. No app code. Use when invoking /orchestrate-deliver.
 ---
@@ -240,7 +240,7 @@ Do **not** paste full PRD/PLAN bodies into the parent chat.
 - Rewrite or fork the `sdd-spec` / `sdd-plan` process into a parallel undocumented flow
 - Skip human approval or treat silence as `sim`
 - Write PRD/PLAN at repo root or outside the story folder
-- Create ADO / Celebration / Keycloak / mandatory Sonar corp content
+- Create external work-item tracker or org-only compliance content
 - Change the `sdd-develop` one-step-per-session contract
 - Create `REFINE/` / `ANALYSIS/` / `ARCH/` / `SEC/` / `PRD/` / `PLAN/` at **repo root**
 - Assume série vs paralelo without asking

@@ -18,7 +18,7 @@ Three coexisting **Formas** (none deprecates another). New Classic / Forma C wri
 | Forma | When | Pipeline |
 |-------|------|----------|
 | **A** Classic SDD | One feature, clear path | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
-| **B** Backlog prep | Informal item before SDD | `refine-backlog-item` -> `breakdown-tasks` -> A or C |
+| **B** Backlog prep | Informal item before SDD | `refine-story` -> `split-story-checklist` -> A or C |
 | **C** Orchestrated | Multi-story / brownfield / specialists | `orchestrate-analyze` -> `orchestrate-deliver` -> (`orchestrate-develop` \| `sdd-develop`) |
 
 Guide: `docs/guides/10-forma-c-orquestracao.md` (Forma C). Casos: `docs/guides/11-forma-c-caso-nuget-extract.md`, `docs/guides/12-forma-c-caso-mobile-app.md`.
@@ -76,12 +76,12 @@ For new Blip React plugins: `blip-plugin-developer` - `/blip-plugin-developer`. 
 | Forma C (complex / multi-story) | Step 0 memory-bank -> `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop` |
 | Memory bank (manual) | `memory-bank-init` (create/refresh/refresh-light; also Step 0 / O3 Step N inside O*) |
 | Repo documentation (RAG) | `document-plan` -> `document-implement` |
-| Backlog -> SDD (Forma B) | `refine-backlog-item` -> `breakdown-tasks` -> Forma A or Forma C |
+| Backlog -> SDD (Forma B) | `refine-story` -> `split-story-checklist` -> Forma A or Forma C |
 | Frontend design -> implement | `impeccable shape` -> `DESIGN-BRIEF.md` -> `*-developer` (one session per step) |
 | Blip plugin scaffold -> implement | `blip-plugin-developer` -> SDD -> `react-developer` (one session per step) |
-| Build / test | `fix-build` -> optional `commit` / `push` |
-| EF migration | `add-migrations` |
-| Message consumer | `create-message-consumer` |
+| Build / test | `repair-dotnet-build` -> optional `commit` / `push` |
+| EF migration | `ef-add-migration` |
+| Message consumer | `scaffold-message-handler` |
 
 ## Rules (always-on)
 
@@ -114,6 +114,7 @@ See full list: `docs/SKILLS.md` in the toolkit repo. Prefer `/<name>` (Cursor sl
 | developer | `/developer` |
 | dotnet-developer | `/dotnet-developer` |
 | react-developer | `/react-developer` |
+| react-native-developer | `/react-native-developer` |
 | angular-developer | `/angular-developer` |
 | vue-developer | `/vue-developer` |
 | blazor-developer | `/blazor-developer` |
@@ -121,12 +122,12 @@ See full list: `docs/SKILLS.md` in the toolkit repo. Prefer `/<name>` (Cursor sl
 | javascript-developer | `/javascript-developer` |
 | python-developer | `/python-developer` |
 | code-review | `/code-review` |
-| fix-build | `/fix-build` |
+| repair-dotnet-build | `/repair-dotnet-build` |
 | test-coverage | `/test-coverage` |
 | commit | `/commit` |
 | push | `/push` |
-| add-migrations | `/add-migrations` |
-| create-message-consumer | `/create-message-consumer` |
+| ef-add-migration | `/ef-add-migration` |
+| scaffold-message-handler | `/scaffold-message-handler` |
 | refactor | `/refactor` |
 | api-integrate | `/api-integrate` |
 | performance-profile | `/performance-profile` |
@@ -134,8 +135,8 @@ See full list: `docs/SKILLS.md` in the toolkit repo. Prefer `/<name>` (Cursor sl
 | i18n-manager | `/i18n-manager` |
 | document-plan | `/document-plan` |
 | document-implement | `/document-implement` |
-| refine-backlog-item | `/refine-backlog-item` |
-| breakdown-tasks | `/breakdown-tasks` |
+| refine-story | `/refine-story` |
+| split-story-checklist | `/split-story-checklist` |
 
 ## Post-sync validation
 

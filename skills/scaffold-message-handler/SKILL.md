@@ -1,6 +1,6 @@
-﻿---
-name: create-message-consumer
-description: Scaffold a message consumer in a .NET workspace (MassTransit, RabbitMQ, or similar). Collects requirements first. Use when creating a consumer or invoking /create-message-consumer.
+---
+name: scaffold-message-handler
+description: Scaffold a message consumer in a .NET workspace (MassTransit, RabbitMQ, Azure Service Bus when detected, or similar). Collects requirements first. Use when creating a consumer or invoking /scaffold-message-handler.
 ---
 
 ## STOP - Read before ANY tool call
@@ -24,7 +24,7 @@ Gate check:
 
 ---
 
-# Skill: create-message-consumer
+# Skill: scaffold-message-handler
 
 ## Status
 
@@ -32,7 +32,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `/create-message-consumer`, `create message consumer`, `/create-message-consumer`, or when a PLAN step adds a new queue/topic handler.
+Invoke when the user asks for: `/scaffold-message-handler`, `create message consumer`, `/scaffold-message-handler`, or when a PLAN step adds a new queue/topic handler.
 
 Optional arguments: message or event name, queue/topic name, or path to an existing consumer to mirror.
 
@@ -49,7 +49,7 @@ In the **target workspace** (not `cursor-dev-toolkit` unless it is the .NET repo
 
 | When | Path |
 |------|------|
-| Detection, checklist, scaffold notes | `skills/create-message-consumer/reference.md` or `~/.cursor/skills/create-message-consumer/reference.md` after sync |
+| Detection, checklist, scaffold notes | `skills/scaffold-message-handler/reference.md` or `~/.cursor/skills/scaffold-message-handler/reference.md` after sync |
 | Generating or reviewing .NET code | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md` |
 | C# / test naming | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
 | Small follow-up without SDD | `/dotnet-developer` |
@@ -68,10 +68,12 @@ Grep/Glob per `reference.md` section Stack detection. Report:
 |--------|----------------|
 | `MassTransit`, `IConsumer<T>` | MassTransit (transport varies) |
 | `RabbitMQ.Client`, `ConnectionFactory` | RabbitMQ direct |
-| `Azure.Messaging.ServiceBus` | Azure Service Bus SDK |
+| `Azure.Messaging.ServiceBus` (or similar ASB packages) | Azure Service Bus SDK |
 | Other | Describe generically; read one existing consumer |
 
-Do **not** assume Azure Service Bus or a specific cloud vendor. Do **not** require corporate `docs/consumidores/` paths.
+**Default when none detected:** MassTransit with RabbitMQ transport (implicit). Still collect requirements before scaffolding. Use Azure Service Bus only when ASB packages or existing ASB wiring are already in the repo.
+
+Do **not** require corporate `docs/consumidores/` paths.
 
 ### 2. Find conventions
 
@@ -119,19 +121,19 @@ Report: stack detected, paths touched, how to run locally, open risks (idempoten
 |-----------|------|
 | Commit | `/commit` |
 | Part of SDD PLAN step | Mark PLAN step; continue in new session if another step remains |
-| Build failure | `/fix-build` |
+| Build failure | `/repair-dotnet-build` |
 
 ## Must not
 
 - Ship or copy hardcoded consumer templates from ai-prompts or internal org repos into the toolkit
-- Assume Azure Service Bus, a specific organization, or proprietary observability tools
+- Assume a specific organization or proprietary observability tools
 - Generate code before requirements are collected and the user confirms the plan
 - Preload entire `dotnet-guidelines/` tree beyond clean-architecture and csharp-patterns when coding
 
 ## Handoff examples
 
 ```
-/fix-build
+/repair-dotnet-build
 ```
 
 ```

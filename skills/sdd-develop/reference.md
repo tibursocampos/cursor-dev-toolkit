@@ -126,7 +126,7 @@ dotnet test --filter "FullyQualifiedName~MyFeatureTests"
 dotnet test path/to/TestProject.csproj
 ```
 
-**Migrations:** when a PLAN step requires a new EF Core migration, hand off to `/add-migrations` (optional migration name in PascalCase). Resume the same PLAN step after migration files exist. Details: `~/.cursor/skills/add-migrations/reference.md` or `skills/add-migrations/reference.md` in this toolkit repo.
+**Migrations:** when a PLAN step requires a new EF Core migration, hand off to `/ef-add-migration` (optional migration name in PascalCase). Resume the same PLAN step after migration files exist. Details: `~/.cursor/skills/ef-add-migration/reference.md` or `skills/ef-add-migration/reference.md` in this toolkit repo.
 
 ---
 
@@ -183,7 +183,7 @@ Include in pause message: saved PLAN path, last step completed, next step id/tit
 |-----------------|--------------|
 | Review diff | `/code-review` |
 | Commit | `/commit` |
-| Open PR | `gh pr create` with repo template - no ADO work-item fields |
+| Open PR | `gh pr create` with repo template - no external work-item fields |
 
 Do not auto-create PRs or link external trackers.
 

@@ -1,6 +1,6 @@
 # Blip Design System (BDS) Guidelines
 
-Usage of Blip Design System in React plugins, from `blip-stellantis-plugin` and `blip-na-produtization`.
+Usage of Blip Design System in React plugins (Lite and Full profiles).
 
 ## Initialization
 
@@ -70,7 +70,7 @@ Prefer consistency within a project - do not mix web components and React wrappe
 
 - Use Tailwind utility classes aligned with BDS spacing scale
 - Page shell: loading state via `<bds-loading-page />` or route-level suspense
-- Tables and grids: follow existing plugin patterns; Stellantis uses custom table components with BDS tokens
+- Tables and grids: follow existing project patterns with BDS tokens; prefer dedicated table components over ad-hoc markup when the repo already has them
 
 ## Do not
 

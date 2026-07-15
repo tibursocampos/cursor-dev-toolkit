@@ -1,6 +1,6 @@
-# create-message-consumer - reference
+# scaffold-message-handler - reference
 
-Stack detection, requirements checklist, and scaffold notes for `skills/create-message-consumer/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
+Stack detection, requirements checklist, and scaffold notes for `skills/scaffold-message-handler/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
 
 **Scaffold:** this file does not contain copy-paste consumer code. Generated code must follow patterns already present in the **target repository**.
 
@@ -14,14 +14,16 @@ Run from the target repository root. Exclude `bin/`, `obj/`, `node_modules/`.
 |--------|-------------|-------|
 | MassTransit | `MassTransit`, `AddMassTransit`, `IConsumer<`, `ConsumerDefinition` | Transport may be RabbitMQ, Azure Service Bus, Amazon SQS, in-memory - read config |
 | RabbitMQ (direct) | `RabbitMQ.Client`, `ConnectionFactory`, `IAsyncBasicConsumer` | May coexist without MassTransit |
-| Azure Service Bus | `Azure.Messaging.ServiceBus`, `ServiceBusClient` | One option among many - not default |
+| Azure Service Bus | `Azure.Messaging.ServiceBus`, `ServiceBusClient` | Use when already present in the repo |
 | AWS | `Amazon.SQS`, `IAmazonSQS` | Generic handling |
 | Kafka | `Confluent.Kafka`, `IConsumer<` (check namespace) | Distinguish from MassTransit `IConsumer` |
 | Hosted generic | `BackgroundService` + `ReadOnlyMemory<byte>` or channel | Document as custom |
 
+**Default when no messaging stack is detected:** MassTransit + RabbitMQ (implicit). Prefer Azure Service Bus only when `Azure.Messaging.ServiceBus` (or similar) is already referenced.
+
 **Config files:** also Glob `appsettings*.json`, `**/MassTransit*` registration, `Program.cs` / `Startup.cs` for `AddMassTransit` or bus connection strings (describe generically in summary - do not echo secrets).
 
-**Output to user:** one-line stack verdict + 1-3 example file paths of existing consumers.
+**Output to user:** one-line stack verdict (detected or default) + 1-3 example file paths of existing consumers when present.
 
 ---
 
@@ -115,16 +117,11 @@ Avoid tests that only assert the consumer class exists.
 
 Do **not** require or generate by default:
 
-- Organization-specific Service Bus namespace or connection templates
-- Proprietary package names from a former monorepo
-- Mandatory Datadog/Sonar/DeskCheck tasks
+- Organization-specific connection templates or proprietary package names from a former monorepo
+- Mandatory Datadog/Sonar/manual sign-off checklist tasks
 - Python or REST scripts to create remote work items
 
-If the target repo has no messaging libraries, stop after step 1 and recommend:
-
-1. Team chooses broker and NuGet packages
-2. First consumer added manually or via `developer` with architectural approval
-
+If the target repo has no messaging libraries, proceed with the **MassTransit / RabbitMQ default** after requirements are collected and the user confirms the plan. Do not block on broker selection unless the user rejects the default.
 ---
 
 ## Relationship to other skills
@@ -133,8 +130,8 @@ If the target repo has no messaging libraries, stop after step 1 and recommend:
 |-------|-----|
 | `developer` | Small consumer in a repo already standardized |
 | `sdd-develop` | PLAN step that includes consumer + tests + PLAN checkbox |
-| `fix-build` | Compile or test failures after scaffold |
-| `add-migrations` | Consumer persists new entities - migration in separate step |
+| `repair-dotnet-build` | Compile or test failures after scaffold |
+| `ef-add-migration` | Consumer persists new entities - migration in separate step |
 
 ---
 

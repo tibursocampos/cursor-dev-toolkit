@@ -32,7 +32,7 @@ Use it in the **post-code workflow** after [code-review](03-code-review.md) and 
 ### Do not use `test-coverage` when
 
 - The repo has **no tests** or **no Coverlet** - add `coverlet.collector` and tests first (see Prerequisites).
-- **`dotnet build` or `dotnet test` already fails** -> `/fix-build` ([05 - operational skills](05-operational-skills.md)).
+- **`dotnet build` or `dotnet test` already fails** -> `/repair-dotnet-build` ([05 - operational skills](05-operational-skills.md)).
 - You only want a **code quality review** without metrics -> [03 - code-review](03-code-review.md).
 - You are working **only in cursor-dev-toolkit** (Markdown docs)-coverage does not apply to this feature’s deliverables.
 
@@ -163,7 +163,7 @@ If new code were **72%**, decision would be **Fail** -> add tests -> re-run `/te
 | **Pass** | `/commit` - [05 - operational skills](05-operational-skills.md) |
 | **Pass** + PR policy | Paste approval block / `Summary.txt` into PR description |
 | **Fail** - add tests | [02 - developer](02-developer.md) or `/sdd-develop - <plan-path> - Step N` |
-| **Fail** - build/tests broken | `/fix-build` - [05 - operational skills](05-operational-skills.md) |
+| **Fail** - build/tests broken | `/repair-dotnet-build` - [05 - operational skills](05-operational-skills.md) |
 | Re-validate quality | `/code-review` - [03 - code-review](03-code-review.md) |
 | Back to skill map | [Guides README](README.md) |
 

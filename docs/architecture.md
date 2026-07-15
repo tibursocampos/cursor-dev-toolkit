@@ -55,6 +55,7 @@ Per-repo file: `~/.cursor/sdd/sessions/{repo-hash}.json`
 | `dotnet-developer` | .NET implementation |
 | `blazor-developer` | Blazor UI implementation |
 | `react-developer` | React implementation (incl. existing Blip plugins + `blip-guidelines/`) |
+| `react-native-developer` | React Native / Expo implementation |
 | `angular-developer` | Angular implementation |
 | `vue-developer` | Vue 3 implementation |
 | `electron-developer` | Electron desktop implementation |

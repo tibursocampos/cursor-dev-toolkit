@@ -6,7 +6,7 @@
 
 ## What it is
 
-This guide collects **eight operational skills** that support day-to-day work after-or instead of-the main flows in guides [01](01-sdd-workflow.md)-[04](04-test-coverage.md). Each mini-manual gives the **invoke**, **when to use**, and **typical handoff**. None require Azure DevOps, Jira APIs, or work-item trackers.
+This guide collects **eight operational skills** that support day-to-day work after-or instead of-the main flows in guides [01](01-sdd-workflow.md)-[04](04-test-coverage.md). Each mini-manual gives the **invoke**, **when to use**, and **typical handoff**. None require external work-item APIs.
 
 All skills run in the **open workspace**-the project you are building-not necessarily the `cursor-dev-toolkit` repo.
 
@@ -23,7 +23,7 @@ All skills run in the **open workspace**-the project you are building-not necess
 
 - **SDD** (`spec` -> `plan` -> `sdd-develop`) for medium/high complexity - [01 - SDD workflow](01-sdd-workflow.md).
 - **`document-plan` / `document-implement`** for **this toolkit’s user guides** - those skills document **application repositories** for RAG. The manuals you are reading live in **`docs/guides/`** inside **cursor-dev-toolkit** and are maintained via SDD/sdd-develop on that repo (RN04).
-- **`fix-build`** when you want to **implement a new feature** - use [02 - developer](02-developer.md) or SDD instead.
+- **`repair-dotnet-build`** when you want to **implement a new feature** - use [02 - developer](02-developer.md) or SDD instead.
 
 ---
 
@@ -42,13 +42,13 @@ All skills run in the **open workspace**-the project you are building-not necess
 | Skill | Invoke |
 |-------|--------|
 | `commit` | `/commit` |
-| `fix-build` | `/fix-build` |
-| `add-migrations` | `/add-migrations` |
+| `repair-dotnet-build` | `/repair-dotnet-build` |
+| `ef-add-migration` | `/ef-add-migration` |
 | `document-plan` | `/document-plan` |
 | `document-implement` | `/document-implement` |
-| `refine-backlog-item` | `/refine-backlog-item` |
-| `breakdown-tasks` | `/breakdown-tasks` |
-| `create-message-consumer` | `/create-message-consumer` |
+| `refine-story` | `/refine-story` |
+| `split-story-checklist` | `/split-story-checklist` |
+| `scaffold-message-handler` | `/scaffold-message-handler` |
 
 ---
 
@@ -66,9 +66,9 @@ All skills run in the **open workspace**-the project you are building-not necess
 
 ---
 
-### fix-build
+### repair-dotnet-build
 
-**Invoke:** `/fix-build`
+**Invoke:** `/repair-dotnet-build`
 
 **When to use:** `dotnet build` or `dotnet test` **already fails** locally or in CI; you need diagnosis and repair, not a greenfield feature.
 
@@ -78,10 +78,10 @@ All skills run in the **open workspace**-the project you are building-not necess
 
 ---
 
-### add-migrations
+### ef-add-migration
 
-**Invoke:** `/add-migrations`  
-Optional: `/add-migrations - AddOrderStatusColumn`
+**Invoke:** `/ef-add-migration`  
+Optional: `/ef-add-migration - AddOrderStatusColumn`
 
 **When to use:** EF Core schema change in the open .NET repo; agent discovers startup project, `DbContext`, and migrations folder via Glob/Grep.
 
@@ -116,23 +116,23 @@ Optional: path to an existing overview file after review.
 
 ---
 
-### refine-backlog-item
+### refine-story
 
-**Invoke:** `/refine-backlog-item`
+**Invoke:** `/refine-story`
 
 **When to use:** You have a rough bug, user story, or technical story and want structured markdown with BDD acceptance criteria and a quality scorecard (saved locally, optional under `docs/backlog/`).
 
-**Typical handoff:** `/breakdown-tasks`, `/sdd-spec` (Forma A), or `/orchestrate-analyze` (Forma C multi-story). Prefer story under `features/NNN-slug/USnn/` when using the new layout.
+**Typical handoff:** `/split-story-checklist`, `/sdd-spec` (Forma A), or `/orchestrate-analyze` (Forma C multi-story). Prefer story under `features/NNN-slug/USnn/` when using the new layout.
 
 **Notes:** No external tracker API; output stays in your repo or chat until you commit.
 
 ---
 
-### breakdown-tasks
+### split-story-checklist
 
-**Invoke:** `/breakdown-tasks`
+**Invoke:** `/split-story-checklist`
 
-**When to use:** After `refine-backlog-item` (or similar input); group implementation steps into a checklist. Preferred path: under the story folder (`features/.../USnn/` or `TSnn/`). Shortcut: `docs/implementation-tasks/<slug>.md` (legacy alias `docs/sdd-developation-tasks/` still accepted).
+**When to use:** After `refine-story` (or similar input); group implementation steps into a checklist. Preferred path: under the story folder (`features/.../USnn/` or `TSnn/`). Shortcut: `docs/implementation-tasks/<slug>.md` (legacy alias `docs/sdd-developation-tasks/` still accepted).
 
 **Typical handoff:** `/sdd-spec` / `/orchestrate-analyze` (complex / multi-story) - paste or reference the refined item and task file; or `/developer` for small scope.
 
@@ -140,9 +140,9 @@ Optional: path to an existing overview file after review.
 
 ---
 
-### create-message-consumer
+### scaffold-message-handler
 
-**Invoke:** `/create-message-consumer`
+**Invoke:** `/scaffold-message-handler`
 
 **When to use:** Scaffold a new **message consumer** in a .NET repo; agent detects MassTransit, RabbitMQ, or other bus via Grep-no fixed corporate template.
 
@@ -166,8 +166,8 @@ Short sequences (Git-only, no work-item tracker)-details in [Install §4.4](../I
 **Backlog -> SDD**
 
 ```
-/refine-backlog-item
-/breakdown-tasks
+/refine-story
+/split-story-checklist
 /sdd-spec
 /sdd-plan - <prd-path>
 /sdd-develop - <plan-path> - Step 1
@@ -176,7 +176,7 @@ Short sequences (Git-only, no work-item tracker)-details in [Install §4.4](../I
 **Build failure -> land fix**
 
 ```
-/fix-build
+/repair-dotnet-build
 /commit
 ```
 
@@ -198,9 +198,9 @@ Short sequences (Git-only, no work-item tracker)-details in [Install §4.4](../I
 
 3. **Committing on `main` / `develop`** - `/commit` enforces branch rules; create `feature/<slug>` first.
 
-4. **Calling `fix-build` for new features** - If the build was green and you need new code, use [developer](02-developer.md) or SDD, not `fix-build`.
+4. **Calling `repair-dotnet-build` for new features** - If the build was green and you need new code, use [developer](02-developer.md) or SDD, not `repair-dotnet-build`.
 
-5. **Skipping `refine-backlog-item` before `spec`** - You can go straight to `spec`, but vague requests produce weak PRDs; refinement improves acceptance criteria.
+5. **Skipping `refine-story` before `spec`** - You can go straight to `spec`, but vague requests produce weak PRDs; refinement improves acceptance criteria.
 
 ---
 
