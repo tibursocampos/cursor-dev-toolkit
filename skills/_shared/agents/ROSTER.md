@@ -4,6 +4,8 @@ Shared prompts and roles for `orchestrate-*` Task subagents. **English** prompt 
 
 Install path after sync: `~/.cursor/skills/_shared/agents/`
 
+**Task model policy:** `SUBAGENT-MODEL.md` (omit `model` by default; rare premium gate + user **sim**).
+
 ## Roster (maximum)
 
 | Role id | When to spawn | Writes (under feature/story) | Must not |

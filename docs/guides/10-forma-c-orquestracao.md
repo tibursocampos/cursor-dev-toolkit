@@ -113,7 +113,7 @@ Antes de O1, O2 ou O3, o orquestrador executa o **Memory Bank Gate** (`MEMORY-BA
 1. **Step 0:** Memory Bank Gate (`auto`) - create/refresh só após **sim**; bank saudável = só leitura.
 2. Descreva a feature (ou cole notas / saída de Forma B).
 3. O agente faz triage: nature, complexity, scope, flags `needs_*`.
-4. Especialistas sobem via Task **só** se a flag for verdadeira (podem receber path do bank).
+4. Especialistas sobem via Task **só** se a flag for verdadeira (podem receber path do bank). Tasks omitem `model` por padrão (herdam Auto/pai); modelo premium só após gate raro + **sim** (`SUBAGENT-MODEL.md`).
 5. Grava `FEATURE.md`, `CONTINUITY.md` (campo Memory-bank), pastas `USnn`/`TSnn` com `STORY.md`.
 6. **Pare** e aprove o backlog (**sim** / ajustar / cancelar).
 7. Handoff: `/orchestrate-deliver - <full-feature-path>`
@@ -122,7 +122,7 @@ Antes de O1, O2 ou O3, o orquestrador executa o **Memory Bank Gate** (`MEMORY-BA
 
 1. **Step 0** de novo no início da sessão O2 (fresh -> sem reescrita).
 2. Informe o path da feature aprovada.
-3. Escolha modo **série** ou **paralelo**. Em paralelo: cada filho **só rascunha** PRD/PLAN; o pai agrega, pede **sim** e grava.
+3. Escolha modo **série** ou **paralelo**. Em paralelo: cada filho **só rascunha** PRD/PLAN; o pai agrega, pede **sim** e grava. Modelo: default sem `model`; pergunta de premium só em história muito difícil (`SUBAGENT-MODEL.md`).
 4. Cada história recebe `PRD/` + `PLAN/` (contratos sdd-spec / sdd-plan).
 5. Aprove PRD/PLAN por história ou em lote.
 6. Receba a tabela de paths + invokes para develop / O3.
@@ -130,7 +130,7 @@ Antes de O1, O2 ou O3, o orquestrador executa o **Memory Bank Gate** (`MEMORY-BA
 ### O3 - `orchestrate-develop` (ou manual)
 
 1. **Step 0** no início da sessão O3; filhos recebem path do bank para leitura.
-2. O3: pai atualiza CONTINUITY e dispara **um** subagente por passo pendente (deps respeitadas).
+2. O3: pai atualiza CONTINUITY e dispara **um** subagente por passo pendente (deps respeitadas). Default: Task sem `model`; em passo muito difícil pode sugerir modelo premium e só aplica após **sim** (`SUBAGENT-MODEL.md`).
 3. Manual: nova sessão por passo - `/sdd-develop - <plan> - Step N` (Forma A: gate memory-bank **opcional**).
 4. Ao concluir a história: `/code-review` (single ou multi-ângulo; se omitir, a skill pergunta).
 

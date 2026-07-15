@@ -57,6 +57,7 @@ Does **not** write PRD/PLAN (that is O2 via `sdd-spec` / `sdd-plan` contracts). 
 | Step 0 Memory Bank Gate | `~/.cursor/skills/_shared/sdd-artifacts/MEMORY-BANK.md` |
 | Memory-bank create/refresh | `~/.cursor/skills/memory-bank-init/SKILL.md` |
 | Roster, `needs_*`, triage table | `~/.cursor/skills/_shared/agents/ROSTER.md` |
+| Task subagent model (default omit; rare premium gate) | `~/.cursor/skills/_shared/agents/SUBAGENT-MODEL.md` |
 | Stack routing (implement later) | `~/.cursor/skills/_shared/agents/ROUTING.md` |
 | Templates | `~/.cursor/skills/_shared/templates/features/{FEATURE,CONTINUITY,TREE}.md`, `.../story/STORY.md` |
 | Specialist prompts | `~/.cursor/skills/_shared/agents/prompts/{repo_analyst,architect,security,database,impact,risk,generate-story}.md` |
@@ -141,6 +142,8 @@ Only continue to step 6+ if the user explicitly chooses **2**.
 ### 7. Spawn Task specialists (conditional, parallel)
 
 Spawn a Task subagent **only** when `ROSTER.md` canonical `needs_*` / brownfield rules say so. Load prompt from `skills/_shared/agents/prompts/`. When multiple specialists apply, spawn **in parallel** - **cap: 4** concurrent Tasks; if more flags apply, batch in waves of ≤4 or ask (pt-BR) to run série.
+
+**Model (`SUBAGENT-MODEL.md`):** omit Task `model` by default (inherit parent / Auto). Ask about a premium slug **only** for very hard work per that contract; on **não** / silence, spawn without `model`. Never pick a costlier model alone.
 
 | Signal (see ROSTER) | Specialist | Prompt |
 |---------------------|------------|--------|
@@ -232,6 +235,7 @@ Do **not** paste full specialist dumps into the parent chat.
 - Change the `sdd-develop` one-step-per-session contract
 - Create `REFINE/` / `ANALYSIS/` / `ARCH/` / `SEC/` / `PRD/` / `PLAN/` at **repo root**
 - Resolve feature paths outside `$Cwd/features/` or `<classic.path>/features/`, or accept `..` segments
+- Pass Task `model` without `SUBAGENT-MODEL.md` gate + user **sim** (or user-named slug); ask model on routine spawns
 
 ## Handoff
 

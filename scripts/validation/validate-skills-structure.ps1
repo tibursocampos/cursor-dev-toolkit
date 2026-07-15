@@ -43,6 +43,7 @@ $centralArtifacts = @(
     'skills\_shared\templates\memory-bank\tech-stack.json',
     'skills\_shared\agents\ROSTER.md',
     'skills\_shared\agents\ROUTING.md',
+    'skills\_shared\agents\SUBAGENT-MODEL.md',
     'scripts\inventory\Invoke-MemoryBankInventory.ps1'
 )
 

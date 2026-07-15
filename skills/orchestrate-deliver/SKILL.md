@@ -58,6 +58,7 @@ Orchestrator **does not** implement application code. **Does not** rewrite `sdd-
 | Spec contract | `~/.cursor/skills/sdd-spec/SKILL.md` (+ `reference.md` as needed) |
 | Plan contract | `~/.cursor/skills/sdd-plan/SKILL.md` (+ `reference.md` as needed) |
 | Modes, approval, handoff examples | `skills/orchestrate-deliver/reference.md` |
+| Task subagent model (default omit; rare premium gate) | `~/.cursor/skills/_shared/agents/SUBAGENT-MODEL.md` |
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
 
 ## Process
@@ -137,6 +138,8 @@ Modo de execução?
 | **3** | Stop; no writes |
 
 Document the choice in `CONTINUITY.md` (decisões).
+
+**Model (`SUBAGENT-MODEL.md`):** omit Task `model` by default. Premium slug only after the rare hard-task gate + user **sim**; **não** / silence → omit `model`.
 
 ### 6. Per-story contracts (reuse, do not rewrite)
 
@@ -236,6 +239,7 @@ Do **not** paste full PRD/PLAN bodies into the parent chat.
 - Let parallel Task children `Write` PRD/PLAN to disk (parent-only writes after **sim**)
 - Resolve feature paths outside `$Cwd/features/` or `<classic.path>/features/`, or accept `..` segments
 - Require memory-bank for Forma A / manual `sdd-*` (CA7 - gate is Forma C `orchestrate-*` only)
+- Pass Task `model` without `SUBAGENT-MODEL.md` gate + user **sim** (or user-named slug); ask model on routine story drafts
 
 ## Handoff
 

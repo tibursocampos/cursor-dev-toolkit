@@ -31,7 +31,7 @@ Guidelines for **using** and **extending** this toolkit without blowing context 
 7. **code-guidelines in layers** - default: `principles/` only; add `languages/dotnet/` only when needed.
 8. **Lean router** - `AGENTS.md` < 150 lines; table of paths, no pasted guidelines.
 9. **Search before Read** - grep for scope; read only relevant chunks.
-10. **Match model to task** - fast tier for trim/docs; premium for architecture decisions only.
+10. **Subagent models (Forma C)** - omit Task `model` by default (inherit parent / Auto). Premium slug only after the rare hard-task gate + user **sim** (`skills/_shared/agents/SUBAGENT-MODEL.md`); never silent premium.
 
 ## Recurring use (daily)
 

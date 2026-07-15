@@ -58,6 +58,7 @@ Required: full feature path **or** a specific `PLAN/PLAN_NNN_*.md` path under a 
 | SESSION gates | `~/.cursor/skills/_shared/sdd-artifacts/SESSION.md` |
 | CONTINUITY template | `~/.cursor/skills/_shared/templates/features/CONTINUITY.md` |
 | Anti-bypass, parallelism, handoffs | `skills/orchestrate-develop/reference.md` |
+| Task subagent model (default omit; rare premium gate) | `~/.cursor/skills/_shared/agents/SUBAGENT-MODEL.md` |
 | Code review (ask mode) | `~/.cursor/skills/code-review/SKILL.md` |
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
 
@@ -119,6 +120,8 @@ Silence ≠ approval (RN01).
 ### 5. Spawn exactly one step child (CA5)
 
 **Hard rule:** one Task = one PLAN step = full `sdd-develop` contract.
+
+**Model (`SUBAGENT-MODEL.md`):** omit Task `model` by default (inherit parent / Auto). Ask about a premium slug **only** for very hard PLAN steps per that contract; on **não** / silence, spawn without `model`. Never pick a costlier model alone.
 
 Child must:
 
@@ -273,6 +276,7 @@ Full copy in `reference.md`.
 - Introduce git worktrees for multi-US parallelism (MVP)
 - Write new PRD/PLAN (O2 / sdd-spec / sdd-plan own that)
 - Require memory-bank for manual Forma A `sdd-develop` (CA7)
+- Pass Task `model` without `SUBAGENT-MODEL.md` gate + user **sim** (or user-named slug); ask model on routine PLAN steps
 
 ## Handoff
 
