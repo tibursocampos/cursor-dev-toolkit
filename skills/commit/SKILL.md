@@ -1,4 +1,4 @@
----
+﻿---
 name: commit
 description: Draft a Conventional Commits message and commit on a valid feature branch; optional push. Git-only. Use when committing changes or invoking /commit.
 ---
@@ -45,6 +45,9 @@ One or more **Conventional Commits** on `feature/<slug>` or `feat/<id>`, with an
 | Message validator (commit-message-validator step) | `~/.cursor/skills/_shared/format-validators/commit-message-validator.md` |
 
 ## Process
+
+### Caveman Mode
+**NEVER** - This skill ignores `caveman_mode`. Use clear prose always. Do not load `CAVEMAN.md` for chat compression. Commit/PR text stays normal English.
 
 ### 0. Workspace
 

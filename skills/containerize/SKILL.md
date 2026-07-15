@@ -1,4 +1,4 @@
-﻿---
+---
 name: containerize
 description: Write multi-stage Dockerfiles, .dockerignore, and docker-compose for local dev. Use when dockerizing a project or invoking /containerize.
 ---
@@ -50,9 +50,16 @@ A set of production-ready container configurations:
 | When | Path (after `scripts/sync-cursor.ps1`) |
 |------|----------------------------------------|
 | DevOps context | `~/.cursor/skills/_shared/devops-guidelines/deployment-process.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - Full mode |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full cap** |
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### -1. Re-check guardrails and session
 
@@ -67,11 +74,6 @@ Antes de containerizar, confirme:
 Posso seguir? (sim / ajustar / cancelar)
 ```
 
-### -2. Caveman Mode Check
-
-Check `~/.cursor/sdd/preferences.json`:
-- If file missing -> create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` and honor active compressions.
 
 ### 0. Workspace Inspection
 

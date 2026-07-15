@@ -107,3 +107,5 @@ Set gates to `true` only after user **sim**.
 ## Never compress (Caveman Mode)
 
 Confirmation gates, artifact drafts, and git-block notices are **never** subject to Caveman compression.
+Skills `commit` / `push` ignore `caveman_mode` (clear prose). Auto-Clarity drops compression for security and irreversible confirms.
+Contract: `~/.cursor/skills/_shared/caveman/CAVEMAN.md`. Optional narrative compact: `COMPACT.md` (requires user **sim**). Always-on rule: `caveman-mode.mdc`.

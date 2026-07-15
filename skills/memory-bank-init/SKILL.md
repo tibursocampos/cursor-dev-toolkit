@@ -1,4 +1,4 @@
----
+﻿---
 name: memory-bank-init
 description: Create or refresh workspace memory-bank/ (MVP contract + read-only inventory). Path follows STORAGE manifest. No app code; no uv/specify. Use when invoking /memory-bank-init or Forma C Step 0 / Step N needs create/refresh/refresh-light.
 ---
@@ -62,6 +62,8 @@ memory-bank/
 
 | When | Path |
 |------|------|
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Lite cap** |
+| Narrative compact (optional) | `~/.cursor/skills/_shared/caveman/COMPACT.md` — CONTINUITY / known-risks only; requires user **sim** |
 | Gate policies, stale, versioning, Step N | `~/.cursor/skills/_shared/sdd-artifacts/MEMORY-BANK.md` |
 | Manifest, `bank_root`, `.gitignore` | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
 | Templates | `~/.cursor/skills/_shared/templates/memory-bank/` |
@@ -70,6 +72,13 @@ memory-bank/
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
 
 ## Process
+
+### Step -1b - Caveman Mode (Lite cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Lite** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### 1. Gate check
 
@@ -118,7 +127,7 @@ If script path unavailable, run equivalent Glob/Grep from `reference.md` and wri
 |------|--------|
 | create | Copy templates from `templates/memory-bank/`; fill GENERATED regions + obvious fields from inventory/README/AGENTS |
 | refresh | Re-run inventory; update GENERATED regions and `tech-stack.json`; preserve human prose outside markers |
-| refresh-light | Re-run inventory; update GENERATED regions and `tech-stack.json` only; do not rewrite human prose sections; append history with `action: refresh-light` |
+| refresh-light | Re-run inventory; update GENERATED regions and `tech-stack.json` only; do not rewrite human prose sections; append history with `action: refresh-light`. If `caveman_mode` ON and narrative files are large, **offer** (do not auto-run) compact via `COMPACT.md` for `known-risks.md` / feature `CONTINUITY.md` after inventory. |
 
 Rules:
 

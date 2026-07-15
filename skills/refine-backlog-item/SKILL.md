@@ -1,4 +1,4 @@
----
+﻿---
 name: refine-backlog-item
 description: Refine a Bug, User Story, or Technical Story into structured markdown with BDD acceptance and a quality scorecard. Use when refining backlog or invoking /refine-backlog-item.
 ---
@@ -47,6 +47,7 @@ Does **not** create or update cards in external work-item trackers.
 
 | When | Path |
 |------|------|
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Lite cap** |
 | Type templates | `skills/_shared/backlog-item-types/{bug,user-story,technical-story}.md` or `~/.cursor/skills/_shared/backlog-item-types/` after sync |
 | Scorecard rubric, boundaries vs O1 / sdd-spec | `skills/refine-backlog-item/reference.md` |
 | Feature storage | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`, `PIPELINE.md` |
@@ -54,6 +55,13 @@ Does **not** create or update cards in external work-item trackers.
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
 
 ## Process
+
+### Step -1b - Caveman Mode (Lite cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Lite** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### 0. Workspace
 

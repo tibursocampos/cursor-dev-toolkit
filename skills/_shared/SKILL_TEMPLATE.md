@@ -47,6 +47,30 @@ Gate check:
 
 For **`orchestrate-analyze` / `orchestrate-deliver` / `orchestrate-develop`**, change the PIPELINE line to: `PIPELINE.md read (required for orchestrate-*)`.
 
+### Caveman (participating skills)
+
+Add under **Process** (after gate check). Cap = `Lite` | `Full` | `Never` per `_shared/caveman/CAVEMAN.md` participation table. Always-on rule `caveman-mode.mdc` also reads prefs; skills still run Step -1b for cap.
+
+**Lite / Full:**
+
+```
+### Step -1b - Caveman Mode ({Lite|Full} cap)
+1. Read ~/.cursor/sdd/preferences.json (create { "caveman_mode": false, "caveman_level": "full" } if missing).
+2. If caveman_mode is false: continue without compression.
+3. If true: load _shared/caveman/CAVEMAN.md; apply skill cap + caveman_level; show [Caveman] activation notice once.
+4. Honor caveman on|off|status|lite|full|ultra during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths.
+```
+
+**NEVER** (`commit`, `push`):
+
+```
+### Caveman Mode
+**NEVER** - Ignore caveman_mode. Clear prose only. Do not compress commit/PR text.
+```
+
+Lazy-load row when applicable: `| Caveman Mode (if active) | ~/.cursor/skills/_shared/caveman/CAVEMAN.md - **{Lite|Full} cap** |`
+
 ---
 
 ## Skill-specific sections (below the header)
@@ -58,7 +82,7 @@ The STOP block above is ~27 lines and does not count toward editorial budget.
 - **Trigger** - lead with `/<name>`; optional one-line note that `use skill <name>` still works
 - **Outcome**
 - **Lazy-load**
-- **Process**
+- **Process** (include Caveman Step -1b or NEVER block)
 - **Must not**
 - **Handoff** - exact next string: `` `/next-skill - <full-paths>` ``
 

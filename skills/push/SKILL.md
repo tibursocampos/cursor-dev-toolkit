@@ -44,6 +44,9 @@ Current branch pushed to `origin` with upstream set when needed. No force-push o
 
 ## Process
 
+### Caveman Mode
+**NEVER** - This skill ignores `caveman_mode`. Use clear prose always. Do not load `CAVEMAN.md` for chat compression. Commit/PR text stays normal English.
+
 ### -1. Re-check guardrails and session
 
 If missing, ask user (pt-BR):

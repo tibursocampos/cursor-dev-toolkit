@@ -1,4 +1,4 @@
-﻿---
+---
 name: sdd-plan
 description: Create a baby-step PLAN from an existing PRD (agent PLAN .md, pt-BR default). Feeds sdd-develop. Use when creating a plan or invoking /sdd-plan.
 ---
@@ -40,22 +40,22 @@ A **PLAN** in **pt-BR** at a **canonical** path under `features/NNN-slug/USnn/PL
 |------|------|
 | Pipeline guards, missing PRD dialog | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` |
 | Storage, manifest, `.gitignore` | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Lite mode** |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Lite cap** |
 | SDD language, context, .NET | `sdd-artifact-language-pt-br.mdc`, `context-management.mdc`, `dotnet-guidelines/*.md` |
 
 ## Process
+
+### Step -1b - Caveman Mode (Lite cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Lite** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### -1. Pipeline and mode
 
 Load `STORAGE.md` and `PIPELINE.md`. Use `STORAGE.md` schema v2 and run the dynamic storage resolution algorithm with parameter `$Workflow = classic`. Resolve `storage_mode` and `path` for the active repository. If this is the first run for the repository, execute storage mode selection and persist it in `manifest.json`.
 Phase A/B as for `sdd-spec`. No PRD authoring; no production/test code.
-
-Check `~/.cursor/sdd/preferences.json`:
-- If file missing -> create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (**Lite mode** rules only) and display:
-  > Modo Caveman ativo (respostas compactas - Lite). Digite `caveman off` a qualquer momento para desativar.
-- In Lite mode: compress only framing and introductions. Plan drafts, confirmation gates, and clarifying questions are **never** compressed.
-- Honor `caveman on` / `caveman off` at any point during the session.
 
 ### 0. Workspace
 

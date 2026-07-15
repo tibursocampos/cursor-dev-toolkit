@@ -44,6 +44,9 @@ $centralArtifacts = @(
     'skills\_shared\agents\ROSTER.md',
     'skills\_shared\agents\ROUTING.md',
     'skills\_shared\agents\SUBAGENT-MODEL.md',
+    'skills\_shared\agents\RECEIPT.md',
+    'skills\_shared\caveman\CAVEMAN.md',
+    'skills\_shared\caveman\COMPACT.md',
     'scripts\inventory\Invoke-MemoryBankInventory.ps1'
 )
 
@@ -154,6 +157,30 @@ foreach ($dir in $skillDirs) {
     )
     if ($dir.Name -in $workflowSkills -and $lineCount -lt 100) {
         Write-Warning "$relativeSkill : workflow skill is only $lineCount lines (soft minimum ~100)"
+    }
+
+    # Caveman participation wiring (see _shared/caveman/CAVEMAN.md)
+    $cavemanLite = @(
+        'sdd-spec', 'sdd-plan', 'orchestrate-analyze', 'orchestrate-deliver',
+        'document-plan', 'refine-backlog-item', 'memory-bank-init'
+    )
+    $cavemanFull = @(
+        'sdd-develop', 'orchestrate-develop', 'document-implement', 'breakdown-tasks',
+        'code-review', 'developer', 'fix-build', 'test-coverage',
+        'dotnet-developer', 'react-developer', 'vue-developer', 'angular-developer',
+        'blazor-developer', 'electron-developer', 'javascript-developer', 'python-developer',
+        'api-integrate', 'containerize', 'i18n-manager', 'performance-profile', 'refactor'
+    )
+    $cavemanNever = @('commit', 'push')
+    if ($dir.Name -in $cavemanNever) {
+        if ($content -notmatch '(?m)^\*\*NEVER\*\*') {
+            $failures += "$relativeSkill : Caveman NEVER skills must declare **NEVER**"
+        }
+    }
+    elseif ($dir.Name -in $cavemanLite -or $dir.Name -in $cavemanFull) {
+        if ($content -notmatch 'Step -1b - Caveman Mode') {
+            $failures += "$relativeSkill : missing Step -1b - Caveman Mode block"
+        }
     }
 }
 

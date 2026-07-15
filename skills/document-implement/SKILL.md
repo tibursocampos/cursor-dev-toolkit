@@ -1,4 +1,4 @@
----
+﻿---
 name: document-implement
 description: Execute the next pending step from docs/documentation-plan/plan.md and write domain docs for RAG. Use when documenting the repo or invoking /document-implement.
 ---
@@ -40,12 +40,20 @@ One **documentation plan step** completed in the target repo: new/updated markdo
 
 | When | Path |
 |------|------|
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full cap** |
 | Plan template, update rules | `skills/document-plan/reference.md` section Plan template & Update protocol |
 | SDD vs RAG plan boundary | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` |
 | Session gates (PLAN-scoped) | `~/.cursor/skills/_shared/sdd-artifacts/SESSION.md` |
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### 0. Workspace, plan, and stack
 

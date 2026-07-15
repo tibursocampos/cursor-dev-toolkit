@@ -10,6 +10,7 @@ Install path after sync: `~/.cursor/skills/_shared/agents/SUBAGENT-MODEL.md`
 2. Child inherits the parent chat model (user’s Cursor selection — typically Auto / cheapest).
 3. Do **not** ask the user about model choice for routine work.
 4. Do **not** pick composer / gpt / grok / premium slugs on your own.
+5. If Caveman is ON: require end-of-pass **receipt** per `RECEIPT.md`; inherit parent intensity; keep gates/drafts clear (Auto-Clarity).
 
 ## Rare premium gate
 

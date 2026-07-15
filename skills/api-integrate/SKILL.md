@@ -1,4 +1,4 @@
-﻿---
+---
 name: api-integrate
 description: Generate typed API clients and DTOs from OpenAPI/Swagger. Use when integrating an API or invoking /api-integrate.
 ---
@@ -53,9 +53,16 @@ A typed, modular, and robust API client containing:
 | C# projects | `~/.cursor/skills/_shared/dotnet-guidelines/clean-architecture.md`, `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
 | JavaScript / TypeScript | `~/.cursor/skills/_shared/javascript-guidelines/clean-code-ts.md`, `~/.cursor/skills/_shared/javascript-guidelines/google-ts-style.md` |
 | Python projects | `~/.cursor/skills/_shared/python-guidelines/google-style.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - Full mode |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full cap** |
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### -1. Re-check guardrails and session
 
@@ -70,11 +77,6 @@ Antes da integracao de API, confirme:
 Posso seguir? (sim / ajustar / cancelar)
 ```
 
-### -2. Caveman Mode Check
-
-Check `~/.cursor/sdd/preferences.json`:
-- If file missing -> create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` and honor active compressions.
 
 ### 0. Detect Tech Stack and Locate Schema
 

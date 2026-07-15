@@ -1,73 +1,72 @@
-# Caveman Response Compression Guide
+# Guide 07: Caveman Mode
 
-This guide details the **Caveman Response Compression Mode**, an optional feature designed to reduce output token consumption by stripping away polite filler text and verbose progress narration, while fully protecting technical facts, code blocks, and confirmation gates.
+Optional response compression: shorter chat prose, same technical substance. Not roleplay — notices use ASCII `[Caveman]`.
 
----
+Full contract: `skills/_shared/caveman/CAVEMAN.md`  
+Always-on rule: `rules/caveman-mode.md` → `~/.cursor/rules/caveman-mode.mdc`  
+Optional continuity/memory compact: `skills/_shared/caveman/COMPACT.md`
 
-## 1. What is Caveman Mode?
+Inspired by [juliusbrussee/caveman](https://github.com/juliusbrussee/caveman) (portable ideas only).
 
-Caveman Mode directs the agent to communicate in telegraphic, extremely concise fragments rather than complete polite paragraphs. 
+## State
 
-* **Goal**: Reduce token usage (expected savings of **22-87%** of conversational prose tokens).
-* **Rule**: Go straight to the technical facts and actions.
-* **Exceptions**: Never compress code blocks, file paths, security/git warnings, or confirmation options.
+File: `~/.cursor/sdd/preferences.json`
 
----
+```json
+{
+  "caveman_mode": false,
+  "caveman_level": "full"
+}
+```
 
-## 2. Configuration & State
+Commands:
 
-Caveman Mode's state is persisted globally on the user's machine:
+| Command | Effect |
+|---------|--------|
+| `caveman on` | Enable mode (default level `full`) |
+| `caveman off` / `stop caveman` / `normal mode` | Disable |
+| `caveman status` | Report on/off + level |
+| `caveman lite` / `full` / `ultra` | Set intensity (turns mode on if needed) |
 
-* **File Location**: `~/.cursor/sdd/preferences.json`
-* **JSON Structure**:
-  ```json
-  {
-    "caveman_mode": false
-  }
-  ```
+## Intensity
 
-### Lifecycle & Resolution Algorithm (Step -1)
-Every participating skill executes a validation and load check at **Step -1**:
-1. **Detection**: Check if `preferences.json` exists.
-2. **Auto-creation**: If the file is missing, create it with `"caveman_mode": false` (disabled by default).
-3. **Execution**: If `"caveman_mode": true`, the skill loads `_shared/caveman/CAVEMAN.md` rules and displays this activation notice in the chat:
-   > 🪨 Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
+| Level | Use when |
+|-------|----------|
+| **lite** | Planning / clarifying — full sentences, no filler |
+| **full** | Default — telegraphic fragments |
+| **ultra** | Long Forma C / review sessions only |
 
-### In-Session Control Commands
-The user can toggle the state at any point in the chat session:
-* **`caveman on`**: Modifies the preferences file to set `caveman_mode: true` and confirms in chat: `"🪨 Modo Caveman ativado."`
-* **`caveman off`**: Modifies the preferences file to set `caveman_mode: false` and confirms in chat: `"🪨 Modo Caveman desativado."`
+Skill **caps** still apply (Lite skills never escalate to ultra from prefs).
 
----
+## Participation
 
-## 3. Participation Levels
+| Cap | Skills |
+|-----|--------|
+| **NEVER** | `commit`, `push` |
+| **LITE** | `sdd-spec`, `sdd-plan`, `orchestrate-analyze`, `orchestrate-deliver`, `document-plan`, `refine-backlog-item`, `memory-bank-init` |
+| **FULL** | `sdd-develop`, `orchestrate-develop`, `document-implement`, `breakdown-tasks`, `code-review`, `developer`, `fix-build`, `test-coverage`, stack `*-developer`, ops (`api-integrate`, `containerize`, `i18n-manager`, `performance-profile`, `refactor`), general chat |
 
-Different skills implement compression to varying degrees to preserve clarity where it matters most:
+## Auto-Clarity
 
-| Participation Level | Skills | Behavior |
-|---|---|---|
-| **NEVER** | `commit` | Standard communication. Excluded to ensure critical git operations and commit messages remain completely natural. |
-| **LITE** | `sdd-spec`, `sdd-plan` | Compresses preambles and greeting text, but preserves clarifying questions and artifact drafts (like PRD/PLAN previews) 100% intact. |
-| **FULL** | `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop` | Compresses all prose. Strips introductory and concluding pleasantries entirely. Uses direct bullet points and action statements instead of sentences. |
+Drop compression for security warnings, irreversible confirms, ambiguous multi-step order, or when the user asks to clarify. Resume after.
 
----
+## Never-compress
 
-## 4. Universal Protections
+- Gates `(sim / ajustar / cancelar)`
+- Artifact drafts (FEATURE, PRD, PLAN, CONTINUITY, …)
+- Paths, commands, code blocks, safety/git alerts
 
-Under **no circumstances** (even in **FULL** mode) are the following elements compressed, modified, or omitted:
-1. **Confirmation Gates**: Prompt messages requiring user feedback, such as `(sim / ajustar / cancelar)`.
-2. **Technical Artifacts**: Fenced code blocks, file paths, type/function identifiers, CLI command suggestions, and stack traces.
-3. **Safety Guardrails**: Security warnings, structural limit warnings, and git-blocker alerts.
+## Honest cost
 
----
+- Output prose can drop ~22–87% on verbose replies.
+- Loading `CAVEMAN.md` adds ~1–1.5k **input** tokens per turn.
+- Net-negative on short Q&A; prefer ON for long review/debug/orchestration.
+- See [TOKEN_BUDGET.md](../TOKEN_BUDGET.md).
 
-## 5. Phrase Reference Examples
+## Continuity compact
 
-### Full Mode Prose Style
+When narrative files dominate context, propose compacting `CONTINUITY.md` / memory-bank prose via `COMPACT.md` (backup `.original.md` + validators + `sim`). Never PRD/PLAN/STORY.
 
-| Instead of (Verbose) | Use (Telegraphic) |
-|---|---|
-| *"Sure, I can help you with that! Here is the plan of action I'm going to take:"* | *(Omit entirely - go straight to action or checklist)* |
-| *"After analyzing the requested files, I noticed that..."* | *"Identified:"* |
-| *"Once this task is completed, we will proceed to the next step, which is..."* | *"Next: Task N+1"* |
-| *"I hope this resolves your compilation error! Let me know if you need anything else."* | *(Omit entirely)* |
+## Guardrails
+
+Caveman does **not** bypass `guardrails.mdc`, session-state gates, or one-step-per-session limits.

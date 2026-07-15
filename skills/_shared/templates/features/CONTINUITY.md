@@ -52,6 +52,7 @@ Máx. síntese + paths. Detalhes ficam em `STORY.md` / `PRD` / `PLAN` / notas so
 2. **When:** before human approval gates; at ≥40% context pause; before session handoff.
 3. **What to write:** phase, last agent, estado atual (≤10 lines), new decisões, open pendências, exact next `/…` string with **full paths**.
 4. **What not to write:** full PRD/PLAN bodies, guideline dumps, application code, or the body of `memory-bank/` (path + status only); never secrets, API keys, feed tokens, connection strings, or PII - use `***` / env var names only.
-5. **Merge:** append decisões; replace estado atual; never delete unresolved pendências without marking done.
+5. **Merge:** append decisões; replace estado atual; never delete unresolved pendências without marking done. Prefer specialist **receipts** (`_shared/agents/RECEIPT.md`) over dumping full specialist chat.
 6. **Memory-bank:** update path/status after Step 0 (`fresh` = healthy read; `created` / `refreshed` = init wrote). Also after O3 Step N `refresh-light`. Bank co-locates with `features/` via manifest; never under `features/NNN-slug/`. Local only (not committed).
 7. **Language:** artifact prose default **pt-BR**; skill names and paths in English.
+8. **Compact (optional):** if this file grows large and caveman is ON, offer `_shared/caveman/COMPACT.md` (backup `.original.md` + validators + user **sim**). Never auto-compact.

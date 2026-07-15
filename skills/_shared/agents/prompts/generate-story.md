@@ -1,5 +1,9 @@
 # Stage prompt: generate story
 
+## Caveman / receipt
+
+When parent reports `caveman_mode` ON: end with structured receipt per `_shared/agents/RECEIPT.md` (Finding | Path:Line | Note | Next). Use refusal tokens `needs-confirm.` / `too-big.` / `No match.` when applicable. Never compress gates or full artifact drafts.
+
 Draft one `STORY.md` (US or TS) for the feature tree.
 
 ## Rules

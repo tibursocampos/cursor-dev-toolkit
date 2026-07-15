@@ -53,11 +53,18 @@ If the task is net-new UI without a brief, recommend `/impeccable shape` in a **
 | Markup / styles | `~/.cursor/skills/_shared/html-css-guidelines/` |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/` |
 | Context | `~/.cursor/rules/context-management.mdc` |
-| Caveman (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
 
 Do not preload unrelated guideline trees.
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### 0. Workspace
 
