@@ -226,7 +226,7 @@ Quando pelo menos um filho O3 alterou código de aplicação, antes do handoff f
 ### Se o build/CI quebrar
 
 ```text
-/fix-build
+/repair-dotnet-build
 ```
 
 Depois retomar o próximo step ou reabrir o passo falho.
@@ -291,7 +291,7 @@ Código da lib e PackageReference ficam no **repo alvo** (não sob `features/`).
 | 1 step / subagente (O3) ou `/sdd-develop` | Develop |
 | Step N `refresh-light` | Fim O3 com mudanças de código |
 | `/code-review` · `/test-coverage` · `/commit` | Pós-código |
-| `/fix-build` | Se CI/build falhar |
+| `/repair-dotnet-build` | Se CI/build falhar |
 
 ---
 
@@ -316,4 +316,4 @@ Código da lib e PackageReference ficam no **repo alvo** (não sob `features/`).
 | [02b-dotnet-developer.md](02b-dotnet-developer.md) | Atalho .NET isolado |
 | [03-code-review.md](03-code-review.md) | Review |
 | [04-test-coverage.md](04-test-coverage.md) | Coverage |
-| [05-operational-skills.md](05-operational-skills.md) | commit / fix-build |
+| [05-operational-skills.md](05-operational-skills.md) | commit / repair-dotnet-build |

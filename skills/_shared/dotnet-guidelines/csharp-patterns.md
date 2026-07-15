@@ -158,7 +158,7 @@ Every **string and number** in **production code** must be a **named constant** 
 
 **Allowed exception (CA6.1, CT7):** In an arithmetic expression, a **numeric multiplier factor** may stay inline when it is the only literal in that expression (e.g. unit conversion `bytes * 1024`). Other operands with business meaning (limits, thresholds, status codes) still require named constants.
 
-**Alignment with other toolkit docs:** `code-review` (maintainability / magic values) and `create-message-consumer/reference.md` (configuration queue names) defer to this section as the **canonical** C# rule - do not contradict it in reviews or scaffolds.
+**Alignment with other toolkit docs:** `code-review` (maintainability / magic values) and `scaffold-message-handler/reference.md` (configuration queue names) defer to this section as the **canonical** C# rule - do not contradict it in reviews or scaffolds.
 
 ```csharp
 // Wrong - magic strings and numbers in production

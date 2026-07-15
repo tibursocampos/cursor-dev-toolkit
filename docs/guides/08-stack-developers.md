@@ -9,6 +9,7 @@ Stack-specific skills for small-to-medium work **without** a full SDD cycle. Use
 | `dotnet-developer` | `/dotnet-developer` | `.sln` / `.csproj` (API/backend), isolated .NET change |
 | `blazor-developer` | `/blazor-developer` | Blazor UI (WASM, Server, or Hybrid) |
 | `react-developer` | `/react-developer` | React app; existing Blip plugins load `blip-guidelines/` |
+| `react-native-developer` | `/react-native-developer` | React Native / Expo app |
 | `angular-developer` | `/angular-developer` | Angular app, components/services |
 | `vue-developer` | `/vue-developer` | Vue 3 app, Composition API |
 | `electron-developer` | `/electron-developer` | Electron desktop (main/preload/renderer) |
@@ -26,11 +27,12 @@ Stack-specific skills for small-to-medium work **without** a full SDD cycle. Use
 | 2 | `package.json` with `electron` / `electron-builder` / `electron-vite` | `electron-developer` |
 | 3 | `package.json` with `blip-ds` + `iframe-message-proxy` (existing Blip plugin) | `react-developer` (+ `blip-guidelines/`) |
 | 4 | `package.json` with `vue` | `vue-developer` |
-| 5 | `package.json` with `react` | `react-developer` |
-| 6 | `package.json` with `@angular/core` | `angular-developer` |
-| 7 | `package.json` (generic Node) | `javascript-developer` |
-| 8 | `.csproj` / `.sln` without Blazor | `dotnet-developer` |
-| 9 | Python markers | `python-developer` |
+| 5 | `package.json` with `react-native` or `expo` | `react-native-developer` |
+| 6 | `package.json` with `react` | `react-developer` |
+| 7 | `package.json` with `@angular/core` | `angular-developer` |
+| 8 | `package.json` (generic Node) | `javascript-developer` |
+| 9 | `.csproj` / `.sln` without Blazor | `dotnet-developer` |
+| 10 | Python markers | `python-developer` |
 
 For **new** Blip plugin projects (no repo yet), invoke `/blip-plugin-developer` explicitly instead of relying on router detection.
 

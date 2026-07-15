@@ -1,18 +1,18 @@
 # External API Integration
 
-Patterns for Blip plugins that call REST backends (not Blip Router resources). Lessons from `blip-stellantis-coupons` anti-patterns and Stellantis Coupons API.
+Patterns for Blip plugins that call REST backends (not Blip Router resources).
 
 ## When to use
 
-- Plugin UI talks to a custom .NET/Node API
+- Plugin UI talks to a custom .NET/Node/other REST API
 - Backend repo is **separate** from the plugin repo
-- Use `/dotnet-developer` for backend work; `react-developer` + this guideline for the plugin client
+- Use `/dotnet-developer` (or the matching backend skill) for backend work; `react-developer` + this guideline for the plugin client
 
 For Blip-native storage only, use `lib/services/resource.js` instead.
 
-## .NET Result&lt;T&gt; envelope
+## Response envelopes
 
-Stellantis APIs return:
+Many backends wrap payloads. Common .NET-style envelope:
 
 ```json
 {
@@ -21,13 +21,15 @@ Stellantis APIs return:
 }
 ```
 
+Other APIs may return the entity at the root, or `{ data, errors }`, or Problem Details (`application/problem+json`). **Read the contract** (OpenAPI) and unwrap once in the client.
+
 **Wrong:**
 
 ```javascript
-const data = response.data; // misses .value
+const data = response.data; // misses .value when the API uses an envelope
 ```
 
-**Correct:**
+**Correct (envelope example):**
 
 ```javascript
 const result = response.data;
@@ -37,7 +39,7 @@ if (result.statusCode !== 200 || !result.value) {
 const payload = result.value;
 ```
 
-For paginated search:
+For paginated search (typical shape):
 
 ```javascript
 const { items, totalCount, page, pageSize } = result.value;
@@ -47,13 +49,13 @@ Centralize unwrap logic in one API factory/service - do not repeat in every comp
 
 ## Authorization header
 
-Blip/Stellantis APIs expect:
+Match the backend contract. Common Blip-adjacent APIs use:
 
 ```
 Authorization: Key <token>
 ```
 
-**Wrong:** `Authorization: <token>` or `Bearer <token>` without verifying API contract.
+Others use `Bearer <jwt>`, cookies, or custom headers. **Wrong:** assume Bearer or Key without verifying OpenAPI / controller filters.
 
 Obtain token via `getToken` iframe message (Full profile) or from `appsettings.json` in dev only.
 
@@ -61,40 +63,32 @@ Obtain token via `getToken` iframe message (Full profile) or from `appsettings.j
 
 | Header | When |
 |--------|------|
-| `Authorization: Key <token>` | All authenticated routes |
-| `X-Campaign-Code` | Campaign-scoped coupon endpoints |
-| `Content-Type: application/json` | POST/PUT bodies |
+| Auth header per contract | All authenticated routes |
+| Scope / tenant header (if API defines) | Multi-tenant or campaign-scoped routes |
+| `Content-Type: application/json` | POST/PUT/PATCH bodies |
 | Correlation ID (if API defines) | Pass through for support/debug |
 
 Read header requirements from OpenAPI or controller filters - do not guess.
 
 ## Status and enum mapping
 
-API may return numeric filters and localized display strings:
-
-| API filter (`status`) | Meaning | Display (PT example) |
-|-----------------------|---------|----------------------|
-| `0` | Available | Disponível |
-| `1` | Reserved | Reservado |
-| `2` | Claimed | Resgatado |
-
-**Wrong:** hardcode English labels (`Available`, `Reserved`, `Claimed`) when API returns Portuguese.
-
-Map in a single constants module:
+APIs often return numeric filters and localized display strings. Map in a single constants module:
 
 ```javascript
-export const COUPON_STATUS = {
+export const ENTITY_STATUS = {
   Available: 0,
   Reserved: 1,
   Claimed: 2,
 };
 
-export const COUPON_STATUS_LABEL = {
-  [COUPON_STATUS.Available]: 'Disponível',
-  [COUPON_STATUS.Reserved]: 'Reservado',
-  [COUPON_STATUS.Claimed]: 'Resgatado',
+export const ENTITY_STATUS_LABEL = {
+  [ENTITY_STATUS.Available]: 'Disponível',
+  [ENTITY_STATUS.Reserved]: 'Reservado',
+  [ENTITY_STATUS.Claimed]: 'Resgatado',
 };
 ```
+
+**Wrong:** hardcode English labels when the API returns another locale, or mix filter ints with display strings in components.
 
 ## Error handling
 
@@ -124,6 +118,22 @@ try {
 
 Handle HTTP 401/403 explicitly - prompt re-auth or show unauthorized page.
 
+Normalize API error shapes in one place:
+
+- Envelope: `{ statusCode, message }` or `{ errors: [...] }`
+- Problem Details: `title`, `detail`, `status`
+- Transport: network / timeout messages via i18n keys
+
+## Retry and idempotency
+
+| Operation | Retry guidance |
+|-----------|----------------|
+| Idempotent GET | Optional exponential backoff (e.g. 2–3 attempts) on network/5xx |
+| POST/PUT/PATCH/DELETE | Retry only when the API marks the operation safe to replay |
+| 401/403/4xx business errors | Do **not** retry blindly |
+
+Prefer axios/fetch interceptors or a small `withRetry` helper on the shared client - not ad-hoc loops in UI.
+
 ## API client structure
 
 ```
@@ -131,8 +141,8 @@ src/
   lib/
     services/
       api/
-        client.js       # axios/fetch instance, interceptors, Result unwrap
-        coupons.js      # domain endpoints
+        client.js       # axios/fetch instance, interceptors, envelope unwrap, retry
+        domain.js       # domain endpoints for this plugin
     constants/
       api.js            # routes, status enums
 ```
@@ -152,15 +162,15 @@ Inject real values at deploy - never commit production keys.
 
 ## Endpoint coverage checklist
 
-Before marking a feature complete, verify all controller routes needed by the UI are implemented in the client service layer. For Coupons API, see matrix in `docs/blip-plugin-integration.md`.
+Before marking a feature complete, verify all controller routes needed by the UI are implemented in the client service layer.
 
-Common gaps in the coupons fixture:
+Common gaps:
 
-- `reserve`, `claim`, `reset`, `export`, `expire`, `getById`, `exists` - implement only what the UI needs, but document gaps
+- List/search, getById, create/update/delete, export, exists/availability - implement only what the UI needs, but document gaps
 
 ## OpenAPI handoff
 
-When backend exposes Swagger/OpenAPI, use `/api-integrate` in the backend repo to generate typed clients, then adapt unwrap logic for `Result<T>` if the generator does not handle it.
+When backend exposes Swagger/OpenAPI, use `/api-integrate` in the backend repo to generate typed clients, then adapt unwrap logic for envelopes if the generator does not handle them.
 
 ## Testing API integration
 

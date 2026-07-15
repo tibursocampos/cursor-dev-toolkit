@@ -72,7 +72,7 @@ New task
 | Net-new UI / visual redesign | `impeccable shape` | [08 - stack developers](08-stack-developers.md) · [impeccable-integration.md](../impeccable-integration.md) |
 | Review before commit/merge | `code-review` | [03 - code-review](03-code-review.md) |
 | Coverage report (.NET, Coverlet) | `test-coverage` | [04 - test-coverage](04-test-coverage.md) |
-| Commit, fix-build, migrations, backlog, repo docs | See operational guide | [05 - operational skills](05-operational-skills.md) |
+| Commit, repair-dotnet-build, migrations, backlog, repo docs | See operational guide | [05 - operational skills](05-operational-skills.md) |
 | Speed up chat and save token costs | Response compression | [07 - Caveman Mode](07-caveman-mode.md) |
 | Scripts, sync, validation | `toolkit.ps1`, `sync-cursor.ps1` | [09 - scripts and toolkit](09-scripts-and-toolkit.md) |
 
@@ -89,7 +89,7 @@ Guide [01 - SDD workflow](01-sdd-workflow.md) uses canonical `features/NNN-slug/
 | [02b-dotnet-developer.md](02b-dotnet-developer.md) | `dotnet-developer` | `/dotnet-developer` |
 | [03-code-review.md](03-code-review.md) | `code-review` | `/code-review` |
 | [04-test-coverage.md](04-test-coverage.md) | `test-coverage` | `/test-coverage` |
-| [05-operational-skills.md](05-operational-skills.md) | `commit`, `fix-build`, `add-migrations`, `document-plan`, `document-implement`, `refine-backlog-item`, `breakdown-tasks`, `create-message-consumer` | `/<kebab-name>` |
+| [05-operational-skills.md](05-operational-skills.md) | `commit`, `repair-dotnet-build`, `ef-add-migration`, `document-plan`, `document-implement`, `refine-story`, `split-story-checklist`, `scaffold-message-handler` | `/<kebab-name>` |
 | [07-caveman-mode.md](07-caveman-mode.md) | `caveman-mode` (rule) | `caveman on` · `caveman off` |
 | [08-stack-developers.md](08-stack-developers.md) | stack `*-developer`, `blip-plugin-developer`, `impeccable` handoff | `/react-developer` · `/blip-plugin-developer` |
 | [09-scripts-and-toolkit.md](09-scripts-and-toolkit.md) | sync, validate, uninstall | `.\scripts\toolkit.ps1` |
@@ -120,13 +120,14 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list 
 | `dotnet-developer` | `/dotnet-developer` | Small .NET task without full SDD |
 | `blazor-developer` | `/blazor-developer` | Small Blazor UI task |
 | `react-developer` | `/react-developer` | Small React task (incl. existing Blip plugins) |
+| `react-native-developer` | `/react-native-developer` | Small React Native / Expo task |
 | `angular-developer` | `/angular-developer` | Small Angular task |
 | `vue-developer` | `/vue-developer` | Small Vue 3 task |
 | `electron-developer` | `/electron-developer` | Small Electron desktop task |
 | `javascript-developer` | `/javascript-developer` | Small Node/JS task |
 | `python-developer` | `/python-developer` | Small Python task |
-| `add-migrations` | `/add-migrations` | EF Core migration in the open repo |
-| `fix-build` | `/fix-build` | Fix `dotnet build` or test failures |
+| `ef-add-migration` | `/ef-add-migration` | EF Core migration in the open repo |
+| `repair-dotnet-build` | `/repair-dotnet-build` | Fix `dotnet build` or test failures |
 | `test-coverage` | `/test-coverage` | .NET coverage (Coverlet; SonarQube-aligned metrics) |
 | `refactor` | `/refactor` | Safe step-by-step refactor with test checkpoints |
 | `api-integrate` | `/api-integrate` | Typed clients/DTOs from OpenAPI/Swagger |
@@ -135,9 +136,9 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list 
 | `i18n-manager` | `/i18n-manager` | Extract hardcoded strings to resources |
 | `document-plan` | `/document-plan` | Documentation plan for a **consumer** repo (RAG) |
 | `document-implement` | `/document-implement` | One step of a consumer repo doc plan |
-| `refine-backlog-item` | `/refine-backlog-item` | Refine bug/story + scorecard (local markdown) |
-| `breakdown-tasks` | `/breakdown-tasks` | Implementation task checklist (local) |
-| `create-message-consumer` | `/create-message-consumer` | Scaffold message consumer (bus detected via Grep) |
+| `refine-story` | `/refine-story` | Refine bug/story + scorecard (local markdown) |
+| `split-story-checklist` | `/split-story-checklist` | Implementation task checklist (local) |
+| `scaffold-message-handler` | `/scaffold-message-handler` | Scaffold message consumer (bus detected via Grep) |
 
 **Optional flows (no work-item tracker):**
 
@@ -145,10 +146,10 @@ Aligned with [AGENTS.md](../../AGENTS.md) after sync to `~/.cursor/`. Full list 
 |------|--------|
 | Forma C (multi-story / brownfield) | `orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop` ([10](10-forma-c-orquestracao.md); casos [11](11-forma-c-caso-nuget-extract.md) / [12](12-forma-c-caso-mobile-app.md)) |
 | Repo documentation (RAG in target app) | `document-plan` -> `document-implement` |
-| Backlog -> SDD (Forma B) | `refine-backlog-item` -> optional `breakdown-tasks` -> Forma A or Forma C |
+| Backlog -> SDD (Forma B) | `refine-story` -> optional `split-story-checklist` -> Forma A or Forma C |
 | Frontend design -> implement | `impeccable shape` -> `DESIGN-BRIEF.md` -> matching `*-developer` |
 | Blip plugin scaffold -> implement | `blip-plugin-developer` -> Forma A or Forma C -> `react-developer` |
-| Build failure | `fix-build` -> optional `commit` |
+| Build failure | `repair-dotnet-build` -> optional `commit` |
 
 > **Note:** `document-plan` / `document-implement` document **application repositories** for RAG. They are not a substitute for these **toolkit** guides under `docs/guides/`.
 

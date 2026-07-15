@@ -22,7 +22,7 @@ cursor-dev-toolkit/
     ├── sdd-spec/, sdd-plan/, sdd-develop/
     ├── orchestrate-analyze/, orchestrate-deliver/, orchestrate-develop/  # Forma C
     ├── memory-bank-init/    # Forma C Step 0 (optional for Forma A)
-    ├── developer/, dotnet-developer/, react-developer/, blip-plugin-developer/, … stack skills
+    ├── developer/, dotnet-developer/, react-developer/, react-native-developer/, blip-plugin-developer/, … stack skills
     ├── impeccable/          # Frontend design router
     ├── code-review/, commit/, push/, …
     └── _shared/             # sdd-artifacts, agents/, templates/features|memory-bank/, guidelines, …

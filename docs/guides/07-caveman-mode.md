@@ -43,8 +43,8 @@ Skill **caps** still apply (Lite skills never escalate to ultra from prefs).
 | Cap | Skills |
 |-----|--------|
 | **NEVER** | `commit`, `push` |
-| **LITE** | `sdd-spec`, `sdd-plan`, `orchestrate-analyze`, `orchestrate-deliver`, `document-plan`, `refine-backlog-item`, `memory-bank-init` |
-| **FULL** | `sdd-develop`, `orchestrate-develop`, `document-implement`, `breakdown-tasks`, `code-review`, `developer`, `fix-build`, `test-coverage`, stack `*-developer`, ops (`api-integrate`, `containerize`, `i18n-manager`, `performance-profile`, `refactor`), general chat |
+| **LITE** | `sdd-spec`, `sdd-plan`, `orchestrate-analyze`, `orchestrate-deliver`, `document-plan`, `refine-story`, `memory-bank-init` |
+| **FULL** | `sdd-develop`, `orchestrate-develop`, `document-implement`, `split-story-checklist`, `code-review`, `developer`, `repair-dotnet-build`, `test-coverage`, stack `*-developer`, ops (`api-integrate`, `containerize`, `i18n-manager`, `performance-profile`, `refactor`), general chat |
 
 ## Auto-Clarity
 

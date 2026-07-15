@@ -1,6 +1,6 @@
 # Auth and Permissions (Full profile)
 
-JWT token parsing, bucket-based permissions, and `AuthProvider` - from `blip-stellantis-plugin`. **Skip this file for Lite profile plugins.**
+JWT token parsing, bucket-based permissions, and `AuthProvider`. **Skip this file for Lite profile plugins.**
 
 ## When to use
 
@@ -10,7 +10,7 @@ Apply when the plugin needs:
 - Role-based UI (read-only vs admin)
 - Permission buckets stored in Blip Router
 
-Lite plugins (`blip-na-produtization`) do not use auth - do not add `AuthProvider` unless requirements demand it.
+**Lite** plugins (single route, no auth) do not use this flow - do not add `AuthProvider` unless requirements demand Full profile.
 
 ## getToken flow
 
@@ -52,8 +52,8 @@ Match bucket user email to JWT email and read permission map:
 const userBucket = bucket.response.users.find(
   (u) => u.email === parsedToken.response.email
 );
-const mav = userBucket?.permissions['mav'];
-// mav: 'read' | 'admin' | undefined
+const feature = userBucket?.permissions['featureKey'];
+// feature: 'read' | 'admin' | undefined
 ```
 
 Define bucket keys in `lib/constants.js` - never inline bucket URIs in components.
@@ -96,20 +96,20 @@ export const AuthProvider = ({ children }) => {
 ## Permission gates in UI
 
 ```jsx
-const { mavPermissions } = useAuth();
+const { featurePermissions } = useAuth();
 
-if (!mavPermissions.isAuthorized) {
+if (!featurePermissions.isAuthorized) {
   return <UnauthorizedPage />;
 }
 
-<BdsButton disabled={mavPermissions.isReadOnly}>Save</BdsButton>
+<BdsButton disabled={featurePermissions.isReadOnly}>Save</BdsButton>
 ```
 
 Hide destructive actions when `isReadOnly`; show admin-only routes when `isAdmin`.
 
 ## External API auth
 
-When calling a REST backend, pass the Blip token (or a derived API key) in headers:
+When calling a REST backend, pass the Blip token (or a derived API key) in headers per the API contract — often:
 
 ```
 Authorization: Key <token>

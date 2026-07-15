@@ -111,7 +111,7 @@ New chat: /document-implement
 
 - [ ] New files only under `docs/` in **target** repo
 - [ ] Plan progress matches completed work
-- [ ] No mandatory `dev.azure.com` or org-specific product names
+- [ ] No mandatory org-specific ALM hostnames or product names
 - [ ] Prose matches chosen doc language
 
 ---

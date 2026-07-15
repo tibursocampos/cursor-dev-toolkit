@@ -146,7 +146,7 @@ Add steps until domains and integrations from exploration are covered. Prefer 5-
 - [ ] Language asked and recorded
 - [ ] Overview reflects detected stack (not a template from another company)
 - [ ] Each step has deliverable path, tasks, acceptance
-- [ ] No ADO/work-item URLs required
+- [ ] No external work-item URLs required
 - [ ] Steps fit one `document-implement` session when possible
 
 ---

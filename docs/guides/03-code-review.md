@@ -28,7 +28,7 @@ PRD and PLAN paths are **optional** in your invoke - the agent searches under `f
 ### Do not use `code-review` when
 
 - You have **not written code yet** - use [01 - SDD workflow](01-sdd-workflow.md) or [02 - developer](02-developer.md) first.
-- The repo **does not build or tests fail** and you only need to fix failures -> `/fix-build` ([05 - operational skills](05-operational-skills.md)).
+- The repo **does not build or tests fail** and you only need to fix failures -> `/repair-dotnet-build` ([05 - operational skills](05-operational-skills.md)).
 - You want **coverage metrics only** -> `/test-coverage` ([04 - test-coverage](04-test-coverage.md)); run review after or combine in the post-code sequence from [README.md](README.md).
 
 ---

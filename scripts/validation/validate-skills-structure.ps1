@@ -162,12 +162,12 @@ foreach ($dir in $skillDirs) {
     # Caveman participation wiring (see _shared/caveman/CAVEMAN.md)
     $cavemanLite = @(
         'sdd-spec', 'sdd-plan', 'orchestrate-analyze', 'orchestrate-deliver',
-        'document-plan', 'refine-backlog-item', 'memory-bank-init'
+        'document-plan', 'refine-story', 'memory-bank-init'
     )
     $cavemanFull = @(
-        'sdd-develop', 'orchestrate-develop', 'document-implement', 'breakdown-tasks',
-        'code-review', 'developer', 'fix-build', 'test-coverage',
-        'dotnet-developer', 'react-developer', 'vue-developer', 'angular-developer',
+        'sdd-develop', 'orchestrate-develop', 'document-implement', 'split-story-checklist',
+        'code-review', 'developer', 'repair-dotnet-build', 'test-coverage',
+        'dotnet-developer', 'react-developer', 'react-native-developer', 'vue-developer', 'angular-developer',
         'blazor-developer', 'electron-developer', 'javascript-developer', 'python-developer',
         'api-integrate', 'containerize', 'i18n-manager', 'performance-profile', 'refactor'
     )

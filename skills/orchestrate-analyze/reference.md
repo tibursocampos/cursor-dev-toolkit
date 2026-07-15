@@ -52,7 +52,7 @@ Spawn Task **only** when ROSTER says so. Parallelize when multiple specialists a
 
 **Stacks are not roster roles** - do not spawn `react`/`dotnet` agents in O1. Route implementation later via `ROUTING.md`.
 
-**Must not (specialists):** app code; ADO/Celebration/Keycloak; invent APIs; expand to 40 agent files. `qa_checklist` = CONTINUITY/STORY only (no Task).
+**Must not (specialists):** app code; org-only tooling unless the repo already uses it; invent APIs; expand to 40 agent files. `qa_checklist` = CONTINUITY/STORY only (no Task).
 
 ---
 
@@ -110,9 +110,9 @@ Update `CONTINUITY.md` when:
 
 ---
 
-## Boundaries vs refine-backlog-item / sdd-spec / O2
+## Boundaries vs refine-story / sdd-spec / O2
 
-| Aspect | `refine-backlog-item` (B) | `orchestrate-analyze` (O1) | `sdd-spec` (A) | `orchestrate-deliver` (O2) |
+| Aspect | `refine-story` (B) | `orchestrate-analyze` (O1) | `sdd-spec` (A) | `orchestrate-deliver` (O2) |
 |--------|---------------------------|----------------------------|----------------|----------------------------|
 | Purpose | One informal item + scorecard | Multi-agent triage + US/TS backlog | Full PRD one story | PRD+PLAN per approved story |
 | Output | STORY or `docs/backlog/` | FEATURE + CONTINUITY + STORY×N | `…/PRD/*.md` | `…/PRD/` + `…/PLAN/` |
@@ -126,7 +126,7 @@ Escalate **to sdd-spec** when: single story clear enough for PRD without O2 batc
 
 Do **not** write PRD/PLAN inside O1. Do **not** claim `sdd-develop` one-step contract changed.
 
-Scorecard: reuse `skills/refine-backlog-item/reference.md` (universal + type-specific). Map totals to STORY 1-5: 80+ -> 5, 60-79 -> 4, 40-59 -> 3, else ≤2.
+Scorecard: reuse `skills/refine-story/reference.md` (universal + type-specific). Map totals to STORY 1-5: 80+ -> 5, 60-79 -> 4, 40-59 -> 3, else ≤2.
 
 ---
 
@@ -202,7 +202,7 @@ Do **not** introduce:
 - `memory-bank/` under `features/NNN-slug/`
 - Full memory-bank dump into CONTINUITY or parent chat
 - Skip of Step 0 without explicit `skip-memory-bank`
-- `az` boards / ADO work-item commands
-- Celebration, Keycloak, mandatory Sonar corp fields
+- External work-item tracker CLI/API commands
+- External work-item tracker or org-only compliance fields
 - Forty aspirational agent files from design.md
 - Changes to `sdd-develop` one-PLAN-step-per-session contract

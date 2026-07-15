@@ -1,6 +1,6 @@
-# breakdown-tasks - reference
+# split-story-checklist - reference
 
-Grouping heuristics and templates for `skills/breakdown-tasks/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
+Grouping heuristics and templates for `skills/split-story-checklist/SKILL.md`. Keep `SKILL.md` under 500 lines; use this file for extended detail.
 
 ---
 
@@ -23,11 +23,11 @@ Each step block typically matches:
 
 Also accept legacy Portuguese headings: `**Etapa N -` (normalize to Step N in output).
 
-If only a bullet list without step headers, ask the user to re-run `refine-backlog-item` or confirm grouping manually.
+If only a bullet list without step headers, ask the user to re-run `refine-story` or confirm grouping manually.
 
 ---
 
-## Topological order (plan-task portable)
+## Topological order (story checklist portable)
 
 1. Build a directed graph from `Depends on: Step N` / `none`.
 2. Reject cycles - ask user to fix deps before writing the file.
@@ -35,7 +35,7 @@ If only a bullet list without step headers, ask the user to re-run `refine-backl
 4. Within a wave, apply layer/repo grouping below.
 5. Document parallel-safe steps: same wave and different groups with no cross edges.
 
-Do **not** invent ADO predecessor links or fixed corporate stage names.
+Do **not** invent external work-item predecessor links or fixed org-only stage names.
 
 ---
 
@@ -167,9 +167,9 @@ Do **not** use `docs/documentation-plan/plan.md`.
 
 ---
 
-## Boundary: breakdown-tasks vs plan vs O2
+## Boundary: split-story-checklist vs plan vs O2
 
-| Aspect | `breakdown-tasks` | `sdd-plan` | `orchestrate-deliver` (O2) |
+| Aspect | `split-story-checklist` | `sdd-plan` | `orchestrate-deliver` (O2) |
 |--------|-------------------|------------|----------------------------|
 | Input | Refined steps / STORY | PRD | Approved US/TS backlog |
 | Output | Local checklist | `PLAN_*.md` under feature | PRD+PLAN per story |
@@ -178,15 +178,15 @@ Do **not** use `docs/documentation-plan/plan.md`.
 
 ---
 
-## Explicit exclusions (ported from corporate plan-task)
+## Explicit exclusions (derived from checklist planning patterns)
 
 Do **not** auto-generate:
 
 - "Update AI tags" / SDD / DevAI tag tasks
 - "Attach Datadog logs" as a fixed task
-- DeskCheck / DESKCHECK tag tasks
+- manual sign-off checklist / DESKCHECK tag tasks
 - "Review own PR" with Sonar/Snyk boilerplate as mandatory rows
-- Child tasks on remote boards via REST PATCH / `az boards`
+- Child tasks on remote boards via external tracker REST/CLI
 
 If the user wants a custom workflow section, add it under **Before PR** with their wording only.
 

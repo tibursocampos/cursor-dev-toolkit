@@ -1,6 +1,6 @@
-﻿---
-name: refine-backlog-item
-description: Refine a Bug, User Story, or Technical Story into structured markdown with BDD acceptance and a quality scorecard. Use when refining backlog or invoking /refine-backlog-item.
+---
+name: refine-story
+description: Refine a Bug, User Story, or Technical Story into structured markdown with BDD acceptance and a quality scorecard. Use when refining backlog or invoking /refine-story.
 ---
 
 ## STOP - Read before ANY tool call
@@ -24,17 +24,17 @@ Gate check:
 
 ---
 
-# Skill: refine-backlog-item
+# Skill: refine-story
 
 ## Trigger
 
-Invoke when the user asks for: `/refine-backlog-item`, `refine backlog item`, `/refine-backlog-item`, or quick intake before SDD / Forma C.
+Invoke when the user asks for: `/refine-story`, `refine backlog item`, `/refine-story`, or quick intake before SDD / Forma C.
 
 Optional: path to existing notes, or pasted description.
 
 ## Outcome
 
-Structured **markdown** in chat (BDD acceptance criteria + implementation steps) and a **quality scorecard** aligned to portable document-task patterns (no ADO).
+Structured **markdown** in chat (BDD acceptance criteria + implementation steps) and a **quality scorecard** aligned to portable backlog refinement patterns.
 
 **Persistence (prefer in order):**
 
@@ -49,7 +49,7 @@ Does **not** create or update cards in external work-item trackers.
 |------|------|
 | Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Lite cap** |
 | Type templates | `skills/_shared/backlog-item-types/{bug,user-story,technical-story}.md` or `~/.cursor/skills/_shared/backlog-item-types/` after sync |
-| Scorecard rubric, boundaries vs O1 / sdd-spec | `skills/refine-backlog-item/reference.md` |
+| Scorecard rubric, boundaries vs O1 / sdd-spec | `skills/refine-story/reference.md` |
 | Feature storage | `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`, `PIPELINE.md` |
 | Story template | `skills/_shared/templates/features/story/STORY.md` |
 | Context pressure | `~/.cursor/rules/context-management.mdc` |
@@ -91,7 +91,7 @@ Ask for a free-form description (problem, goal, context, constraints). Wait for 
 
 Follow the type file **Output template** and **Writing guidelines**. Combine user input with structure from the template - calibrate depth, not copy corporate examples.
 
-**Steps:** one responsibility per step; infinitive verbs; layer order when applicable; explicit dependencies; note parallel steps when independent (feeds `breakdown-tasks` topological grouping).
+**Steps:** one responsibility per step; infinitive verbs; layer order when applicable; explicit dependencies; note parallel steps when independent (feeds `split-story-checklist` topological grouping).
 
 **BDD:** **Given / When / Then / And**; verifiable outcomes; avoid vague "works correctly".
 
@@ -127,7 +127,7 @@ Write prose in that language; paths and identifiers stay in English. Slug from t
 
 | Situation | Next |
 |-----------|------|
-| Break into implementation checklist | `/breakdown-tasks` (same content or saved path) |
+| Break into implementation checklist | `/split-story-checklist` (same content or saved path) |
 | Multi-story / complex / needs specialists | `/orchestrate-analyze` (Forma C O1) |
 | Medium/high complexity single feature (Forma A) | `/sdd-spec` -> `/sdd-plan` -> `/sdd-develop` |
 | Small isolated change | `/developer` / stack `*-developer` |
@@ -135,7 +135,7 @@ Write prose in that language; paths and identifiers stay in English. Slug from t
 
 ## Must not
 
-- Call tracker REST APIs, MCP work-item integrations, or PAT scripts (`az`, ADO)
+- Call tracker REST APIs, MCP work-item integrations, or PAT scripts for external trackers
 - Add organization-specific custom fields, mandatory AI tags, or PATCH guardrails for remote boards
 - Write `docs/backlog/` before the language question when choosing shortcut
 - Duplicate full PRD/PLAN templates - hand off to `sdd-spec` / `sdd-plan` or O1
@@ -144,7 +144,7 @@ Write prose in that language; paths and identifiers stay in English. Slug from t
 ## Handoff examples
 
 ```
-/breakdown-tasks - features/004-export/US01/STORY.md
+/split-story-checklist - features/004-export/US01/STORY.md
 ```
 
 ```

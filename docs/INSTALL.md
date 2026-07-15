@@ -7,23 +7,43 @@ Step-by-step instructions to deploy **cursor-dev-toolkit** to Cursor and use the
 | Requirement | Notes |
 |-------------|--------|
 | **Cursor IDE** | Skills and rules target Cursor's `~/.cursor/` layout |
-| **Windows** | Hooks and sync script use **PowerShell 5.1+** |
+| **PowerShell** | Windows: **5.1+** or **pwsh 7+**. macOS/Linux: **pwsh 7+** required (see [install guide](https://learn.microsoft.com/powershell/scripting/install/installing-powershell)) |
 | **Git** | Optional; only needed to clone/update this repo |
 
-> **macOS / Linux:** Skills and rules sync work with `$HOME/.cursor/`. Hooks are PowerShell-only today.
+> **macOS / Linux:** Install `pwsh`, then use `./scripts/toolkit.sh` or `./scripts/sync-cursor.sh`. Skills/rules sync to `$HOME/.cursor/`.
 
 ---
 
 ## 1. Clone and deploy
 
+**Recommended:** interactive toolkit CLI (both platforms):
+
 ```powershell
+# Windows
 cd cursor-dev-toolkit
+.\scripts\toolkit.ps1
+```
+
+```bash
+# macOS / Linux
+cd cursor-dev-toolkit
+chmod +x scripts/*.sh scripts/validation/*.sh
+./scripts/toolkit.sh
+```
+
+Direct sync:
+
+```powershell
+# Windows
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
 ```
 
-Preview: add `-DryRun`.
+```bash
+# macOS / Linux
+./scripts/sync-cursor.sh
+```
 
-Interactive menu: `.\scripts\toolkit.ps1`
+Preview: add `-DryRun` to the `.ps1` (or pass through the `.sh` wrapper).
 
 Uninstall (removes toolkit from `~/.cursor/`):
 

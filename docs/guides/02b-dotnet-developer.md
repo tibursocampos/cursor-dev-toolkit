@@ -24,7 +24,7 @@ Use when the stack is **known to be .NET** or when `developer` routes here autom
 
 ### Do not use when
 
-- EF migrations or broad schema changes -> `add-migrations` or SDD.
+- EF migrations or broad schema changes -> `ef-add-migration` or SDD.
 - Multiple bounded contexts or 3+ layers with new design.
 - Cross-cutting feature, messaging, new integrations, 10+ files.
 - Approved PLAN exists -> `sdd-develop`.

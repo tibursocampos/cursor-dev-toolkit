@@ -1,6 +1,6 @@
 ---
-name: fix-build
-description: Diagnose and fix failing dotnet build or test runs. Local first; optional GitHub Actions via gh. Use when fixing a build or invoking /fix-build.
+name: repair-dotnet-build
+description: Diagnose and fix failing dotnet build or test runs. Local first; optional GitHub Actions via gh. Use when fixing a build or invoking /repair-dotnet-build.
 ---
 
 ## STOP - Read before ANY tool call
@@ -24,11 +24,11 @@ Gate check:
 
 ---
 
-# Skill: fix-build
+# Skill: repair-dotnet-build
 
 ## Trigger
 
-Invoke when the user asks for: `/fix-build`, `fix build`, `/fix-build`, or when build/test failures block progress.
+Invoke when the user asks for: `/repair-dotnet-build`, `fix build`, `/repair-dotnet-build`, or when build/test failures block progress.
 
 **Arguments (optional):**
 
@@ -38,7 +38,7 @@ Invoke when the user asks for: `/fix-build`, `fix build`, `/fix-build`, or when 
 | Pasted log | Analyze the log text the user provides |
 | `gh` context | User names a failed workflow run - use `gh` per `reference.md` section CI (optional) |
 
-Do not require a build ID from Azure Pipelines or any PAT.
+Do not require an external CI build ID or any PAT.
 
 ## Outcome
 
@@ -48,7 +48,7 @@ Structured diagnosis, proposed fixes with rationale, fixes applied only after us
 
 | When | Path |
 |------|------|
-| Locale / timezone / Bogus heuristics | `skills/fix-build/reference.md` or `~/.cursor/skills/fix-build/reference.md` after sync |
+| Locale / timezone / Bogus heuristics | `skills/repair-dotnet-build/reference.md` or `~/.cursor/skills/repair-dotnet-build/reference.md` after sync |
 | C# patterns | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
 | Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full cap** |
 | Commit | `/commit` |
@@ -132,7 +132,7 @@ Do not auto-commit. Do not push unless the user asks via commit skill or explici
 
 ## Must not
 
-- Azure DevOps REST, PAT, `dev.azure.com`, Credential Manager ADO entries, or corporate org URLs
+- External ALM/tracker REST, PATs, or org-specific credential stores
 - Mandatory external CI API - local reproduction is enough
 - Auto-commit or auto-push
 - Corporate agent pool names or private feed assumptions without repo evidence
@@ -142,5 +142,5 @@ Do not auto-commit. Do not push unless the user asks via commit skill or explici
 | Situation | Next |
 |-----------|------|
 | Commit on valid branch | `/commit` |
-| New EF migration needed | `/add-migrations` |
+| New EF migration needed | `/ef-add-migration` |
 | Large feature scope | `/sdd-spec` -> `sdd-plan` -> `sdd-develop` |

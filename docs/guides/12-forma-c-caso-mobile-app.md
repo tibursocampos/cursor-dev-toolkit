@@ -233,7 +233,7 @@ Em greenfield isso atualiza inventário/tech-stack depois que a solution MAUI ex
 ### Build quebrado
 
 ```text
-/fix-build
+/repair-dotnet-build
 ```
 
 ---
@@ -296,7 +296,7 @@ Código MAUI (`.csproj`, pages, services) no workspace do app — não dentro de
 | Step N `refresh-light` | Pós-código O3 |
 | `/code-review` · `/test-coverage` · `/commit` | Entrega |
 | `/impeccable` (opcional) | Design UI |
-| `/fix-build` | Se build falhar |
+| `/repair-dotnet-build` | Se build falhar |
 
 ---
 
@@ -322,4 +322,4 @@ Código MAUI (`.csproj`, pages, services) no workspace do app — não dentro de
 | [02b-dotnet-developer.md](02b-dotnet-developer.md) | Atalho .NET |
 | [08-stack-developers.md](08-stack-developers.md) | Stack + impeccable |
 | [03-code-review.md](03-code-review.md) | Review |
-| [05-operational-skills.md](05-operational-skills.md) | commit / fix-build |
+| [05-operational-skills.md](05-operational-skills.md) | commit / repair-dotnet-build |

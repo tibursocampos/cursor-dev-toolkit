@@ -1,4 +1,4 @@
-﻿---
+---
 name: document-implement
 description: Execute the next pending step from docs/documentation-plan/plan.md and write domain docs for RAG. Use when documenting the repo or invoking /document-implement.
 ---
@@ -113,7 +113,7 @@ Files written, step completed, progress `N/M`, suggested handoff.
 - Assume MES/Athena or fixed stack versions
 - Write product `docs/` before doc language is known
 - Complete multiple plan steps in one session when context is high - prefer one step per session
-- Require Azure DevOps or external wiki APIs
+- Require external wiki or work-item APIs
 
 ## Handoff
 

@@ -134,7 +134,7 @@ If scope grows during work, stop and recommend:
 
 ## Must not
 
-- ADO/MCP work items, `repo-mappings.json`, corporate pipeline or Key Vault mapping guides
+- External work-item APIs, `repo-mappings.json`, or org-only pipeline/Key Vault mapping guides
 - Obsolete test stacks or naming conventions (use xUnit/Moq/`Should_When_` only)
 - Obsolete guideline paths (use `dotnet-guidelines/` only)
 - Nested `feature/base/...` branches; commit on default integration branches

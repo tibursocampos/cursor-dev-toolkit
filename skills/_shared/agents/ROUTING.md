@@ -5,6 +5,7 @@ Orchestrators and specialists **do not** reimplement stack work. Point implement
 | Signal | Route |
 |--------|-------|
 | `.cs` / `.csproj` / EF | `/dotnet-developer` |
+| React Native / Expo | `/react-native-developer` |
 | React / TSX | `/react-developer` |
 | Angular | `/angular-developer` |
 | Vue | `/vue-developer` |
