@@ -1,10 +1,8 @@
 ---
 name: performance-profile
-description: >
-  Analyze code and queries for performance bottlenecks, configure micro-benchmarks, compare metrics,
-  and optimize execution. Use when the user says "use skill performance-profile", "optimize performance",
-  or "/performance-profile".
+description: Find performance bottlenecks, set up micro-benchmarks, and optimize hot paths. Use when optimizing performance or invoking /performance-profile.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -20,7 +18,7 @@ description: >
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -31,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user requests: `use skill performance-profile`, `optimize performance`, `/performance-profile`, or asks to fix query bottlenecks.
+Invoke when the user requests: `/performance-profile`, `optimize performance`, `/performance-profile`, or asks to fix query bottlenecks.
 
 **Arguments (optional):**
 
@@ -54,9 +52,16 @@ Documented performance improvements verified by local benchmarking:
 | C# projects | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md`, `~/.cursor/skills/_shared/dotnet-guidelines/string-manipulation.md` |
 | JavaScript / TypeScript | `~/.cursor/skills/_shared/javascript-guidelines/clean-code-js.md` |
 | Python projects | `~/.cursor/skills/_shared/python-guidelines/principles.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - Full mode |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full cap** |
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### -1. Re-check guardrails and session
 
@@ -71,11 +76,6 @@ Antes do profiling, confirme:
 Posso seguir? (sim / ajustar / cancelar)
 ```
 
-### -2. Caveman Mode Check
-
-Check `~/.cursor/sdd/preferences.json`:
-- If file missing -> create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` and honor active compressions.
 
 ### 0. Target Identification
 
@@ -89,9 +89,8 @@ Check `~/.cursor/sdd/preferences.json`:
   * Memory: Excessive allocations inside loops, duplicate string concatenations, boxing/unboxing.
 * Present the diagnostic report summarizing the bottlenecks.
 * Stop and ask the user to choose the workflow execution path for applying and benchmarking these optimizations:
-  * **Option A - Direct Developer Skill (`use skill developer`):** For straightforward local optimization and benchmark setup.
-  * **Option B - Classic SDD (`use skill sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings or query tuning requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`use skill speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
+  * **Option A - Direct Developer Skill (`/developer`):** For straightforward local optimization and benchmark setup.
+  * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings or query tuning requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 
@@ -131,7 +130,7 @@ Check `~/.cursor/sdd/preferences.json`:
 * Offer committing the optimizations:
 
 ```
-use skill commit
+/commit
 ```
 
 ## Must not

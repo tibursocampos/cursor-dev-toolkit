@@ -1,24 +1,31 @@
 # Skills catalog - cursor-dev-toolkit
 
-Canonical kebab-case skill folders under `skills/` (**35 skills**). Invoke with `use skill <name>` or `/<name>`.
+Canonical kebab-case skill folders under `skills/` (**34 skills**). Prefer Cursor slash: `/<name>` (menu shows each skill description). Compat: `use skill <name>` still works.
 
-## Classic SDD
+## Formas (A / B / C)
+
+| Forma | Skills | Guide |
+|-------|--------|-------|
+| **A** Classic SDD | `sdd-spec`, `sdd-plan`, `sdd-develop` | [01-sdd-workflow](guides/01-sdd-workflow.md) |
+| **B** Backlog prep | `refine-backlog-item`, `breakdown-tasks` | [05-operational-skills](guides/05-operational-skills.md) |
+| **C** Orchestrated | `memory-bank-init` (Step 0), `orchestrate-analyze`, `orchestrate-deliver`, `orchestrate-develop` | [10-forma-c-orquestracao](guides/10-forma-c-orquestracao.md) · [11 NuGet](guides/11-forma-c-caso-nuget-extract.md) · [12 mobile](guides/12-forma-c-caso-mobile-app.md) |
+
+## Classic SDD (Forma A)
 
 | Skill | Purpose |
 |-------|---------|
-| `sdd-spec` | Create PRD (pt-BR default) |
+| `sdd-spec` | Create PRD (pt-BR default) under `features/NNN-slug/` |
 | `sdd-plan` | Baby-step PLAN from PRD |
 | `sdd-develop` | Execute one PLAN step per session |
 
-## Spec Kit
+## Forma C - orchestration
 
 | Skill | Purpose |
 |-------|---------|
-| `speckit-setup` | Install Spec Kit CLI prerequisites |
-| `speckit-init` | Initialize `.specify/` + constitution |
-| `speckit-spec` | Create `spec.md` under `.specify/specs/` |
-| `speckit-plan` | Generate `plan.md` and `tasks.md` |
-| `speckit-develop` | Implement one `tasks.md` item per session |
+| `memory-bank-init` | Create/refresh repo-root `memory-bank/` (Step 0 for O1/O2/O3; Forma A optional) |
+| `orchestrate-analyze` | O1: Step 0 + triage, conditional Task specialists, FEATURE + US/TS + CONTINUITY |
+| `orchestrate-deliver` | O2: Step 0 + sdd-spec/sdd-plan per story (series or parallel); multi-path handoff |
+| `orchestrate-develop` | O3: Step 0 + one Task subagent per PLAN step (sdd-develop contract); parent never codes |
 
 ## Developer routing and stack
 
@@ -54,7 +61,7 @@ See [impeccable-integration.md](impeccable-integration.md). Do **not** use Antig
 
 | Skill | Purpose |
 |-------|---------|
-| `code-review` | Structured review vs PRD/PLAN |
+| `code-review` | Structured review vs PRD/PLAN; asks single vs multi-angle if not specified (quality / acceptance / security) |
 | `fix-build` | Diagnose/fix build and tests |
 | `test-coverage` | .NET Coverlet coverage report |
 | `commit` | Conventional commit on valid branch |
@@ -74,12 +81,12 @@ See [impeccable-integration.md](impeccable-integration.md). Do **not** use Antig
 | `document-plan` | Baby-step documentation plan |
 | `document-implement` | Execute one doc plan step |
 
-## Backlog prep
+## Backlog prep (Forma B)
 
 | Skill | Purpose |
 |-------|---------|
-| `refine-backlog-item` | Refine backlog item + BDD scorecard |
-| `breakdown-tasks` | Grouped implementation checklist |
+| `refine-backlog-item` | Refine backlog item + BDD scorecard; prefer `features/.../STORY.md` |
+| `breakdown-tasks` | Grouped implementation checklist with deps |
 
 ## Post-sync validation
 

@@ -1,7 +1,7 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-  Migrates legacy SDD manifests to schema v2 (classic + speckit sections).
+  Migrates legacy SDD manifests to schema v2 (classic section only).
 
 .EXAMPLE
   .\scripts\maintainers\migrate-manifest-v2.ps1
@@ -53,12 +53,6 @@ foreach ($repoKey in @($manifest.repositories.PSObject.Properties.Name)) {
             storage_mode = $mode
             path         = $path
         }
-        speckit = [PSCustomObject]@{
-            storage_mode      = $mode
-            path              = $path
-            initialized       = $false
-            init_validated_at = $null
-        }
     }
     $manifest.repositories.$repoKey = $newEntry
     Write-Host "Migrated repository entry: $repoKey" -ForegroundColor Cyan
@@ -71,10 +65,10 @@ if (-not $changed) {
 }
 
 if ($DryRun) {
-    Write-Host 'Dry run — would write schema v2 manifest.' -ForegroundColor Yellow
+    Write-Host 'Dry run — would write schema v2 manifest (classic only).' -ForegroundColor Yellow
     exit 0
 }
 
 $manifest | ConvertTo-Json -Depth 10 | Set-Content -Path $manifestPath -Encoding UTF8
-Write-Host 'Manifest migrated to schema v2.' -ForegroundColor Green
+Write-Host 'Manifest migrated to schema v2 (classic only).' -ForegroundColor Green
 exit 0

@@ -10,17 +10,17 @@ Storage: `STORAGE.md`. Pipeline (confirm-before-write, canonical paths, modes): 
 
 | Part | Rule |
 |------|------|
-| Folder | From manifest: `PRD/`, `docs/PRD/`, or `~/.cursor/sdd/<repo-id>/PRD/` |
-| Sequence | Next `NNN` (3 digits) after listing PRDs in workspace **and** global folder for `<repo-id>` |
+| Folder | From manifest: `features/NNN-slug/USnn/PRD/` (Forma A default `US01`) or global under `<classic.path>/features/...` |
+| Sequence | Next `NNN` (3 digits) after listing PRDs under `features/**/PRD/` only (workspace + global feature root for `<repo-id>`) |
 | Slug | Short ASCII summary (kebab-case or snake_case; Portuguese words allowed) |
-| Example (repo) | `PRD/002_exportacao_perfil_usuario.md` |
-| Example (global) | `~/.cursor/sdd/acme-payments-api/PRD/002_exportacao_perfil_usuario.md` |
+| Example (repo) | `features/002-exportacao-perfil/US01/PRD/002_exportacao_perfil_usuario.md` |
+| Example (global) | `~/.cursor/sdd/acme-payments-api/features/002-exportacao-perfil/US01/PRD/002_exportacao_perfil_usuario.md` |
 
 ## Storage and `.gitignore` (spec skill)
 
-Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (append the full four-line SDD block if any is missing). Run this on first SDD write in a repo even when creating only `PRD/` or `docs/PRD/`.
+Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure SDD block includes **`/features/`** and **`/memory-bank/`**. Keep `/PRD/`, `/PLAN/`, `/docs/PRD/`, `/docs/PLAN/` in `.gitignore` **only as a safety net** (not active Classic SDD paths). Run this on first SDD write in a repo.
 
-**Global** mode: no `.gitignore` changes.
+**Global** mode: no `.gitignore` changes (do not add features / memory-bank / PRD / PLAN patterns).
 
 After choosing storage, write `~/.cursor/sdd/<repo-id>/manifest.json` with `artifact_language`: `pt-BR` (default) or `en` (override).
 
@@ -209,7 +209,7 @@ Espelhar critérios de aceite; incluir borda e falha.
 Este PRD está pronto para a skill **plan**:
 
 ```
-use skill sdd-plan - <caminho-completo-do-prd>
+/sdd-plan - <caminho-completo-do-prd>
 ```
 
 ## 15. Referências
@@ -251,11 +251,11 @@ Use only when the user requests English in the skill invocation. Same structure;
 ## Quality checklist (before handoff)
 
 - [ ] User confirmed **sim** on canonical path (`PIPELINE.md` § Confirm before write)
-- [ ] Path matches `PRD/NNN_*.md`, `docs/PRD/NNN_*.md`, or global `.../PRD/NNN_*.md`
+- [ ] Path matches `features/**/PRD/NNN_*.md` or global `.../features/**/PRD/NNN_*.md` only
 - [ ] No implementation code in the PRD; no production/test code edited in `spec` session
 - [ ] Every acceptance criterion is testable
 - [ ] Complexity and risks documented
 - [ ] Body in pt-BR unless English override
 - [ ] Type/method/API names in English where cited
 - [ ] Status **Pronto para planejamento** (or **Ready for planning** if EN override)
-- [ ] Handoff: `use skill sdd-plan - <full-prd-path>`
+- [ ] Handoff: `/sdd-plan - <full-prd-path>`

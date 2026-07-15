@@ -1,6 +1,6 @@
----
+﻿---
 name: commit
-description: Review staged and unstaged changes, draft a Conventional Commits message, commit on a valid feature branch, and optionally push. Use when the user says "use skill commit", "commit changes", or "/commit". Git-only - no work-item tracker APIs.
+description: Draft a Conventional Commits message and commit on a valid feature branch; optional push. Git-only. Use when committing changes or invoking /commit.
 ---
 
 ## STOP - Read before ANY tool call
@@ -17,7 +17,7 @@ description: Review staged and unstaged changes, draft a Conventional Commits me
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill commit`, `commit changes`, or `/commit`.
+Invoke when the user asks for: `/commit`, `commit changes`.
 
 ## Outcome
 
@@ -45,6 +45,9 @@ One or more **Conventional Commits** on `feature/<slug>` or `feat/<id>`, with an
 | Message validator (commit-message-validator step) | `~/.cursor/skills/_shared/format-validators/commit-message-validator.md` |
 
 ## Process
+
+### Caveman Mode
+**NEVER** - This skill ignores `caveman_mode`. Use clear prose always. Do not load `CAVEMAN.md` for chat compression. Commit/PR text stays normal English.
 
 ### 0. Workspace
 
@@ -98,7 +101,7 @@ Prefer **atomic commits**: stage explicit paths - avoid `git add -A` unless the 
 
 ### 5. Commit
 
-After approval, write the **exact** user-approved text to a message file. The file must contain **only** Conventional Commits content — no footers, no trailers, no `Co-authored-by` lines.
+After approval, write the **exact** user-approved text to a message file. The file must contain **only** Conventional Commits content - no footers, no trailers, no `Co-authored-by` lines.
 
 ```bash
 git add <explicit paths>
@@ -112,7 +115,7 @@ Use **only** `-F` or a single `-m` with the approved subject (and optional body 
 - `--author` overrides for Cursor or any AI agent
 - Any line containing `Co-authored-by:` in the message you write
 
-**Never** append `Co-authored-by: Cursor`, `Co-authored-by: Antigravity`, or similar — not in the message file, not in chat drafts shown to git, not in any form.
+**Never** append `Co-authored-by: Cursor`, `Co-authored-by: Antigravity`, or similar - not in the message file, not in chat drafts shown to git, not in any form.
 
 #### 5.1 Post-commit verification (mandatory)
 
@@ -129,7 +132,7 @@ If the output contains `Co-authored-by:` (any variant, any email), strip it and 
 1. Rewrite the message file with **only** the approved Conventional Commits text (no `Co-authored-by` lines).
 2. Run `git commit --amend -F <path-to-approved-message.txt>`.
 3. Re-check with `git log -1 --format=%B`.
-4. If the trailer is still present, run `git commit --amend -F <path-to-approved-message.txt> --no-verify` **only** to remove the unauthorized co-author line — do not skip hooks for any other reason.
+4. If the trailer is still present, run `git commit --amend -F <path-to-approved-message.txt> --no-verify` **only** to remove the unauthorized co-author line - do not skip hooks for any other reason.
 5. If the trailer **still** remains (`prepare-commit-msg` may run even with `--no-verify`), amend with hooks disabled:
 
 ```bash
@@ -167,16 +170,16 @@ Never `git push --force` to `main`, `master`, or `develop`.
 - `git add -A` / `git add .` without review (unless user explicitly requests)
 - Deprecated commit skill aliases in user-facing handoff - use `commit` only
 - Auto-commit without message approval
-- **AI co-author trailers (absolute)** — never write, suggest, or leave in place:
+- **AI co-author trailers (absolute)** - never write, suggest, or leave in place:
   - `Co-authored-by: Cursor` / `cursoragent@cursor.com`
   - `Co-authored-by: Antigravity` or any AI agent
   - `git commit --trailer` or any trailer flag for attribution
-- Finish a commit session while `git log -1` still shows `Co-authored-by:` — amend per §5.1 first
+- Finish a commit session while `git log -1` still shows `Co-authored-by:` - amend per §5.1 first
 
 ## Handoff
 
 | Situation | Next |
 |-----------|------|
-| Continue SDD step | New session -> `use skill sdd-develop - <full-plan-path> - Step N` |
-| Review before PR | `use skill code-review` |
+| Continue SDD step | New session -> `/sdd-develop - <full-plan-path> - Step N` |
+| Review before PR | `/code-review` |
 | Create PR (user asks) | `gh pr create` per `step-4-commits-pr.md` |

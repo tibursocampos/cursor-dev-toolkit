@@ -83,7 +83,7 @@ Use before opening a pull request.
 - [ ] `dotnet build` succeeds
 - [ ] `dotnet test` passes
 - [ ] No new nullable reference type warnings (or documented)
-- [ ] Coverage ≥ 80% on changed files (`use skill test-coverage`; goal 100% when feasible)
+- [ ] Coverage ≥ 80% on changed files (`/test-coverage`; goal 100% when feasible)
 - [ ] SOLID and clean-code basics respected
 - [ ] No obvious security issues (secrets, injection, unsafe defaults)
 - [ ] No obvious N+1 or hot-path inefficiencies
@@ -114,7 +114,7 @@ Use before opening a pull request.
 |---------|--------|
 | Build failed | Fix usings, types, package references |
 | Tests failing | Fix implementation or test; avoid disabling without reason |
-| Low coverage (&lt; 80% on changed files) | Run `use skill test-coverage`; add tests for uncovered behavior |
+| Low coverage (&lt; 80% on changed files) | Run `/test-coverage`; add tests for uncovered behavior |
 
 ---
 

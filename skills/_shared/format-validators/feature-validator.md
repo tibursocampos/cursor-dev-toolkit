@@ -4,7 +4,7 @@ Validates PRD markdown against the **spec** skill template (`skills/sdd-spec/ref
 
 **Default language:** pt-BR section titles and metadata labels. If manifest or invocation sets `artifact_language: en`, use the **English override** checklist below instead.
 
-**Output paths:** `PRD/`, `docs/PRD/`, or `~/.cursor/sdd/<repo-id>/PRD/` (see `sdd-artifacts/STORAGE.md`)
+**Output paths:** `features/**/PRD/` or `~/.cursor/sdd/<repo-id>/features/**/PRD/` only (see `sdd-artifacts/STORAGE.md`). Root/flat `PRD/` and `docs/PRD/` are not valid Classic SDD paths.
 
 ## Validation levels
 
@@ -27,7 +27,7 @@ Validates PRD markdown against the **spec** skill template (`skills/sdd-spec/ref
 - `## 11. Casos de uso`
 - `## 12. Cenários de teste`
 - `## 13. Definição de pronto`
-- `## 14. Próximos passos` (contains `use skill sdd-plan`)
+- `## 14. Próximos passos` (contains `/sdd-plan`)
 - `## 15. Referências`
 - `## 16. Notas`
 - `## 17. Histórico de alterações`
@@ -59,7 +59,7 @@ When `artifact_language` is `en` or user requested English in invocation:
 |---------|------|----------|
 | Context / Contexto | Minimum ~80 characters | info |
 | Acceptance criteria | Dado/Quando/Então or Given/When/Then in each block | info |
-| Próximos passos / Handoff | Contains `use skill sdd-plan` with PRD path | info |
+| Próximos passos / Handoff | Contains `/sdd-plan` with PRD path | info |
 | Identifiers in prose | Type/method names in English when cited | info |
 
 ## Usage in spec skill

@@ -46,7 +46,10 @@ Shared guidelines live under `skills/_shared/` and are loaded lazily by skills (
 
 ## Caveman Mode
 
-`caveman/CAVEMAN.md` - compression tiers and hard exclusions.
+- `caveman/CAVEMAN.md` — levels (`lite`/`full`/`ultra`), Auto-Clarity, participation caps
+- `caveman/COMPACT.md` — optional CONTINUITY / memory narrative compact (validators + `sim`)
+- `agents/RECEIPT.md` — Forma C specialist receipt schema when caveman is ON
+- Always-on rule: `rules/caveman-mode.md`
 
 ## Language split
 

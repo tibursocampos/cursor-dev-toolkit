@@ -41,7 +41,7 @@ If install fails (permissions), document limitation and parse `coverage.cobertur
 
 ### Tests must pass
 
-Run `dotnet build` first. Coverage on failing tests is misleading - fix via `use skill fix-build` before coverage collection.
+Run `dotnet build` first. Coverage on failing tests is misleading - fix via `/fix-build` before coverage collection.
 
 ---
 
@@ -225,9 +225,9 @@ Cobertura validada via test-coverage:
 
 ## Próximos passos
 
-- [ ] `use skill code-review` (se Pass)
-- [ ] `use skill developer` / `sdd-develop` - adicionar testes (se Fail)
-- [ ] Re-executar `use skill test-coverage` após novos testes
+- [ ] `/code-review` (se Pass)
+- [ ] `/developer` / `sdd-develop` - adicionar testes (se Fail)
+- [ ] Re-executar `/test-coverage` após novos testes
 ```
 
 ---
@@ -258,7 +258,7 @@ When `code-review` Step 5 invokes this skill:
 PLAN step template (in `plan/reference.md` after step 3 of PLAN_001):
 
 ```text
-use skill test-coverage - <base-branch> - threshold 80
+/test-coverage - <base-branch> - threshold 80
 ```
 
 Attach report summary to PLAN step notes when completing the quality step.
@@ -284,4 +284,4 @@ Do **not** require or generate:
 | 0% on changed files | Wrong test project; tests do not exercise changed code |
 | ReportGenerator not found | `dotnet tool install -g dotnet-reportgenerator-globaltool` |
 | Path mismatch in XML | Normalize `\` vs `/` when matching filenames |
-| Tests fail | `use skill fix-build` first |
+| Tests fail | `/fix-build` first |

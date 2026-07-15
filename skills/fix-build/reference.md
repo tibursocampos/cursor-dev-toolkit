@@ -121,7 +121,7 @@ Apply these fixes? (wait for user yes/no)
 After local validation:
 
 ```
-use skill commit
+/commit
 ```
 
 The commit skill enforces `feature/<slug>` / `feat/<id>` and Conventional Commits. fix-build does not call tracker APIs or link work items.
@@ -132,7 +132,7 @@ The commit skill enforces `feature/<slug>` / `feat/<id>` and Conventional Commit
 
 | Need | Skill |
 |------|-------|
-| EF migration after model fix | `use skill add-migrations` |
-| Small feature without PLAN | `use skill dotnet-developer` |
-| PLAN-sized work | `use skill sdd-develop - <full-plan-path> - Step N` (resolve SDD PLAN per `STORAGE.md` - repo or `~/.cursor/sdd/<repo-id>/PLAN/`) |
-| New feature / no PLAN | `use skill sdd-spec` -> `sdd-plan` -> `sdd-develop` (`STORAGE.md` for PRD/PLAN location) |
+| EF migration after model fix | `/add-migrations` |
+| Small feature without PLAN | `/dotnet-developer` |
+| PLAN-sized work | `/sdd-develop - <full-plan-path> - Step N` (resolve SDD PLAN per `STORAGE.md` - repo or `~/.cursor/sdd/<repo-id>/PLAN/`) |
+| New feature / no PLAN | `/sdd-spec` -> `sdd-plan` -> `sdd-develop` (`STORAGE.md` for PRD/PLAN location) |

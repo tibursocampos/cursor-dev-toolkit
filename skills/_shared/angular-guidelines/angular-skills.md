@@ -85,4 +85,4 @@ This document defines core standards for developing modern Angular applications 
 ## References
 
 * Official guidance: [angular/skills](https://github.com/angular/skills) - signals, standalone, modern control flow.
-* Stack skill: `use skill angular-developer`
+* Stack skill: `/angular-developer`

@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Guardrails - non-negotiable agent rules
 
-**Applies to:** every skill in cursor-dev-toolkit - SDD, Spec Kit, developer, operational, and documentation skills.
+**Applies to:** every skill in cursor-dev-toolkit - SDD, developer, operational, and documentation skills.
 
 Full enforcement context: `docs/ENFORCEMENT.md` in the toolkit repo.
 
@@ -34,30 +34,29 @@ If the user has **not** said **sim** to the current action, do **NOT** execute m
 
 Mutating git commands require explicit **sim** in the user's **immediately previous** message, or the user runs them manually.
 
-Use `use skill commit` / `use skill push` after confirmation.
+Use `/commit` / `/push` after confirmation.
 
-**Commit messages:** never include `Co-authored-by: Cursor`, Antigravity, or any AI agent — not in the message file, not via `--trailer`. If the IDE injects a co-author trailer after commit, amend it away per `use skill commit` §5.1 and `conventional-commits.mdc`.
+**Commit messages:** never include `Co-authored-by: Cursor`, Antigravity, or any AI agent - not in the message file, not via `--trailer`. If the IDE injects a co-author trailer after commit, amend it away per `/commit` §5.1 and `conventional-commits.mdc`.
 
 ---
 
 ## 2. Write / delete (confirm before write)
 
-Before creating or replacing **new** SDD artifacts (PRD, PLAN, spec, plan, tasks):
+Before creating or replacing **new** SDD artifacts (PRD, PLAN):
 
 1. Show title, path, summary bullets.
 2. Ask **(pt-BR):** `Posso gravar em '{path}'? (sim / ajustar / cancelar)`
 3. Write only after **sim**.
 
-**Exception:** updating an existing PLAN/tasks after an **already approved** develop step - no re-confirmation.
+**Exception:** updating an existing PLAN after an **already approved** develop step - no re-confirmation.
 
 Before editing production code or tests: confirm scope unless the user explicitly approved the current step/task.
 
 ---
 
-## 3. One step per session (SDD / Spec Kit develop)
+## 3. One step per session (SDD develop)
 
 - `sdd-develop`: exactly **one** PLAN step per session.
-- `speckit-develop`: exactly **one** pending `tasks.md` item per session.
 - `document-implement`: exactly **one** documentation plan step per session.
 
 After completing the step: **STOP**. Do not start step N+1 in the same conversation.
@@ -68,7 +67,7 @@ After completing the step: **STOP**. Do not start step N+1 in the same conversat
 
 Before marking a develop step or task complete:
 
-- Run project tests (`dotnet test`, `npm test`, `pytest`, or per constitution).
+- Run project tests (`dotnet test`, `npm test`, `pytest`, or per project constitution).
 - Do not mark complete if tests fail and cannot be fixed in scope.
 
 ---
@@ -79,7 +78,7 @@ Before marking a develop step or task complete:
 |---------|----------|
 | Chat replies to user | **pt-BR** |
 | `SKILL.md`, guidelines, rules | **English** |
-| PRD, PLAN, spec, plan, tasks (default) | **pt-BR** |
+| PRD, PLAN (default) | **pt-BR** |
 | Production code, tests, identifiers | **English** |
 
 If the user corrects language, fix the **artifact/code** - do not flip chat to English unless asked.
@@ -92,18 +91,7 @@ See `~/.cursor/rules/context-management.mdc`. At ≥40% context: pause and recom
 
 ---
 
-## 7. Spec Kit init gate
-
-Do **not** run `speckit-spec`, `speckit-plan`, or `speckit-develop` unless:
-
-- `validate-speckit-init.ps1` passes for the resolved path, **or**
-- User explicitly runs `use skill speckit-init` and init completes with `constitution.md`.
-
-Do **not** manually create `.specify/` folders without full init.
-
----
-
-## 8. Session gates
+## 7. Session gates
 
 See `SESSION.md`. Before Write/Shell, verify:
 
@@ -119,3 +107,5 @@ Set gates to `true` only after user **sim**.
 ## Never compress (Caveman Mode)
 
 Confirmation gates, artifact drafts, and git-block notices are **never** subject to Caveman compression.
+Skills `commit` / `push` ignore `caveman_mode` (clear prose). Auto-Clarity drops compression for security and irreversible confirms.
+Contract: `~/.cursor/skills/_shared/caveman/CAVEMAN.md`. Optional narrative compact: `COMPACT.md` (requires user **sim**). Always-on rule: `caveman-mode.mdc`.

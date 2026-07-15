@@ -1,10 +1,8 @@
 ---
 name: refactor
-description: >
-  Analyze code files for complexity, code smells, or technical debt, draft a safe refactoring plan,
-  and execute it step-by-step, validating with test runs at each step. Use when the user says
-  "use skill refactor", "refactor code", or "/refactor".
+description: Analyze complexity and smells, draft a safe refactor plan, and execute step-by-step with tests. Use when refactoring code or invoking /refactor.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -20,7 +18,7 @@ description: >
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -31,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user requests: `use skill refactor`, `refactor code`, `/refactor`, or when code reviews indicate high complexity.
+Invoke when the user requests: `/refactor`, `refactor code`, `/refactor`, or when code reviews indicate high complexity.
 
 **Arguments (optional):**
 
@@ -53,9 +51,16 @@ Safely refactored code with lower cognitive complexity, improved testability, an
 | JavaScript / TypeScript | `~/.cursor/skills/_shared/javascript-guidelines/clean-code-js.md`, `~/.cursor/skills/_shared/javascript-guidelines/clean-code-ts.md`, `~/.cursor/skills/_shared/javascript-guidelines/google-ts-style.md` |
 | React components | `~/.cursor/skills/_shared/react-guidelines/clean-react.md`, `~/.cursor/skills/_shared/react-guidelines/philosophies.md` |
 | Angular directives / templates | `~/.cursor/skills/_shared/angular-guidelines/angular-skills.md`, `~/.cursor/skills/_shared/angular-guidelines/styleguide.md`, `~/.cursor/skills/_shared/angular-guidelines/best-practices.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - Full mode |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full cap** |
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### -1. Re-check guardrails and session
 
@@ -70,11 +75,6 @@ Antes do refactor, confirme:
 Posso seguir? (sim / ajustar / cancelar)
 ```
 
-### -2. Caveman Mode Check
-
-Check `~/.cursor/sdd/preferences.json`:
-- If file missing -> create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` rules and keep replies compressed.
 
 ### 0. Detect Tech Stack and Load Guidelines
 
@@ -95,9 +95,8 @@ Check `~/.cursor/sdd/preferences.json`:
 
 * Present the summary of identified code smells and debt.
 * Stop and ask the user to choose the workflow execution path based on the scope:
-  * **Option A - Direct Developer Skill (`use skill developer`):** For straightforward local refactoring edits.
-  * **Option B - Classic SDD (`use skill sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings requiring a formal specification (PRD) and a step-by-step checklist (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`use skill speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
+  * **Option A - Direct Developer Skill (`/developer`):** For straightforward local refactoring edits.
+  * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex structural refactorings requiring a formal specification (PRD) and a step-by-step checklist (PLAN) in Portuguese.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 
@@ -121,7 +120,7 @@ Check `~/.cursor/sdd/preferences.json`:
 * Ask the user if they want to review the final diff and handoff to the commit skill:
 
 ```
-use skill commit
+/commit
 ```
 
 ## Must not

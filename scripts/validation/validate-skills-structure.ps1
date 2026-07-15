@@ -33,13 +33,78 @@ $centralArtifacts = @(
     'skills\_shared\sdd-artifacts\SESSION.md',
     'skills\_shared\sdd-artifacts\PIPELINE.md',
     'skills\_shared\sdd-artifacts\STORAGE.md',
-    'skills\_shared\SKILL_TEMPLATE.md'
+    'skills\_shared\sdd-artifacts\MEMORY-BANK.md',
+    'skills\_shared\SKILL_TEMPLATE.md',
+    'skills\_shared\templates\features\FEATURE.md',
+    'skills\_shared\templates\features\CONTINUITY.md',
+    'skills\_shared\templates\features\TREE.md',
+    'skills\_shared\templates\features\story\STORY.md',
+    'skills\_shared\templates\memory-bank\project-context.md',
+    'skills\_shared\templates\memory-bank\tech-stack.json',
+    'skills\_shared\agents\ROSTER.md',
+    'skills\_shared\agents\ROUTING.md',
+    'skills\_shared\agents\SUBAGENT-MODEL.md',
+    'skills\_shared\agents\RECEIPT.md',
+    'skills\_shared\caveman\CAVEMAN.md',
+    'skills\_shared\caveman\COMPACT.md',
+    'scripts\inventory\Invoke-MemoryBankInventory.ps1'
 )
 
 foreach ($relative in $centralArtifacts) {
     $path = Join-Path $RepoRoot $relative
     if (-not (Test-Path -LiteralPath $path)) {
         $failures += "Missing central artifact: $relative"
+    }
+}
+
+$forbiddenSpecKit = @(
+    'skills\speckit-setup',
+    'skills\speckit-init',
+    'skills\speckit-spec',
+    'skills\speckit-plan',
+    'skills\speckit-develop',
+    'scripts\setup-speckit.ps1',
+    'scripts\validation\validate-speckit-init.ps1',
+    'scripts\maintainers\fix-speckit-refs.ps1',
+    'docs\guides\06-speckit-workflow.md'
+)
+foreach ($relative in $forbiddenSpecKit) {
+    $path = Join-Path $RepoRoot $relative
+    if (Test-Path -LiteralPath $path) {
+        $failures += "Forbidden Spec Kit leftover (must be removed): $relative"
+    }
+}
+
+$requiredOrchestrationSkills = @(
+    'orchestrate-analyze',
+    'orchestrate-deliver',
+    'orchestrate-develop',
+    'memory-bank-init'
+)
+foreach ($skillName in $requiredOrchestrationSkills) {
+    $skillPath = Join-Path $skillsRoot $skillName
+    if (-not (Test-Path -LiteralPath (Join-Path $skillPath 'SKILL.md'))) {
+        $failures += "Missing required skill: skills/$skillName/SKILL.md"
+    }
+    if (-not (Test-Path -LiteralPath (Join-Path $skillPath 'reference.md'))) {
+        $failures += "Missing required reference: skills/$skillName/reference.md"
+    }
+}
+
+$rosterPromptFiles = @(
+    'repo_analyst.md',
+    'architect.md',
+    'security.md',
+    'database.md',
+    'impact.md',
+    'risk.md',
+    'generate-story.md'
+)
+$promptsDir = Join-Path $RepoRoot 'skills\_shared\agents\prompts'
+foreach ($promptFile in $rosterPromptFiles) {
+    $promptPath = Join-Path $promptsDir $promptFile
+    if (-not (Test-Path -LiteralPath $promptPath)) {
+        $failures += "Missing roster prompt: skills/_shared/agents/prompts/$promptFile"
     }
 }
 
@@ -85,11 +150,37 @@ foreach ($dir in $skillDirs) {
     }
 
     $workflowSkills = @(
-        'speckit-plan', 'speckit-spec', 'speckit-develop', 'sdd-spec', 'sdd-plan', 'sdd-develop',
+        'sdd-spec', 'sdd-plan', 'sdd-develop',
+        'orchestrate-analyze', 'orchestrate-deliver', 'orchestrate-develop',
+        'memory-bank-init',
         'code-review', 'test-coverage', 'developer', 'document-plan', 'document-implement'
     )
     if ($dir.Name -in $workflowSkills -and $lineCount -lt 100) {
         Write-Warning "$relativeSkill : workflow skill is only $lineCount lines (soft minimum ~100)"
+    }
+
+    # Caveman participation wiring (see _shared/caveman/CAVEMAN.md)
+    $cavemanLite = @(
+        'sdd-spec', 'sdd-plan', 'orchestrate-analyze', 'orchestrate-deliver',
+        'document-plan', 'refine-backlog-item', 'memory-bank-init'
+    )
+    $cavemanFull = @(
+        'sdd-develop', 'orchestrate-develop', 'document-implement', 'breakdown-tasks',
+        'code-review', 'developer', 'fix-build', 'test-coverage',
+        'dotnet-developer', 'react-developer', 'vue-developer', 'angular-developer',
+        'blazor-developer', 'electron-developer', 'javascript-developer', 'python-developer',
+        'api-integrate', 'containerize', 'i18n-manager', 'performance-profile', 'refactor'
+    )
+    $cavemanNever = @('commit', 'push')
+    if ($dir.Name -in $cavemanNever) {
+        if ($content -notmatch '(?m)^\*\*NEVER\*\*') {
+            $failures += "$relativeSkill : Caveman NEVER skills must declare **NEVER**"
+        }
+    }
+    elseif ($dir.Name -in $cavemanLite -or $dir.Name -in $cavemanFull) {
+        if ($content -notmatch 'Step -1b - Caveman Mode') {
+            $failures += "$relativeSkill : missing Step -1b - Caveman Mode block"
+        }
     }
 }
 
@@ -110,9 +201,6 @@ if (Test-Path -LiteralPath $manifestPath) {
                 $entry = $manifest.repositories.$repoKey
                 if ($entry.PSObject.Properties.Name -notcontains 'classic') {
                     $failures += "manifest.json : repository '$repoKey' missing classic section"
-                }
-                if ($entry.PSObject.Properties.Name -notcontains 'speckit') {
-                    $failures += "manifest.json : repository '$repoKey' missing speckit section"
                 }
             }
         }

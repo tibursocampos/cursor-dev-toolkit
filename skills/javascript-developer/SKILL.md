@@ -1,10 +1,8 @@
 ---
 name: javascript-developer
-description: >
-  Implement or fix small-to-medium JavaScript/Node.js features without full SDD. Uses Node.js, Express/Nest,
-  DOM manipulation, npm/yarn, and Git-only developer flow. Use for isolated JS/TS work.
-  For larger cross-cutting features, route to sdd-spec -> sdd-plan -> sdd-develop.
+description: Implement or fix small-to-medium JavaScript/Node features without full SDD. Use for isolated JS/TS work or when invoking /javascript-developer.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,11 +26,11 @@ Gate check:
 
 ## Trigger
 
-Use when user asks for `use skill javascript-developer`, `js fix`, `node fix`, or a small isolated JavaScript/TypeScript implementation.
+Use when user asks for `/javascript-developer`, `js fix`, `node fix`, or a small isolated JavaScript/TypeScript implementation.
 
 ## Outcome
 
-Working JS/TS code and tests in the target workspace, validated with tests/build, with optional handoff to `use skill commit`.
+Working JS/TS code and tests in the target workspace, validated with tests/build, with optional handoff to `/commit`.
 
 ## When to escalate to SDD
 
@@ -42,7 +40,7 @@ Recommend `sdd-spec` -> `sdd-plan` -> `sdd-develop` for multi-service, large API
 
 If `docs/DESIGN-BRIEF.md` or `docs/design/DESIGN-BRIEF.md` exists with `target_stack: html-css`, treat it as the acceptance source. Map to DOM/vanilla or light libs; do **not** reinterpret visual decisions.
 
-If the task is net-new UI without a brief, recommend `use skill impeccable shape` in a **new session** before implementing.
+If the task is net-new UI without a brief, recommend `/impeccable shape` in a **new session** before implementing.
 
 ## Lazy-load references
 
@@ -56,11 +54,18 @@ If the task is net-new UI without a brief, recommend `use skill impeccable shape
 | Markup / styles (`html-css` stack) | `~/.cursor/skills/_shared/html-css-guidelines/` |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/` |
 | Context | `~/.cursor/rules/context-management.mdc` |
-| Caveman (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
 
 Do not preload unrelated guideline trees.
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### 0. Workspace
 
@@ -95,7 +100,7 @@ npm run build
 
 ### 7. Handoff
 
-Offer `use skill commit`. Do not commit automatically.
+Offer `/commit`. Do not commit automatically.
 
 ## Must not
 
@@ -106,7 +111,7 @@ Offer `use skill commit`. Do not commit automatically.
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
-| Review | `use skill code-review` |
+| Commit | `/commit` |
+| Review | `/code-review` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
-| Missing design brief | `use skill impeccable shape` (new session) |
+| Missing design brief | `/impeccable shape` (new session) |

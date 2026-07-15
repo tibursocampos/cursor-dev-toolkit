@@ -1,6 +1,6 @@
 # cursor-dev-toolkit
 
-Personal Cursor IDE agent toolkit: SDD (classic and Spec Kit) workflows, .NET guidelines, Git-only developer flow, Caveman response compression, and optional hooks. Neutral branding - no work-item tracker or corporate pipeline integrations.
+Personal Cursor IDE agent toolkit: SDD workflows (Formas A / B / C), .NET guidelines, Git-only developer flow, Caveman response compression, and optional hooks. Neutral branding - no work-item tracker or corporate pipeline integrations.
 
 Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md](docs/INSTALL.md)).
 
@@ -8,7 +8,7 @@ Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md
 
 | Capability | Description |
 |------------|-------------|
-| **SDD workflow** | Classic (`sdd-spec` -> `sdd-plan` -> `sdd-develop`) and Spec Kit (`speckit-*`) with manifest v2 storage |
+| **SDD workflow** | Classic Forma A (`sdd-spec` -> `sdd-plan` -> `sdd-develop`), Forma B backlog prep, Forma C orchestration; manifest v2 storage |
 | **Enforcement** | `guardrails.mdc`, session gates, `validate-all.ps1` smoke test |
 | **.NET guidelines** | `dotnet-guidelines` (Clean Architecture, xUnit, Moq, FluentAssertions) |
 | **Git-only flow** | Branching, commits, checklist - no Azure DevOps |
@@ -28,9 +28,8 @@ Deploy to your user profile with `scripts/sync-cursor.ps1` (see [docs/INSTALL.md
 
    Or: `.\scripts\toolkit.ps1`
 
-3. For **daily skill usage**, open **[docs/guides/README.md](docs/guides/README.md)** (decision tree + guides 01-09).
-4. (Optional) Run `use skill speckit-setup` to install Spec Kit CLI prerequisites and run `use skill speckit-init` to initialize Spec Kit folders in your active repositories.
-5. In any project chat: `use skill sdd-spec` -> `use skill sdd-plan` -> `use skill sdd-develop - <plan-path> - Step N` (repo or global storage). See [SDD workflow guide](docs/guides/01-sdd-workflow.md) for details.
+3. For **daily skill usage**, open **[docs/guides/README.md](docs/guides/README.md)** (decision tree + guides).
+4. In any project chat: `/sdd-spec` -> `/sdd-plan` -> `/sdd-develop - <plan-path> - Step N` (repo or global storage). See [SDD workflow guide](docs/guides/01-sdd-workflow.md) for details.
 
 Re-run sync after pulling toolkit updates (idempotent).
 
@@ -38,12 +37,12 @@ Re-run sync after pulling toolkit updates (idempotent).
 
 | Doc | Content |
 |-----|---------|
-| [docs/guides/README.md](docs/guides/README.md) | **Daily usage** - decision tree, skill manuals (guides 01-09) |
+| [docs/guides/README.md](docs/guides/README.md) | **Daily usage** - decision tree, skill manuals (guides 01-10) |
 | [docs/INSTALL.md](docs/INSTALL.md) | Install, sync, short usage index |
 | [docs/README.md](docs/README.md) | Documentation index |
 | [docs/HOOKS.md](docs/HOOKS.md) | Optional hooks (behavior, limits) |
 | [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md) | Repository layout and maintainer checklist |
-| [docs/SKILLS.md](docs/SKILLS.md) | Canonical skill catalog (35 skills) |
+| [docs/SKILLS.md](docs/SKILLS.md) | Canonical skill catalog (34 skills) |
 | [docs/impeccable-integration.md](docs/impeccable-integration.md) | Impeccable design -> DESIGN-BRIEF -> stack developer handoff |
 | [docs/blip-plugin-integration.md](docs/blip-plugin-integration.md) | Blip plugin scaffold -> SDD -> `react-developer` + `blip-guidelines/` |
 | [docs/architecture.md](docs/architecture.md) | Deployment and enforcement model |
@@ -69,11 +68,9 @@ cursor-dev-toolkit/
     ├── sdd-spec/
     ├── sdd-plan/
     ├── sdd-develop/
-    ├── speckit-setup/     # Verify and install Spec Kit CLI prerequisites
-    ├── speckit-init/      # Initialize .specify/ folders
-    ├── speckit-spec/      # Create technical spec
-    ├── speckit-plan/      # Technical design and checklist
-    ├── speckit-develop/   # Step-by-step developer task execution
+    ├── orchestrate-analyze/
+    ├── orchestrate-deliver/
+    ├── orchestrate-develop/
     ├── code-review/
     ├── commit/
     ├── developer/         # Stack router
@@ -103,37 +100,35 @@ cursor-dev-toolkit/
 
 | Skill | Invoke | Use for |
 |-------|--------|---------|
-| `sdd-spec` | `use skill sdd-spec` | PRD from a feature request |
-| `sdd-plan` | `use skill sdd-plan` | Baby-step PLAN from PRD |
-| `sdd-develop` | `use skill sdd-develop` | One PLAN step per session |
-| `speckit-setup` | `use skill speckit-setup` | Install Spec Kit CLI dependencies (Python, uv, specify-cli) |
-| `speckit-init` | `use skill speckit-init` | Initialize `.specify/` with stack-based `constitution.md` |
-| `speckit-spec` | `use skill speckit-spec` | Create technical specification `spec.md` |
-| `speckit-plan` | `use skill speckit-plan` | Generate plan `plan.md` and checklist `tasks.md` |
-| `speckit-develop` | `use skill speckit-develop` | Implement code and run tests for one Spec Kit task |
-| `code-review` | `use skill code-review` | Review diff or branch vs PRD/PLAN |
-| `commit` | `use skill commit` | Conventional commit and push |
-| `developer` | `use skill developer` | Stack router for small tasks |
-| `impeccable` | `use skill impeccable` | UI design; shape -> DESIGN-BRIEF |
-| `blip-plugin-developer` | `use skill blip-plugin-developer` | New Blip React plugin scaffold |
-| `dotnet-developer` | `use skill dotnet-developer` | Small .NET work without full SDD |
-| `blazor-developer` | `use skill blazor-developer` | Small Blazor UI work |
-| `react-developer` | `use skill react-developer` | Small React work |
-| `angular-developer` | `use skill angular-developer` | Small Angular work |
-| `vue-developer` | `use skill vue-developer` | Small Vue 3 work |
-| `electron-developer` | `use skill electron-developer` | Small Electron desktop work |
-| `javascript-developer` | `use skill javascript-developer` | Small Node/JS work |
-| `python-developer` | `use skill python-developer` | Small Python work |
-| `add-migrations` | `use skill add-migrations` | EF Core migration in the open repo |
-| `fix-build` | `use skill fix-build` | Fix build/test failures (local; optional `gh`) |
-| `test-coverage` | `use skill test-coverage` | .NET coverage report (Coverlet; SonarQube-aligned metrics) |
-| `document-plan` | `use skill document-plan` | Plan repo documentation (RAG-oriented) |
-| `document-implement` | `use skill document-implement` | Execute one doc plan step |
-| `refine-backlog-item` | `use skill refine-backlog-item` | Refine bug/story + quality scorecard |
-| `breakdown-tasks` | `use skill breakdown-tasks` | Implementation task checklist (local markdown) |
-| `create-message-consumer` | `use skill create-message-consumer` | Scaffold message consumer (scaffold) |
+| `sdd-spec` | `/sdd-spec` | PRD from a feature request |
+| `sdd-plan` | `/sdd-plan` | Baby-step PLAN from PRD |
+| `sdd-develop` | `/sdd-develop` | One PLAN step per session |
+| `orchestrate-analyze` | `/orchestrate-analyze` | Forma C O1 - multi-story analyze / backlog |
+| `orchestrate-deliver` | `/orchestrate-deliver` | Forma C O2 - PRD/PLAN per story |
+| `orchestrate-develop` | `/orchestrate-develop` | Forma C O3 - one PLAN step per subagent |
+| `code-review` | `/code-review` | Review diff or branch vs PRD/PLAN |
+| `commit` | `/commit` | Conventional commit and push |
+| `developer` | `/developer` | Stack router for small tasks |
+| `impeccable` | `/impeccable` | UI design; shape -> DESIGN-BRIEF |
+| `blip-plugin-developer` | `/blip-plugin-developer` | New Blip React plugin scaffold |
+| `dotnet-developer` | `/dotnet-developer` | Small .NET work without full SDD |
+| `blazor-developer` | `/blazor-developer` | Small Blazor UI work |
+| `react-developer` | `/react-developer` | Small React work |
+| `angular-developer` | `/angular-developer` | Small Angular work |
+| `vue-developer` | `/vue-developer` | Small Vue 3 work |
+| `electron-developer` | `/electron-developer` | Small Electron desktop work |
+| `javascript-developer` | `/javascript-developer` | Small Node/JS work |
+| `python-developer` | `/python-developer` | Small Python work |
+| `add-migrations` | `/add-migrations` | EF Core migration in the open repo |
+| `fix-build` | `/fix-build` | Fix build/test failures (local; optional `gh`) |
+| `test-coverage` | `/test-coverage` | .NET coverage report (Coverlet; SonarQube-aligned metrics) |
+| `document-plan` | `/document-plan` | Plan repo documentation (RAG-oriented) |
+| `document-implement` | `/document-implement` | Execute one doc plan step |
+| `refine-backlog-item` | `/refine-backlog-item` | Refine bug/story + quality scorecard |
+| `breakdown-tasks` | `/breakdown-tasks` | Implementation task checklist (local markdown) |
+| `create-message-consumer` | `/create-message-consumer` | Scaffold message consumer (scaffold) |
 
-Optional flows: repo docs (`document-plan` -> `document-implement`); backlog (`refine-backlog-item` -> `breakdown-tasks` -> SDD); frontend design (`impeccable shape` -> `DESIGN-BRIEF.md` -> `*-developer`); Blip plugin (`blip-plugin-developer` -> SDD/spec -> `react-developer`); Spec Kit (`speckit-setup` -> `speckit-init` -> `speckit-spec` -> `speckit-plan` -> `speckit-develop`). See [AGENTS.md](AGENTS.md).
+Optional flows: Forma C (`orchestrate-analyze` -> `orchestrate-deliver` -> `orchestrate-develop` \| `sdd-develop`); repo docs (`document-plan` -> `document-implement`); backlog (`refine-backlog-item` -> `breakdown-tasks` -> Forma A or C); frontend design (`impeccable shape` -> `DESIGN-BRIEF.md` -> `*-developer`); Blip plugin (`blip-plugin-developer` -> SDD -> `react-developer`). See [AGENTS.md](AGENTS.md).
 
 Details and shared assets: [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md).
 
@@ -141,7 +136,7 @@ Details and shared assets: [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md).
 
 | Area | Rule |
 |------|------|
-| Skill names | English, kebab-case (`sdd-spec`, `sdd-plan`, `speckit-spec`) |
+| Skill names | English, kebab-case (`sdd-spec`, `sdd-plan`, `orchestrate-analyze`) |
 | SDD agent artifacts (PRD, PLAN `.md`) | Brazilian Portuguese (pt-BR) - `rules/sdd-artifact-language-pt-br.md` |
 | Production code & tests | English; tests `Should_<Result>_When_<Condition>` |
 | Project docs (`docs/`, README deliverables) | Ask pt-BR or English in skill |
@@ -174,8 +169,8 @@ Caveman Mode is an optional feature designed to reduce output token consumption 
   - Send `caveman off` in chat to disable response compression.
 - **Participation Levels**:
   - **NEVER**: `commit` (kept verbose for safety).
-  - **LITE**: `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan` (compresses headers/preambles, but keeps questions and drafts intact).
-  - **FULL**: `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop`, `speckit-develop` (compresses all prose to telegraphic bullet points).
+  - **LITE**: `sdd-spec`, `sdd-plan` (compresses headers/preambles, but keeps questions and drafts intact).
+  - **FULL**: `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop` (compresses all prose to telegraphic bullet points).
 
 For a complete explanation, see [docs/guides/07-caveman-mode.md](docs/guides/07-caveman-mode.md).
 

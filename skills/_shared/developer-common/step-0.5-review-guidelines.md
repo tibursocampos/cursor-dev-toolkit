@@ -50,7 +50,7 @@ Quick checks (always apply):
 | Electron | `~/.cursor/skills/_shared/electron-guidelines/` |
 | Vanilla / DOM | `~/.cursor/skills/_shared/javascript-guidelines/dom-patterns.md` |
 
-Visual decisions: `docs/DESIGN-BRIEF.md` or `use skill impeccable` - do not invent palette/typography from generic guidelines.
+Visual decisions: `docs/DESIGN-BRIEF.md` or `/impeccable` - do not invent palette/typography from generic guidelines.
 
 ## 4. Other stacks
 

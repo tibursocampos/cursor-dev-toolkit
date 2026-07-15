@@ -5,16 +5,21 @@ Load on demand from skills at step -1 - do not pre-load.
 
 Install path after sync: `~/.cursor/skills/_shared/caveman/CAVEMAN.md`
 
+Inspired by: https://github.com/juliusbrussee/caveman  
+Portable contract only — not a full port of that repository.
+
 ---
 
 ## What Caveman Mode Does
 
-Forces the agent to respond in telegraphic, concise fragments - eliminating
-conversational filler, preambles, and polite wrapper text - while preserving
+Forces the agent to respond in telegraphic, concise fragments — eliminating
+conversational filler, preambles, and polite wrapper text — while preserving
 100% of technical content (code, paths, artifact drafts, confirmation gates).
 
-Inspired by: https://github.com/juliusbrussee/caveman  
-Expected savings: 22-87% of output prose tokens per session.
+**Mouth smaller, brain same.** Compress style, not substance. Compress style, not language (chat stays pt-BR when that is the toolkit language policy).
+
+**Expected savings:** often 22–87% of *output prose* tokens on verbose replies.  
+**Honest cost:** loading this file adds ~1–1.5k input tokens per turn. Net-negative on short Q&A (~150 output tokens). Prefer ON for long review/debug/orchestration; OFF for terse coding Q&A. See `docs/TOKEN_BUDGET.md` and `docs/guides/07-caveman-mode.md`.
 
 ---
 
@@ -25,93 +30,136 @@ Expected savings: 22-87% of output prose tokens per session.
 **Structure:**
 ```json
 {
-  "caveman_mode": false
+  "caveman_mode": false,
+  "caveman_level": "full"
 }
 ```
 
-**Resolution algorithm (run at step -1 of participating skills):**
+- `caveman_mode` — master switch (bool).
+- `caveman_level` — `lite` | `full` | `ultra` (default `full` when mode is ON). Skill participation may *cap* intensity (e.g. planning skills use Lite rules even if prefs say `ultra`).
+
+**Resolution algorithm (run by always-on rule `caveman-mode` and at Step -1 of participating skills):**
 
 ```
-1. Check if preferences.json exists at the location above.
-   - If NOT exists: create it with { "caveman_mode": false }. Mode = OFF.
-2. Read value of "caveman_mode".
-   - If true:  Mode = ON  -> load this file, display activation notice.
-   - If false: Mode = OFF -> skip rest of this file.
-3. During session: watch for user typing "caveman off" or "caveman on".
-   - "caveman off" -> set caveman_mode: false in preferences.json. Confirm in chat (pt-BR): "🪨 Modo Caveman desativado."
-   - "caveman on"  -> set caveman_mode: true  in preferences.json. Confirm in chat (pt-BR): "🪨 Modo Caveman ativado."
+1. If preferences.json missing: create { "caveman_mode": false, "caveman_level": "full" }. Mode = OFF.
+2. Read caveman_mode / caveman_level (missing level => "full").
+3. If caveman_mode false: Mode = OFF — skip compression rules.
+4. If true: Mode = ON — apply intensity (see Levels), show activation notice once per session.
+5. In-session commands (not roleplay; no cave-themed language or emojis):
+   - "caveman on"              -> caveman_mode true; confirm: "[Caveman] Modo ativado (respostas compactas)."
+   - "caveman off"             -> caveman_mode false; confirm: "[Caveman] Modo desativado."
+   - "caveman status"          -> report on/off + level.
+   - "caveman lite|full|ultra" -> set caveman_level; if mode was off, turn on; confirm level.
 ```
 
-**Activation notice (display in chat when mode is ON):**
-> 🪨 Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
+**Activation notice (when mode is ON):**
+> [Caveman] Modo ativo (respostas compactas, level={level}). Digite `caveman off` para desativar.
+
+**Persistence:** Mode stays ON every reply until `caveman off` / `normal mode` / `stop caveman`. Do not silently drift back to filler mid-session.
+
+---
+
+## Intensity Levels
+
+| Level | Behavior |
+|-------|----------|
+| **lite** | No filler/hedging. Keep articles and full sentences. Professional but tight. |
+| **full** (default) | Drop articles where clear. Fragments OK. Short synonyms. No tool-call narration. No decorative emoji. Quote shortest decisive error line unless asked for full log. |
+| **ultra** | Strip conjunctions when order stays unambiguous. One word when enough. State each fact once. Prefer for long Forma C / review sessions only. |
+
+**Pattern (full/ultra):** `[thing] [action] [reason]. [next step].`
+
+Example — "Why does this component re-render?"
+- lite: "Component re-renders because you create a new object reference each render. Wrap it in `useMemo`."
+- full: "New object ref each render. Inline object prop = new ref = re-render. Wrap in `useMemo`."
+- ultra: "Inline obj prop, new ref, re-render. `useMemo`."
+
+### Tokenizer hygiene (all levels)
+
+- Standard acronyms OK: DB, API, HTTP, PR, CI.
+- **Never invent** abbreviations (`cfg`, `impl`, `req`, `res`, `fn`) — tokenizer often splits them; zero token saved, clarity lost.
+- **No causal arrows** (`→`) as prose shorthand — own token, saves nothing.
+- Technical terms, API names, CLI commands, commit-type keywords (`feat`/`fix`), error strings: verbatim.
+
+---
+
+## Auto-Clarity
+
+**Drop caveman** (use clear prose) when:
+
+- Security warnings
+- Irreversible action confirmations (including `(sim / ajustar / cancelar)` gates)
+- Multi-step sequences where fragment order or omitted conjunctions risk misread
+- Compression itself creates technical ambiguity
+- User asks to clarify or repeats the question
+
+Resume caveman after the clear part is done.
+
+---
+
+## Boundaries
+
+- **Code / commit messages / PR bodies:** write normal (English per toolkit policy). Never caveman-compress artifact text.
+- **NEVER skills** (`commit`, `push`): ignore `caveman_mode` for chat around those flows — clear prose only.
+- Do not announce the style in third person ("me caveman think"). Exception: activation/status confirmations and explicit user questions about the mode.
 
 ---
 
 ## Participation Levels
 
-| Skill | Level |
+| Skill / Context | Cap when mode ON |
 |---|---|
-| `commit` | **NEVER** - excluded regardless of setting |
-| `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan` | **LITE** when mode ON |
-| `code-review`, `developer`, `fix-build`, `test-coverage` | **FULL** when mode ON |
-| `sdd-develop`, `speckit-develop` | **FULL** when mode ON |
+| `commit`, `push` | **NEVER** — excluded regardless of setting |
+| `sdd-spec`, `sdd-plan` | **LITE** |
+| `orchestrate-analyze`, `orchestrate-deliver` | **LITE** |
+| `document-plan`, `refine-backlog-item`, `memory-bank-init` | **LITE** |
+| `sdd-develop`, `orchestrate-develop`, `document-implement` | **FULL** (or prefs level if lower) |
+| `breakdown-tasks`, `code-review`, `developer`, `fix-build`, `test-coverage` | **FULL** |
+| `*-developer`, ops (`api-integrate`, `containerize`, `i18n-manager`, `performance-profile`, `refactor`) | **FULL** |
+| Forma C specialist passes / agent prompts | **FULL** chat; **ultra receipt** schema when mode ON (see `_shared/agents/ROUTING.md`) |
+| General chat | **FULL** (or prefs `caveman_level`) |
 
-**Always protected in every skill (never compressed under any mode):**
+**Skill cap vs prefs:** effective level = min(skill cap, prefs `caveman_level`) with NEVER winning. Lite skills never escalate to full/ultra from prefs.
+
+**Always protected (never compressed under any mode):**
 - Confirmation gates: `(sim / ajustar / cancelar)` blocks
-- Artifact drafts shown in chat: `spec.md`, `plan.md`, `tasks.md`, PRD, PLAN, commit suggestions
+- Artifact drafts shown in chat (FEATURE, STORY, PRD, PLAN, CONTINUITY, commit suggestions)
 - Technical identifiers: file paths, function/type names, CLI commands, error messages
 - Security guardrails and Git blocking notices
 
 ---
 
-## Full Mode Rules
+## Lite Mode Rules
 
-Apply to: `code-review`, `developer`, `fix-build`, `test-coverage`, `sdd-develop`, `speckit-develop`.
+**Strip:** opening preambles/framing before questions; closing wrap-ups after drafts; redundant restatements.
 
-**Strip completely:**
-- Opening preambles ("Claro! Vou ajudar com isso.", "Ótima pergunta!", "Com certeza!")
-- Closing pleasantries ("Espero ter ajudado!", "Qualquer dúvida é só perguntar!")
-- Redundant framing ("Como solicitado, vou agora...", "Conforme discutimos...")
-- Verbose progress narration ("Primeiro vou analisar o arquivo X, depois vou verificar Y...")
-
-**Replace with:**
-- Direct action statements ("Analisando X...", "Erro em Y:", "Alteração:")
-- Bullet-first format for lists without lead-in sentences
-- Single-line status confirmations ("✅ Tarefa concluída.", "⚠️ Falha detectada:")
-
-**Always preserve intact:**
-- Code blocks (any language)
-- File paths and directory trees
-- Error messages and stack traces
-- Command suggestions
-- Confirmation gates and security guardrail text
-- Artifact drafts (spec/sdd-plan/tasks/commit content)
+**Preserve intact (plus universal protections):** clarifying questions; draft previews; gates; section headers and structured draft content.
 
 ---
 
-## Lite Mode Rules
+## Full / Ultra Mode Rules
 
-Apply to: `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan`.
+**Strip completely:**
+- Opening preambles ("Claro! Vou ajudar com isso.", "Ótima pergunta!")
+- Closing pleasantries ("Espero ter ajudado!")
+- Redundant framing ("Como solicitado…", "Conforme discutimos…")
+- Verbose progress narration / tool-call play-by-play
 
-**Strip:**
-- Opening preambles and framing before questions
-- Closing wrap-up phrases after presenting drafts
-- Redundant context restatements ("Como você mencionou antes...", "Baseado no que discutimos...")
+**Replace with:**
+- Direct action ("Analisando X.", "Erro em Y:", "Alteração:")
+- Bullet-first lists without lead-in
+- Single-line status ("Task concluída.", "Falha:")
 
-**Preserve intact (in addition to universal protections):**
-- Clarifying questions (content must remain clear and complete)
-- Artifact draft previews shown for user review
-- Confirmation gates `(sim / ajustar / cancelar)`
-- All section headers and structured content within drafts
+**Always preserve intact:** code blocks; paths; errors/stack traces (shortest decisive line OK unless full log requested); command suggestions; gates; artifact drafts.
 
 ---
 
 ## Phrase Reference
 
-### Blocked (Full Mode)
+### Blocked (Full / Ultra)
 | Instead of | Use |
 |---|---|
-| "Claro! Vou ajudar com isso. Aqui está o que farei:" | *(nothing - go straight to action)* |
+| "Claro! Vou ajudar com isso. Aqui está o que farei:" | *(nothing — go straight to action)* |
 | "Analisando o arquivo solicitado, identifiquei que..." | "Identificado:" |
 | "Após concluir esta etapa, o próximo passo será..." | "Próximo: Task N+1" |
 | "Espero que isso resolva o problema!" | *(omit)* |
@@ -122,11 +170,17 @@ Apply to: `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan`.
 Posso gravar em `{path}`? (sim / ajustar / cancelar)
 ```
 ```
-⚠️ Nenhum comando mutante do Git será executado sem autorização explícita.
+Nenhum comando mutante do Git sera executado sem autorizacao explicita.
 ```
 ```
-✅ Task N marcada como concluída em `{path}`.
+Task N marcada como concluida em `{path}`.
 ```
+
+---
+
+## Continuity / memory compact (optional)
+
+When mode ON, agents may propose compacting prose in `CONTINUITY.md` or memory-bank narrative files (`known-risks.md`, notes) per `_shared/caveman/COMPACT.md`. Never compact PRD/PLAN/STORY bodies via that flow. Always backup + user `sim`.
 
 ---
 
@@ -134,8 +188,18 @@ Posso gravar em `{path}`? (sim / ajustar / cancelar)
 
 | Consumer | Load condition |
 |---|---|
-| `sdd-develop`, `speckit-develop` | Step -1, if caveman_mode check passes |
-| `code-review`, `developer`, `fix-build`, `test-coverage` | Step -1, if caveman_mode check passes |
-| `sdd-spec`, `sdd-plan`, `speckit-spec`, `speckit-plan` | Step -1, if caveman_mode check passes (Lite rules only) |
-| `AGENTS.md` | Reference only - documents the toggle and participation table |
-| `PIPELINE.md` | Reference only - documents confirmation gate protection |
+| Participating skills (see table) | Step -1, if `caveman_mode` true |
+| `rules/caveman-mode.md` (alwaysApply) | Global toggle + preference check every session |
+| `rules/guardrails.md` / `AGENTS.md` | Never-compress + command UX pointers |
+| Forma C agent prompts | Receipt schema when mode ON |
+
+### Canonical Step -1 block (copy into skills)
+
+```
+### Step -1b - Caveman Mode
+1. Read ~/.cursor/sdd/preferences.json (create default if missing).
+2. If caveman_mode is false: continue without compression.
+3. If true: load _shared/caveman/CAVEMAN.md; apply skill participation cap + caveman_level;
+   show activation notice once; honor on/off/status/level commands.
+4. NEVER skills (commit, push): skip compression regardless of prefs.
+```

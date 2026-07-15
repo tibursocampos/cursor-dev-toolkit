@@ -9,9 +9,9 @@ alwaysApply: true
 
 | In scope | Out of scope |
 |----------|--------------|
-| `PRD/*.md`, `docs/PRD/*.md`, global PRD paths | `.specify/specs/**/spec.md`, `plan.md`, `tasks.md` |
-| `PLAN/PLAN_*.md`, global PLAN paths | Source code, tests, configs |
-| Progress, step notes, checkboxes inside those PLAN files | Project `docs/`, README, ADRs (ask user) |
+| `features/**/PRD/*.md`, global `.../features/**/PRD/` | Source code, tests, configs |
+| `features/**/PLAN/PLAN_*.md`, global `.../features/**/PLAN/` | Project `docs/`, README, ADRs (ask user) |
+| Progress, step notes, checkboxes inside those PLAN files | Root/flat `PRD/` / `PLAN/` (not valid Classic SDD paths) |
 
 This rule does **not** change code language. It does **not** default project documentation to pt-BR.
 
@@ -63,7 +63,6 @@ Set `artifact_language` to `"en"` in `~/.cursor/sdd/<repo-id>/manifest.json` whe
 | `sdd-spec` | New PRD -> pt-BR unless override |
 | `sdd-plan` | New PLAN -> pt-BR unless override; read existing PRD in any language |
 | `sdd-develop` | Code -> English; update PLAN in **existing file language** |
-| `speckit-spec` / `speckit-plan` / `speckit-develop` | spec/plan/tasks -> pt-BR unless override |
 
 This rule overrides conflicting lines in `AGENTS.md` or old templates **only for SDD agent `.md` files** listed above.
 

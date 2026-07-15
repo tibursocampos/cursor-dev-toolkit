@@ -1,6 +1,6 @@
----
+﻿---
 name: add-migrations
-description: Add an EF Core migration in the open workspace. Discovers startup project, DbContext, and migrations folder via Glob/Grep. Use when the user says "use skill add-migrations", "add migration", or "/add-migrations". Optional migration name in the invocation.
+description: Add an EF Core migration in the open workspace. Discovers startup project, DbContext, and migrations folder. Use when adding a migration or invoking /add-migrations.
 ---
 
 ## STOP - Read before ANY tool call
@@ -17,7 +17,7 @@ description: Add an EF Core migration in the open workspace. Discovers startup p
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -28,7 +28,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill add-migrations`, `add migration`, `/add-migrations`, or when a PLAN step requires a new EF Core migration.
+Invoke when the user asks for: `/add-migrations`, `add migration`, `/add-migrations`, or when a PLAN step requires a new EF Core migration.
 
 Optional argument: migration name in **PascalCase**. If omitted, infer from pending model changes and confirm with the user.
 
@@ -103,6 +103,6 @@ Confirm new `*.cs` + `*.Designer.cs` and updated `*ModelSnapshot.cs` under the m
 
 | Situation | Next |
 |-----------|------|
-| PLAN step with EF | Continue `use skill sdd-develop - <full-plan-path> - Step N` (path from implement handoff; SDD locations per `STORAGE.md`) |
-| Build/test failures after migration | `use skill fix-build` |
-| Commit | `use skill commit` |
+| PLAN step with EF | Continue `/sdd-develop - <full-plan-path> - Step N` (path from implement handoff; SDD locations per `STORAGE.md`) |
+| Build/test failures after migration | `/fix-build` |
+| Commit | `/commit` |

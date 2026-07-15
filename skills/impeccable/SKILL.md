@@ -1,11 +1,8 @@
 ---
 name: impeccable
-description: >
-  Design, shape, critique, audit, polish, and refine frontend interfaces with upstream Impeccable procedures.
-  Use when the user says "use skill impeccable", UI/UX design work, design briefs, a11y audits, or anti-pattern
-  cleanup. Produces DESIGN-BRIEF.md for handoff to react-developer, angular-developer, or other stack skills.
-  Not for backend-only tasks. Live mode and design hook require optional per-project npx impeccable install.
+description: Design, shape, critique, audit, and polish frontend UI; writes docs/DESIGN-BRIEF.md for stack handoff. Use for UI/UX design work or when invoking /impeccable.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -29,16 +26,16 @@ Gate check:
 
 ## Trigger
 
-Use when user asks for `use skill impeccable`, `/impeccable`, or any Impeccable command (`shape`, `audit`, `polish`, `craft`, etc.).
+Use when user asks for `/impeccable`, `/impeccable`, or any Impeccable command (`shape`, `audit`, `polish`, `craft`, etc.).
 
 **Invocation forms:**
 
 | User says | Behavior |
 |-----------|----------|
-| `use skill impeccable` | Context-aware menu; no auto-run |
-| `use skill impeccable <command> [target]` | Load `reference/<command>.md` and execute |
-| `use skill impeccable-shape` | Alias: `shape` command |
-| `use skill impeccable-audit` | Alias: `audit` command |
+| `/impeccable` | Context-aware menu; no auto-run |
+| `/impeccable <command> [target]` | Load `reference/<command>.md` and execute |
+| `/impeccable-shape` | Alias: `shape` command |
+| `/impeccable-audit` | Alias: `audit` command |
 
 ## Outcome
 
@@ -144,17 +141,17 @@ After user **confirms** the design brief:
 2. Set `target_stack` from workspace detection or user input.
 3. For **Blip plugins** (`blip-ds` in `package.json`): document BDS components, iframe constraints, and Lite vs Full profile notes in brief **section 9**; implementation uses `react-developer` + `blip-guidelines/`.
 4. **STOP session** - one session = design OR implementation, not both.
-5. Ask user **(pt-BR):** *"Brief salvo. Inicie nova conversa com `use skill <stack>-developer` para implementar."*
+5. Ask user **(pt-BR):** *"Brief salvo. Inicie nova conversa com `/<stack>-developer` para implementar."*
 
 | `target_stack` | Next skill |
 |----------------|------------|
-| `react` | `use skill react-developer` |
-| `angular` | `use skill angular-developer` |
-| `vue` | `use skill vue-developer` |
-| `blazor` | `use skill blazor-developer` |
-| `electron` | `use skill electron-developer` |
-| `html-css` / vanilla | `use skill javascript-developer` |
-| ambiguous | `use skill developer` (router) |
+| `react` | `/react-developer` |
+| `angular` | `/angular-developer` |
+| `vue` | `/vue-developer` |
+| `blazor` | `/blazor-developer` |
+| `electron` | `/electron-developer` |
+| `html-css` / vanilla | `/javascript-developer` |
+| ambiguous | `/developer` (router) |
 
 SDD composability: `shape` may also feed PRD sections when user is in SDD flow; prefer `DESIGN-BRIEF.md` for frontend handoff.
 
@@ -165,5 +162,5 @@ One invocation = one Impeccable command outcome. After `shape` brief is saved, o
 #--------|------|
 | Brief confirmed | New session -> `react-developer` / `angular-developer` / `developer` |
 | Large feature + PRD | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |
-| Commit design artifacts | `use skill commit` (user request only) |
-| More Impeccable commands | New session -> `use skill impeccable <command>` |
+| Commit design artifacts | `/commit` (user request only) |
+| More Impeccable commands | New session -> `/impeccable <command>` |

@@ -52,7 +52,6 @@ $requiredMarkers = @(
     'create blip-extension',
     'react-developer',
     'sdd-spec',
-    'speckit-spec',
     'impeccable shape',
     'blip-guidelines'
 )

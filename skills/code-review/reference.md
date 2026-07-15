@@ -12,13 +12,13 @@ Run in **step 0.5** before scoping the diff. Load `~/.cursor/skills/_shared/sdd-
 
 1. **Target repo** - open workspace is the project under review (not `cursor-dev-toolkit` unless that is the subject).
 2. **`<repo-id>`** - per `STORAGE.md`: `git remote get-url origin` -> slug; else workspace root basename; reuse `repo_id` from manifest when present.
-3. **Manifest** - read `~/.cursor/sdd/<repo-id>/manifest.json` when it exists and `workspace_root` (normalized separators, case-insensitive on Windows) matches the open workspace -> use `prd_folder` and `plan_folder` (may be absolute paths, e.g. `C:/Users/.../PRD`).
-4. **Glob** (parallel):
+3. **Manifest** - read `~/.cursor/sdd/<repo-id>/manifest.json` when it exists and `workspace_root` (normalized separators, case-insensitive on Windows) matches the open workspace -> derive classic feature root from `STORAGE.md` (repository `features/` or global `.../features/`).
+4. **Glob** (parallel) - **only** under `features/` (never root/flat `PRD/` or `PLAN/`):
 
    | Location | Patterns |
    |----------|----------|
-   | Workspace | `PRD/*.md`, `docs/PRD/*.md`, `PLAN/PLAN_*.md` |
-   | Global | `~/.cursor/sdd/<repo-id>/PRD/*.md`, `~/.cursor/sdd/<repo-id>/PLAN/PLAN_*.md` |
+   | Workspace | `features/**/PRD/*.md`, `features/**/PLAN/PLAN_*.md`, `docs/features/**/PRD/*.md`, `docs/features/**/PLAN/PLAN_*.md` |
+   | Global | `~/.cursor/sdd/<repo-id>/features/**/PRD/*.md`, `~/.cursor/sdd/<repo-id>/features/**/PLAN/PLAN_*.md` |
 
 5. **Extract `NNN`** - first three digits from PRD filename (`001_...md`) and from PLAN (`PLAN_001_...md`).
 6. **Pair** - match PRD and PLAN with the same `NNN`.
@@ -150,7 +150,7 @@ _Omitir esta seção somente se step 0.5 registrou **Limitação SDD**._
 - **Cobertura (código novo / arquivos alterados):** [X% - Passou ≥ [threshold]% / Abaixo do target / Não executado]
 - **Cobertura geral (branch):** [Y% - informativo]
 - **Meta:** 100% (mínimo aceitável: [80]% quando target aplicável)
-- **Fonte:** `use skill test-coverage` - [colar bloco do relatório ou N/A]
+- **Fonte:** `/test-coverage` - [colar bloco do relatório ou N/A]
 
 ---
 
@@ -218,7 +218,7 @@ Problemas: [Nenhum | listados]
 | Stack | Commands |
 |-------|----------|
 | .NET | `dotnet build`, `dotnet test` (scoped if large) |
-| .NET coverage | `use skill test-coverage` when PRD, PLAN, or user sets a target (default **80%** on changed production files) |
+| .NET coverage | `/test-coverage` when PRD, PLAN, or user sets a target (default **80%** on changed production files) |
 | Node | `npm run build`, `npm test` per project scripts |
 
 When a coverage target applies: run `test-coverage` before final decision; paste summary into report section Testes. **Fail** below threshold -> **Changes required** unless user documents an accepted exception.
@@ -291,7 +291,7 @@ When a coverage target applies: run `test-coverage` before final decision; paste
 Run when PRD, PLAN, or user requires coverage evidence:
 
 ```text
-use skill test-coverage - <base-branch> - threshold 80
+/test-coverage - <base-branch> - threshold 80
 ```
 
 | Result from test-coverage | code-review decision |
@@ -300,3 +300,56 @@ use skill test-coverage - <base-branch> - threshold 80
 | Fail (&lt; threshold) | **Alterações necessárias** |
 | Not run, target required | Note limitation; ask user to run or waive explicitly |
 | Not applicable (no .NET / no target) | Omit coverage rows in § Testes |
+
+---
+
+## Multi-angle mode
+
+Optional enrichment of the same report template. **No silent default:** if the invoke omits both single and multi, the skill **must ask** (pt-BR) before step 0.5 - see `SKILL.md` § Trigger and § 0.25. O3 may suggest review; never auto-blocks the pipeline.
+
+### Invoke examples
+
+```text
+/code-review
+/code-review - single
+/code-review - multi-angle
+/code-review - ângulos: qualidade, aceite, segurança
+```
+
+Bare `/code-review` -> ask mode (1 single / 2 multi-ângulo). Subset allowed, e.g. `ângulos: qualidade, segurança`. Synonyms: `multi-ângulo`, `multi-angle`, `single`, `single-angle`, `simples`.
+
+### Checklist per angle
+
+**Quality (qualidade)**
+
+- [ ] Correctness / edge cases / error handling in the diff
+- [ ] Architecture and layer boundaries
+- [ ] Meaningful tests for changed behavior
+- [ ] Performance smells (N+1, unbounded work, missing async)
+- [ ] Maintainability (naming, method size, duplication, magic values)
+
+**Acceptance (aceite)**
+
+- [ ] PRD acceptance criteria mapped to evidence in the diff
+- [ ] PLAN completed steps match deliverables; no silent drift
+- [ ] Business rules from PRD present where in scope
+- [ ] Gaps flagged as important or critical per severity (not a separate gate)
+
+**Security (segurança)**
+
+- [ ] AuthZ / AuthN assumptions for new endpoints or jobs
+- [ ] Input validation / injection (SQL, command, template)
+- [ ] Secrets and PII handling (no hardcoded secrets; no sensitive logs)
+- [ ] Dangerous defaults - hint source: `_shared/agents/prompts/security.md`
+- [ ] Evidence-based findings only; state what to verify if data is missing
+
+### Merging Task outputs into the report
+
+1. Spawn one Task per requested angle (parallel); parent keeps the default flow for build/test/coverage.
+2. Deduplicate overlapping findings; keep the strongest severity and clearest `path:line`.
+3. Map into the existing template sections:
+   - Blocking bugs / security / broken PRD scope -> **Problemas críticos**
+   - Non-blocking quality, PLAN/PRD drift, gaps -> **Problemas importantes**
+   - Optional polish -> **Nice-to-have**
+4. Fold security-angle notes into § Segurança; acceptance into § Aderência ao PRD / Verificação do PLAN; quality into analysis sections and positives.
+5. Apply the **same** decision matrix and coverage gates - multi-angle does not change Approved / Approved with reservations / Changes required semantics.

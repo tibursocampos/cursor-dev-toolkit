@@ -1,6 +1,6 @@
 ---
 name: test-coverage
-description: Run .NET test coverage (Coverlet), report metrics aligned with SonarQube (new code, branch, per-file), and evaluate against a threshold (default 80%). Use when the user says "use skill test-coverage", "coverage report", or "/coverage". Git-only - no Sonar server required.
+description: Run .NET Coverlet coverage, report Sonar-aligned metrics, and evaluate against a threshold (default 80%). Use for coverage reports or when invoking /test-coverage.
 ---
 
 ## STOP - Read before ANY tool call
@@ -17,7 +17,7 @@ description: Run .NET test coverage (Coverlet), report metrics aligned with Sona
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -26,7 +26,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill test-coverage`, `coverage report`, `/coverage`, or when a PLAN step / `code-review` requires coverage evidence.
+Invoke when the user asks for: `/test-coverage`, `coverage report`, `coverage`, or when a PLAN step / `code-review` requires coverage evidence.
 
 **Arguments (optional):**
 
@@ -54,21 +54,22 @@ Does not modify code unless the user asks for test additions in a follow-up.
 |------|------|
 | Commands, parsing, exclusions, on-disk report paths | `test-coverage/reference.md` after sync |
 | Cursor mode (Agent for shell) | `~/.cursor/skills/_shared/sdd-artifacts/PIPELINE.md` section Cursor mode |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full mode** |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full cap** |
 | Add tests for gaps | `~/.cursor/skills/_shared/dotnet-guidelines/csharp-patterns.md` |
-| Commit | `use skill commit` |
+| Commit | `/commit` |
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### -1. Mode
 
 `PIPELINE.md`: **Agent** required for `dotnet test` and ReportGenerator. In Plan/Ask, explain limitation and list expected paths under `TestResults/` after the user switches to Agent.
-
-Check `~/.cursor/sdd/preferences.json`:
-- If file missing -> create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
-  > Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
-- Honor `caveman on` / `caveman off` commands from the user at any point during the session.
 
 ### 0. Workspace
 
@@ -140,12 +141,12 @@ Do not claim Pass if ReportGenerator output or Cobertura files are missing.
 
 | Situation | Next |
 |-----------|------|
-| Pass | `use skill code-review` - paste approval block from report |
-| Fail - add tests | `use skill dotnet-developer` or `use skill sdd-develop` |
-| Build/test broken | `use skill fix-build` |
-| Commit coverage tooling in consumer repo | `use skill commit` |
+| Pass | `/code-review` - paste approval block from report |
+| Fail - add tests | `/dotnet-developer` or `/sdd-develop` |
+| Build/test broken | `/fix-build` |
+| Commit coverage tooling in consumer repo | `/commit` |
 | SDD feature with PLAN | Last PLAN step or `code-review` after all `sdd-develop` steps |
-| Small fix | `use skill dotnet-developer` to raise coverage, then re-run this skill |
+| Small fix | `/dotnet-developer` to raise coverage, then re-run this skill |
 
 ## Must not
 

@@ -1,10 +1,8 @@
 ---
 name: python-developer
-description: >
-  Implement or fix small-to-medium Python features without full SDD. Uses Python, FastAPI/Flask,
-  virtual environments (venv, uv), pytest, and Git-only developer flow. Use for isolated Python work.
-  For larger cross-cutting features, route to sdd-spec -> sdd-plan -> sdd-develop.
+description: Implement or fix small-to-medium Python features without full SDD (FastAPI/Flask, pytest). Use for isolated Python work or when invoking /python-developer.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -28,11 +26,11 @@ Gate check:
 
 ## Trigger
 
-Use when user asks for `use skill python-developer`, `python fix`, or a small isolated Python implementation.
+Use when user asks for `/python-developer`, `python fix`, or a small isolated Python implementation.
 
 ## Outcome
 
-Working Python code and tests in the target workspace, validated with pytest/build, with optional handoff to `use skill commit`.
+Working Python code and tests in the target workspace, validated with pytest/build, with optional handoff to `/commit`.
 
 ## When to escalate to SDD
 
@@ -46,11 +44,18 @@ Recommend `sdd-spec` -> `sdd-plan` -> `sdd-develop` for schema changes, new serv
 | Python guidelines | `~/.cursor/skills/_shared/python-guidelines/` |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/` |
 | Context | `~/.cursor/rules/context-management.mdc` |
-| Caveman (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` |
 
 Do not preload unrelated guideline trees.
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### 0. Workspace
 
@@ -86,7 +91,7 @@ Add build/lint steps if configured (`ruff`, `mypy`, etc.).
 
 ### 7. Handoff
 
-Offer `use skill commit`. Do not commit automatically.
+Offer `/commit`. Do not commit automatically.
 
 ## Must not
 
@@ -97,6 +102,6 @@ Offer `use skill commit`. Do not commit automatically.
 
 | Situation | Next |
 |-----------|------|
-| Commit | `use skill commit` |
-| Review | `use skill code-review` |
+| Commit | `/commit` |
+| Review | `/code-review` |
 | Scope grew | `sdd-spec` -> `sdd-plan` -> `sdd-develop` |

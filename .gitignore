@@ -27,6 +27,9 @@ dist/
 .cursor-local/
 
 # SDD artifacts (local agent workflow — not committed; root only)
+# Leading / keeps skills/sdd-plan/ and skills/_shared/templates/features/ tracked
+/features/
+/docs/features/
 /PRD/
 /PLAN/
 /docs/PRD/

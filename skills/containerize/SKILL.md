@@ -1,9 +1,8 @@
 ---
 name: containerize
-description: >
-  Analyze project structure to write optimized multi-stage Dockerfiles, .dockerignore files, and docker-compose.yml
-  development environments. Use when the user says "use skill containerize", "dockerize project", or "/containerize".
+description: Write multi-stage Dockerfiles, .dockerignore, and docker-compose for local dev. Use when dockerizing a project or invoking /containerize.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -19,7 +18,7 @@ description: >
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -30,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user requests: `use skill containerize`, `dockerize project`, `/containerize`, or asks to containerize the workspace.
+Invoke when the user requests: `/containerize`, `dockerize project`, `/containerize`, or asks to containerize the workspace.
 
 **Arguments (optional):**
 
@@ -51,9 +50,16 @@ A set of production-ready container configurations:
 | When | Path (after `scripts/sync-cursor.ps1`) |
 |------|----------------------------------------|
 | DevOps context | `~/.cursor/skills/_shared/devops-guidelines/deployment-process.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - Full mode |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full cap** |
 
 ## Process
+
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### -1. Re-check guardrails and session
 
@@ -68,11 +74,6 @@ Antes de containerizar, confirme:
 Posso seguir? (sim / ajustar / cancelar)
 ```
 
-### -2. Caveman Mode Check
-
-Check `~/.cursor/sdd/preferences.json`:
-- If file missing -> create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` and honor active compressions.
 
 ### 0. Workspace Inspection
 
@@ -89,9 +90,8 @@ Check `~/.cursor/sdd/preferences.json`:
   * Port maps and network parameters.
   * Required local services in compose.
 * Stop and ask the user to choose the workflow execution path to build and verify these configurations:
-  * **Option A - Direct Developer Skill (`use skill developer`):** For straightforward local creation of Dockerfiles/Compose.
-  * **Option B - Classic SDD (`use skill sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex environment containerization requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
-  * **Option C - Spec Kit (`use skill speckit-spec` -> `speckit-plan` -> `speckit-develop`):** For repositories initialized with Spec Kit.
+  * **Option A - Direct Developer Skill (`/developer`):** For straightforward local creation of Dockerfiles/Compose.
+  * **Option B - Classic SDD (`/sdd-spec` -> `sdd-plan` -> `sdd-develop`):** For complex environment containerization requiring formal specifications (PRD) and a detailed plan (PLAN) in Portuguese.
   * **Option D - Plain Chat Plan:** Establish a simple task list directly in the chat, executing steps one by one without extra file creations.
 * **Wait for explicit user choice** before writing code or initializing another workflow.
 
@@ -133,7 +133,7 @@ docker compose up -d
 * Offer committing the configurations:
 
 ```
-use skill commit
+/commit
 ```
 
 ## Must not

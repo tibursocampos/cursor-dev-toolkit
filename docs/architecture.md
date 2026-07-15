@@ -30,10 +30,9 @@ Unlike Antigravity, this toolkit does **not** use Knowledge Items (KI). Rules wi
 
 Resolved by `~/.cursor/sdd/manifest.json`:
 
-- `classic` for `sdd-*` skills
-- `speckit` for `speckit-*` skills
+- `classic` for `sdd-*` and Forma C skills
 
-Each section supports `storage_mode: repository | global` and `path`.
+Each entry supports `storage_mode: repository | global` and `path`. Legacy `speckit` keys are ignored if present.
 
 ## Session-state gates
 

@@ -1,6 +1,6 @@
----
+﻿---
 name: code-review
-description: Review a branch or diff against PRD/PLAN acceptance, project standards, and shared guidelines. Produces a structured report (critical, important, nice-to-have). Use when the user says "use skill code-review", "review this PR", or "/code-review". Git-only - optional GitHub PR via gh CLI.
+description: Review a branch or diff against PRD/PLAN and project standards. Asks single vs multi-angle when omitted. Use when reviewing a PR or invoking /code-review.
 ---
 
 ## STOP - Read before ANY tool call
@@ -17,7 +17,7 @@ description: Review a branch or diff against PRD/PLAN acceptance, project standa
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -26,7 +26,22 @@ Gate check:
 
 ## Trigger
 
-Invoke when the user asks for: `use skill code-review`, `review this PR`, `code review`, or `/code-review`.
+Invoke when the user asks for: `/code-review`, `review this PR`, `code review`.
+
+**Review mode (mandatory choice - no silent default):**
+
+| Mode | Explicit invoke examples |
+|------|--------------------------|
+| **Single** | `single`, `single-angle`, `simples` |
+| **Multi-angle** | `multi-angle`, `multi-ângulo`, or `ângulos: qualidade, aceite, segurança` (subset allowed) |
+
+If the invocation does **not** name single **or** multi-angle: **STOP** after gate check (-1) / before deep diff analysis - ask once **(pt-BR)** and wait. Do **not** assume single. Do **not** assume multi.
+
+```text
+Modo de code-review?
+1) single - um revisor (passos -1..8)
+2) multi-ângulo - qualidade + aceite + segurança (ou diga o subset)
+```
 
 ## Outcome
 
@@ -39,6 +54,7 @@ A structured **review report** with severity tiers (critical / important / nice-
 | Base branch | `main`, `develop` - ask once if missing |
 | Feature branch | Current branch or named branch |
 | PRD / PLAN (SDD) | Optional in invocation; **resolve in step 0.5** if omitted (see `reference.md` section SDD artifact resolution) |
+| Review mode | Explicit in invoke **or** answer to step 0.25 - never silent default |
 
 Ask the user **only after** step 0.5 if zero or multiple PRD/PLAN pairs remain ambiguous. For a quick review without SDD artifacts, base branch + changed paths suffice after 0.5 reports no artifacts.
 
@@ -52,7 +68,7 @@ Ask the user **only after** step 0.5 if zero or multiple PRD/PLAN pairs remain a
 | Pre-PR gate (.NET) | `~/.cursor/skills/_shared/dotnet-guidelines/checklist.md` |
 | .NET coverage report | `~/.cursor/skills/test-coverage/reference.md` (when PRD/user/PLAN requires coverage) |
 | Principles | `~/.cursor/skills/_shared/code-guidelines/principles/principles-cheatsheet.md` |
-| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full mode** |
+| Caveman Mode (if active) | `~/.cursor/skills/_shared/caveman/CAVEMAN.md` - **Full cap** |
 | Final Git hygiene | `~/.cursor/skills/_shared/developer-common/step-7-checklist.md` |
 | Report template | `reference.md` (this skill) |
 
@@ -62,17 +78,27 @@ Do **not** preload `code-guidelines/languages/**` or corporate static-analysis w
 
 ## Process
 
-### -1. Caveman Mode
-
-Check `~/.cursor/sdd/preferences.json`:
-- If file missing -> create with `{ "caveman_mode": false }`.
-- If `caveman_mode: true` -> load `~/.cursor/skills/_shared/caveman/CAVEMAN.md` (Full mode rules) and display:
-  > Modo Caveman ativo (respostas compactas). Digite `caveman off` a qualquer momento para desativar.
-- Honor `caveman on` / `caveman off` commands from the user at any point during the session.
+### Step -1b - Caveman Mode (Full cap)
+1. Read `~/.cursor/sdd/preferences.json` (create `{ "caveman_mode": false, "caveman_level": "full" }` if missing).
+2. If `caveman_mode` is false: continue without compression.
+3. If true: load `~/.cursor/skills/_shared/caveman/CAVEMAN.md`; apply **Full** participation cap + prefs `caveman_level` (Lite skills never escalate); show once: `[Caveman] Modo ativo (respostas compactas, level={effective}). Digite caveman off para desativar.`
+4. Honor `caveman on|off|status|lite|full|ultra` (and `stop caveman` / `normal mode`) during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths per `CAVEMAN.md`.
 
 ### 0. Workspace
 
 Confirm target repo (not `cursor-dev-toolkit` unless that is the subject). Detect stack (`*.sln` -> .NET; `angular.json` -> Angular). Read `AGENTS.md` / `README.md`. Load dotnet-guidelines only for .NET reviews.
+
+### 0.25 Review mode (single vs multi-angle)
+
+Resolve mode from the invocation **or** from the user's answer to the Trigger prompt.
+
+| Signal in invoke / reply | Mode |
+|--------------------------|------|
+| `single` / `single-angle` / `simples` / `1` | Single reviewer (steps -1..8 only) |
+| `multi-angle` / `multi-ângulo` / `2` / named `ângulos: …` | Multi-angle (see section below) |
+
+If still unset: **STOP** - ask the Trigger prompt **(pt-BR)** - do not continue to 0.5/1 until answered. Novice-friendly: never pick a default for them.
 
 ### 0.5 Resolve SDD artifacts
 
@@ -125,7 +151,7 @@ Use the checklists in `reference.md` - do not paste full guideline bodies into t
 | Stack | Commands |
 |-------|----------|
 | .NET | `dotnet build`, `dotnet test` (scoped if large) |
-| .NET coverage | `use skill test-coverage` when PRD, PLAN, or user sets a coverage target (default threshold **80%** on changed production files) |
+| .NET coverage | `/test-coverage` when PRD, PLAN, or user sets a coverage target (default threshold **80%** on changed production files) |
 | Node | `npm run build`, `npm test` per project scripts |
 
 For .NET with a coverage target: run `test-coverage` before final decision; paste the summary into the report section Testes (see `reference.md`). If `test-coverage` reports **Fail** (< threshold), treat as **Changes required** unless the user documents an accepted exception.
@@ -157,22 +183,40 @@ gh pr create --base <base> --head "$(git rev-parse --abbrev-ref HEAD)" \
 
 No MCP work-item linking or mandatory corporate PR templates.
 
+## Multi-angle mode (when chosen)
+
+Run **only** after step **0.25** resolved to multi-angle (explicit flag **or** user chose option 2 / named angles). Single mode = steps -1..8 as one reviewer - never implied by silence.
+
+When multi-angle:
+
+1. After scoping the diff (step 1) and resolving SDD artifacts (0.5), spawn up to **3 parallel Task** subagents - one per requested angle (default all three if user said multi without subset):
+   - **quality** - correctness, architecture, tests, maintainability, performance
+   - **acceptance (aceite)** - PRD criteria / PLAN deliverables vs the diff
+   - **security** - AuthZ/AuthN, injection, secrets/PII, dangerous defaults (hints: `_shared/agents/prompts/security.md`)
+2. Parent synthesizes Task outputs into **one** report using the existing `reference.md` template (map findings to críticos / importantes / nice-to-have).
+3. Decision matrix (step 6) and coverage gates are unchanged - multi-angle does **not** change decision semantics, does **not** auto-block O3 or the SDD pipeline, and does **not** require separate blind-reviewer skills.
+
+See `reference.md` section **Multi-angle mode** for invoke examples and per-angle checklists.
+
 ## Must not
 
-- Write or update PRD/PLAN files (hand off to `use skill sdd-spec` / `use skill sdd-plan`)
+- Write or update PRD/PLAN files (hand off to `/sdd-spec` / `/sdd-plan`)
 - Auto-merge, auto-approve, or rewrite code without user request
 - Work-item tracker APIs, external PR platform APIs, or obsolete guideline paths
 - Block on coverage only when no target applies - when PRD, PLAN, user, or a `test-coverage` report defines a threshold (default **80%** on changed production files), treat below threshold as **Changes required**
 - Paste entire guideline files into the review output
 - Claim no PRD/PLAN or skip step 0.5 / SDD traceability without searching all locations in `STORAGE.md`
+- Assume **single** or **multi-angle** when the user did not name either (always ask - step 0.25)
+- Force multi-angle as a pipeline gate, or create separate mandatory blind-reviewer skills
 - **AI co-author trailers** - in any form. Under NO circumstances should you include `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-authored-by: Antigravity`, or any other AI agent attribution in commit messages or PR descriptions.
 
 ## Handoff
 
 | Situation | Next |
 |-----------|------|
-| New feature / PRD from review findings | `use skill sdd-spec` - paste or summarize review items; do **not** write PRD in this skill |
-| Coverage below threshold | `use skill test-coverage` -> then `use skill dotnet-developer` or `use skill sdd-develop` |
-| Fixes needed | User or `use skill sdd-develop` / `use skill dotnet-developer` |
-| Commit fixes | `use skill commit` |
+| After O3 (`orchestrate-develop`) completes | `/code-review` - skill asks single vs multi if not specified; never required as pipeline gate |
+| New feature / PRD from review findings | `/sdd-spec` - paste or summarize review items; do **not** write PRD in this skill |
+| Coverage below threshold | `/test-coverage` -> then `/dotnet-developer` or `/sdd-develop` |
+| Fixes needed | User or `/sdd-develop` / `/dotnet-developer` |
+| Commit fixes | `/commit` |
 | All SDD steps done + approved | User runs `gh pr create` or merges per repo policy |

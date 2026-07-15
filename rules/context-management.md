@@ -29,12 +29,9 @@ For skills that run sequential steps against an external control file:
 
 | Skill | Control artifact |
 |-------|------------------|
-| `sdd-spec` | `PRD/*.md`, `docs/PRD/*.md`, or global PRD path |
-| `sdd-plan` | `PLAN/PLAN_*.md` or global PLAN path |
-| `sdd-develop` | Same PLAN path as handoff (one step per session) |
-| `speckit-spec` | `.specify/specs/NNN-<slug>/spec.md` |
-| `speckit-plan` | same folder: `plan.md`, `tasks.md` |
-| `speckit-develop` | same folder: `tasks.md` (one task per session) |
+| `sdd-spec` | `features/**/PRD/*.md` or global `.../features/**/PRD/` |
+| `sdd-plan` | `features/**/PLAN/PLAN_*.md` or global `.../features/**/PLAN/` |
+| `sdd-develop` | Same feature PLAN path as handoff (one step per session) |
 | `document-implement` | `docs/documentation-plan/plan.md` (one step per session) |
 
 ### Required flow after each completed step
@@ -66,8 +63,8 @@ To continue in this session, the user must reply: force continue
 
 Context-only hooks under `~/.cursor/hooks/` (see `docs/HOOKS.md`):
 
-- `beforeSubmitPrompt` - track `use skill sdd-spec|sdd-plan|sdd-develop|speckit-*|...` (always allows submit)
-- `afterFileEdit` - record `PLAN/PLAN_*.md` or `.specify/**/tasks.md` edits
+- `beforeSubmitPrompt` - track `use skill sdd-spec|sdd-plan|sdd-develop|orchestrate-*|...` (always allows submit)
+- `afterFileEdit` - record `features/**/PLAN/PLAN_*.md` edits
 - `preCompact` - user message at 40%/80% usage before compaction
 
 Hooks do **not** select models and do **not** read Claude Code session JSONL files.

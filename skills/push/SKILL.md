@@ -1,9 +1,8 @@
----
+﻿---
 name: push
-description: >
-  Execute git push on the current branch. Use when the user says "use skill push",
-  "push changes", or "/push". Git-only - no work-item tracker APIs.
+description: Execute git push on the current branch after confirmation. Git-only. Use when pushing changes or invoking /push.
 ---
+
 
 ## STOP - Read before ANY tool call
 
@@ -19,7 +18,7 @@ description: >
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
@@ -30,7 +29,7 @@ Gate check:
 
 ## Trigger
 
-Use for `use skill push`, `push changes`, or `/push`.
+Use for `/push`, `push changes`, or `/push`.
 
 ## Outcome
 
@@ -44,6 +43,9 @@ Current branch pushed to `origin` with upstream set when needed. No force-push o
 | Commit flow | `~/.cursor/skills/_shared/developer-common/step-4-commits-pr.md` |
 
 ## Process
+
+### Caveman Mode
+**NEVER** - This skill ignores `caveman_mode`. Use clear prose always. Do not load `CAVEMAN.md` for chat compression. Commit/PR text stays normal English.
 
 ### -1. Re-check guardrails and session
 
@@ -89,4 +91,4 @@ Return branch and push status.
 | Situation | Next |
 |-----------|------|
 | Create PR (user asks) | `gh pr create` per `step-4-commits-pr.md` |
-| Review before PR | `use skill code-review` |
+| Review before PR | `/code-review` |

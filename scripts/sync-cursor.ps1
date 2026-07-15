@@ -4,17 +4,22 @@
   Deploys cursor-dev-toolkit to the user Cursor directory (~/.cursor/).
 
 .DESCRIPTION
-  Copies AGENTS.md, skills/ (including Spec Kit and Caveman Mode), rules/ (.md -> .mdc), and hooks/ PowerShell scripts.
+  Copies AGENTS.md, skills/ (including Forma C / memory-bank and Caveman Mode), rules/ (.md -> .mdc), and hooks/ PowerShell scripts.
   Merges hooks/hooks.json into ~/.cursor/hooks.json without removing user hook entries.
-  Removes skill directories and deployed files that no longer exist in the repo (mirror deploy).
+  By default preserves top-level skill folders under ~/.cursor/skills that are absent from the repo.
+  Pass -PruneStaleSkills to remove those extras (mirror prune). File-level mirror cleanup inside toolkit skill folders still runs.
   Does not overwrite Cursor user settings or unrelated files under ~/.cursor/.
 
 .PARAMETER Force
   Reserved for future prompts; currently has no effect.
 
+.PARAMETER PruneStaleSkills
+  Remove top-level skill folders under ~/.cursor/skills that are absent from the toolkit repo.
+  Opt-in: default sync keeps custom/extra skills beside the toolkit.
+
 .PARAMETER KeepExtraSkills
-  Do not remove top-level skill folders under ~/.cursor/skills that are absent from the repo
-  (use when you keep custom skills beside the toolkit).
+  Deprecated alias of the new default (preserve extras). Kept for backward compatibility.
+  Ignored when -PruneStaleSkills is set unless both are passed (then extras are kept).
 
 .PARAMETER DryRun
   Report planned changes without writing files.
@@ -24,10 +29,14 @@
 
 .EXAMPLE
   powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1 -DryRun
+
+.EXAMPLE
+  powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1 -PruneStaleSkills
 #>
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
     [switch] $Force,
+    [switch] $PruneStaleSkills,
     [switch] $KeepExtraSkills,
     [switch] $DryRun
 )
@@ -164,7 +173,8 @@ function Remove-StaleSkillDirectories {
         [string] $RepoSkillsRoot,
         [string] $DestSkillsRoot
     )
-    if ($KeepExtraSkills) {
+    # Default: keep custom/extra skills. Prune only when explicitly requested.
+    if (-not $PruneStaleSkills -or $KeepExtraSkills) {
         return 0
     }
     if (-not (Test-Path -LiteralPath $DestSkillsRoot)) {

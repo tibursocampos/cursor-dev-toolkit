@@ -10,16 +10,16 @@ Storage rules: `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md`. Pipeline gua
 
 | Part | Rule |
 |------|------|
-| Folder | From manifest: `PLAN/` at repo root or `~/.cursor/sdd/<repo-id>/PLAN/` |
+| Folder | Same story as PRD: `features/NNN-slug/USnn/PLAN/` (or global under `<classic.path>/features/...`) |
 | Sequence | Same `NNN` (3 digits) as the source PRD |
 | Slug | Short ASCII summary (kebab-case or snake_case; Portuguese allowed) |
-| Example (repo) | `PLAN/PLAN_002_exportacao_perfil_usuario.md` |
-| Example (global) | `~/.cursor/sdd/acme-payments-api/PLAN/PLAN_002_exportacao_perfil_usuario.md` |
-| PRD link | Full path to PRD on disk (repo or global) |
+| Example (repo) | `features/002-exportacao-perfil/US01/PLAN/PLAN_002_exportacao_perfil_usuario.md` |
+| Example (global) | `~/.cursor/sdd/acme-payments-api/features/002-exportacao-perfil/US01/PLAN/PLAN_002_exportacao_perfil_usuario.md` |
+| PRD link | Full path to PRD on disk (must be under `features/.../PRD/`) |
 
 ## Storage and `.gitignore` (plan skill)
 
-If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore`: ensure **`PRD/`**, **`PLAN/`**, **`docs/PRD/`**, and **`docs/PLAN/`** are all ignored (same four-line block as `spec`; run even if only `PLAN/` will receive files). Update manifest (`artifact_language`, folders).
+If PRD is global, PLAN is global unless the user chooses repository storage. Before `Write` in **repository** mode, follow `STORAGE.md` § Repository mode - `.gitignore` (include `/features/` and `/memory-bank/`; keep `/PRD/` `/PLAN/` as safety net only). Update manifest (`artifact_language`, folders). Do **not** write or update PLANs at repo-root `PLAN/`. **Global** mode: do not edit `.gitignore`.
 
 ## Product documentation language
 
@@ -68,7 +68,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 - [ ] [Como a feature será verificada - unitário, integração, manual]
 - [ ] .NET: xUnit, Moq, FluentAssertions; `Should_<Result>_When_<Condition>`
 - [ ] Build passa local / CI
-- [ ] (Opcional/.NET) Cobertura nos arquivos alterados ≥ 80% via `use skill test-coverage`
+- [ ] (Opcional/.NET) Cobertura nos arquivos alterados ≥ 80% via `/test-coverage`
 
 ---
 
@@ -133,7 +133,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 
 **Tarefas:**
 
-1. Executar `use skill test-coverage` com base branch adequada
+1. Executar `/test-coverage` com base branch adequada
 2. Coletar métricas: new code, branch/overall, por arquivo alterado
 3. Registrar resultado e gaps para follow-up (quando houver)
 
@@ -206,7 +206,7 @@ Copy from the heading below through **Checklist final**, then remove bracketed i
 - [ ] Cenários de teste cobrem CA e bordas
 - [ ] (Opcional/.NET) Passo final de qualidade com cobertura ≥ 80% via `test-coverage`
 - [ ] Sem código de implementação embutido no PLAN
-- [ ] Handoff: `use skill sdd-develop - <caminho-completo-do-plan> - Step 1`
+- [ ] Handoff: `/sdd-develop - <caminho-completo-do-plan> - Step 1`
 ```
 
 ---
@@ -249,6 +249,6 @@ Use **Pendente** / **Concluído** / **Bloqueado** (or English equivalents) on th
 - [ ] Every PRD acceptance criterion appears in some step
 - [ ] Step prose in pt-BR (unless English override)
 - [ ] No full implementation code blocks in the PLAN
-- [ ] Output path: `PLAN/PLAN_NNN_*.md` or global (not ad-hoc `docs/` or `~/.cursor/` outside `sdd/`)
-- [ ] Handoff: `use skill sdd-develop - <full-plan-path> - Step 1`
+- [ ] Output path: `features/**/PLAN/PLAN_NNN_*.md` or global `.../features/**/PLAN/` only (not root `PLAN/`, ad-hoc `docs/`, or `~/.cursor/` outside `sdd/.../features/`)
+- [ ] Handoff: `/sdd-develop - <full-plan-path> - Step 1`
 - [ ] Initial progress `0/N`

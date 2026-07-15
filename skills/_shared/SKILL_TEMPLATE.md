@@ -6,6 +6,26 @@ Skill body (process, guardrails, handoff) must be **English**. User-facing promp
 
 ---
 
+## YAML frontmatter (required)
+
+```yaml
+---
+name: your-skill-name
+description: >-
+  <WHAT in one sentence>. <WHEN / natural phrases>. Use when invoking /your-skill-name.
+---
+```
+
+| Field | Rules |
+|-------|--------|
+| `name` | kebab-case; max 64 chars; equals folder name |
+| `description` | English, third person; **WHAT + WHEN**; soft target **~180-280** chars; hard max **1024** (Cursor). Always include `"/<name>"` matching `name`. Prefer slash-menu readability over listing every stack detail. |
+
+**Invoke (canonical in docs / handoffs / Trigger):** `` `/<name> - <args>` ``  
+**Compat:** `use skill <name>` still works (hooks / muscle memory); do not make it the primary example.
+
+---
+
 ## STOP - Read before ANY tool call
 
 1. Read `~/.cursor/rules/guardrails.mdc`
@@ -20,10 +40,36 @@ Skill body (process, guardrails, handoff) must be **English**. User-facing promp
 Gate check:
 [ ] guardrails.mdc read
 [ ] SESSION.md read; session-state loaded
-[ ] PIPELINE.md read (SDD/speckit skills only)
+[ ] PIPELINE.md read (SDD skills only)
 [ ] User confirmed current action (sim)
 -> If any unchecked: STOP
 ```
+
+For **`orchestrate-analyze` / `orchestrate-deliver` / `orchestrate-develop`**, change the PIPELINE line to: `PIPELINE.md read (required for orchestrate-*)`.
+
+### Caveman (participating skills)
+
+Add under **Process** (after gate check). Cap = `Lite` | `Full` | `Never` per `_shared/caveman/CAVEMAN.md` participation table. Always-on rule `caveman-mode.mdc` also reads prefs; skills still run Step -1b for cap.
+
+**Lite / Full:**
+
+```
+### Step -1b - Caveman Mode ({Lite|Full} cap)
+1. Read ~/.cursor/sdd/preferences.json (create { "caveman_mode": false, "caveman_level": "full" } if missing).
+2. If caveman_mode is false: continue without compression.
+3. If true: load _shared/caveman/CAVEMAN.md; apply skill cap + caveman_level; show [Caveman] activation notice once.
+4. Honor caveman on|off|status|lite|full|ultra during the session.
+5. Auto-Clarity + never-compress gates/drafts/paths.
+```
+
+**NEVER** (`commit`, `push`):
+
+```
+### Caveman Mode
+**NEVER** - Ignore caveman_mode. Clear prose only. Do not compress commit/PR text.
+```
+
+Lazy-load row when applicable: `| Caveman Mode (if active) | ~/.cursor/skills/_shared/caveman/CAVEMAN.md - **{Lite|Full} cap** |`
 
 ---
 
@@ -33,12 +79,12 @@ The STOP block above is ~27 lines and does not count toward editorial budget.
 
 **Size:** hard limit **500 lines** total per `SKILL.md` (Cursor / Agent Skills). Soft targets: workflow skills 150-300 lines after the gate; atomic skills (`push`) may be shorter. Put long templates in `reference.md` but keep decision tables and must-not inline.
 
-- **Trigger**
+- **Trigger** - lead with `/<name>`; optional one-line note that `use skill <name>` still works
 - **Outcome**
 - **Lazy-load**
-- **Process**
+- **Process** (include Caveman Step -1b or NEVER block)
 - **Must not**
-- **Handoff**
+- **Handoff** - exact next string: `` `/next-skill - <full-paths>` ``
 
 ### Develop skills - mandatory session end
 

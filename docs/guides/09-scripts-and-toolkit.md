@@ -17,9 +17,9 @@ Option **4** passes `-RepoPath` to the toolkit repo root automatically.
 | 1 | Sync to `~/.cursor/` (`sync-cursor.ps1`) |
 | 2 | Smoke tests (`validate-all.ps1`) |
 | 3 | Sync + smoke tests |
-| 4 | Full validation (`-IncludeSpeckit -IncludeSessionGate`) |
+| 4 | Full validation (`-IncludeSessionGate`) |
 | 5 | Maintainer suite (encoding, gate fix/inject) |
-| 6 | SDD setup for **toolkit repo** (`setup-speckit.ps1` + `configure-repo-sdd.ps1 -RepoPath <toolkit>`) |
+| 6 | Configure SDD for **toolkit repo** (`configure-repo-sdd.ps1 -RepoPath <toolkit>`) |
 | 7 | Uninstall preview / uninstall |
 
 ## Sync: `sync-cursor.ps1`
@@ -29,14 +29,17 @@ Deploys skills, rules (`.md` -> `.mdc`), hooks, and `AGENTS.md` to `~/.cursor/`.
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-cursor.ps1 -PruneStaleSkills
 ```
 
-- **`-KeepExtraSkills`** - do not remove custom skill folders beside the toolkit
-- Mirror-deletes stale toolkit skills on sync
+- **Default:** preserves custom/extra skill folders under `~/.cursor/skills` that are not in the toolkit repo
+- **`-PruneStaleSkills`** - opt-in mirror prune of those extras (removes skills absent from the toolkit)
+- **`-KeepExtraSkills`** - deprecated alias of the default (still accepted; wins over `-PruneStaleSkills` if both are set)
+- Inside toolkit skill folders, file-level mirror cleanup still removes stale files
 
 ## Uninstall: `uninstall-toolkit.ps1`
 
-Removes toolkit-deployed content from `~/.cursor/` (skills, rules, hooks, AGENTS.md, sessions dir).
+Removes toolkit-deployed skills, rules, AGENTS.md, and sessions. Deletes only hook **scripts** shipped by this repo; rewrites `hooks.json` to drop toolkit entries and **keeps** user hook entries.
 
 ```powershell
 .\scripts\uninstall-toolkit.ps1 -DryRun
@@ -49,7 +52,6 @@ Does **not** remove unrelated Cursor user settings.
 
 ```powershell
 .\scripts\validation\validate-all.ps1
-.\scripts\validation\validate-all.ps1 -IncludeSpeckit -RepoPath "D:\Source\Repos\MyApp"
 .\scripts\validation\validate-all.ps1 -IncludeSessionGate -RepoPath "D:\Source\Repos\MyApp"
 ```
 
@@ -64,7 +66,6 @@ Does **not** remove unrelated Cursor user settings.
 | `validation/validate-docs-consistency.ps1` | SKILLS.md catalog vs folders |
 | `validation/validate-skills-english.ps1` | Skill body language heuristic |
 | `validation/validate-session-gates.ps1` | Session gate status (optional) |
-| `validation/validate-speckit-init.ps1` | `.specify/` integrity (optional) |
 
 ## Maintainer utilities (`maintainers/`)
 
@@ -75,7 +76,6 @@ Does **not** remove unrelated Cursor user settings.
 | `maintainers/fix-skill-gates.ps1` | Remove duplicate STOP blocks |
 | `maintainers/migrate-manifest-v2.ps1` | Upgrade legacy SDD manifest |
 | `maintainers/rename-skill-refs.ps1` | Bulk skill name migration |
-| `maintainers/fix-speckit-refs.ps1` | Fix over-aggressive speckit renames |
 | `maintainers/fix-encoding-and-skill-names.ps1` | Combined encoding + name fixes |
 | `maintainers/fix-legacy-display-names.ps1` | Legacy display name migration |
 | `maintainers/fix_mojibake.py` | Python mojibake helper |
@@ -84,8 +84,7 @@ Does **not** remove unrelated Cursor user settings.
 
 | Script | Purpose |
 |--------|---------|
-| `setup-speckit.ps1` | Spec Kit CLI prerequisites |
-| `configure-repo-sdd.ps1` | Register repo in manifest v2 |
+| `configure-repo-sdd.ps1` | Register repo in manifest v2 (`classic` only) |
 
 See `scripts/README.md` for the full layout (`validation/`, `maintainers/`, `_lib/`).
 

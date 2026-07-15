@@ -31,7 +31,7 @@ Guidelines for **using** and **extending** this toolkit without blowing context 
 7. **code-guidelines in layers** - default: `principles/` only; add `languages/dotnet/` only when needed.
 8. **Lean router** - `AGENTS.md` < 150 lines; table of paths, no pasted guidelines.
 9. **Search before Read** - grep for scope; read only relevant chunks.
-10. **Match model to task** - fast tier for trim/docs; premium for architecture decisions only.
+10. **Subagent models (Forma C)** - omit Task `model` by default (inherit parent / Auto). Premium slug only after the rare hard-task gate + user **sim** (`skills/_shared/agents/SUBAGENT-MODEL.md`); never silent premium.
 
 ## Recurring use (daily)
 
@@ -50,6 +50,17 @@ With lazy-load in `AGENTS.md`:
 | `create-message-consumer` (scaffold) | 10-16k |
 
 Without lazy-load: **+50-90k** per prompt -> roughly 3-5× monthly cost.
+
+## Caveman vs context budget
+
+| Lever | What it cuts | When |
+|-------|--------------|------|
+| Lazy-load / one-step sessions | **Input** (skills, guidelines) | Always |
+| Caveman mode (`CAVEMAN.md` + `caveman-mode.mdc`) | **Output** chat prose | Opt-in; levels `lite`/`full`/`ultra` |
+| Continuity compact (`COMPACT.md`) | **Input** on later turns | Explicit `sim` |
+| Forma C specialist receipts | **Input** reinjected from specialist passes | Caveman ON |
+
+**Honest cost:** loading Caveman rules costs ~1–1.5k input/turn. Prefer `full`/`ultra` for long review/debug/orchestration; keep **off** for terse Q&A. Planning skills stay **Lite** cap. See [guides/07-caveman-mode.md](guides/07-caveman-mode.md).
 
 ## What the agent must not do when extending
 

@@ -14,12 +14,12 @@ Execution details for `skills/document-implement/SKILL.md`. Plan structure lives
 If the plan is missing:
 
 ```
-use skill document-plan
+/document-plan
 ```
 
 User may supply an alternate plan path; treat it like `docs/documentation-plan/plan.md` for updates.
 
-**Not SDD:** do not substitute workspace `PLAN/PLAN_*.md` or `~/.cursor/sdd/<repo-id>/PLAN/` - those follow `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` and skills `sdd-spec` / `sdd-plan` / `sdd-develop` / `code-review`.
+**Not SDD:** do not substitute `features/**/PLAN/PLAN_*.md` (Classic SDD) - those follow `~/.cursor/skills/_shared/sdd-artifacts/STORAGE.md` and skills `sdd-spec` / `sdd-plan` / `sdd-develop` / `code-review`.
 
 ---
 
@@ -102,7 +102,7 @@ After each completed documentation step:
 Handoff:
 
 ```
-New chat: use skill document-implement
+New chat: /document-implement
 ```
 
 ---
@@ -121,7 +121,7 @@ New chat: use skill document-implement
 Offer after one or more steps:
 
 ```
-use skill commit
+/commit
 ```
 
 Use Conventional Commits scope `docs` when appropriate, e.g. `docs: add domain guide for billing`.

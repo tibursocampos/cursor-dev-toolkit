@@ -41,14 +41,14 @@ All skills run in the **open workspace**-the project you are building-not necess
 
 | Skill | Invoke |
 |-------|--------|
-| `commit` | `use skill commit` |
-| `fix-build` | `use skill fix-build` |
-| `add-migrations` | `use skill add-migrations` |
-| `document-plan` | `use skill document-plan` |
-| `document-implement` | `use skill document-implement` |
-| `refine-backlog-item` | `use skill refine-backlog-item` |
-| `breakdown-tasks` | `use skill breakdown-tasks` |
-| `create-message-consumer` | `use skill create-message-consumer` |
+| `commit` | `/commit` |
+| `fix-build` | `/fix-build` |
+| `add-migrations` | `/add-migrations` |
+| `document-plan` | `/document-plan` |
+| `document-implement` | `/document-implement` |
+| `refine-backlog-item` | `/refine-backlog-item` |
+| `breakdown-tasks` | `/breakdown-tasks` |
+| `create-message-consumer` | `/create-message-consumer` |
 
 ---
 
@@ -56,7 +56,7 @@ All skills run in the **open workspace**-the project you are building-not necess
 
 ### commit
 
-**Invoke:** `use skill commit`
+**Invoke:** `/commit`
 
 **When to use:** After [code-review](03-code-review.md) and optional [test-coverage](04-test-coverage.md); you have staged or unstaged changes ready to land on a **valid feature branch**.
 
@@ -68,11 +68,11 @@ All skills run in the **open workspace**-the project you are building-not necess
 
 ### fix-build
 
-**Invoke:** `use skill fix-build`
+**Invoke:** `/fix-build`
 
 **When to use:** `dotnet build` or `dotnet test` **already fails** locally or in CI; you need diagnosis and repair, not a greenfield feature.
 
-**Typical handoff:** `use skill commit` once build and tests pass.
+**Typical handoff:** `/commit` once build and tests pass.
 
 **Notes:** May use `gh` for GitHub Actions logs when helpful. Not a substitute for [developer](02-developer.md) when implementing new behavior.
 
@@ -80,12 +80,12 @@ All skills run in the **open workspace**-the project you are building-not necess
 
 ### add-migrations
 
-**Invoke:** `use skill add-migrations`  
-Optional: `use skill add-migrations - AddOrderStatusColumn`
+**Invoke:** `/add-migrations`  
+Optional: `/add-migrations - AddOrderStatusColumn`
 
 **When to use:** EF Core schema change in the open .NET repo; agent discovers startup project, `DbContext`, and migrations folder via Glob/Grep.
 
-**Typical handoff:** `use skill sdd-develop - <plan-path> - Step N` if the change was a PLAN step, or `use skill commit`.
+**Typical handoff:** `/sdd-develop - <plan-path> - Step N` if the change was a PLAN step, or `/commit`.
 
 **Notes:** Run on a feature branch; review generated migration before commit.
 
@@ -93,12 +93,12 @@ Optional: `use skill add-migrations - AddOrderStatusColumn`
 
 ### document-plan
 
-**Invoke:** `use skill document-plan`  
+**Invoke:** `/document-plan`  
 Optional: path to an existing overview file after review.
 
 **When to use:** You want a **documentation plan** for an **application repository** (RAG, onboarding, domain deep dives)-output includes `docs/documentation-plan/plan.md` and overview material in **that app repo**.
 
-**Typical handoff:** `use skill document-implement` (one plan step per session).
+**Typical handoff:** `/document-implement` (one plan step per session).
 
 **Not for:** Toolkit **user skill manuals** under `cursor-dev-toolkit/docs/guides/`-those are product docs of the toolkit itself, not consumer-app RAG docs.
 
@@ -106,11 +106,11 @@ Optional: path to an existing overview file after review.
 
 ### document-implement
 
-**Invoke:** `use skill document-implement`
+**Invoke:** `/document-implement`
 
 **When to use:** A `docs/documentation-plan/plan.md` already exists in the **target app repo** from `document-plan`; execute the **next pending** plan step only.
 
-**Typical handoff:** New chat -> `use skill document-implement` for the following step, or `use skill commit` when a doc milestone is ready.
+**Typical handoff:** New chat -> `/document-implement` for the following step, or `/commit` when a doc milestone is ready.
 
 **Checkpoint:** One session = one plan step (same discipline as SDD `sdd-develop`).
 
@@ -118,11 +118,11 @@ Optional: path to an existing overview file after review.
 
 ### refine-backlog-item
 
-**Invoke:** `use skill refine-backlog-item`
+**Invoke:** `/refine-backlog-item`
 
 **When to use:** You have a rough bug, user story, or technical story and want structured markdown with BDD acceptance criteria and a quality scorecard (saved locally, optional under `docs/backlog/`).
 
-**Typical handoff:** `use skill breakdown-tasks` or `use skill sdd-spec` to start SDD.
+**Typical handoff:** `/breakdown-tasks`, `/sdd-spec` (Forma A), or `/orchestrate-analyze` (Forma C multi-story). Prefer story under `features/NNN-slug/USnn/` when using the new layout.
 
 **Notes:** No external tracker API; output stays in your repo or chat until you commit.
 
@@ -130,23 +130,23 @@ Optional: path to an existing overview file after review.
 
 ### breakdown-tasks
 
-**Invoke:** `use skill breakdown-tasks`
+**Invoke:** `/breakdown-tasks`
 
-**When to use:** After `refine-backlog-item` (or similar input); group implementation steps into `docs/sdd-developation-tasks/<slug>.md` (backend / frontend / tests).
+**When to use:** After `refine-backlog-item` (or similar input); group implementation steps into a checklist. Preferred path: under the story folder (`features/.../USnn/` or `TSnn/`). Shortcut: `docs/implementation-tasks/<slug>.md` (legacy alias `docs/sdd-developation-tasks/` still accepted).
 
-**Typical handoff:** `use skill sdd-spec` - paste or reference the refined item and task file.
+**Typical handoff:** `/sdd-spec` / `/orchestrate-analyze` (complex / multi-story) - paste or reference the refined item and task file; or `/developer` for small scope.
 
-**Notes:** Complements SDD; does not replace PRD/PLAN for complex features.
+**Notes:** Complements SDD / Forma C; does not replace PRD/PLAN for complex features. See [10-forma-c-orquestracao](10-forma-c-orquestracao.md).
 
 ---
 
 ### create-message-consumer
 
-**Invoke:** `use skill create-message-consumer`
+**Invoke:** `/create-message-consumer`
 
 **When to use:** Scaffold a new **message consumer** in a .NET repo; agent detects MassTransit, RabbitMQ, or other bus via Grep-no fixed corporate template.
 
-**Typical handoff:** `use skill developer` or `use skill sdd-develop` for remaining behavior, then `use skill commit`.
+**Typical handoff:** `/developer` or `/sdd-develop` for remaining behavior, then `/commit`.
 
 **Notes:** Collects requirements before codegen; bus-agnostic discovery.
 
@@ -159,33 +159,33 @@ Short sequences (Git-only, no work-item tracker)-details in [Install §4.4](../I
 **Consumer repo RAG documentation**
 
 ```
-use skill document-plan
-use skill document-implement
+/document-plan
+/document-implement
 ```
 
 **Backlog -> SDD**
 
 ```
-use skill refine-backlog-item
-use skill breakdown-tasks
-use skill sdd-spec
-use skill sdd-plan - <prd-path>
-use skill sdd-develop - <plan-path> - Step 1
+/refine-backlog-item
+/breakdown-tasks
+/sdd-spec
+/sdd-plan - <prd-path>
+/sdd-develop - <plan-path> - Step 1
 ```
 
 **Build failure -> land fix**
 
 ```
-use skill fix-build
-use skill commit
+/fix-build
+/commit
 ```
 
 **Post-code (from guides 01-04)**
 
 ```
-use skill code-review
-use skill test-coverage
-use skill commit
+/code-review
+/test-coverage
+/commit
 ```
 
 ---
@@ -196,7 +196,7 @@ use skill commit
 
 2. **Multiple `document-implement` steps in one chat** - Same as SDD: one plan step per session keeps progress accurate in `docs/documentation-plan/plan.md`.
 
-3. **Committing on `main` / `develop`** - `use skill commit` enforces branch rules; create `feature/<slug>` first.
+3. **Committing on `main` / `develop`** - `/commit` enforces branch rules; create `feature/<slug>` first.
 
 4. **Calling `fix-build` for new features** - If the build was green and you need new code, use [developer](02-developer.md) or SDD, not `fix-build`.
 

@@ -12,7 +12,7 @@ Never leave any trace that code, documentation, commits, or comments were produc
 - **Commit messages:** No AI references in title, body, or footer (beyond the already-blocked co-author trailer in `conventional-commits.mdc`).
 - **Pull request descriptions:** No AI references.
 - **Technical documentation** (`docs/`, `README.md`, ADRs): No references to AI authorship, generation, or assistance.
-- **SDD / Spec Kit artifacts** (PRD, PLAN, spec, plan, tasks): No AI generation references.
+- **SDD artifacts** (PRD, PLAN, FEATURE, STORY, CONTINUITY): No AI generation references.
 - **Identifiers** (variables, methods, classes): No AI-derived names (`aiResult`, `llmResponse`, `generatedBy`, etc.).
 - **Log messages:** No AI references.
 
