@@ -184,4 +184,4 @@ For a complete explanation, see [docs/guides/07-caveman-mode.md](docs/guides/07-
 
 ## License
 
-Personal use.
+[MIT](LICENSE) © 2026 Raphael Campos. See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution policy (clone/fork OK; no community PRs).
