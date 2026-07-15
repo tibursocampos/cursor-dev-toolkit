@@ -2,29 +2,39 @@
 
 ## Branching Strategy
 
-Our teams primarily use a structured Git Flow based approach adapted for continuous delivery:
+Toolkit and consumer repos that follow this guide use:
 
-1. **Main Branch (`main` / `master`)**: Represents the official release history and the source of truth for deployments. Commits should not be made directly to `main`.
-2. **Feature Branches**: For all new features, bug fixes, or chores. They should branch off `main` and be merged back via a Pull Request (PR).
+1. **`develop`**: Integration branch. Default PR target for day-to-day work. Do not commit or push directly.
+2. **`master` / `main`**: Release / stable. Updated only from `develop` via PR. Do not commit or push directly.
+3. **Feature branches**: All work. Branch from `develop` (or the baseline the user/PLAN names). Merge back via PR into `develop`.
 
-Naming convention for branches:
-- `feature/short-description`
-- `fix/short-description`
-- `chore/short-description`
+Naming convention for branches (enforced by `branch-validation`):
+
+- `feature/<slug>` — e.g. `feature/add-oauth-login`
+- `feat/<id>` — e.g. `feat/123`, `feat/PLAN-001`
+
+Do not use `fix/` or `chore/` as branch prefixes under this model; keep those as Conventional Commit **types**, not branch names.
+
+Flow:
+
+```text
+feature/* or feat/*  →  PR →  develop  →  PR →  master / main
+```
 
 ## Pull Requests and Code Review
 
-- **Small, Focused PRs**: Keep Pull Requests small and focused on a single responsibility. This makes them easier and faster to review.
-- **Descriptive Titles and Summaries**: Include context, why the change was made, and how it was tested. Link the PR to the relevant issue tracker or task board ticket.
-- **Approvals**: All PRs require at least one approval from a peer before merging. Some repositories (like the central GitOps repository) require specific CODEOWNERS approvals.
+- **Default base:** `develop` for feature work; `master`/`main` only for release PRs whose head is `develop`.
+- **Small, focused PRs**: One responsibility per PR when practical.
+- **Descriptive titles and summaries**: Context, why, how tested. Link issues when relevant (`Refs #42`).
+- **Approvals**: Follow the repository ruleset (toolkit repos often allow 0 approvals for a solo owner; app teams may require peer review or CODEOWNERS).
 
 ## Pre-Commit Hooks (Husky)
 
-We heavily rely on Git pre-commit hooks to automate formatting and linting tasks, preventing unformatted or broken code from being committed.
+When the consumer project uses pre-commit hooks, configure them so formatting and linting run before commit.
 
-- **Automated Formatting**: Tools like CSharpier, Prettier, or ESLint should be configured in pre-commit hooks.
-- **Installation**: When cloning a repository for the first time, ensure you run the setup script or tool initialization (e.g., `dotnet husky install`, `npm run prepare`) so the local git hooks are configured correctly.
-- **Bypassing**: Only bypass git hooks (using `--no-verify`) in absolute emergencies or when explicitly approved by a team lead.
+- **Automated Formatting**: Tools like CSharpier, Prettier, or ESLint in pre-commit hooks.
+- **Installation**: On first clone, run the project setup (e.g. `dotnet husky install`, `npm run prepare`).
+- **Bypassing**: Only bypass hooks (`--no-verify`) in emergencies or when the user explicitly approves.
 
 > [!TIP]
 > Always run your tests locally before opening a PR. Although CI/CD pipelines will catch failures, local testing saves time and CI resources.

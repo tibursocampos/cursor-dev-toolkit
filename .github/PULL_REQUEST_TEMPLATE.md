@@ -1,10 +1,16 @@
 <!-- Maintainer-only: this repo does not accept community PRs. -->
+<!-- Default base: develop. Release: develop → master/main. -->
 
 ## Summary
 
 <!-- What changed and why (1-3 bullets). -->
 
 -
+
+## Base branch
+
+- [ ] Feature / fix work targets **`develop`**
+- [ ] Release PR is **`develop` → `master` or `main`** (not a feature branch into release)
 
 ## Test plan
 
