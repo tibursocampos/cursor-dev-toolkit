@@ -1,3 +1,5 @@
+<!-- Maintainer-only: this repo does not accept community PRs. -->
+
 ## Summary
 
 <!-- What changed and why (1-3 bullets). -->
@@ -12,4 +14,4 @@
 
 ## Notes
 
-<!-- Optional: screenshots, linked issues, migration notes. -->
+<!-- Optional: migration notes. -->

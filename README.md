@@ -1,6 +1,6 @@
 # cursor-dev-toolkit
 
-Personal Cursor IDE agent toolkit: SDD workflows (Formas A / B / C), .NET guidelines, Git developer flow, Caveman response compression, and optional hooks. Neutral branding for public clone/fork + PR.
+Personal Cursor IDE agent toolkit: SDD workflows (Formas A / B / C), .NET guidelines, Git developer flow, Caveman response compression, and optional hooks. **Public** — clone and fork freely; **no upstream contributions** (see [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 Deploy to your user profile with the toolkit CLI (see [docs/INSTALL.md](docs/INSTALL.md)).
 
@@ -50,8 +50,8 @@ Re-run toolkit sync after pulling updates (idempotent).
 | [docs/HOOKS.md](docs/HOOKS.md) | Optional hooks (behavior, limits) |
 | [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md) | Repository layout and maintainer checklist |
 | [docs/SKILLS.md](docs/SKILLS.md) | Canonical skill catalog (35 skills) |
-| [docs/REPO_GOVERNANCE.md](docs/REPO_GOVERNANCE.md) | Public repo + branch rulesets checklist |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute (fork → PR) |
+| [docs/REPO_GOVERNANCE.md](docs/REPO_GOVERNANCE.md) | Public policy + maintainer rulesets |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Clone/fork OK; no community PRs |
 | [docs/impeccable-integration.md](docs/impeccable-integration.md) | Impeccable design -> DESIGN-BRIEF -> stack developer handoff |
 | [docs/blip-plugin-integration.md](docs/blip-plugin-integration.md) | Blip plugin scaffold -> SDD -> `react-developer` + `blip-guidelines/` |
 | [docs/architecture.md](docs/architecture.md) | Deployment and enforcement model |

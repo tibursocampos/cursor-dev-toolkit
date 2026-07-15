@@ -2,6 +2,8 @@
 
 Step-by-step instructions to deploy **cursor-dev-toolkit** to Cursor and use the SDD workflow in any project.
 
+> **Repository policy:** public — clone and fork freely. **No upstream contributions** (do not open PRs here). See [CONTRIBUTING.md](../CONTRIBUTING.md).
+
 ## Prerequisites
 
 | Requirement | Notes |

@@ -39,4 +39,4 @@ How **cursor-dev-toolkit** and **antigravity-dev-toolkit** stay aligned.
 
 ## CI
 
-Both repos run `validate-all.ps1` on pull requests via `.github/workflows/validate-toolkit.yml`.
+Both repos run `validate-all.ps1` on maintainer pushes and internal pull requests via `.github/workflows/validate-toolkit.yml`. Public forks cannot open PRs when the repository uses **Pull requests → Collaborators only**.
