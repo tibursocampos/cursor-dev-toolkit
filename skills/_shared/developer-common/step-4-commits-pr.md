@@ -75,17 +75,19 @@ Ask user to approve message before committing when the skill is interactive.
 
 Create a PR only when the user asks. Use the repository’s template if present (`.github/pull_request_template.md`).
 
-**GitHub CLI example:**
+Default integration base is **`develop`**. Release PRs are **`develop` → `master`/`main`** (not feature → release).
+
+**GitHub CLI example (feature → develop):**
 
 ```bash
-gh pr create --base main --head "$(git rev-parse --abbrev-ref HEAD)" \
+gh pr create --base develop --head "$(git rev-parse --abbrev-ref HEAD)" \
   --title "feat: short summary" \
   --body "## Summary\n- ...\n\n## Test plan\n- [ ] ..."
 ```
 
 | Element | Guidance |
 |---------|----------|
-| Base branch | User or PLAN specifies (`main`, `develop`, etc.) |
+| Base branch | Default `develop`; release PR uses `master`/`main` with head `develop`. Override only if user or PLAN says otherwise |
 | Title | Conventional summary or repo convention - not tracker `id - title` only |
 | Body | Summary, test plan, breaking changes |
 | Links | `Refs #42` / `Fixes #42` in body when applicable |
