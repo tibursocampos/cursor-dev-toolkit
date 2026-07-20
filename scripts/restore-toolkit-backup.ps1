@@ -24,8 +24,8 @@ $ErrorActionPreference = 'Stop'
 
 . (Join-Path $PSScriptRoot '_lib\Backup-CursorToolkit.ps1')
 
-$home = Get-ToolkitUserHome
-$cursorRoot = Join-Path $home '.cursor'
+$userHome = Get-ToolkitUserHome
+$cursorRoot = Join-Path $userHome '.cursor'
 $backupRoot = Join-Path $cursorRoot 'toolkit-backups'
 
 if (-not (Test-Path -LiteralPath $backupRoot)) {

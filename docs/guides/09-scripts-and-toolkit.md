@@ -15,12 +15,27 @@ Option **4** passes `-RepoPath` to the toolkit repo root automatically.
 | Option | Action |
 |--------|--------|
 | 1 | Sync to `~/.cursor/` (`sync-cursor.ps1`) |
-| 2 | Smoke tests (`validate-all.ps1`) |
+| 2 | Smoke tests (`validate-all.ps1` — includes contracts/graph/fixtures) |
 | 3 | Sync + smoke tests |
 | 4 | Full validation (`-IncludeSessionGate`) |
 | 5 | Maintainer suite (encoding, gate fix/inject) |
 | 6 | Configure SDD for **toolkit repo** (`configure-repo-sdd.ps1 -RepoPath <toolkit>`) |
 | 7 | Uninstall preview / uninstall |
+| 8 | **Validation and backup** submenu (see below) |
+| 0 | Exit |
+
+### Submenu `[8] Validation and backup`
+
+| Option | Action |
+|--------|--------|
+| 1 | `validate-all` (full suite) |
+| 2 | `validate-skill-contracts` only |
+| 3 | `validate-skill-graph` only |
+| 4 | `validate-skill-fixtures` only |
+| 5 | `validate-docs-consistency` only |
+| 6 | List sync backups (`restore-toolkit-backup.ps1`) |
+| 7 | Restore backup (asks for `BackupId`) |
+| 0 | Back to main menu |
 
 ## Sync: `sync-cursor.ps1`
 

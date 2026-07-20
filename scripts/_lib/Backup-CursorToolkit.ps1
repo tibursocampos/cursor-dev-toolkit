@@ -13,8 +13,8 @@ function New-CursorToolkitBackup {
         [switch] $DryRun
     )
 
-    $home = Get-ToolkitUserHome
-    $cursorRoot = Join-Path $home '.cursor'
+    $userHome = Get-ToolkitUserHome
+    $cursorRoot = Join-Path $userHome '.cursor'
     $backupRoot = Join-Path $cursorRoot 'toolkit-backups'
     $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
     $backupDir = Join-Path $backupRoot $stamp

@@ -24,13 +24,30 @@ function Show-Menu {
     Write-Host " Repo: $repoRoot" -ForegroundColor DarkGray
     Write-Host '=========================================' -ForegroundColor Cyan
     Write-Host '[1] Sync toolkit (deploy to ~/.cursor/)'
-    Write-Host '[2] Run smoke tests (core)'
-    Write-Host '[3] Deploy and test (sync + smoke tests)'
-    Write-Host '[4] Full validation (includes session gates)'
+    Write-Host '[2] Run smoke tests (validate-all)'
+    Write-Host '[3] Deploy and test (sync + validate-all)'
+    Write-Host '[4] Full validation (+ session gates)'
     Write-Host '[5] Maintainer suite (normalize encoding, fix/inject gates)'
     Write-Host '[6] Configure toolkit repo for SDD (configure-repo-sdd)'
     Write-Host '[7] Uninstall toolkit from ~/.cursor/ (-DryRun preview)'
+    Write-Host '[8] Validation and backup (submenu)'
     Write-Host '[0] Exit'
+    Write-Host '=========================================' -ForegroundColor Cyan
+}
+
+function Show-ValidationBackupMenu {
+    Write-Host ''
+    Write-Host '=========================================' -ForegroundColor Cyan
+    Write-Host ' Validation and backup' -ForegroundColor Cyan
+    Write-Host '=========================================' -ForegroundColor Cyan
+    Write-Host '[1] validate-all (full suite)'
+    Write-Host '[2] skill-contracts only'
+    Write-Host '[3] skill-graph only'
+    Write-Host '[4] skill-fixtures only'
+    Write-Host '[5] docs-consistency only'
+    Write-Host '[6] List sync backups'
+    Write-Host '[7] Restore backup (asks for BackupId)'
+    Write-Host '[0] Back'
     Write-Host '=========================================' -ForegroundColor Cyan
 }
 
@@ -104,6 +121,59 @@ function Write-WorkflowSummary {
     }
 }
 
+function Invoke-ValidationBackupSubmenu {
+    while ($true) {
+        Show-ValidationBackupMenu
+        $sub = Read-Host 'Choose an option'
+        switch ($sub) {
+            '1' {
+                Write-StepBanner 'validate-all'
+                $null = Invoke-ToolkitScript -RelativePath 'validation\validate-all.ps1'
+            }
+            '2' {
+                Write-StepBanner 'skill-contracts'
+                $null = Invoke-ToolkitScript -RelativePath 'validation\validate-skill-contracts.ps1'
+            }
+            '3' {
+                Write-StepBanner 'skill-graph'
+                $null = Invoke-ToolkitScript -RelativePath 'validation\validate-skill-graph.ps1'
+            }
+            '4' {
+                Write-StepBanner 'skill-fixtures'
+                $null = Invoke-ToolkitScript -RelativePath 'validation\validate-skill-fixtures.ps1'
+            }
+            '5' {
+                Write-StepBanner 'docs-consistency'
+                $null = Invoke-ToolkitScript -RelativePath 'validation\validate-docs-consistency.ps1'
+            }
+            '6' {
+                Write-StepBanner 'List sync backups'
+                $null = Invoke-ToolkitScript -RelativePath 'restore-toolkit-backup.ps1'
+            }
+            '7' {
+                Write-StepBanner 'Restore sync backup'
+                $backupId = Read-Host 'BackupId (yyyyMMdd-HHmmss)'
+                if ([string]::IsNullOrWhiteSpace($backupId)) {
+                    Write-Host 'Restore cancelled (empty BackupId).' -ForegroundColor DarkGray
+                }
+                else {
+                    $null = Invoke-ToolkitScript -RelativePath 'restore-toolkit-backup.ps1' -ArgumentList @('-BackupId', $backupId)
+                }
+            }
+            '0' {
+                return
+            }
+            default {
+                Write-Host 'Invalid option.' -ForegroundColor Red
+            }
+        }
+
+        Write-Host ''
+        Write-Host 'Press Enter to continue...' -ForegroundColor DarkGray
+        $null = Read-Host
+    }
+}
+
 while ($true) {
     Show-Menu
     $choice = Read-Host 'Choose an option'
@@ -114,7 +184,7 @@ while ($true) {
             $null = Invoke-ToolkitScript -RelativePath 'sync-cursor.ps1'
         }
         '2' {
-            Write-StepBanner 'Smoke tests (core)'
+            Write-StepBanner 'Smoke tests (validate-all)'
             $null = Invoke-ToolkitScript -RelativePath 'validation\validate-all.ps1'
         }
         '3' {
@@ -178,6 +248,10 @@ while ($true) {
             else {
                 Write-Host 'Uninstall cancelled.' -ForegroundColor DarkGray
             }
+        }
+        '8' {
+            Invoke-ValidationBackupSubmenu
+            continue
         }
         '0' {
             Write-Host 'Exiting...' -ForegroundColor Cyan
