@@ -176,10 +176,9 @@ Be specific: `path:line`, explain **why**, suggest **how** to fix. Include posit
 
 Create a PR only when the user asks and review is not **Changes required**:
 
-```bash
-gh pr create --base <base> --head "$(git rev-parse --abbrev-ref HEAD)" \
-  --title "feat: summary" --body "## Summary\n...\n\n## Test plan\n- [ ] ..."
-```
+1. Ensure the feature branch is pushed (`git push` after confirmation).
+2. Open **Compare & pull request** in the GitHub web UI.
+3. Set base/head per repo policy; fill Summary and Test plan from the template.
 
 No MCP work-item linking or mandatory corporate PR templates.
 
@@ -219,4 +218,4 @@ See `reference.md` section **Multi-angle mode** for invoke examples and per-angl
 | Coverage below threshold | `/test-coverage` -> then `/dotnet-developer` or `/sdd-develop` |
 | Fixes needed | User or `/sdd-develop` / `/dotnet-developer` |
 | Commit fixes | `/commit` |
-| All SDD steps done + approved | User runs `gh pr create` or merges per repo policy |
+| All SDD steps done + approved | User opens PR in GitHub UI or merges per repo policy |

@@ -466,7 +466,9 @@ function Sync-HooksJson {
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 $repoRoot = Get-RepoRoot
-$cursorRoot = Join-Path $env:USERPROFILE '.cursor'
+. (Join-Path $repoRoot 'scripts\_lib\Backup-CursorToolkit.ps1')
+
+$cursorRoot = Join-Path (Get-ToolkitUserHome) '.cursor'
 $skillsDest = Join-Path $cursorRoot 'skills'
 $rulesDest = Join-Path $cursorRoot 'rules'
 $hooksDest = Join-Path $cursorRoot 'hooks'
@@ -477,6 +479,8 @@ Write-ToolkitMessage "Target: $cursorRoot"
 if ($DryRun) {
     Write-ToolkitMessage 'Dry run - no files will be written.' ([ConsoleColor]::Yellow)
 }
+
+$null = New-CursorToolkitBackup -DryRun:$DryRun
 
 if (-not $DryRun) {
     foreach ($dir in @($cursorRoot, $skillsDest, $rulesDest, $hooksDest, $sessionsDest)) {

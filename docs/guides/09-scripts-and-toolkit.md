@@ -63,9 +63,28 @@ Does **not** remove unrelated Cursor user settings.
 | `validation/validate-impeccable-skill.ps1` | Impeccable router + reference bundle |
 | `validation/validate-blip-plugin-skill.ps1` | Blip plugin skill + `blip-guidelines/` |
 | `validation/validate-frontend-ecosystem.ps1` | Stack skills, guideline bundles, DESIGN-BRIEF markers |
-| `validation/validate-docs-consistency.ps1` | SKILLS.md catalog vs folders |
+| `validation/validate-docs-consistency.ps1` | Catalog, obsolete names, no sibling toolkit refs, no GitHub CLI |
+| `validation/validate-skill-contracts.ps1` | PIPELINE/reuse markers from `contracts/skill-contracts.json` |
+| `validation/validate-skill-graph.ps1` | Declared edges + forbid rules + skill count parity |
+| `validation/validate-skill-fixtures.ps1` | Golden `fixtures/<skill>/expected-markers.txt` |
 | `validation/validate-skills-english.ps1` | Skill body language heuristic |
 | `validation/validate-session-gates.ps1` | Session gate status (optional) |
+
+### Adding a contract or fixture
+
+1. **Contract:** edit `scripts/validation/contracts/skill-contracts.json` — add `mustContain` / `mustNotContain` for a skill file.
+2. **Graph edge:** edit `skill-graph.json` — `calls` / `requires` / `handoff` edges must be mentioned in the source `SKILL.md`.
+3. **Fixture:** add `scripts/validation/fixtures/<skill>/expected-markers.txt` (one required substring per line).
+
+## Backup and rollback
+
+`sync-cursor.ps1` creates a timestamped backup under `~/.cursor/toolkit-backups/<yyyyMMdd-HHmmss>/` before overwrite.
+
+```powershell
+.\scripts\restore-toolkit-backup.ps1
+.\scripts\restore-toolkit-backup.ps1 -BackupId 20260720-091500
+.\scripts\restore-toolkit-backup.ps1 -BackupId 20260720-091500 -DryRun
+```
 
 ## Maintainer utilities (`maintainers/`)
 

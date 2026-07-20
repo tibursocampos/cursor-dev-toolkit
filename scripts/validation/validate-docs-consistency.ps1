@@ -1,12 +1,12 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-  Checks docs for obsolete skill names and orphan skill references.
+  Checks docs for obsolete skill names, sibling toolkit refs, and GitHub CLI usage.
 
 .DESCRIPTION
   Called by validate-all.ps1. Fails on legacy SDD/doc skill names.
   Expects canonical kebab-case: sdd-spec, sdd-plan, sdd-develop, developer, dotnet-developer,
-  document-plan, document-implement.
+  document-plan, document-implement. Forbids antigravity-dev-toolkit cross-refs and gh CLI.
 
 .EXAMPLE
   .\scripts\validation\validate-docs-consistency.ps1
@@ -55,18 +55,59 @@ $obsoletePatterns = @(
     'python_developer'
 )
 
-$failures = @()
-$files = @($readmePath, $agentsPath) + (Get-ChildItem -LiteralPath $docsRoot -Recurse -Filter '*.md' -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
+$ghForbiddenRegex = @(
+    '(?i)(?<![\w/`.])gh (pr|run|api|auth|repo)\b',
+    '(?i)`gh`',
+    '(?i)GitHub/`gh`',
+    '(?i)GitHub CLI example',
+    '(?i)optional GitHub Actions via gh',
+    '(?i)via gh\b'
+)
 
-foreach ($file in $files) {
+$siblingForbidden = @(
+    'antigravity-dev-toolkit',
+    'sync-antigravity'
+)
+
+$failures = @()
+
+function Get-ToolkitMarkdownFiles {
+    param([string] $Root)
+    if (-not (Test-Path -LiteralPath $Root)) { return @() }
+    return @(Get-ChildItem -LiteralPath $Root -Recurse -File -ErrorAction SilentlyContinue |
+        Where-Object { $_.Extension -eq '.md' } |
+        ForEach-Object { $_.FullName })
+}
+
+$docFiles = @($readmePath, $agentsPath) + (Get-ToolkitMarkdownFiles -Root $docsRoot)
+$skillFiles = Get-ToolkitMarkdownFiles -Root $skillsRoot
+$scanFiles = @($docFiles + $skillFiles | Select-Object -Unique)
+
+foreach ($file in $scanFiles) {
     if (-not (Test-Path -LiteralPath $file)) { continue }
     if ($file -like '*ENFORCEMENT.md*') { continue }
-    if ($file -like '*SYNC_POLICY.md*') { continue }
     $content = Get-Content -LiteralPath $file -Raw
-    foreach ($pattern in $obsoletePatterns) {
+    if ([string]::IsNullOrEmpty($content)) { continue }
+    $rel = $file.Substring($RepoRoot.Length).TrimStart('\', '/')
+    $isDocSurface = ($file -eq $readmePath) -or ($file -eq $agentsPath) -or ($file.StartsWith($docsRoot, [System.StringComparison]::OrdinalIgnoreCase))
+
+    if ($isDocSurface) {
+        foreach ($pattern in $obsoletePatterns) {
+            if ($content -match $pattern) {
+                $failures += "$rel : obsolete pattern '$pattern'"
+            }
+        }
+    }
+
+    foreach ($needle in $siblingForbidden) {
+        if ($content.Contains($needle)) {
+            $failures += "$rel : forbidden sibling/cross-toolkit reference '$needle'"
+        }
+    }
+
+    foreach ($pattern in $ghForbiddenRegex) {
         if ($content -match $pattern) {
-            $rel = $file.Substring($RepoRoot.Length).TrimStart('\', '/')
-            $failures += "$rel : obsolete pattern '$pattern'"
+            $failures += "$rel : forbidden GitHub CLI pattern '$pattern'"
         }
     }
 }
@@ -86,7 +127,6 @@ else {
     $failures += 'docs/SKILLS.md missing (required catalog)'
 }
 
-# README Skills table must list every skill folder (CI parity with pastas)
 if (Test-Path -LiteralPath $readmePath) {
     $readme = Get-Content -LiteralPath $readmePath -Raw
     foreach ($dir in $skillDirs) {
@@ -97,7 +137,6 @@ if (Test-Path -LiteralPath $readmePath) {
     }
 }
 
-# Anti-regression: Forma A guide must teach features/ storage
 $guide01 = Join-Path $docsRoot 'guides\01-sdd-workflow.md'
 if (-not (Test-Path -LiteralPath $guide01)) {
     $failures += 'docs/guides/01-sdd-workflow.md missing'
@@ -109,7 +148,6 @@ else {
     }
 }
 
-# Anti-regression: O3 must not advertise silent multi-angle opt-in
 $o3Skill = Join-Path $skillsRoot 'orchestrate-develop\SKILL.md'
 if (Test-Path -LiteralPath $o3Skill) {
     $o3Head = (Get-Content -LiteralPath $o3Skill -TotalCount 5) -join "`n"

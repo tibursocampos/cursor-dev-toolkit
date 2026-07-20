@@ -121,11 +121,9 @@ Lazy-loaded from `~/.cursor/skills/_shared/blip-guidelines/`:
 | `external-api-integration.md` | REST envelopes, headers, errors, retry |
 | `deploy-and-ci.md` | charts, CI detection, Dockerfile, config:plugin |
 
-## Sync policy
+## Ownership
 
-`blip-plugin-developer` and `blip-guidelines/` are **authored in cursor-dev-toolkit**. Optional port to antigravity-dev-toolkit (`blip_plugin_developer`) is manual - not part of `sync-cursor.ps1`.
-
-Do **not** port `dev_persona`, Antigravity GUARDRAILS, or Antigravity-only personas.
+`blip-plugin-developer` and `blip-guidelines/` live in this toolkit and deploy via `sync-cursor.ps1`.
 
 ## Validation
 

@@ -11,7 +11,7 @@ Deploy to your user profile with the toolkit CLI (see [docs/INSTALL.md](docs/INS
 | **SDD workflow** | Classic Forma A (`sdd-spec` -> `sdd-plan` -> `sdd-develop`), Forma B backlog prep, Forma C orchestration; manifest v2 storage |
 | **Enforcement** | `guardrails.mdc`, session gates, `validate-all.ps1` smoke test |
 | **.NET guidelines** | `dotnet-guidelines` (Clean Architecture, xUnit, Moq, FluentAssertions) |
-| **Git flow** | Branching, commits, PRs via GitHub/`gh` |
+| **Git flow** | Branching, commits, push; PRs via GitHub web UI |
 | **Cursor-native** | Sync to `~/.cursor/` (skills, rules, hooks, router) |
 | **Operational skills** | EF migrations, repair-dotnet-build, test-coverage, repo docs, story refine/checklist, message-handler scaffold |
 | **Caveman Mode** | Optional response compression mode to reduce token usage and speed up interactions |
@@ -36,7 +36,37 @@ Deploy to your user profile with the toolkit CLI (see [docs/INSTALL.md](docs/INS
    Full deploy details: **[docs/INSTALL.md](docs/INSTALL.md)**. Other scripts (`sync-cursor`, `validate-all`, uninstall) are documented there.
 
 3. For **daily skill usage**, open **[docs/guides/README.md](docs/guides/README.md)** (decision tree + guides).
-4. In any project chat: `/sdd-spec` -> `/sdd-plan` -> `/sdd-develop - <plan-path> - Step N` (repo or global storage). See [SDD workflow guide](docs/guides/01-sdd-workflow.md) for details.
+4. Pick a workflow (details in the guides):
+
+   | Forma | When | Invoke |
+   |-------|------|--------|
+   | **A** Classic | One clear feature | `/sdd-spec` → `/sdd-plan` → `/sdd-develop - <plan-path> - Step N` |
+   | **B** Backlog | Rough bug/story first | `/refine-story` → optional `/split-story-checklist` → A or C |
+   | **C** Orchestrated | Multi-story / brownfield | Step 0 `/memory-bank-init` → `/orchestrate-analyze` → `/orchestrate-deliver` → `/orchestrate-develop` **or** `/sdd-develop` |
+
+## Forma C (orchestration)
+
+Forma C is the **multi-agent** path. Orchestrators do **not** replace `sdd-*`; they **invoke the same contracts**:
+
+```mermaid
+flowchart LR
+  S0[Step0 memory-bank-init] --> O1[O1 orchestrate-analyze]
+  O1 --> O2[O2 orchestrate-deliver]
+  O2 --> O3[O3 orchestrate-develop]
+  O2 --> Manual[manual sdd-develop]
+  O2 -.-> Spec[reuses sdd-spec]
+  O2 -.-> Plan[reuses sdd-plan]
+  O3 -.-> Dev[reuses sdd-develop]
+```
+
+| Stage | Skill | What it does |
+|-------|-------|----------------|
+| Step 0 | `memory-bank-init` | Healthy `memory-bank/` gate (required for C; not for A) |
+| O1 | `orchestrate-analyze` | Triage, optional specialists, US/TS backlog + CONTINUITY |
+| O2 | `orchestrate-deliver` | PRD + PLAN **per story** via `sdd-spec` / `sdd-plan` contracts |
+| O3 | `orchestrate-develop` | One PLAN step per subagent via `sdd-develop` contract (or run `/sdd-develop` yourself) |
+
+Full manual: [docs/guides/10-forma-c-orquestracao.md](docs/guides/10-forma-c-orquestracao.md).
 
 Re-run toolkit sync after pulling updates (idempotent).
 
@@ -44,12 +74,14 @@ Re-run toolkit sync after pulling updates (idempotent).
 
 | Doc | Content |
 |-----|---------|
-| [docs/guides/README.md](docs/guides/README.md) | **Daily usage** - decision tree, skill manuals (guides 01-10) |
+| [docs/guides/README.md](docs/guides/README.md) | **Daily usage** - decision tree, skill manuals (guides 01-12) |
 | [docs/INSTALL.md](docs/INSTALL.md) | Install, sync, short usage index |
 | [docs/README.md](docs/README.md) | Documentation index |
 | [docs/HOOKS.md](docs/HOOKS.md) | Optional hooks (behavior, limits) |
 | [docs/MAINTAINER_GUIDE.md](docs/MAINTAINER_GUIDE.md) | Repository layout and maintainer checklist |
 | [docs/SKILLS.md](docs/SKILLS.md) | Canonical skill catalog (35 skills) |
+| [docs/PORTABILITY.md](docs/PORTABILITY.md) | Cursor-specific vs reusable contract |
+| [docs/DESIGN-DECISIONS.md](docs/DESIGN-DECISIONS.md) | Design rationale (why Formas, pwsh, no CLI) |
 | [docs/REPO_GOVERNANCE.md](docs/REPO_GOVERNANCE.md) | Public policy + maintainer rulesets |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Clone/fork OK; no community PRs |
 | [docs/impeccable-integration.md](docs/impeccable-integration.md) | Impeccable design -> DESIGN-BRIEF -> stack developer handoff |
@@ -57,7 +89,6 @@ Re-run toolkit sync after pulling updates (idempotent).
 | [docs/architecture.md](docs/architecture.md) | Deployment and enforcement model |
 | [docs/shared-guidelines.md](docs/shared-guidelines.md) | Index of `_shared/` packs |
 | [docs/ENFORCEMENT.md](docs/ENFORCEMENT.md) | Rules, hooks, session gates |
-| [docs/SYNC_POLICY.md](docs/SYNC_POLICY.md) | Cross-toolkit sync with antigravity-dev-toolkit |
 | [AGENTS.md](AGENTS.md) | Agent router (synced to `~/.cursor/`) |
 
 ## Repository layout
@@ -123,7 +154,7 @@ cursor-dev-toolkit/
 | `javascript-developer` | `/javascript-developer` | Small Node/JS work |
 | `python-developer` | `/python-developer` | Small Python work |
 | `ef-add-migration` | `/ef-add-migration` | EF Core migration in the open repo |
-| `repair-dotnet-build` | `/repair-dotnet-build` | Fix build/test failures (local; optional `gh`) |
+| `repair-dotnet-build` | `/repair-dotnet-build` | Fix build/test failures (local; pasted CI logs) |
 | `test-coverage` | `/test-coverage` | .NET coverage report (Coverlet; SonarQube-aligned metrics) |
 | `document-plan` | `/document-plan` | Plan repo documentation (RAG-oriented) |
 | `document-implement` | `/document-implement` | Execute one doc plan step |
