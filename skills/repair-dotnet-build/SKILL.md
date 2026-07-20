@@ -1,6 +1,6 @@
 ---
 name: repair-dotnet-build
-description: Diagnose and fix failing dotnet build or test runs. Local first; optional GitHub Actions via gh. Use when fixing a build or invoking /repair-dotnet-build.
+description: Diagnose and fix failing dotnet build or test runs. Local first; optional pasted CI logs. Use when fixing a build or invoking /repair-dotnet-build.
 ---
 
 ## STOP - Read before ANY tool call
@@ -36,7 +36,7 @@ Invoke when the user asks for: `/repair-dotnet-build`, `fix build`, `/repair-dot
 |-------|---------|
 | (none) | Run local `dotnet build` / `dotnet test` in the open workspace |
 | Pasted log | Analyze the log text the user provides |
-| `gh` context | User names a failed workflow run - use `gh` per `reference.md` section CI (optional) |
+| Pasted CI log | User pastes a failed workflow / pipeline log for analysis |
 
 Do not require an external CI build ID or any PAT.
 
@@ -64,7 +64,7 @@ Structured diagnosis, proposed fixes with rationale, fixes applied only after us
 
 ### 0. Workspace
 
-Confirm **target repository** (`.sln` or test projects). Summarize failure source: local run, pasted CI log, or optional `gh run view`.
+Confirm **target repository** (`.sln` or test projects). Summarize failure source: local run or pasted CI log.
 
 ### 1. Collect failure evidence
 
@@ -79,7 +79,7 @@ Capture errors: file, line, test name, expected vs actual.
 
 **Pasted log:** extract compile errors, restore failures, and test failures (`[FAIL]`, `Error Message`, `Expected`/`Actual`).
 
-**GitHub Actions (optional):** if user points to a run and `gh` is available, fetch logs per `reference.md` section CI. Skip if unavailable - stay on local reproduction.
+**CI log (optional):** if the user pastes a GitHub Actions (or other CI) log, parse failed steps the same way as pasted local logs. Do not fetch remote CI via CLI or API - ask for a paste when remote logs are needed.
 
 ### 2. Structured diagnosis
 

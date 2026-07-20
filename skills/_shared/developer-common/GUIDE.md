@@ -61,7 +61,7 @@ Override only stack-specific commands (e.g. `dotnet test` vs `npm test`).
 │ - Secrets, format, build, quick tests                        │
 ├──────────────────────────────────────────────────────────────┤
 │ Step 4: Commits (and optional PR)                            │
-│ - Conventional Commits; push; gh pr create if user asks     │
+│ - Conventional Commits; push; open PR in GitHub UI if user asks │
 ├──────────────────────────────────────────────────────────────┤
 │ Step 7: Final checklist                                      │
 │ - Build, tests, branch, commit message                       │

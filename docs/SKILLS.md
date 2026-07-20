@@ -56,7 +56,7 @@ See [blip-plugin-integration.md](blip-plugin-integration.md). Existing Blip plug
 |-------|---------|
 | `impeccable` | UI/UX design router (upstream pbakaus/impeccable refs); shape -> `docs/DESIGN-BRIEF.md` |
 
-See [impeccable-integration.md](impeccable-integration.md). Do **not** use Antigravity `impeccable_*` personas.
+See [impeccable-integration.md](impeccable-integration.md). Use only this toolkit's `impeccable` skill and its `reference/` pack.
 
 ## Operational
 

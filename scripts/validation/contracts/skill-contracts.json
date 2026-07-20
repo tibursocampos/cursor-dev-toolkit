@@ -1,0 +1,49 @@
+{
+  "skillsRoot": "skills",
+  "contracts": [
+    {
+      "id": "o2-reuses-sdd-spec-plan",
+      "skill": "orchestrate-deliver",
+      "files": ["SKILL.md"],
+      "mustContain": ["sdd-spec", "sdd-plan", "Must not"],
+      "mustContainAny": ["No app code", "does not implement application code", "never writes application code"]
+    },
+    {
+      "id": "o3-reuses-sdd-develop",
+      "skill": "orchestrate-develop",
+      "files": ["SKILL.md"],
+      "mustContain": ["sdd-develop", "one PLAN step", "Must not"],
+      "mustContainAny": ["never writes application code", "Parent orchestrator never"]
+    },
+    {
+      "id": "sdd-develop-one-step",
+      "skill": "sdd-develop",
+      "files": ["SKILL.md"],
+      "mustContain": ["one step", "Must not", "STOP - Read before ANY tool call"]
+    },
+    {
+      "id": "commit-no-auto-pr-cli",
+      "skill": "commit",
+      "files": ["SKILL.md"],
+      "mustNotContain": ["gh pr", "gh run"]
+    },
+    {
+      "id": "push-no-gh",
+      "skill": "push",
+      "files": ["SKILL.md"],
+      "mustNotContain": ["gh pr", "gh run"]
+    },
+    {
+      "id": "code-review-no-gh",
+      "skill": "code-review",
+      "files": ["SKILL.md"],
+      "mustNotContain": ["gh pr", "gh run"]
+    },
+    {
+      "id": "forma-a-spec-no-memory-bank-required",
+      "skill": "sdd-spec",
+      "files": ["SKILL.md"],
+      "mustNotContain": ["memory-bank required", "requires memory-bank"]
+    }
+  ]
+}

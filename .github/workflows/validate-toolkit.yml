@@ -20,7 +20,7 @@ jobs:
           ./scripts/sync-cursor.ps1
         working-directory: ${{ github.workspace }}
 
-      - name: Run smoke test
+      - name: Run validate-all (smoke + contracts/graph/fixtures)
         shell: pwsh
         run: |
           ./scripts/validation/validate-all.ps1 -Quiet
