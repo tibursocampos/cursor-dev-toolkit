@@ -66,18 +66,13 @@ Ignore stack frames from test frameworks unless they point to product code.
 
 ---
 
-## CI via GitHub (`gh`) - optional
+## CI logs (paste only)
 
-Use only when the user references a GitHub Actions failure and `gh` is installed and authenticated.
+When the user references a CI failure, ask them to **paste** the failed job/step log. Parse failed steps similarly to local pasted logs.
 
-```bash
-gh run list --limit 5
-gh run view <run-id> --log-failed
-```
+Do not call remote CI APIs or CLIs. Stay on local `dotnet build` / `dotnet test` when no paste is available.
 
-Parse failed steps similarly to pasted logs. If `gh` is missing or auth fails, ask the user to paste the failed step log and continue with local `dotnet build` / `dotnet test`.
-
-Do not use this section for non-GitHub hosts unless the user pastes logs - no REST API calls.
+Do not use this section for non-GitHub hosts unless the user pastes logs.
 
 ---
 

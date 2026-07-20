@@ -77,13 +77,12 @@ Create a PR only when the user asks. Use the repository’s template if present 
 
 Default integration base is **`develop`**. Release PRs are **`develop` → `master`/`main`** (not feature → release).
 
-**GitHub CLI example (feature → develop):**
+**Open the PR in the GitHub web UI** (no CLI required):
 
-```bash
-gh pr create --base develop --head "$(git rev-parse --abbrev-ref HEAD)" \
-  --title "feat: short summary" \
-  --body "## Summary\n- ...\n\n## Test plan\n- [ ] ..."
-```
+1. Push the feature branch (`git push -u origin HEAD`) after user confirmation.
+2. Open the repository on GitHub → **Compare & pull request** (or **Pull requests** → **New**).
+3. Set base to `develop` (or the base the user/PLAN specifies) and head to the current feature branch.
+4. Fill title/body from the template; include Summary and Test plan.
 
 | Element | Guidance |
 |---------|----------|

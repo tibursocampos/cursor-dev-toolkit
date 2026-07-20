@@ -74,7 +74,7 @@ All skills run in the **open workspace**-the project you are building-not necess
 
 **Typical handoff:** `/commit` once build and tests pass.
 
-**Notes:** May use `gh` for GitHub Actions logs when helpful. Not a substitute for [developer](02-developer.md) when implementing new behavior.
+**Notes:** Prefer local `dotnet build` / `dotnet test`. For CI failures, ask the user to paste the failed job log. Not a substitute for [developer](02-developer.md) when implementing new behavior.
 
 ---
 

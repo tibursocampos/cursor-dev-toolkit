@@ -189,7 +189,7 @@ You: /commit
 | **Changes required** | Fix via [02 - developer](02-developer.md) or `/sdd-develop - <plan-path> - Step N` |
 | Findings need new feature scope | `/sdd-spec` - [01 - SDD workflow](01-sdd-workflow.md) |
 | Coverage below threshold | `/test-coverage` -> fix tests -> re-run review |
-| Open PR (optional) | User-driven `gh pr create` after approval; not automatic |
+| Open PR (optional) | User opens PR in GitHub web UI after approval; not automatic |
 | Back to skill map | [Guides README](README.md) |
 
 **Typical post-code order:** `code-review` -> `test-coverage` -> `commit` (see [README - Post-code workflow](README.md#post-code-workflow)).

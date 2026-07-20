@@ -63,7 +63,7 @@ No clone do **cursor-dev-toolkit** (ou após atualizar skills O1/O2/O3):
 .\scripts\validation\validate-all.ps1
 ```
 
-Esperado: `Smoke test PASSED` (skills no repo = **34**, incluindo `orchestrate-*` e `memory-bank-init`). Menu interativo: `.\scripts\toolkit.ps1`. Detalhes: [MAINTAINER_GUIDE](../MAINTAINER_GUIDE.md), [INSTALL](../INSTALL.md).
+Esperado: `Smoke test PASSED` (skills no repo = **35**, incluindo `orchestrate-*` e `memory-bank-init`). Menu interativo: `.\scripts\toolkit.ps1`. Detalhes: [MAINTAINER_GUIDE](../MAINTAINER_GUIDE.md), [INSTALL](../INSTALL.md).
 
 Sem sync, `/orchestrate-*` pode falhar (skills só existem em `~/.cursor/skills/` após o deploy).
 

@@ -182,4 +182,4 @@ Never `git push --force` to `main`, `master`, or `develop`.
 |-----------|------|
 | Continue SDD step | New session -> `/sdd-develop - <full-plan-path> - Step N` |
 | Review before PR | `/code-review` |
-| Create PR (user asks) | `gh pr create` per `step-4-commits-pr.md` |
+| Create PR (user asks) | Open PR in GitHub web UI per `step-4-commits-pr.md` |
